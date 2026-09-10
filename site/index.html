@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DeFi Yield Scanner — where to park stables</title>
+    <meta name="description" content="A trust filter for stablecoin yield: durable, organic, accessible. High APY is a red flag as often as an opportunity." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="wrap">
+      <h1>DeFi Yield Scanner</h1>
+      <p class="tag">Where can I park my stables right now — and is that yield <em>real</em>?</p>
+      <p class="sub">A trust filter, not a yield hunter. Ranked by <strong>organic</strong> base APY; rewards shown, never counted. High total APY reads as caution as often as opportunity.</p>
+    </header>
+
+    <section class="wrap controls" aria-label="controls">
+      <div class="ctl">
+        <span class="lbl">Sort</span>
+        <div class="seg" id="sort">
+          <button data-v="base" class="on">base APY</button>
+          <button data-v="total">total APY</button>
+          <button data-v="mean30d">30d mean</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <span class="lbl">Bucket</span>
+        <div class="seg" id="bucket">
+          <button data-v="all" class="on">all</button>
+          <button data-v="lend">lend</button>
+          <button data-v="LP">LP</button>
+          <button data-v="vault">vault</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label class="chk"><input type="checkbox" id="kyc" /> show permissioned <span class="kyc">🔒 KYC</span></label>
+      </div>
+    </section>
+
+    <main class="wrap" id="windows" aria-live="polite"></main>
+
+    <footer class="wrap" id="foot"></footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

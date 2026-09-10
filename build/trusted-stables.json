@@ -1,0 +1,14 @@
+{
+  "_comment": "PROTOTYPE tier map. 1=blue-chip fiat-backed, 2=crypto-backed, 3=synthetic. LP pools take the RISKIEST (highest) leg. Case-insensitive. Additions below the core trio were surfaced by the [r] unmapped-stable-leg view (live 2026-09-10) and are a CURATION CALL — re-tier freely. Staked/wrapped variants (s-, sr-) inherit their base asset's tier. RWA-note legs (USDY, USTB, BUIDL, USCC) are deliberately NOT mapped yet — needs an RWA-token tier decision (ties to tool #7 peg checks).",
+
+  "USDC": 1, "USDT": 1, "DAI": 1,
+  "USDC.E": 1, "USDT.E": 1, "DAI.E": 1, "USDBC": 1, "USDC.N": 1,
+  "PYUSD": 1, "RLUSD": 1, "USDG": 1,
+
+  "CRVUSD": 2, "SCRVUSD": 2, "GHO": 2, "LUSD": 2, "BOLD": 2,
+  "SDAI": 2, "USDS": 2, "SUSDS": 2, "FRAX": 2, "FRXUSD": 2, "SFRXUSD": 2,
+  "DOLA": 2, "SDOLA": 2, "USD3": 2,
+
+  "USDE": 3, "SUSDE": 3, "USR": 3, "DEUSD": 3, "USD0": 3, "USDX": 3, "SUSDX": 3,
+  "USDF": 3, "SRUSDE": 3, "FXUSD": 3, "MSUSD": 3, "USDAI": 3
+}

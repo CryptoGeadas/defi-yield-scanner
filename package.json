@@ -1,0 +1,14 @@
+{
+  "name": "defi-yield-scanner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A trust filter for stablecoin yield — where to park stables, and whether the yield is real.",
+  "scripts": {
+    "build": "node build/build.mjs",
+    "serve": "npx --yes serve site"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,76 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// BUILD STEP — runs in the GitHub Action (cron */6h + workflow_dispatch).
+// fetch DefiLlama → runPipeline → write site/data/latest.json (committed to repo).
+// The static site reads that JSON. No key, no backend, instant load.
+// ─────────────────────────────────────────────────────────────────────────────
+
+import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+import { runPipeline } from "./pipeline.mjs";
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const OUT = join(HERE, "..", "site", "data", "latest.json");
+const FEED = "https://yields.llama.fi/pools";
+
+const strip = (o) => Object.fromEntries(Object.entries(o).filter(([k]) => !k.startsWith("_")));
+
+async function loadMaps() {
+  const protocolMap = strip(JSON.parse(await readFile(join(HERE, "trusted-protocols.json"), "utf8")));
+  const stableRaw = strip(JSON.parse(await readFile(join(HERE, "trusted-stables.json"), "utf8")));
+  const stableMap = {};
+  for (const [k, v] of Object.entries(stableRaw)) stableMap[k.toUpperCase()] = v;
+  return { protocolMap, stableMap };
+}
+
+// Trim a pipeline row to what the site actually renders.
+const slim = (r) => ({
+  project: r.project,
+  symbol: r.symbol,
+  chain: r.chain,
+  bucket: r.bucket,
+  access: r.access,
+  base: round(r.base),
+  reward: round(r.reward),
+  total: round(r.total),
+  mean30d: r.mean30d == null ? null : round(r.mean30d),
+  divFlag: r.divFlag,
+  tvlUsd: Math.round(r.tvlUsd),
+});
+const round = (n) => Math.round(n * 100) / 100;
+
+async function main() {
+  const maps = await loadMaps();
+  console.log("fetching", FEED, "…");
+  const res = await fetch(FEED);
+  if (!res.ok) throw new Error(`feed ${res.status}`);
+  const { data: pools } = await res.json();
+
+  const r = runPipeline(pools, {}, maps);
+
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    source: FEED,
+    config: r.config,
+    stats: r.stats,
+    windows: {
+      1: r.windows[1].map(slim),
+      2: r.windows[2].map(slim),
+      3: r.windows[3].map(slim),
+    },
+    // small transparency block — what the opinion excluded, in aggregate
+    rejects: Object.fromEntries(Object.entries(r.rejects).map(([k, v]) => [k, v.count])),
+    missingTop: r.missingProtocols.slice(0, 10).map((m) => ({ project: m.project, tvlUsd: Math.round(m.tvl) })),
+  };
+
+  await mkdir(dirname(OUT), { recursive: true });
+  await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n");
+  console.log(
+    `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  tiers ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]}`
+  );
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
