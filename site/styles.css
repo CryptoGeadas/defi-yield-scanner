@@ -7,6 +7,9 @@
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand .mark { display: block; }
 .wordmark { font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
+.topnav { display: flex; align-items: center; gap: 16px; }
+.navlink { font-family: var(--display); font-weight: 600; font-size: 13px; color: var(--muted); transition: color var(--ease); }
+.navlink:hover { color: var(--text); text-decoration: none; }
 #theme .theme-dark, #theme .theme-light { font-size: 14px; line-height: 1; }
 :root[data-theme="dark"] #theme .theme-light { display: none; }
 :root:not([data-theme="dark"]) #theme .theme-dark { display: none; }

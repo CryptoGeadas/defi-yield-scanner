@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Methodology — DeFi Yield Scanner</title>
+    <meta name="description" content="How the DeFi Yield Scanner decides what to show and how it ranks stablecoin yield." />
+    <script>
+      document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark";
+    </script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Instrument+Serif&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./brand.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" href="./logo.svg" />
+    <style>
+      .doc { max-width: 760px; margin: 0 auto; padding: 0 20px 80px; }
+      .doc .lead { font-size: 17px; color: var(--muted); margin: 8px 0 0; }
+      .doc h2 { margin: 40px 0 12px; font-size: 20px; }
+      .doc h2::before { content: ""; display: block; width: 32px; height: 3px; background: var(--accent); border-radius: 2px; margin-bottom: 12px; }
+      .doc h3 { margin: 22px 0 6px; font-size: 15px; }
+      .doc p { color: var(--text); }
+      .doc li { margin: 4px 0; }
+      .doc .muted { color: var(--muted); }
+      .flagline { display: flex; gap: 8px; align-items: baseline; margin: 8px 0; }
+      .flagline .g { font-weight: 700; font-size: 15px; width: 18px; }
+      .up { color: var(--warning); } .steady { color: var(--success); } .down { color: var(--error); }
+      .keyrow { display: grid; grid-template-columns: 120px 1fr; gap: 10px 16px; margin: 6px 0; }
+      .keyrow .k { font-weight: 600; }
+      .callout { background: var(--elevated); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r-card); padding: 12px 16px; margin: 16px 0; color: var(--muted); }
+      .backlink { display: inline-flex; align-items: center; gap: 6px; font-family: var(--display); font-weight: 600; font-size: 13px; }
+      code.inline { background: var(--elevated); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <header class="wrap top">
+      <a class="brand" href="./index.html" style="text-decoration:none;color:inherit">
+        <img class="mark" src="./logo.svg" alt="BG" width="37" height="25" />
+        <span class="wordmark">Yield Scanner</span>
+      </a>
+      <a class="btn btn-ghost btn-sm backlink" href="./index.html">← Back to rankings</a>
+    </header>
+
+    <main class="doc">
+      <h1 class="serif" style="font-size:34px;margin-top:24px">How this works</h1>
+      <p class="lead">
+        A trust filter for stablecoin yield. It answers one question — <em>“where can I park my
+        stables right now, and is that yield real?”</em> — and it treats a high APY as a red flag as
+        often as an opportunity.
+      </p>
+
+      <h2>What it is (and isn’t)</h2>
+      <p>
+        This is a <strong>trust filter, not a yield hunter</strong>. Everything it shows has passed a
+        deliberate, opinionated set of filters, and the ranking rewards <strong>durable, organic,
+        accessible</strong> yield. It is a personal daily tool published in the open — not investment
+        advice, and not a complete market view.
+      </p>
+
+      <h2>What gets shown</h2>
+      <p>A pool only appears if it clears every one of these, checked at build time:</p>
+      <ul>
+        <li><strong>Stablecoin only</strong> — the pool is stablecoin-denominated.</li>
+        <li><strong>Trusted protocol</strong> — its protocol is on a curated allowlist. Membership <em>is</em> the trust signal; anything not listed doesn’t render.</li>
+        <li><strong>Mapped stables</strong> — every leg of the pool maps to a known stablecoin.</li>
+        <li><strong>Supported chain</strong> — Ethereum, Arbitrum, Base, Optimism, Polygon, or Solana.</li>
+        <li><strong>Real size</strong> — TVL above $1M, and not flagged as a statistical outlier.</li>
+      </ul>
+      <div class="callout">
+        The curation is intentional, but it currently also hides legitimate pools (for example,
+        vault-wrapped positions). Coverage is being expanded over time — the set you see is a trusted
+        subset, not the whole market.
+      </div>
+
+      <h2>Tiers</h2>
+      <p>Pools are grouped into three stacked windows by the risk of the stablecoins involved:</p>
+      <div class="keyrow"><span class="k">Tier 1</span><span>Blue-chip, fiat-backed — USDC, USDT, DAI, and peers.</span></div>
+      <div class="keyrow"><span class="k">Tier 2</span><span>Crypto-backed — crvUSD, GHO, LUSD, sUSDS, and similar.</span></div>
+      <div class="keyrow"><span class="k">Tier 3</span><span>Synthetic — USDe, USR, and newer designs.</span></div>
+      <p class="muted">A multi-asset pool takes the tier of its <strong>riskiest</strong> leg — a USDC/USDe pool is Tier 3.</p>
+
+      <h2>Buckets</h2>
+      <p>Within each tier, every pool is one of three kinds of place to earn:</p>
+      <div class="keyrow"><span class="k">Lend</span><span>Supply into a lending market (Aave, Morpho, Compound…).</span></div>
+      <div class="keyrow"><span class="k">LP</span><span>Provide liquidity to a pool (Curve, Uniswap…).</span></div>
+      <div class="keyrow"><span class="k">Vault</span><span>Deposit into a managed/auto-compounding vault (Yearn, a Morpho vault…).</span></div>
+
+      <h2>The APY, and why we rank on “base”</h2>
+      <p>
+        Each row’s bar splits the yield in two: a solid segment for <strong>base (organic) APY</strong> —
+        the yield the pool produces on its own — and a faint segment for <strong>reward APY</strong>, the
+        extra incentive paid in a farm token.
+      </p>
+      <p>
+        We rank on <strong>base APY only</strong>. Rewards are shown but never counted, because incentive
+        yield is temporary and often the thing that makes a headline number look better than it is. A pool
+        that’s mostly rewards sits <em>low</em>, with a long faint tail — the thesis, drawn.
+      </p>
+
+      <h2>Durability — the ▲ ● ▼ flag</h2>
+      <p>
+        The trend flag compares a pool’s <strong>current APY</strong> to its <strong>30-day average</strong>,
+        so you can tell a durable rate from a temporary spike:
+      </p>
+      <div class="flagline"><span class="g up">▲</span><span><strong>Spiking</strong> — currently more than 20% above its 30-day mean. The number may not last.</span></div>
+      <div class="flagline"><span class="g steady">●</span><span><strong>Steady</strong> — within ±20% of its mean. The most trustworthy state.</span></div>
+      <div class="flagline"><span class="g down">▼</span><span><strong>Decaying</strong> — more than 20% below its mean. The rate is fading.</span></div>
+      <p class="muted">Hover any flag on the rankings to see the exact numbers spelled out.</p>
+
+      <h2>The links</h2>
+      <p>Open a row to reach where you’d actually deposit. Links come in three kinds:</p>
+      <div class="keyrow"><span class="k">Exact pool</span><span>Straight to the specific pool/vault on the protocol’s own app — computed or looked up per protocol (Aave, Curve, Uniswap V3, Morpho vaults today; more over time).</span></div>
+      <div class="keyrow"><span class="k">Protocol app</span><span>The protocol’s own app, when an exact per-pool URL isn’t reliably derivable — you pick the market there.</span></div>
+      <div class="keyrow"><span class="k">None</span><span>Permissioned pools (see below) aren’t linked.</span></div>
+
+      <h2>Permissioned / 🔒 KYC</h2>
+      <p>
+        Some of the largest stablecoin yield is permissioned RWA (tokenized T-bills and credit) that
+        requires KYC. Those pools are hidden by default and revealed with the <strong>“show permissioned”</strong>
+        toggle, always marked <span class="lock">🔒 KYC</span>. They’re shown for completeness, not linked.
+      </p>
+
+      <h2>Data & freshness</h2>
+      <p>
+        Pool data comes from <a href="https://defillama.com/yields">DefiLlama</a>. A scheduled job refreshes
+        the snapshot <strong>every 6 hours</strong> and commits it to the repo, so the page loads instantly
+        with no backend — and the commit history doubles as a record of how yields drift over time.
+      </p>
+
+      <p class="muted" style="margin-top:32px">
+        Not investment advice. The rankings encode one person’s opinion about trust, deliberately.
+      </p>
+    </main>
+  </body>
+</html>
