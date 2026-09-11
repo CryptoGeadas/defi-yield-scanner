@@ -1,0 +1,136 @@
+/* ===========================================================================
+   BG Brand System — v1.0  (Precision meets opportunity)
+   Canonical source of truth for ALL crypto tools. Copy this file into each
+   tool's site/ verbatim; do not fork per-tool. Bump the version on change.
+
+   Requires these Google Fonts loaded in the page <head>:
+     Sora (400–800), Instrument Serif (400), Inter (400–600)
+   ---------------------------------------------------------------------------
+   Theme: light is the base :root. Dark applies via [data-theme="dark"] and
+   via prefers-color-scheme when the app hasn't forced a theme. Tools that are
+   dark-first should set <html data-theme="dark"> by default (a tiny inline
+   script), letting a user toggle to light.
+   =========================================================================== */
+
+:root {
+  /* neutrals — light */
+  --bg: #F4F6FA;
+  --surface: #FFFFFF;
+  --elevated: #FFFFFF;
+  --border: #E0E4EC;
+  --text: #141820;
+  --muted: #6B7482;
+  --tertiary: #9CA3B0;
+
+  /* brand accent — sapphire */
+  --accent: #2563EB;         /* 600 — primary (light) */
+  --accent-strong: #1D4ED8;  /* 700 */
+  --accent-soft: #60A5FA;    /* 300 */
+  --accent-tint: rgba(37, 99, 235, 0.08);
+
+  /* semantic — status only, never decorative */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #8B5CF6;
+
+  /* radii */
+  --r-badge: 6px;
+  --r-btn: 8px;
+  --r-card: 10px;
+  --r-panel: 14px;
+
+  /* spacing (8pt base) */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-6: 24px; --s-8: 32px; --s-12: 48px; --s-16: 64px;
+
+  /* type */
+  --display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --accent-face: "Instrument Serif", Georgia, serif;
+  --body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --ease: 150ms ease;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0E1118;
+  --surface: #141820;
+  --elevated: #1C2230;
+  --border: #2A3040;
+  --text: #E4E8EE;
+  --muted: #7C8696;
+  --tertiary: #5A6472;
+  --accent: #3B82F6;         /* 400 — primary (dark) */
+  --accent-strong: #60A5FA;
+  --accent-soft: #3B82F6;
+  --accent-tint: rgba(59, 130, 246, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1118;
+    --surface: #141820;
+    --elevated: #1C2230;
+    --border: #2A3040;
+    --text: #E4E8EE;
+    --muted: #7C8696;
+    --tertiary: #5A6472;
+    --accent: #3B82F6;
+    --accent-strong: #60A5FA;
+    --accent-soft: #3B82F6;
+    --accent-tint: rgba(59, 130, 246, 0.12);
+  }
+}
+
+/* ---- base ---------------------------------------------------------------- */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, .h { font-family: var(--display); font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+h1 { font-size: 28px; }
+h2 { font-size: 20px; font-weight: 600; }
+h3 { font-size: 16px; font-weight: 600; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.serif { font-family: var(--accent-face); font-weight: 400; font-style: normal; }
+.label {
+  font-family: var(--display); font-weight: 600; font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+}
+
+/* ---- buttons ------------------------------------------------------------- */
+.btn {
+  font-family: var(--display); font-weight: 600; font-size: 13px;
+  height: 40px; padding: 0 16px; border-radius: var(--r-btn);
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; border: 0; transition: background var(--ease), border-color var(--ease), color var(--ease);
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-strong); text-decoration: none; }
+.btn-secondary { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+.btn-secondary:hover { background: var(--accent-tint); text-decoration: none; }
+.btn-ghost { background: var(--accent-tint); color: var(--accent); }
+.btn-ghost:hover { background: var(--accent-tint); filter: brightness(1.1); text-decoration: none; }
+.btn-sm { height: 30px; padding: 0 10px; font-size: 12px; }
+
+/* ---- badges -------------------------------------------------------------- */
+.badge {
+  font-family: var(--display); font-weight: 700; font-size: 11px;
+  padding: 2px 8px; border-radius: var(--r-badge); text-transform: uppercase;
+  letter-spacing: 0.03em; display: inline-flex; align-items: center; gap: 4px;
+}
+.badge-success { color: var(--success); background: color-mix(in srgb, var(--success) 14%, transparent); }
+.badge-warning { color: var(--warning); background: color-mix(in srgb, var(--warning) 14%, transparent); }
+.badge-error   { color: var(--error);   background: color-mix(in srgb, var(--error) 14%, transparent); }
+.badge-info    { color: var(--info);    background: color-mix(in srgb, var(--info) 14%, transparent); }
+.badge-accent  { color: var(--accent);  background: var(--accent-tint); }
+
+/* ---- panels / cards ------------------------------------------------------ */
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-panel); }
+.card  { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); }
