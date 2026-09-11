@@ -23,6 +23,7 @@ const state = {
   showKyc: false,
   sortKey: "base",
   sortDir: "desc",
+  openId: null,
   data: null,
 };
 
@@ -80,7 +81,7 @@ function headerHtml() {
     const caret = active ? (state.sortDir === "asc" ? "▲" : "▼") : "";
     return `<span class="th sortable ${c.cls} ${active ? "active" : ""}" data-sort="${c.key}">${c.label}<span class="caret">${caret}</span></span>`;
   }).join("");
-  return `<div class="thead grid"><span></span>${cells}</div>`;
+  return `<div class="thead grid"><span></span>${cells}<span></span></div>`;
 }
 
 function rowHtml(r, max) {
@@ -99,7 +100,8 @@ function rowHtml(r, max) {
   const ext = r.url
     ? `<a class="ext ${r.linkKind}" href="${r.url}" target="_blank" rel="noopener" title="${r.linkKind === "exact" ? "Open in " + r.project : "View on DefiLlama"}">↗</a>`
     : "";
-  return `<div class="row grid">
+  const open = state.openId === r.poolId;
+  return `<div class="row grid ${open ? "open" : ""}" data-id="${r.poolId}" role="button" tabindex="0" aria-expanded="${open}">
     ${logo}
     <span class="name"><span class="line"><span class="proj">${r.project}</span><span class="sym">${r.symbol}</span>${chainIc}<span class="chain">${r.chain}</span>${lock}${ext}</span></span>
     <span class="bar hide-sm" title="base ${fmtPct(r.base)} · reward ${fmtPct(r.reward)}"><span class="b" style="width:${basePct}%"></span><span class="r" style="width:${rewPct}%"></span></span>
@@ -107,8 +109,66 @@ function rowHtml(r, max) {
     <span class="num mean hide-sm">${fmtPct(r.mean30d)}</span>
     <span class="flag ${fm.cls}" data-tip="${tip}"><span class="g">${r.divFlag}</span></span>
     <span class="tvl">${fmtTvl(r.tvlUsd)}</span>
+    <span class="chev" aria-hidden="true">›</span>
+  </div>${open ? detailHtml(r) : ""}`;
+}
+
+const fmtVol = (n) => (n == null ? null : fmtTvl(n));
+const fmtChange = (n) => (n == null ? "—" : `${n >= 0 ? "+" : ""}${n.toFixed(2)}pp`);
+
+function detailHtml(r) {
+  const ratio = divRatio(r);
+  const fm = flagMeta(r);
+  const durability =
+    ratio == null
+      ? "No 30-day history yet — too new to judge durability."
+      : `Spot <b>${fmtPct(r.total)}</b> is <b>${fmtSigned(ratio)}</b> versus its 30-day mean of <b>${fmtPct(r.mean30d)}</b> → <b class="${fm.cls}">${fm.word}</b>.`;
+  const legs = r.symbol.split(/[-/+]/).filter(Boolean);
+  const rewardLine = r.reward > 0 ? ` · <span class="rew">+${fmtPct(r.reward)} rewards (not counted)</span>` : "";
+  const vol = fmtVol(r.volumeUsd7d);
+
+  const actions =
+    r.url == null
+      ? `<span class="dnote">🔒 Permissioned — KYC required; no public deposit link.</span>`
+      : r.linkKind === "exact"
+        ? `<a class="btn btn-primary btn-sm" href="${r.url}" target="_blank" rel="noopener">Open in ${r.project} ↗</a>
+           <a class="btn btn-secondary btn-sm" href="https://defillama.com/yields/pool/${r.poolId}" target="_blank" rel="noopener">DefiLlama ↗</a>`
+        : `<a class="btn btn-primary btn-sm" href="${r.url}" target="_blank" rel="noopener">Verify on DefiLlama ↗</a>`;
+
+  return `<div class="detail">
+    <div class="dgrid">
+      <div class="dcard">
+        <div class="dk">APY</div>
+        <div class="dbig">${fmtPct(r.total)}</div>
+        <div class="dsub">${fmtPct(r.base)} organic base${rewardLine}</div>
+      </div>
+      <div class="dcard">
+        <div class="dk">Durability</div>
+        <div class="dline">${durability}</div>
+        <div class="dsub">Change: 7d ${fmtChange(r.apyPct7D)} · 30d ${fmtChange(r.apyPct30D)}</div>
+      </div>
+      <div class="dcard">
+        <div class="dk">Risk</div>
+        <div class="dline">Exposure: <b>${r.exposure ?? "—"}</b></div>
+        <div class="dsub">Impermanent-loss risk: ${r.ilRisk ?? "—"}</div>
+      </div>
+      <div class="dcard">
+        <div class="dk">Size</div>
+        <div class="dline">TVL <b>${fmtTvl(r.tvlUsd)}</b></div>
+        <div class="dsub">${vol ? `7d volume ${vol}` : "volume n/a"}</div>
+      </div>
+      <div class="dcard wide">
+        <div class="dk">Composition</div>
+        <div class="dline">${legs.join(" + ")} — <b>Tier ${TIERNUM(r)}</b>, taken from its riskiest stablecoin leg.</div>
+      </div>
+    </div>
+    <div class="dactions">${actions}</div>
   </div>`;
 }
+const TIERNUM = (r) => {
+  for (const t of [1, 2, 3]) if ((state.data.windows[t] || []).some((x) => x.poolId === r.poolId)) return t;
+  return "?";
+};
 
 function windowHtml(tier) {
   const rows = rowsFor(tier);
@@ -138,17 +198,32 @@ function render() {
     tiers ${d.stats.perTier[1]}/${d.stats.perTier[2]}/${d.stats.perTier[3]} ·
     data ${ageH}h old (${when.toISOString().slice(0, 16).replace("T", " ")} UTC) ·
     source <a href="${d.source}">DefiLlama</a> · <a href="./data/latest.json">raw JSON</a>`;
-
-  // wire sortable headers (re-bound each render)
-  document.querySelectorAll(".th.sortable").forEach((th) => {
-    th.addEventListener("click", () => {
-      const k = th.dataset.sort;
-      if (state.sortKey === k) state.sortDir = state.sortDir === "asc" ? "desc" : "asc";
-      else { state.sortKey = k; state.sortDir = k === "name" ? "asc" : "desc"; }
-      render();
-    });
-  });
 }
+
+// one delegated listener on the container survives re-renders
+function onWindowsClick(e) {
+  if (e.target.closest("a")) return; // let outbound / footer links work
+  const th = e.target.closest(".th.sortable");
+  if (th) {
+    const k = th.dataset.sort;
+    if (state.sortKey === k) state.sortDir = state.sortDir === "asc" ? "desc" : "asc";
+    else { state.sortKey = k; state.sortDir = k === "name" ? "asc" : "desc"; }
+    return render();
+  }
+  const row = e.target.closest(".row");
+  if (row) {
+    state.openId = state.openId === row.dataset.id ? null : row.dataset.id;
+    return render();
+  }
+}
+$("#windows").addEventListener("click", onWindowsClick);
+$("#windows").addEventListener("keydown", (e) => {
+  if ((e.key === "Enter" || e.key === " ") && e.target.classList?.contains("row")) {
+    e.preventDefault();
+    state.openId = state.openId === e.target.dataset.id ? null : e.target.dataset.id;
+    render();
+  }
+});
 
 // chain filter chips (multi-select toggles; all-on = no filter)
 function renderChips() {
