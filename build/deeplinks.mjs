@@ -99,6 +99,9 @@ const SITE_FALLBACK = {
 export function buildLink(row, ctx = {}) {
   if (row.access === "permissioned") return { url: null, kind: null };
 
+  // pre-resolved exact URL (set during build pre-processing, e.g. Morpho vaults)
+  if (row.exactUrl) return { url: row.exactUrl, kind: "exact" };
+
   const b = BUILDERS[row.project];
   if (b) {
     const exact = b(row, ctx.sources);

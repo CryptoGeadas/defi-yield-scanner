@@ -98,6 +98,8 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       tvlUsd: pool.tvlUsd,
       legs,
       // passthroughs for links + detail panel (consumed downstream, not by ranking)
+      exactUrl: pool.exactUrl ?? null,   // pre-resolved exact link (e.g. Morpho vault)
+      displayName: pool.displayName ?? null, // override for the row label
       pool: pool.pool,
       underlyingTokens: pool.underlyingTokens ?? null,
       poolMeta: pool.poolMeta ?? null,

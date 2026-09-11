@@ -7,9 +7,9 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { runPipeline } from "./pipeline.mjs";
+import { runPipeline, DEFAULT_CONFIG } from "./pipeline.mjs";
 import { buildLink } from "./deeplinks.mjs";
-import { buildSources } from "./deeplink-sources.mjs";
+import { buildSources, MORPHO_CHAINID } from "./deeplink-sources.mjs";
 import { vendorLogos } from "./logos.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -28,6 +28,31 @@ async function loadMaps() {
 }
 
 const loadNames = async () => strip(JSON.parse(await readFile(join(HERE, "protocol-names.json"), "utf8")));
+
+// Surface MetaMorpho vaults: DefiLlama lists them under morpho-blue with the vault
+// share symbol (STEAKUSDC) which our stable filter drops. Rewrite matched pools to
+// their underlying asset (so they tier correctly), label them with the vault name,
+// and attach the exact vault URL. Mutates pools in place.
+function preprocessMorpho(pools, morpho) {
+  if (!morpho || morpho.size === 0) return 0;
+  // collect candidate (pool, vault) matches, then keep one pool per vault address
+  const byVault = new Map(); // address -> { pool, hit }
+  for (const p of pools) {
+    if (p.project !== "morpho-blue" || (p.underlyingTokens || []).length !== 1) continue;
+    const cid = MORPHO_CHAINID[p.chain];
+    if (!cid) continue;
+    const hit = morpho.get(`${cid}|${String(p.symbol).toUpperCase()}|${p.underlyingTokens[0].toLowerCase()}`);
+    if (!hit) continue;
+    const prev = byVault.get(hit.address);
+    if (!prev || (p.tvlUsd || 0) > (prev.pool.tvlUsd || 0)) byVault.set(hit.address, { pool: p, hit });
+  }
+  for (const { pool, hit } of byVault.values()) {
+    pool.displayName = hit.name;              // e.g. "Steakhouse USDC"
+    pool.symbol = hit.assetSymbol;            // reclassify + tier by the real asset
+    pool.exactUrl = `https://app.morpho.org/${hit.network}/vault/${hit.address}`;
+  }
+  return byVault.size;
+}
 
 // Map each protocol slug → its official site URL, from DefiLlama's config
 // (slug derived from the logo path). Used as the primary deposit link.
@@ -53,7 +78,7 @@ const makeSlim = (names, siteUrls, sources) => (r) => {
   return {
     project: r.project,
     name: names[r.project] || r.project,
-    symbol: r.symbol,
+    symbol: r.displayName || r.symbol,
     chain: r.chain,
     bucket: r.bucket,
     access: r.access,
@@ -65,7 +90,7 @@ const makeSlim = (names, siteUrls, sources) => (r) => {
     divFlag: r.divFlag,
     tvlUsd: Math.round(r.tvlUsd),
     url,
-    linkKind: kind, // 'exact' | 'defillama' | null
+    linkKind: kind, // 'exact' | 'site' | 'defillama' | null
     // detail-panel fields (Phase 3)
     exposure: r.exposure,
     ilRisk: r.ilRisk,
@@ -87,8 +112,10 @@ async function main() {
   if (!res.ok) throw new Error(`feed ${res.status}`);
   const { data: pools } = await res.json();
 
+  const sources = await buildSources(DEFAULT_CONFIG.chains);
+  preprocessMorpho(pools, sources.morpho);
+
   const r = runPipeline(pools, {}, maps);
-  const sources = await buildSources(r.config.chains);
   const slim = makeSlim(names, siteUrls, sources);
 
   const payload = {
