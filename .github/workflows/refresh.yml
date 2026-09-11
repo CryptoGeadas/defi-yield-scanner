@@ -1,0 +1,38 @@
+name: refresh-yields
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build data snapshot
+        run: node build/build.mjs
+
+      - name: Commit snapshot if changed
+        run: |
+          git config user.name "yield-scanner-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add site/data/latest.json
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "data: refresh yields snapshot ($(date -u +%FT%TZ))"
+            git push
+          fi
