@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T11:33:26.268Z",
+  "generatedAt": "2026-09-11T15:50:31.523Z",
   "source": "https://yields.llama.fi/pools",
   "config": {
     "tvlFloor": 1000000,
@@ -17,16 +17,29 @@
     "divDown": -0.2
   },
   "stats": {
-    "totalPools": 17197,
-    "kept": 231,
+    "totalPools": 17310,
+    "kept": 234,
     "perTier": {
-      "1": 107,
+      "1": 110,
       "2": 79,
       "3": 45
     }
   },
   "windows": {
     "1": [
+      {
+        "project": "uniswap-v3",
+        "symbol": "USDC-USDT",
+        "chain": "Polygon",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 12.11,
+        "reward": 0,
+        "total": 12.11,
+        "mean30d": 19.68,
+        "divFlag": "▼",
+        "tvlUsd": 1032098
+      },
       {
         "project": "midas-rwa",
         "symbol": "USDC",
@@ -36,48 +49,9 @@
         "base": 11.87,
         "reward": 0,
         "total": 11.87,
-        "mean30d": 4.75,
+        "mean30d": 4.76,
         "divFlag": "▲",
         "tvlUsd": 26371634
-      },
-      {
-        "project": "uniswap-v4",
-        "symbol": "USDC-USDC",
-        "chain": "Polygon",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 8.92,
-        "reward": 0,
-        "total": 8.92,
-        "mean30d": 5.81,
-        "divFlag": "▲",
-        "tvlUsd": 1093059
-      },
-      {
-        "project": "kamino-lend",
-        "symbol": "USDG",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 8.37,
-        "reward": 0,
-        "total": 8.37,
-        "mean30d": 8.77,
-        "divFlag": "●",
-        "tvlUsd": 1062983
-      },
-      {
-        "project": "midas-rwa",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissioned",
-        "base": 8.32,
-        "reward": 0,
-        "total": 8.32,
-        "mean30d": 7.51,
-        "divFlag": "●",
-        "tvlUsd": 2516078
       },
       {
         "project": "midas-rwa",
@@ -101,7 +75,7 @@
         "base": 7.69,
         "reward": 0,
         "total": 7.69,
-        "mean30d": 9.66,
+        "mean30d": 9.61,
         "divFlag": "▼",
         "tvlUsd": 1696735
       },
@@ -114,7 +88,7 @@
         "base": 7.55,
         "reward": 0,
         "total": 7.55,
-        "mean30d": 8.33,
+        "mean30d": 8.32,
         "divFlag": "●",
         "tvlUsd": 65176235
       },
@@ -127,22 +101,61 @@
         "base": 7.4,
         "reward": 0,
         "total": 7.4,
-        "mean30d": 8.12,
+        "mean30d": 8.11,
         "divFlag": "●",
         "tvlUsd": 7755625
       },
       {
-        "project": "uniswap-v3",
-        "symbol": "USDC-USDT",
+        "project": "kamino-lend",
+        "symbol": "USDG",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 7.4,
+        "reward": 0,
+        "total": 7.4,
+        "mean30d": 8.77,
+        "divFlag": "●",
+        "tvlUsd": 1417413
+      },
+      {
+        "project": "uniswap-v4",
+        "symbol": "USDC-USDC",
         "chain": "Polygon",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 7,
+        "base": 7.28,
         "reward": 0,
-        "total": 7,
-        "mean30d": 13.49,
-        "divFlag": "▼",
-        "tvlUsd": 1156689
+        "total": 7.28,
+        "mean30d": 5.85,
+        "divFlag": "▲",
+        "tvlUsd": 1093076
+      },
+      {
+        "project": "midas-rwa",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissioned",
+        "base": 7.13,
+        "reward": 0,
+        "total": 7.13,
+        "mean30d": 7.13,
+        "divFlag": "●",
+        "tvlUsd": 67337941
+      },
+      {
+        "project": "midas-rwa",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissioned",
+        "base": 7.12,
+        "reward": 0,
+        "total": 7.12,
+        "mean30d": 6.48,
+        "divFlag": "●",
+        "tvlUsd": 31534823
       },
       {
         "project": "yearn-finance",
@@ -150,12 +163,25 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 6.92,
+        "base": 6.93,
         "reward": 0,
-        "total": 6.92,
-        "mean30d": 6.63,
+        "total": 6.93,
+        "mean30d": 6.64,
         "divFlag": "●",
-        "tvlUsd": 6081426
+        "tvlUsd": 6081328
+      },
+      {
+        "project": "aave-v4",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 6.91,
+        "reward": 0,
+        "total": 6.91,
+        "mean30d": 4.04,
+        "divFlag": "▲",
+        "tvlUsd": 1355596
       },
       {
         "project": "yearn-finance",
@@ -166,9 +192,22 @@
         "base": 6.81,
         "reward": 0,
         "total": 6.81,
-        "mean30d": 6.61,
+        "mean30d": 6.62,
         "divFlag": "●",
         "tvlUsd": 9297882
+      },
+      {
+        "project": "uniswap-v3",
+        "symbol": "USDC-USDT",
+        "chain": "Polygon",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 6.65,
+        "reward": 0,
+        "total": 6.65,
+        "mean30d": 13.48,
+        "divFlag": "▼",
+        "tvlUsd": 1156535
       },
       {
         "project": "midas-rwa",
@@ -176,25 +215,12 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
-        "base": 6.8,
+        "base": 6.64,
         "reward": 0,
-        "total": 6.8,
-        "mean30d": 6.49,
+        "total": 6.64,
+        "mean30d": 7.51,
         "divFlag": "●",
-        "tvlUsd": 31362655
-      },
-      {
-        "project": "aave-v4",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 6.7,
-        "reward": 0,
-        "total": 6.7,
-        "mean30d": 4.02,
-        "divFlag": "▲",
-        "tvlUsd": 1365325
+        "tvlUsd": 2517533
       },
       {
         "project": "kamino-lend",
@@ -205,9 +231,48 @@
         "base": 6.44,
         "reward": 0,
         "total": 6.44,
-        "mean30d": 7.23,
+        "mean30d": 7.24,
         "divFlag": "●",
-        "tvlUsd": 6726046
+        "tvlUsd": 6711892
+      },
+      {
+        "project": "aave-v4",
+        "symbol": "USDG",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 6.1,
+        "reward": 0.08,
+        "total": 6.18,
+        "mean30d": 6.4,
+        "divFlag": "●",
+        "tvlUsd": 2849300
+      },
+      {
+        "project": "aave-v4",
+        "symbol": "USDT",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 6.05,
+        "reward": 0,
+        "total": 6.05,
+        "mean30d": 3.15,
+        "divFlag": "▲",
+        "tvlUsd": 1166154
+      },
+      {
+        "project": "uniswap-v3",
+        "symbol": "DAI-USDT",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 5.74,
+        "reward": 0,
+        "total": 5.74,
+        "mean30d": 5.5,
+        "divFlag": "●",
+        "tvlUsd": 1357642
       },
       {
         "project": "beefy",
@@ -215,64 +280,25 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 5.83,
+        "base": 5.64,
         "reward": 0,
-        "total": 5.83,
+        "total": 5.64,
         "mean30d": 5.93,
         "divFlag": "●",
-        "tvlUsd": 3014470
+        "tvlUsd": 3014718
       },
       {
-        "project": "uniswap-v4",
-        "symbol": "USDC-USDG",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 5.77,
-        "reward": 0,
-        "total": 5.77,
-        "mean30d": 13.19,
-        "divFlag": "▼",
-        "tvlUsd": 1038625
-      },
-      {
-        "project": "compound-v3",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 5.54,
-        "reward": 0,
-        "total": 5.54,
-        "mean30d": 4.67,
-        "divFlag": "●",
-        "tvlUsd": 34865914
-      },
-      {
-        "project": "kamino-lend",
-        "symbol": "USDC",
+        "project": "jupiter-lend",
+        "symbol": "USDG",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 5.52,
+        "base": 5.24,
         "reward": 0,
-        "total": 5.52,
-        "mean30d": 5.9,
+        "total": 5.24,
+        "mean30d": 4.93,
         "divFlag": "●",
-        "tvlUsd": 2483109
-      },
-      {
-        "project": "beefy",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "base": 5.27,
-        "reward": 0,
-        "total": 5.27,
-        "mean30d": 4.5,
-        "divFlag": "●",
-        "tvlUsd": 3360402
+        "tvlUsd": 2895652
       },
       {
         "project": "yearn-finance",
@@ -285,20 +311,7 @@
         "total": 5.04,
         "mean30d": 5,
         "divFlag": "●",
-        "tvlUsd": 1560469
-      },
-      {
-        "project": "fluid-lending",
-        "symbol": "USDC",
-        "chain": "Base",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 5.02,
-        "reward": 0,
-        "total": 5.02,
-        "mean30d": 5.02,
-        "divFlag": "●",
-        "tvlUsd": 9135244
+        "tvlUsd": 1714011
       },
       {
         "project": "centrifuge-protocol",
@@ -311,7 +324,7 @@
         "total": 4.99,
         "mean30d": 5.16,
         "divFlag": "●",
-        "tvlUsd": 9284941
+        "tvlUsd": 9285374
       },
       {
         "project": "maple",
@@ -324,7 +337,7 @@
         "total": 4.98,
         "mean30d": 4.99,
         "divFlag": "●",
-        "tvlUsd": 362425423
+        "tvlUsd": 367086477
       },
       {
         "project": "maple",
@@ -337,7 +350,33 @@
         "total": 4.96,
         "mean30d": 4.91,
         "divFlag": "●",
-        "tvlUsd": 2628220626
+        "tvlUsd": 2674676949
+      },
+      {
+        "project": "beefy",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "base": 4.79,
+        "reward": 0,
+        "total": 4.79,
+        "mean30d": 4.51,
+        "divFlag": "●",
+        "tvlUsd": 3360380
+      },
+      {
+        "project": "fluid-lending",
+        "symbol": "USDC",
+        "chain": "Base",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 4.79,
+        "reward": 0,
+        "total": 4.79,
+        "mean30d": 5.02,
+        "divFlag": "●",
+        "tvlUsd": 9214551
       },
       {
         "project": "maple",
@@ -350,7 +389,33 @@
         "total": 4.66,
         "mean30d": 4.47,
         "divFlag": "●",
-        "tvlUsd": 862900071
+        "tvlUsd": 879190700
+      },
+      {
+        "project": "fluid-lending",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 4.53,
+        "reward": 0,
+        "total": 4.53,
+        "mean30d": 4.93,
+        "divFlag": "●",
+        "tvlUsd": 152501765
+      },
+      {
+        "project": "fluid-lending",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 4.53,
+        "reward": 0,
+        "total": 4.53,
+        "mean30d": 4.93,
+        "divFlag": "●",
+        "tvlUsd": 3946510
       },
       {
         "project": "beefy",
@@ -358,12 +423,12 @@
         "chain": "Base",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 4.56,
+        "base": 4.46,
         "reward": 0,
-        "total": 4.56,
+        "total": 4.46,
         "mean30d": 4.73,
         "divFlag": "●",
-        "tvlUsd": 1905790
+        "tvlUsd": 1905822
       },
       {
         "project": "yearn-finance",
@@ -376,33 +441,20 @@
         "total": 4.42,
         "mean30d": 4.4,
         "divFlag": "●",
-        "tvlUsd": 1012437
+        "tvlUsd": 1012013
       },
       {
-        "project": "fluid-lending",
+        "project": "kamino-lend",
         "symbol": "USDC",
-        "chain": "Ethereum",
+        "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 4.35,
+        "base": 4.41,
         "reward": 0,
-        "total": 4.35,
-        "mean30d": 4.94,
-        "divFlag": "●",
-        "tvlUsd": 158558871
-      },
-      {
-        "project": "fluid-lending",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 4.35,
-        "reward": 0,
-        "total": 4.35,
-        "mean30d": 4.94,
-        "divFlag": "●",
-        "tvlUsd": 3946369
+        "total": 4.41,
+        "mean30d": 5.89,
+        "divFlag": "▼",
+        "tvlUsd": 3033532
       },
       {
         "project": "fluid-lending",
@@ -410,12 +462,25 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 4.33,
+        "base": 4.34,
         "reward": 0,
-        "total": 4.33,
-        "mean30d": 4.79,
+        "total": 4.34,
+        "mean30d": 4.8,
         "divFlag": "●",
-        "tvlUsd": 132565748
+        "tvlUsd": 133674011
+      },
+      {
+        "project": "jupiter-lend",
+        "symbol": "USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 4.28,
+        "reward": 0.39,
+        "total": 4.67,
+        "mean30d": 5.03,
+        "divFlag": "●",
+        "tvlUsd": 459261754
       },
       {
         "project": "fluid-lending",
@@ -423,12 +488,12 @@
         "chain": "Arbitrum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 4.29,
+        "base": 4.26,
         "reward": 0,
-        "total": 4.29,
+        "total": 4.26,
         "mean30d": 4.28,
         "divFlag": "●",
-        "tvlUsd": 61454990
+        "tvlUsd": 61343191
       },
       {
         "project": "centrifuge-protocol",
@@ -439,9 +504,9 @@
         "base": 4.17,
         "reward": 0,
         "total": 4.17,
-        "mean30d": 5.14,
+        "mean30d": 5.13,
         "divFlag": "●",
-        "tvlUsd": 50557508
+        "tvlUsd": 50559953
       },
       {
         "project": "kamino-lend",
@@ -449,12 +514,12 @@
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 3.99,
+        "base": 4.04,
         "reward": 0,
-        "total": 3.99,
-        "mean30d": 3.8,
+        "total": 4.04,
+        "mean30d": 3.81,
         "divFlag": "●",
-        "tvlUsd": 5604151
+        "tvlUsd": 5401800
       },
       {
         "project": "yearn-finance",
@@ -467,20 +532,59 @@
         "total": 3.97,
         "mean30d": 3.74,
         "divFlag": "●",
-        "tvlUsd": 2387140
+        "tvlUsd": 2388078
       },
       {
-        "project": "jupiter-lend",
+        "project": "compound-v3",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 3.91,
+        "reward": 0,
+        "total": 3.91,
+        "mean30d": 4.67,
+        "divFlag": "●",
+        "tvlUsd": 37110705
+      },
+      {
+        "project": "kamino-lend",
         "symbol": "USDC",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 3.86,
-        "reward": 0.38,
-        "total": 4.24,
-        "mean30d": 5.03,
-        "divFlag": "●",
-        "tvlUsd": 468076704
+        "base": 3.89,
+        "reward": 0,
+        "total": 3.89,
+        "mean30d": 4.96,
+        "divFlag": "▼",
+        "tvlUsd": 1747535
+      },
+      {
+        "project": "uniswap-v3",
+        "symbol": "USDC-USDT",
+        "chain": "Arbitrum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 3.88,
+        "reward": 0,
+        "total": 3.88,
+        "mean30d": 5.01,
+        "divFlag": "▼",
+        "tvlUsd": 1214002
+      },
+      {
+        "project": "kamino-lend",
+        "symbol": "USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 3.87,
+        "reward": 0,
+        "total": 3.87,
+        "mean30d": 4.92,
+        "divFlag": "▼",
+        "tvlUsd": 18103906
       },
       {
         "project": "aave-v3",
@@ -493,7 +597,7 @@
         "total": 3.84,
         "mean30d": 4.07,
         "divFlag": "●",
-        "tvlUsd": 1062113
+        "tvlUsd": 1062126
       },
       {
         "project": "yearn-finance",
@@ -501,12 +605,25 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 3.83,
+        "base": 3.81,
         "reward": 0,
-        "total": 3.83,
-        "mean30d": 3.93,
+        "total": 3.81,
+        "mean30d": 3.91,
         "divFlag": "●",
-        "tvlUsd": 1112495
+        "tvlUsd": 1112541
+      },
+      {
+        "project": "jupiter-lend",
+        "symbol": "USDT",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 3.8,
+        "reward": 0,
+        "total": 3.8,
+        "mean30d": 3.94,
+        "divFlag": "●",
+        "tvlUsd": 17509861
       },
       {
         "project": "yearn-finance",
@@ -519,7 +636,7 @@
         "total": 3.79,
         "mean30d": 3.56,
         "divFlag": "●",
-        "tvlUsd": 19844902
+        "tvlUsd": 19841642
       },
       {
         "project": "midas-rwa",
@@ -535,32 +652,6 @@
         "tvlUsd": 3490849
       },
       {
-        "project": "jupiter-lend",
-        "symbol": "USDT",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.7,
-        "reward": 0,
-        "total": 3.7,
-        "mean30d": 3.93,
-        "divFlag": "●",
-        "tvlUsd": 17647034
-      },
-      {
-        "project": "jupiter-lend",
-        "symbol": "USDG",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.69,
-        "reward": 0,
-        "total": 3.69,
-        "mean30d": 4.93,
-        "divFlag": "▼",
-        "tvlUsd": 3150239
-      },
-      {
         "project": "spark-savings",
         "symbol": "USDC",
         "chain": "Ethereum",
@@ -571,46 +662,59 @@
         "total": 3.6,
         "mean30d": 3.54,
         "divFlag": "●",
-        "tvlUsd": 314207437
-      },
-      {
-        "project": "aave-v3",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.55,
-        "reward": 0,
-        "total": 3.55,
-        "mean30d": 3.86,
-        "divFlag": "●",
-        "tvlUsd": 192688773
-      },
-      {
-        "project": "aave-v3",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.55,
-        "reward": 1.66,
-        "total": 5.21,
-        "mean30d": 5.37,
-        "divFlag": "●",
-        "tvlUsd": 58435420
+        "tvlUsd": 313056326
       },
       {
         "project": "kamino-lend",
-        "symbol": "USDC",
+        "symbol": "USDT",
         "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 3.56,
+        "reward": 0,
+        "total": 3.56,
+        "mean30d": 4.16,
+        "divFlag": "●",
+        "tvlUsd": 1850880
+      },
+      {
+        "project": "aave-v3",
+        "symbol": "USDC",
+        "chain": "Base",
         "bucket": "lend",
         "access": "permissionless",
         "base": 3.55,
         "reward": 0,
         "total": 3.55,
-        "mean30d": 4.92,
-        "divFlag": "▼",
-        "tvlUsd": 22688743
+        "mean30d": 3.54,
+        "divFlag": "●",
+        "tvlUsd": 24114722
+      },
+      {
+        "project": "aave-v3",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 3.54,
+        "reward": 0,
+        "total": 3.54,
+        "mean30d": 3.86,
+        "divFlag": "●",
+        "tvlUsd": 195767696
+      },
+      {
+        "project": "aave-v3",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 3.54,
+        "reward": 1.66,
+        "total": 5.2,
+        "mean30d": 5.38,
+        "divFlag": "●",
+        "tvlUsd": 58434611
       },
       {
         "project": "sparklend",
@@ -621,61 +725,9 @@
         "base": 3.54,
         "reward": 0,
         "total": 3.54,
-        "mean30d": 3.49,
+        "mean30d": 3.5,
         "divFlag": "●",
-        "tvlUsd": 2042393
-      },
-      {
-        "project": "kamino-lend",
-        "symbol": "USDC",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.52,
-        "reward": 0,
-        "total": 3.52,
-        "mean30d": 4.96,
-        "divFlag": "▼",
-        "tvlUsd": 1987668
-      },
-      {
-        "project": "aave-v3",
-        "symbol": "USDT",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.51,
-        "reward": 0,
-        "total": 3.51,
-        "mean30d": 3.32,
-        "divFlag": "●",
-        "tvlUsd": 263930967
-      },
-      {
-        "project": "aave-v3",
-        "symbol": "USDT",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.51,
-        "reward": 1.43,
-        "total": 4.94,
-        "mean30d": 4.75,
-        "divFlag": "●",
-        "tvlUsd": 71298697
-      },
-      {
-        "project": "aave-v3",
-        "symbol": "USDC",
-        "chain": "Base",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.51,
-        "reward": 0,
-        "total": 3.51,
-        "mean30d": 3.54,
-        "divFlag": "●",
-        "tvlUsd": 24929775
+        "tvlUsd": 2044688
       },
       {
         "project": "spark-savings",
@@ -686,35 +738,9 @@
         "base": 3.5,
         "reward": 0,
         "total": 3.5,
-        "mean30d": 3.15,
+        "mean30d": 3.16,
         "divFlag": "●",
-        "tvlUsd": 360012795
-      },
-      {
-        "project": "kamino-lend",
-        "symbol": "USDT",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.46,
-        "reward": 0,
-        "total": 3.46,
-        "mean30d": 4.16,
-        "divFlag": "●",
-        "tvlUsd": 2000621
-      },
-      {
-        "project": "aave-v4",
-        "symbol": "USDT",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 3.44,
-        "reward": 0,
-        "total": 3.44,
-        "mean30d": 3.14,
-        "divFlag": "●",
-        "tvlUsd": 1377221
+        "tvlUsd": 359788588
       },
       {
         "project": "kamino-lend",
@@ -727,7 +753,20 @@
         "total": 3.41,
         "mean30d": 3.44,
         "divFlag": "●",
-        "tvlUsd": 15410082
+        "tvlUsd": 15424486
+      },
+      {
+        "project": "uniswap-v3",
+        "symbol": "DAI-USDC",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 3.41,
+        "reward": 0,
+        "total": 3.41,
+        "mean30d": 3.72,
+        "divFlag": "●",
+        "tvlUsd": 1327628
       },
       {
         "project": "sparklend",
@@ -735,25 +774,12 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 3.39,
+        "base": 3.4,
         "reward": 0,
-        "total": 3.39,
-        "mean30d": 3.37,
+        "total": 3.4,
+        "mean30d": 3.36,
         "divFlag": "●",
-        "tvlUsd": 19029520
-      },
-      {
-        "project": "yearn-finance",
-        "symbol": "DAI",
-        "chain": "Ethereum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "base": 3.37,
-        "reward": 0,
-        "total": 3.37,
-        "mean30d": 3.22,
-        "divFlag": "●",
-        "tvlUsd": 7440594
+        "tvlUsd": 18884472
       },
       {
         "project": "yearn-finance",
@@ -766,7 +792,20 @@
         "total": 3.36,
         "mean30d": 3.19,
         "divFlag": "●",
-        "tvlUsd": 5774112
+        "tvlUsd": 5774339
+      },
+      {
+        "project": "yearn-finance",
+        "symbol": "DAI",
+        "chain": "Ethereum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "base": 3.35,
+        "reward": 0,
+        "total": 3.35,
+        "mean30d": 3.22,
+        "divFlag": "●",
+        "tvlUsd": 7441082
       },
       {
         "project": "midas-rwa",
@@ -783,6 +822,32 @@
       },
       {
         "project": "aave-v3",
+        "symbol": "USDT",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 3.23,
+        "reward": 0,
+        "total": 3.23,
+        "mean30d": 3.32,
+        "divFlag": "●",
+        "tvlUsd": 394695037
+      },
+      {
+        "project": "aave-v3",
+        "symbol": "USDT",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 3.23,
+        "reward": 1.43,
+        "total": 4.66,
+        "mean30d": 4.75,
+        "divFlag": "●",
+        "tvlUsd": 71299764
+      },
+      {
+        "project": "aave-v3",
         "symbol": "USDC",
         "chain": "Ethereum",
         "bucket": "lend",
@@ -792,7 +857,20 @@
         "total": 3.22,
         "mean30d": 2.67,
         "divFlag": "▲",
-        "tvlUsd": 1127466
+        "tvlUsd": 1127518
+      },
+      {
+        "project": "raydium-amm",
+        "symbol": "USDC-USDT",
+        "chain": "Solana",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 3.16,
+        "reward": 0,
+        "total": 3.16,
+        "mean30d": 1.27,
+        "divFlag": "▲",
+        "tvlUsd": 1550025
       },
       {
         "project": "compound-v3",
@@ -800,12 +878,12 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 3.13,
+        "base": 3.14,
         "reward": 0,
-        "total": 3.13,
+        "total": 3.14,
         "mean30d": 3.09,
         "divFlag": "●",
-        "tvlUsd": 23121984
+        "tvlUsd": 23120418
       },
       {
         "project": "save",
@@ -813,25 +891,25 @@
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 3.11,
+        "base": 3.07,
         "reward": 0,
-        "total": 3.11,
+        "total": 3.07,
         "mean30d": 2.6,
         "divFlag": "●",
-        "tvlUsd": 5821622
+        "tvlUsd": 5988164
       },
       {
-        "project": "uniswap-v3",
-        "symbol": "USDC-USDT",
-        "chain": "Arbitrum",
-        "bucket": "LP",
+        "project": "kamino-lend",
+        "symbol": "PYUSD",
+        "chain": "Solana",
+        "bucket": "lend",
         "access": "permissionless",
-        "base": 3.02,
+        "base": 2.99,
         "reward": 0,
-        "total": 3.02,
-        "mean30d": 5,
+        "total": 2.99,
+        "mean30d": 4.58,
         "divFlag": "▼",
-        "tvlUsd": 1182882
+        "tvlUsd": 10315142
       },
       {
         "project": "aave-v3",
@@ -839,25 +917,12 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 3.01,
-        "reward": 0,
-        "total": 3.01,
-        "mean30d": 2.76,
-        "divFlag": "●",
-        "tvlUsd": 18643928
-      },
-      {
-        "project": "kamino-lend",
-        "symbol": "PYUSD",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
         "base": 2.98,
         "reward": 0,
         "total": 2.98,
-        "mean30d": 4.59,
-        "divFlag": "▼",
-        "tvlUsd": 10482393
+        "mean30d": 2.76,
+        "divFlag": "●",
+        "tvlUsd": 19453821
       },
       {
         "project": "kamino-lend",
@@ -865,38 +930,12 @@
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 2.96,
+        "base": 2.97,
         "reward": 0,
-        "total": 2.96,
+        "total": 2.97,
         "mean30d": 3.91,
         "divFlag": "▼",
-        "tvlUsd": 6398191
-      },
-      {
-        "project": "aave-v4",
-        "symbol": "USDG",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 2.88,
-        "reward": 3.3,
-        "total": 6.18,
-        "mean30d": 6.4,
-        "divFlag": "●",
-        "tvlUsd": 3307219
-      },
-      {
-        "project": "aave-v3",
-        "symbol": "USDC",
-        "chain": "Polygon",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 2.86,
-        "reward": 0,
-        "total": 2.86,
-        "mean30d": 2.84,
-        "divFlag": "●",
-        "tvlUsd": 12024286
+        "tvlUsd": 6325352
       },
       {
         "project": "compound-v3",
@@ -909,20 +948,20 @@
         "total": 2.86,
         "mean30d": 2.79,
         "divFlag": "●",
-        "tvlUsd": 3021844
+        "tvlUsd": 3011356
       },
       {
-        "project": "kamino-lend",
-        "symbol": "PYUSD",
-        "chain": "Solana",
+        "project": "aave-v3",
+        "symbol": "USDC",
+        "chain": "Polygon",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 2.79,
+        "base": 2.84,
         "reward": 0,
-        "total": 2.79,
-        "mean30d": 3.56,
-        "divFlag": "▼",
-        "tvlUsd": 5530700
+        "total": 2.84,
+        "mean30d": 2.84,
+        "divFlag": "●",
+        "tvlUsd": 12128369
       },
       {
         "project": "aave-v3",
@@ -930,12 +969,12 @@
         "chain": "Arbitrum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 2.75,
+        "base": 2.82,
         "reward": 0,
-        "total": 2.75,
-        "mean30d": 2.47,
+        "total": 2.82,
+        "mean30d": 2.48,
         "divFlag": "●",
-        "tvlUsd": 29136816
+        "tvlUsd": 27289111
       },
       {
         "project": "midas-rwa",
@@ -946,7 +985,7 @@
         "base": 2.63,
         "reward": 0,
         "total": 2.63,
-        "mean30d": 7.4,
+        "mean30d": 7.36,
         "divFlag": "▼",
         "tvlUsd": 6427616
       },
@@ -961,20 +1000,7 @@
         "total": 2.59,
         "mean30d": 2.5,
         "divFlag": "●",
-        "tvlUsd": 4110127
-      },
-      {
-        "project": "raydium-amm",
-        "symbol": "USDC-USDT",
-        "chain": "Solana",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 2.49,
-        "reward": 0,
-        "total": 2.49,
-        "mean30d": 1.26,
-        "divFlag": "▲",
-        "tvlUsd": 1550021
+        "tvlUsd": 4109220
       },
       {
         "project": "sparklend",
@@ -987,7 +1013,20 @@
         "total": 2.46,
         "mean30d": 2.26,
         "divFlag": "●",
-        "tvlUsd": 99929947
+        "tvlUsd": 99912309
+      },
+      {
+        "project": "kamino-lend",
+        "symbol": "PYUSD",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 2.25,
+        "reward": 0,
+        "total": 2.25,
+        "mean30d": 3.55,
+        "divFlag": "▼",
+        "tvlUsd": 5711685
       },
       {
         "project": "aave-v4",
@@ -995,12 +1034,25 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 2.05,
-        "reward": 4.13,
+        "base": 2.12,
+        "reward": 4.06,
         "total": 6.18,
-        "mean30d": 4.53,
+        "mean30d": 4.55,
         "divFlag": "▲",
-        "tvlUsd": 16499608
+        "tvlUsd": 15167331
+      },
+      {
+        "project": "aave-v4",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 2.03,
+        "reward": 0,
+        "total": 2.03,
+        "mean30d": 1.77,
+        "divFlag": "●",
+        "tvlUsd": 1422123
       },
       {
         "project": "aave-v3",
@@ -1013,20 +1065,7 @@
         "total": 1.89,
         "mean30d": 2.34,
         "divFlag": "●",
-        "tvlUsd": 2058164
-      },
-      {
-        "project": "aave-v3",
-        "symbol": "DAI",
-        "chain": "Arbitrum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 1.88,
-        "reward": 0,
-        "total": 1.88,
-        "mean30d": 1.99,
-        "divFlag": "●",
-        "tvlUsd": 1179589
+        "tvlUsd": 2058436
       },
       {
         "project": "save",
@@ -1034,12 +1073,38 @@
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
+        "base": 1.88,
+        "reward": 0,
+        "total": 1.88,
+        "mean30d": 1.61,
+        "divFlag": "●",
+        "tvlUsd": 2324191
+      },
+      {
+        "project": "aave-v3",
+        "symbol": "DAI",
+        "chain": "Arbitrum",
+        "bucket": "lend",
+        "access": "permissionless",
         "base": 1.87,
         "reward": 0,
         "total": 1.87,
-        "mean30d": 1.61,
+        "mean30d": 1.99,
         "divFlag": "●",
-        "tvlUsd": 2324641
+        "tvlUsd": 1185175
+      },
+      {
+        "project": "euler-v2",
+        "symbol": "PYUSD",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 1.8,
+        "reward": 0,
+        "total": 1.8,
+        "mean30d": 5.49,
+        "divFlag": "▼",
+        "tvlUsd": 1054380
       },
       {
         "project": "centrifuge-protocol",
@@ -1050,22 +1115,9 @@
         "base": 1.8,
         "reward": 0,
         "total": 1.8,
-        "mean30d": 2.39,
+        "mean30d": 2.4,
         "divFlag": "▼",
         "tvlUsd": 1872710
-      },
-      {
-        "project": "aave-v4",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 1.77,
-        "reward": 0,
-        "total": 1.77,
-        "mean30d": 1.77,
-        "divFlag": "●",
-        "tvlUsd": 1667002
       },
       {
         "project": "aave-v3",
@@ -1078,20 +1130,20 @@
         "total": 4.99,
         "mean30d": 4.99,
         "divFlag": "●",
-        "tvlUsd": 66738489
+        "tvlUsd": 66751109
       },
       {
-        "project": "aave-v3",
-        "symbol": "USDG",
+        "project": "uniswap-v3",
+        "symbol": "USDC-USDT",
         "chain": "Ethereum",
-        "bucket": "lend",
+        "bucket": "LP",
         "access": "permissionless",
-        "base": 1.4,
+        "base": 0.98,
         "reward": 0,
-        "total": 1.4,
-        "mean30d": 3.9,
+        "total": 0.98,
+        "mean30d": 1.31,
         "divFlag": "▼",
-        "tvlUsd": 5096438
+        "tvlUsd": 33321218
       },
       {
         "project": "kamino-lend",
@@ -1099,25 +1151,38 @@
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 1.32,
+        "base": 0.95,
         "reward": 0,
-        "total": 1.32,
-        "mean30d": 0.54,
+        "total": 0.95,
+        "mean30d": 0.55,
         "divFlag": "▲",
-        "tvlUsd": 2718094
+        "tvlUsd": 3795712
       },
       {
         "project": "uniswap-v3",
-        "symbol": "DAI-USDT",
+        "symbol": "RLUSD-USDC",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 1.24,
+        "base": 0.81,
         "reward": 0,
-        "total": 1.24,
-        "mean30d": 5.54,
+        "total": 0.81,
+        "mean30d": 2.8,
         "divFlag": "▼",
-        "tvlUsd": 1357598
+        "tvlUsd": 2863132
+      },
+      {
+        "project": "aave-v3",
+        "symbol": "USDG",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "base": 0.8,
+        "reward": 0,
+        "total": 0.8,
+        "mean30d": 3.88,
+        "divFlag": "▼",
+        "tvlUsd": 6480736
       },
       {
         "project": "orca-dex",
@@ -1125,38 +1190,12 @@
         "chain": "Solana",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 1.17,
+        "base": 0.74,
         "reward": 0,
-        "total": 1.17,
-        "mean30d": 0.56,
+        "total": 0.74,
+        "mean30d": 0.57,
         "divFlag": "▲",
-        "tvlUsd": 19026883
-      },
-      {
-        "project": "uniswap-v3",
-        "symbol": "DAI-USDC",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 1.13,
-        "reward": 0,
-        "total": 1.13,
-        "mean30d": 3.72,
-        "divFlag": "▼",
-        "tvlUsd": 1377993
-      },
-      {
-        "project": "uniswap-v3",
-        "symbol": "USDC-USDT",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 0.83,
-        "reward": 0,
-        "total": 0.83,
-        "mean30d": 1.31,
-        "divFlag": "▼",
-        "tvlUsd": 33320070
+        "tvlUsd": 19034409
       },
       {
         "project": "curve-dex",
@@ -1164,12 +1203,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.69,
-        "reward": 2.37,
-        "total": 3.06,
+        "base": 0.7,
+        "reward": 2.49,
+        "total": 3.19,
         "mean30d": 2.79,
         "divFlag": "●",
-        "tvlUsd": 5820011
+        "tvlUsd": 5826848
       },
       {
         "project": "sparklend",
@@ -1180,35 +1219,9 @@
         "base": 0.61,
         "reward": 0,
         "total": 0.61,
-        "mean30d": 0.43,
+        "mean30d": 0.44,
         "divFlag": "▲",
-        "tvlUsd": 82517421
-      },
-      {
-        "project": "uniswap-v3",
-        "symbol": "RLUSD-USDC",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 0.53,
-        "reward": 0,
-        "total": 0.53,
-        "mean30d": 2.81,
-        "divFlag": "▼",
-        "tvlUsd": 2862815
-      },
-      {
-        "project": "orca-dex",
-        "symbol": "PYUSD-USDC",
-        "chain": "Solana",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 0.5,
-        "reward": 0,
-        "total": 0.5,
-        "mean30d": 0.23,
-        "divFlag": "▲",
-        "tvlUsd": 18996196
+        "tvlUsd": 82525027
       },
       {
         "project": "curve-dex",
@@ -1216,12 +1229,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.5,
-        "reward": 5.52,
-        "total": 6.02,
-        "mean30d": 5.42,
+        "base": 0.56,
+        "reward": 5.53,
+        "total": 6.09,
+        "mean30d": 5.43,
         "divFlag": "●",
-        "tvlUsd": 37764315
+        "tvlUsd": 37704980
       },
       {
         "project": "convex-finance",
@@ -1229,12 +1242,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 0.5,
+        "base": 0.56,
         "reward": 0,
-        "total": 0.5,
-        "mean30d": 0.27,
+        "total": 0.56,
+        "mean30d": 0.28,
         "divFlag": "▲",
-        "tvlUsd": 5929028
+        "tvlUsd": 5869288
       },
       {
         "project": "fluid-dex",
@@ -1242,12 +1255,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.31,
+        "base": 0.44,
         "reward": 0,
-        "total": 0.31,
+        "total": 0.44,
         "mean30d": 0.53,
-        "divFlag": "▼",
-        "tvlUsd": 29939837
+        "divFlag": "●",
+        "tvlUsd": 29941198
       },
       {
         "project": "curve-dex",
@@ -1255,12 +1268,25 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
+        "base": 0.36,
+        "reward": 0,
+        "total": 0.36,
+        "mean30d": 0.73,
+        "divFlag": "▼",
+        "tvlUsd": 20029984
+      },
+      {
+        "project": "orca-dex",
+        "symbol": "PYUSD-USDC",
+        "chain": "Solana",
+        "bucket": "LP",
+        "access": "permissionless",
         "base": 0.24,
         "reward": 0,
         "total": 0.24,
-        "mean30d": 0.73,
-        "divFlag": "▼",
-        "tvlUsd": 20030492
+        "mean30d": 0.24,
+        "divFlag": "●",
+        "tvlUsd": 18983674
       },
       {
         "project": "curve-dex",
@@ -1269,11 +1295,11 @@
         "bucket": "LP",
         "access": "permissionless",
         "base": 0.01,
-        "reward": 6.23,
-        "total": 6.24,
-        "mean30d": 6.18,
+        "reward": 6.03,
+        "total": 6.04,
+        "mean30d": 6.19,
         "divFlag": "●",
-        "tvlUsd": 63240508
+        "tvlUsd": 65190113
       },
       {
         "project": "convex-finance",
@@ -1286,7 +1312,7 @@
         "total": 0.01,
         "mean30d": 0.35,
         "divFlag": "▼",
-        "tvlUsd": 14185068
+        "tvlUsd": 14127334
       },
       {
         "project": "kamino-lend",
@@ -1299,7 +1325,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "▲",
-        "tvlUsd": 2016725
+        "tvlUsd": 2014770
       },
       {
         "project": "curve-dex",
@@ -1312,7 +1338,20 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "●",
-        "tvlUsd": 160305445
+        "tvlUsd": 160393486
+      },
+      {
+        "project": "midas-rwa",
+        "symbol": "USDC",
+        "chain": "Base",
+        "bucket": "lend",
+        "access": "permissioned",
+        "base": 0,
+        "reward": 0,
+        "total": 0,
+        "mean30d": 0,
+        "divFlag": "?",
+        "tvlUsd": 26487520
       },
       {
         "project": "compound-v2",
@@ -1325,7 +1364,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 16762400
+        "tvlUsd": 16762687
       },
       {
         "project": "save",
@@ -1351,7 +1390,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 3005650
+        "tvlUsd": 3005668
       },
       {
         "project": "uniswap-v4",
@@ -1364,7 +1403,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 2079238
+        "tvlUsd": 2449815
       },
       {
         "project": "convex-finance",
@@ -1377,7 +1416,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "▼",
-        "tvlUsd": 1420438
+        "tvlUsd": 1420511
       },
       {
         "project": "kamino-lend",
@@ -1390,7 +1429,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 1369023
+        "tvlUsd": 1393861
       },
       {
         "project": "compound-v2",
@@ -1403,7 +1442,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 1341942
+        "tvlUsd": 1341488
       },
       {
         "project": "uniswap-v4",
@@ -1416,7 +1455,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 1117981
+        "tvlUsd": 1198213
       }
     ],
     "2": [
@@ -1426,12 +1465,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 5.63,
-        "reward": 1.17,
-        "total": 6.8,
-        "mean30d": 6.32,
+        "base": 5.62,
+        "reward": 1.23,
+        "total": 6.85,
+        "mean30d": 6.33,
         "divFlag": "●",
-        "tvlUsd": 5584602
+        "tvlUsd": 5586707
       },
       {
         "project": "yearn-finance",
@@ -1439,12 +1478,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 5.27,
+        "base": 5.28,
         "reward": 0,
-        "total": 5.27,
-        "mean30d": 4.19,
+        "total": 5.28,
+        "mean30d": 4.2,
         "divFlag": "▲",
-        "tvlUsd": 1216523
+        "tvlUsd": 1216457
       },
       {
         "project": "fluid-lending",
@@ -1452,12 +1491,12 @@
         "chain": "Arbitrum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 5.17,
+        "base": 5.16,
         "reward": 0,
-        "total": 5.17,
+        "total": 5.16,
         "mean30d": 5.37,
         "divFlag": "●",
-        "tvlUsd": 2380004
+        "tvlUsd": 2379376
       },
       {
         "project": "curve-dex",
@@ -1465,12 +1504,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 5.08,
-        "reward": 0.8,
-        "total": 5.88,
+        "base": 5.11,
+        "reward": 0.84,
+        "total": 5.95,
         "mean30d": 6.07,
         "divFlag": "●",
-        "tvlUsd": 1068847
+        "tvlUsd": 1069268
       },
       {
         "project": "jupiter-lend",
@@ -1478,12 +1517,12 @@
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 4.65,
+        "base": 4.7,
         "reward": 0,
-        "total": 4.65,
-        "mean30d": 4.38,
+        "total": 4.7,
+        "mean30d": 4.39,
         "divFlag": "●",
-        "tvlUsd": 3762758
+        "tvlUsd": 3763393
       },
       {
         "project": "fluid-lending",
@@ -1491,12 +1530,12 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 4.17,
+        "base": 4.1,
         "reward": 1.96,
-        "total": 6.13,
+        "total": 6.06,
         "mean30d": 5.73,
         "divFlag": "●",
-        "tvlUsd": 20014407
+        "tvlUsd": 20020300
       },
       {
         "project": "sky-lending",
@@ -1509,7 +1548,20 @@
         "total": 3.6,
         "mean30d": 3.54,
         "divFlag": "●",
-        "tvlUsd": 4592953756
+        "tvlUsd": 4586668432
+      },
+      {
+        "project": "sky-lending",
+        "symbol": "SUSDS",
+        "chain": "Arbitrum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "base": 3.6,
+        "reward": 0,
+        "total": 3.6,
+        "mean30d": 3.54,
+        "divFlag": "●",
+        "tvlUsd": 362748064
       },
       {
         "project": "spark-savings",
@@ -1522,20 +1574,7 @@
         "total": 3.6,
         "mean30d": 3.54,
         "divFlag": "●",
-        "tvlUsd": 362599677
-      },
-      {
-        "project": "sky-lending",
-        "symbol": "SUSDS",
-        "chain": "Arbitrum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "base": 3.6,
-        "reward": 0,
-        "total": 3.6,
-        "mean30d": 3.54,
-        "divFlag": "●",
-        "tvlUsd": 362599677
+        "tvlUsd": 362748064
       },
       {
         "project": "spark-savings",
@@ -1548,7 +1587,7 @@
         "total": 3.6,
         "mean30d": 3.54,
         "divFlag": "●",
-        "tvlUsd": 12008237
+        "tvlUsd": 12013151
       },
       {
         "project": "curve-llamalend",
@@ -1557,11 +1596,11 @@
         "bucket": "lend",
         "access": "permissionless",
         "base": 3.16,
-        "reward": 0.93,
-        "total": 4.09,
+        "reward": 0.96,
+        "total": 4.12,
         "mean30d": 4.15,
         "divFlag": "●",
-        "tvlUsd": 3622027
+        "tvlUsd": 3622498
       },
       {
         "project": "convex-finance",
@@ -1570,11 +1609,11 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 3.16,
-        "reward": 1.57,
-        "total": 4.73,
+        "reward": 1.63,
+        "total": 4.79,
         "mean30d": 5.33,
         "divFlag": "●",
-        "tvlUsd": 3595079
+        "tvlUsd": 3595129
       },
       {
         "project": "aave-v3",
@@ -1587,7 +1626,7 @@
         "total": 3.04,
         "mean30d": 2.45,
         "divFlag": "▲",
-        "tvlUsd": 5084670
+        "tvlUsd": 5078261
       },
       {
         "project": "curve-llamalend",
@@ -1595,12 +1634,12 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 2.85,
-        "reward": 2.01,
-        "total": 4.86,
+        "base": 2.88,
+        "reward": 2.1,
+        "total": 4.98,
         "mean30d": 4.6,
         "divFlag": "●",
-        "tvlUsd": 15412973
+        "tvlUsd": 15364956
       },
       {
         "project": "convex-finance",
@@ -1608,12 +1647,25 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 2.85,
-        "reward": 3,
-        "total": 5.85,
+        "base": 2.88,
+        "reward": 3.13,
+        "total": 6.01,
         "mean30d": 5.87,
         "divFlag": "●",
-        "tvlUsd": 13184205
+        "tvlUsd": 13134366
+      },
+      {
+        "project": "centrifuge-protocol",
+        "symbol": "USDS",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissioned",
+        "base": 2.88,
+        "reward": 0,
+        "total": 2.88,
+        "mean30d": 3.44,
+        "divFlag": "●",
+        "tvlUsd": 724944553
       },
       {
         "project": "curve-llamalend",
@@ -1626,7 +1678,7 @@
         "total": 2.76,
         "mean30d": 2.82,
         "divFlag": "●",
-        "tvlUsd": 6996145
+        "tvlUsd": 6997044
       },
       {
         "project": "convex-finance",
@@ -1635,24 +1687,37 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 2.76,
-        "reward": 0.74,
-        "total": 3.5,
+        "reward": 0.77,
+        "total": 3.53,
         "mean30d": 3.42,
         "divFlag": "●",
-        "tvlUsd": 6985176
+        "tvlUsd": 6985261
       },
       {
-        "project": "centrifuge-protocol",
-        "symbol": "USDS",
+        "project": "curve-dex",
+        "symbol": "FRXUSD-USD3",
         "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissioned",
-        "base": 2.73,
-        "reward": 0,
-        "total": 2.73,
-        "mean30d": 3.44,
-        "divFlag": "▼",
-        "tvlUsd": 749806619
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 2.45,
+        "reward": 5.78,
+        "total": 8.23,
+        "mean30d": 9.24,
+        "divFlag": "●",
+        "tvlUsd": 2412711
+      },
+      {
+        "project": "convex-finance",
+        "symbol": "FRXUSD-USD3",
+        "chain": "Ethereum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "base": 2.45,
+        "reward": 11.22,
+        "total": 13.67,
+        "mean30d": 13.94,
+        "divFlag": "●",
+        "tvlUsd": 1542758
       },
       {
         "project": "curve-llamalend",
@@ -1661,11 +1726,11 @@
         "bucket": "lend",
         "access": "permissionless",
         "base": 2.42,
-        "reward": 1.86,
-        "total": 4.28,
-        "mean30d": 4.28,
+        "reward": 1.93,
+        "total": 4.35,
+        "mean30d": 4.27,
         "divFlag": "●",
-        "tvlUsd": 3186498
+        "tvlUsd": 3186903
       },
       {
         "project": "convex-finance",
@@ -1674,37 +1739,11 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 2.42,
-        "reward": 3.01,
-        "total": 5.44,
-        "mean30d": 5.37,
+        "reward": 3.13,
+        "total": 5.55,
+        "mean30d": 5.39,
         "divFlag": "●",
-        "tvlUsd": 2687450
-      },
-      {
-        "project": "curve-dex",
-        "symbol": "FRXUSD-USD3",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 2.36,
-        "reward": 5.51,
-        "total": 7.87,
-        "mean30d": 9.26,
-        "divFlag": "●",
-        "tvlUsd": 2411287
-      },
-      {
-        "project": "convex-finance",
-        "symbol": "FRXUSD-USD3",
-        "chain": "Ethereum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "base": 2.36,
-        "reward": 10.81,
-        "total": 13.17,
-        "mean30d": 13.93,
-        "divFlag": "●",
-        "tvlUsd": 1541847
+        "tvlUsd": 2687479
       },
       {
         "project": "sparklend",
@@ -1717,7 +1756,7 @@
         "total": 2.32,
         "mean30d": 2.13,
         "divFlag": "●",
-        "tvlUsd": 336948682
+        "tvlUsd": 362946393
       },
       {
         "project": "curve-llamalend",
@@ -1726,11 +1765,11 @@
         "bucket": "lend",
         "access": "permissionless",
         "base": 2.31,
-        "reward": 2.27,
-        "total": 4.58,
-        "mean30d": 4.51,
+        "reward": 2.36,
+        "total": 4.67,
+        "mean30d": 4.5,
         "divFlag": "●",
-        "tvlUsd": 10574869
+        "tvlUsd": 10576206
       },
       {
         "project": "convex-finance",
@@ -1739,11 +1778,11 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 2.31,
-        "reward": 3.4,
-        "total": 5.71,
+        "reward": 3.53,
+        "total": 5.84,
         "mean30d": 6.04,
         "divFlag": "●",
-        "tvlUsd": 8540747
+        "tvlUsd": 8540834
       },
       {
         "project": "curve-dex",
@@ -1751,12 +1790,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 2.22,
-        "reward": 0.8,
-        "total": 3.02,
+        "base": 2.23,
+        "reward": 0.84,
+        "total": 3.07,
         "mean30d": 3.2,
         "divFlag": "●",
-        "tvlUsd": 11871033
+        "tvlUsd": 11872695
       },
       {
         "project": "convex-finance",
@@ -1764,12 +1803,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 2.22,
-        "reward": 1.27,
-        "total": 3.49,
+        "base": 2.23,
+        "reward": 1.32,
+        "total": 3.55,
         "mean30d": 3.71,
         "divFlag": "●",
-        "tvlUsd": 11871012
+        "tvlUsd": 11872674
       },
       {
         "project": "curve-llamalend",
@@ -1778,11 +1817,11 @@
         "bucket": "lend",
         "access": "permissionless",
         "base": 2.2,
-        "reward": 2.36,
-        "total": 4.56,
+        "reward": 2.45,
+        "total": 4.65,
         "mean30d": 4.25,
         "divFlag": "●",
-        "tvlUsd": 8002144
+        "tvlUsd": 8003151
       },
       {
         "project": "convex-finance",
@@ -1791,11 +1830,11 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 2.2,
-        "reward": 3.6,
-        "total": 5.81,
-        "mean30d": 5.82,
+        "reward": 3.74,
+        "total": 5.94,
+        "mean30d": 5.83,
         "divFlag": "●",
-        "tvlUsd": 7051758
+        "tvlUsd": 7051827
       },
       {
         "project": "aave-v4",
@@ -1803,51 +1842,12 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 2.11,
-        "reward": 3.39,
+        "base": 2.12,
+        "reward": 3.38,
         "total": 5.5,
-        "mean30d": 4,
+        "mean30d": 4.02,
         "divFlag": "▲",
-        "tvlUsd": 6688631
-      },
-      {
-        "project": "yearn-finance",
-        "symbol": "USDS",
-        "chain": "Ethereum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "base": 1.74,
-        "reward": 0,
-        "total": 1.74,
-        "mean30d": 3.08,
-        "divFlag": "▼",
-        "tvlUsd": 7292238
-      },
-      {
-        "project": "curve-dex",
-        "symbol": "FRXUSD-SUSDS",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 1.67,
-        "reward": 1.56,
-        "total": 3.23,
-        "mean30d": 3.78,
-        "divFlag": "●",
-        "tvlUsd": 1859211
-      },
-      {
-        "project": "convex-finance",
-        "symbol": "FRXUSD-SUSDS",
-        "chain": "Ethereum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "base": 1.67,
-        "reward": 2.72,
-        "total": 4.39,
-        "mean30d": 5.35,
-        "divFlag": "●",
-        "tvlUsd": 1251826
+        "tvlUsd": 6611041
       },
       {
         "project": "aave-v3",
@@ -1855,12 +1855,51 @@
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
-        "base": 1.63,
+        "base": 1.75,
         "reward": 0,
-        "total": 1.63,
-        "mean30d": 1.27,
+        "total": 1.75,
+        "mean30d": 1.28,
         "divFlag": "▲",
-        "tvlUsd": 23688887
+        "tvlUsd": 21009342
+      },
+      {
+        "project": "yearn-finance",
+        "symbol": "USDS",
+        "chain": "Ethereum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "base": 1.72,
+        "reward": 0,
+        "total": 1.72,
+        "mean30d": 3.06,
+        "divFlag": "▼",
+        "tvlUsd": 7291982
+      },
+      {
+        "project": "curve-dex",
+        "symbol": "FRXUSD-SUSDS",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 1.69,
+        "reward": 1.64,
+        "total": 3.33,
+        "mean30d": 3.78,
+        "divFlag": "●",
+        "tvlUsd": 1859653
+      },
+      {
+        "project": "convex-finance",
+        "symbol": "FRXUSD-SUSDS",
+        "chain": "Ethereum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "base": 1.69,
+        "reward": 2.83,
+        "total": 4.52,
+        "mean30d": 5.35,
+        "divFlag": "●",
+        "tvlUsd": 1252123
       },
       {
         "project": "sky-lending",
@@ -1873,7 +1912,7 @@
         "total": 1.25,
         "mean30d": 1.25,
         "divFlag": "●",
-        "tvlUsd": 202545040
+        "tvlUsd": 202609335
       },
       {
         "project": "uniswap-v4",
@@ -1884,7 +1923,7 @@
         "base": 1.15,
         "reward": 0,
         "total": 1.15,
-        "mean30d": 1.16,
+        "mean30d": 1.17,
         "divFlag": "●",
         "tvlUsd": 2870419
       },
@@ -1894,12 +1933,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.9,
-        "reward": 2.57,
-        "total": 3.47,
+        "base": 0.88,
+        "reward": 2.69,
+        "total": 3.57,
         "mean30d": 3.54,
         "divFlag": "●",
-        "tvlUsd": 6223024
+        "tvlUsd": 6224704
       },
       {
         "project": "convex-finance",
@@ -1907,25 +1946,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 0.9,
-        "reward": 4.08,
-        "total": 4.98,
-        "mean30d": 5.49,
+        "base": 0.88,
+        "reward": 4.24,
+        "total": 5.12,
+        "mean30d": 5.48,
         "divFlag": "●",
-        "tvlUsd": 5580445
-      },
-      {
-        "project": "curve-llamalend",
-        "symbol": "CRVUSD",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "base": 0.84,
-        "reward": 3.24,
-        "total": 4.08,
-        "mean30d": 3.67,
-        "divFlag": "●",
-        "tvlUsd": 3320076
+        "tvlUsd": 5581952
       },
       {
         "project": "convex-finance",
@@ -1934,24 +1960,24 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 0.84,
-        "reward": 6.03,
-        "total": 6.87,
-        "mean30d": 5.86,
-        "divFlag": "●",
-        "tvlUsd": 2283428
+        "reward": 6.26,
+        "total": 7.1,
+        "mean30d": 5.87,
+        "divFlag": "▲",
+        "tvlUsd": 2283437
       },
       {
-        "project": "curve-dex",
-        "symbol": "GHO-CRVUSD",
+        "project": "curve-llamalend",
+        "symbol": "CRVUSD",
         "chain": "Ethereum",
-        "bucket": "LP",
+        "bucket": "lend",
         "access": "permissionless",
-        "base": 0.59,
-        "reward": 3.82,
-        "total": 4.41,
-        "mean30d": 3.74,
+        "base": 0.8,
+        "reward": 3.37,
+        "total": 4.17,
+        "mean30d": 3.67,
         "divFlag": "●",
-        "tvlUsd": 1234376
+        "tvlUsd": 3320473
       },
       {
         "project": "aave-v3",
@@ -1964,7 +1990,7 @@
         "total": 0.54,
         "mean30d": 0.56,
         "divFlag": "●",
-        "tvlUsd": 1279899
+        "tvlUsd": 1282026
       },
       {
         "project": "curve-llamalend",
@@ -1973,11 +1999,11 @@
         "bucket": "lend",
         "access": "permissionless",
         "base": 0.48,
-        "reward": 2.4,
-        "total": 2.88,
-        "mean30d": 3.42,
+        "reward": 2.5,
+        "total": 2.98,
+        "mean30d": 3.41,
         "divFlag": "●",
-        "tvlUsd": 35136137
+        "tvlUsd": 35140286
       },
       {
         "project": "convex-finance",
@@ -1986,11 +2012,37 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 0.48,
-        "reward": 4.42,
-        "total": 4.9,
+        "reward": 4.59,
+        "total": 5.07,
         "mean30d": 5.63,
         "divFlag": "●",
-        "tvlUsd": 4823120
+        "tvlUsd": 4823130
+      },
+      {
+        "project": "curve-dex",
+        "symbol": "GHO-CRVUSD",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 0.37,
+        "reward": 4.01,
+        "total": 4.38,
+        "mean30d": 3.74,
+        "divFlag": "●",
+        "tvlUsd": 1234718
+      },
+      {
+        "project": "curve-dex",
+        "symbol": "USDT-CRVUSD",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 0.35,
+        "reward": 3.17,
+        "total": 3.52,
+        "mean30d": 3.45,
+        "divFlag": "●",
+        "tvlUsd": 31499996
       },
       {
         "project": "curve-dex",
@@ -1998,12 +2050,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.36,
-        "reward": 2.83,
-        "total": 3.19,
-        "mean30d": 3.62,
+        "base": 0.35,
+        "reward": 2.94,
+        "total": 3.29,
+        "mean30d": 3.63,
         "divFlag": "●",
-        "tvlUsd": 14393990
+        "tvlUsd": 14395067
       },
       {
         "project": "convex-finance",
@@ -2011,25 +2063,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 0.36,
-        "reward": 5.54,
-        "total": 5.9,
+        "base": 0.35,
+        "reward": 5.76,
+        "total": 6.11,
         "mean30d": 6.2,
         "divFlag": "●",
-        "tvlUsd": 10030310
-      },
-      {
-        "project": "curve-dex",
-        "symbol": "USDT-CRVUSD",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 0.35,
-        "reward": 3.05,
-        "total": 3.4,
-        "mean30d": 3.44,
-        "divFlag": "●",
-        "tvlUsd": 23872239
+        "tvlUsd": 10031108
       },
       {
         "project": "convex-finance",
@@ -2038,11 +2077,11 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 0.35,
-        "reward": 5.46,
-        "total": 5.81,
-        "mean30d": 6.03,
+        "reward": 5.67,
+        "total": 6.02,
+        "mean30d": 6.02,
         "divFlag": "●",
-        "tvlUsd": 8781056
+        "tvlUsd": 8781743
       },
       {
         "project": "raydium-amm",
@@ -2050,25 +2089,12 @@
         "chain": "Solana",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.31,
+        "base": 0.3,
         "reward": 0,
-        "total": 0.31,
+        "total": 0.3,
         "mean30d": 0.48,
         "divFlag": "▼",
-        "tvlUsd": 1312997
-      },
-      {
-        "project": "uniswap-v4",
-        "symbol": "GHO-USDC",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 0.31,
-        "reward": 0,
-        "total": 0.31,
-        "mean30d": 0.6,
-        "divFlag": "▼",
-        "tvlUsd": 3023229
+        "tvlUsd": 1312979
       },
       {
         "project": "curve-llamalend",
@@ -2077,11 +2103,11 @@
         "bucket": "lend",
         "access": "permissionless",
         "base": 0.29,
-        "reward": 2.36,
-        "total": 2.65,
-        "mean30d": 3.27,
+        "reward": 2.45,
+        "total": 2.74,
+        "mean30d": 3.26,
         "divFlag": "●",
-        "tvlUsd": 1501761
+        "tvlUsd": 1501937
       },
       {
         "project": "convex-finance",
@@ -2090,24 +2116,37 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 0.29,
-        "reward": 5.29,
-        "total": 5.57,
-        "mean30d": 5.28,
+        "reward": 5.49,
+        "total": 5.78,
+        "mean30d": 5.3,
         "divFlag": "●",
-        "tvlUsd": 1413646
+        "tvlUsd": 1413648
       },
       {
-        "project": "curve-dex",
-        "symbol": "FRAX-USDC",
+        "project": "uniswap-v3",
+        "symbol": "BOLD-USDC",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.17,
-        "reward": 4.62,
-        "total": 4.79,
-        "mean30d": 5.23,
+        "base": 0.26,
+        "reward": 0,
+        "total": 0.26,
+        "mean30d": 0.35,
+        "divFlag": "▼",
+        "tvlUsd": 1414379
+      },
+      {
+        "project": "curve-dex",
+        "symbol": "PYUSD-CRVUSD",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 0.18,
+        "reward": 3.49,
+        "total": 3.67,
+        "mean30d": 3.68,
         "divFlag": "●",
-        "tvlUsd": 1951997
+        "tvlUsd": 1105949
       },
       {
         "project": "uniswap-v4",
@@ -2123,56 +2162,17 @@
         "tvlUsd": 100120589
       },
       {
-        "project": "curve-dex",
-        "symbol": "PYUSD-CRVUSD",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 0.16,
-        "reward": 3.1,
-        "total": 3.26,
-        "mean30d": 3.68,
-        "divFlag": "●",
-        "tvlUsd": 1171911
-      },
-      {
         "project": "aave-v3",
         "symbol": "USDS",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
         "base": 0.15,
-        "reward": 3.41,
-        "total": 3.56,
+        "reward": 3.4,
+        "total": 3.55,
         "mean30d": 3.02,
         "divFlag": "●",
-        "tvlUsd": 9031947
-      },
-      {
-        "project": "curve-dex",
-        "symbol": "BOLD-USDC",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 0.13,
-        "reward": 0.47,
-        "total": 0.6,
-        "mean30d": 0.93,
-        "divFlag": "▼",
-        "tvlUsd": 10210472
-      },
-      {
-        "project": "convex-finance",
-        "symbol": "BOLD-USDC",
-        "chain": "Ethereum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "base": 0.13,
-        "reward": 0.88,
-        "total": 1.01,
-        "mean30d": 1.46,
-        "divFlag": "▼",
-        "tvlUsd": 1361332
+        "tvlUsd": 9033336
       },
       {
         "project": "curve-dex",
@@ -2180,12 +2180,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.12,
-        "reward": 3.08,
-        "total": 3.2,
+        "base": 0.13,
+        "reward": 3.3,
+        "total": 3.43,
         "mean30d": 3.56,
         "divFlag": "●",
-        "tvlUsd": 15405061
+        "tvlUsd": 15027964
       },
       {
         "project": "convex-finance",
@@ -2193,25 +2193,64 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 0.12,
-        "reward": 5.35,
-        "total": 5.47,
+        "base": 0.13,
+        "reward": 5.75,
+        "total": 5.88,
         "mean30d": 6.18,
         "divFlag": "●",
-        "tvlUsd": 11594121
+        "tvlUsd": 11216315
       },
       {
-        "project": "uniswap-v3",
+        "project": "curve-dex",
         "symbol": "BOLD-USDC",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.1,
-        "reward": 0,
-        "total": 0.1,
-        "mean30d": 0.35,
+        "base": 0.13,
+        "reward": 0.49,
+        "total": 0.62,
+        "mean30d": 0.94,
         "divFlag": "▼",
-        "tvlUsd": 1414146
+        "tvlUsd": 10210414
+      },
+      {
+        "project": "curve-dex",
+        "symbol": "FRAX-USDC",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 0.13,
+        "reward": 4.79,
+        "total": 4.92,
+        "mean30d": 5.22,
+        "divFlag": "●",
+        "tvlUsd": 1958027
+      },
+      {
+        "project": "convex-finance",
+        "symbol": "BOLD-USDC",
+        "chain": "Ethereum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "base": 0.13,
+        "reward": 0.91,
+        "total": 1.04,
+        "mean30d": 1.45,
+        "divFlag": "▼",
+        "tvlUsd": 1361325
+      },
+      {
+        "project": "uniswap-v4",
+        "symbol": "GHO-USDC",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 0.11,
+        "reward": 0,
+        "total": 0.11,
+        "mean30d": 0.6,
+        "divFlag": "▼",
+        "tvlUsd": 3023980
       },
       {
         "project": "uniswap-v3",
@@ -2219,12 +2258,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.08,
+        "base": 0.09,
         "reward": 0,
-        "total": 0.08,
+        "total": 0.09,
         "mean30d": 0.23,
         "divFlag": "▼",
-        "tvlUsd": 1507381
+        "tvlUsd": 1506968
       },
       {
         "project": "fluid-dex",
@@ -2232,12 +2271,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.01,
+        "base": 0.02,
         "reward": 0,
-        "total": 0.01,
-        "mean30d": 0.48,
+        "total": 0.02,
+        "mean30d": 0.47,
         "divFlag": "▼",
-        "tvlUsd": 21933751
+        "tvlUsd": 22500633
       },
       {
         "project": "sparklend",
@@ -2246,11 +2285,11 @@
         "bucket": "lend",
         "access": "permissionless",
         "base": 0,
-        "reward": 3.77,
-        "total": 3.77,
-        "mean30d": 3.68,
+        "reward": 3.92,
+        "total": 3.92,
+        "mean30d": 3.69,
         "divFlag": "●",
-        "tvlUsd": 561986596
+        "tvlUsd": 562051690
       },
       {
         "project": "sky-lending",
@@ -2259,11 +2298,11 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 0,
-        "reward": 5.38,
-        "total": 5.38,
+        "reward": 5.57,
+        "total": 5.57,
         "mean30d": 5.71,
         "divFlag": "●",
-        "tvlUsd": 180017610
+        "tvlUsd": 173032074
       },
       {
         "project": "morpho-blue",
@@ -2276,7 +2315,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 63324183
+        "tvlUsd": 63338596
       },
       {
         "project": "aave-v3",
@@ -2289,7 +2328,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 36969923
+        "tvlUsd": 36955926
       },
       {
         "project": "uniswap-v4",
@@ -2302,7 +2341,7 @@
         "total": 0,
         "mean30d": 0.03,
         "divFlag": "▼",
-        "tvlUsd": 19999932
+        "tvlUsd": 20003100
       },
       {
         "project": "morpho-blue",
@@ -2315,7 +2354,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 19822652
+        "tvlUsd": 19827172
       },
       {
         "project": "morpho-blue",
@@ -2328,7 +2367,7 @@
         "total": 1.31,
         "mean30d": 1.81,
         "divFlag": "▼",
-        "tvlUsd": 17090697
+        "tvlUsd": 17091982
       },
       {
         "project": "yearn-finance",
@@ -2339,9 +2378,9 @@
         "base": 0,
         "reward": 0,
         "total": 0,
-        "mean30d": 5.06,
+        "mean30d": 5.04,
         "divFlag": "▼",
-        "tvlUsd": 7294649
+        "tvlUsd": 7294578
       },
       {
         "project": "yearn-finance",
@@ -2354,7 +2393,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 6235457
+        "tvlUsd": 6238658
       },
       {
         "project": "curve-dex",
@@ -2367,7 +2406,7 @@
         "total": 0,
         "mean30d": 0.01,
         "divFlag": "▼",
-        "tvlUsd": 4081058
+        "tvlUsd": 4081844
       },
       {
         "project": "curve-llamalend",
@@ -2380,7 +2419,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 3627805
+        "tvlUsd": 3628226
       },
       {
         "project": "sparklend",
@@ -2393,7 +2432,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 3302821
+        "tvlUsd": 3303559
       },
       {
         "project": "aave-v3",
@@ -2419,7 +2458,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 2938849
+        "tvlUsd": 2939189
       },
       {
         "project": "curve-llamalend",
@@ -2432,7 +2471,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 2535502
+        "tvlUsd": 2485791
       },
       {
         "project": "curve-llamalend",
@@ -2445,7 +2484,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 1497339
+        "tvlUsd": 1497513
       }
     ],
     "3": [
@@ -2455,12 +2494,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 15.68,
+        "base": 12.08,
         "reward": 0,
-        "total": 15.68,
-        "mean30d": 20.97,
+        "total": 12.08,
+        "mean30d": 20.58,
         "divFlag": "▼",
-        "tvlUsd": 2408680
+        "tvlUsd": 2408396
       },
       {
         "project": "curve-dex",
@@ -2468,12 +2507,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 12.74,
+        "base": 11.89,
         "reward": 0,
-        "total": 12.74,
-        "mean30d": 11.79,
+        "total": 11.89,
+        "mean30d": 11.8,
         "divFlag": "●",
-        "tvlUsd": 2002036
+        "tvlUsd": 2002328
       },
       {
         "project": "beefy",
@@ -2481,12 +2520,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 9.05,
+        "base": 9.64,
         "reward": 0,
-        "total": 9.05,
-        "mean30d": 7.5,
+        "total": 9.64,
+        "mean30d": 7.52,
         "divFlag": "▲",
-        "tvlUsd": 2020232
+        "tvlUsd": 2020707
       },
       {
         "project": "beefy",
@@ -2494,25 +2533,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 8.01,
+        "base": 8.35,
         "reward": 0,
-        "total": 8.01,
+        "total": 8.35,
         "mean30d": 7.99,
         "divFlag": "●",
-        "tvlUsd": 1227156
-      },
-      {
-        "project": "curve-dex",
-        "symbol": "USDT-USDE",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 7.02,
-        "reward": 2.5,
-        "total": 9.52,
-        "mean30d": 7.58,
-        "divFlag": "▲",
-        "tvlUsd": 1328694
+        "tvlUsd": 1227173
       },
       {
         "project": "yearn-finance",
@@ -2520,12 +2546,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 5.47,
+        "base": 5.49,
         "reward": 0,
-        "total": 5.47,
-        "mean30d": 5.63,
+        "total": 5.49,
+        "mean30d": 5.62,
         "divFlag": "●",
-        "tvlUsd": 9425417
+        "tvlUsd": 9428116
       },
       {
         "project": "ethena-usde",
@@ -2538,7 +2564,20 @@
         "total": 5,
         "mean30d": 4.52,
         "divFlag": "●",
-        "tvlUsd": 1315839646
+        "tvlUsd": 1314733345
+      },
+      {
+        "project": "curve-dex",
+        "symbol": "USDT-USDE",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 4.78,
+        "reward": 2.58,
+        "total": 7.36,
+        "mean30d": 7.6,
+        "divFlag": "●",
+        "tvlUsd": 1348795
       },
       {
         "project": "curve-dex",
@@ -2546,12 +2585,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 3.79,
+        "base": 4.48,
         "reward": 0,
-        "total": 3.79,
-        "mean30d": 1.18,
+        "total": 4.48,
+        "mean30d": 1.25,
         "divFlag": "▲",
-        "tvlUsd": 2201924
+        "tvlUsd": 2047124
       },
       {
         "project": "curve-dex",
@@ -2559,12 +2598,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 3.59,
-        "reward": 2.02,
-        "total": 5.61,
+        "base": 3.61,
+        "reward": 2.12,
+        "total": 5.73,
         "mean30d": 5.17,
         "divFlag": "●",
-        "tvlUsd": 1550639
+        "tvlUsd": 1550924
       },
       {
         "project": "convex-finance",
@@ -2572,12 +2611,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 3.59,
-        "reward": 3.38,
-        "total": 6.97,
+        "base": 3.61,
+        "reward": 3.51,
+        "total": 7.12,
         "mean30d": 6.73,
         "divFlag": "●",
-        "tvlUsd": 1125580
+        "tvlUsd": 1125787
       },
       {
         "project": "curve-dex",
@@ -2585,12 +2624,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 3.37,
+        "base": 3.4,
         "reward": 0,
-        "total": 3.37,
-        "mean30d": 3.58,
+        "total": 3.4,
+        "mean30d": 3.59,
         "divFlag": "●",
-        "tvlUsd": 3713836
+        "tvlUsd": 3715032
       },
       {
         "project": "uniswap-v4",
@@ -2611,25 +2650,12 @@
         "chain": "Solana",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 2.39,
+        "base": 2.29,
         "reward": 0,
-        "total": 2.39,
-        "mean30d": 2.69,
+        "total": 2.29,
+        "mean30d": 2.7,
         "divFlag": "●",
-        "tvlUsd": 2498669
-      },
-      {
-        "project": "uniswap-v3",
-        "symbol": "USDE-USDC",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 2.12,
-        "reward": 0,
-        "total": 2.12,
-        "mean30d": 5.12,
-        "divFlag": "▼",
-        "tvlUsd": 2304588
+        "tvlUsd": 2496150
       },
       {
         "project": "aave-v4",
@@ -2640,9 +2666,22 @@
         "base": 1.97,
         "reward": 3.42,
         "total": 5.39,
-        "mean30d": 2.22,
+        "mean30d": 2.24,
         "divFlag": "▲",
-        "tvlUsd": 1393135
+        "tvlUsd": 1393420
+      },
+      {
+        "project": "uniswap-v3",
+        "symbol": "USDE-USDC",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 1.94,
+        "reward": 0,
+        "total": 1.94,
+        "mean30d": 5.13,
+        "divFlag": "▼",
+        "tvlUsd": 2305153
       },
       {
         "project": "curve-dex",
@@ -2651,11 +2690,11 @@
         "bucket": "LP",
         "access": "permissionless",
         "base": 1.22,
-        "reward": 2.61,
-        "total": 3.83,
+        "reward": 2.71,
+        "total": 3.93,
         "mean30d": 3.77,
         "divFlag": "●",
-        "tvlUsd": 59810544
+        "tvlUsd": 59826217
       },
       {
         "project": "convex-finance",
@@ -2664,11 +2703,11 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 1.22,
-        "reward": 3.57,
-        "total": 4.79,
-        "mean30d": 5.5,
+        "reward": 3.7,
+        "total": 4.92,
+        "mean30d": 5.49,
         "divFlag": "●",
-        "tvlUsd": 50241248
+        "tvlUsd": 50254413
       },
       {
         "project": "uniswap-v4",
@@ -2684,19 +2723,6 @@
         "tvlUsd": 1407054
       },
       {
-        "project": "orca-dex",
-        "symbol": "PYUSD-USDE",
-        "chain": "Solana",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 0.98,
-        "reward": 0,
-        "total": 0.98,
-        "mean30d": 1.27,
-        "divFlag": "▼",
-        "tvlUsd": 2153330
-      },
-      {
         "project": "aave-v3",
         "symbol": "USDE",
         "chain": "Ethereum",
@@ -2705,9 +2731,9 @@
         "base": 0.88,
         "reward": 0,
         "total": 0.88,
-        "mean30d": 3.02,
+        "mean30d": 3.01,
         "divFlag": "▼",
-        "tvlUsd": 535660864
+        "tvlUsd": 535992066
       },
       {
         "project": "curve-dex",
@@ -2715,12 +2741,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.6,
+        "base": 0.63,
         "reward": 0,
-        "total": 0.6,
+        "total": 0.63,
         "mean30d": 0.61,
         "divFlag": "●",
-        "tvlUsd": 8856709
+        "tvlUsd": 8857215
       },
       {
         "project": "convex-finance",
@@ -2728,12 +2754,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 0.6,
+        "base": 0.63,
         "reward": 0,
-        "total": 0.6,
+        "total": 0.63,
         "mean30d": 0.61,
         "divFlag": "●",
-        "tvlUsd": 8476784
+        "tvlUsd": 8477225
       },
       {
         "project": "euler-v2",
@@ -2746,7 +2772,33 @@
         "total": 0.56,
         "mean30d": 0.56,
         "divFlag": "●",
-        "tvlUsd": 10671029
+        "tvlUsd": 10676687
+      },
+      {
+        "project": "fluid-dex",
+        "symbol": "USDE-USDT",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 0.55,
+        "reward": 0,
+        "total": 0.55,
+        "mean30d": 1.32,
+        "divFlag": "▼",
+        "tvlUsd": 1665204
+      },
+      {
+        "project": "orca-dex",
+        "symbol": "PYUSD-USDE",
+        "chain": "Solana",
+        "bucket": "LP",
+        "access": "permissionless",
+        "base": 0.25,
+        "reward": 0,
+        "total": 0.25,
+        "mean30d": 1.27,
+        "divFlag": "▼",
+        "tvlUsd": 2151587
       },
       {
         "project": "curve-dex",
@@ -2754,12 +2806,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.22,
-        "reward": 4.31,
-        "total": 4.53,
-        "mean30d": 6.28,
+        "base": 0.24,
+        "reward": 4.48,
+        "total": 4.72,
+        "mean30d": 6.27,
         "divFlag": "▼",
-        "tvlUsd": 5649494
+        "tvlUsd": 5708655
       },
       {
         "project": "convex-finance",
@@ -2767,12 +2819,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 0.22,
-        "reward": 8.06,
-        "total": 8.28,
-        "mean30d": 13.52,
+        "base": 0.24,
+        "reward": 8.28,
+        "total": 8.52,
+        "mean30d": 13.48,
         "divFlag": "▼",
-        "tvlUsd": 3892153
+        "tvlUsd": 3932925
       },
       {
         "project": "uniswap-v3",
@@ -2785,7 +2837,7 @@
         "total": 0.14,
         "mean30d": 0.45,
         "divFlag": "▼",
-        "tvlUsd": 1851823
+        "tvlUsd": 1851943
       },
       {
         "project": "curve-dex",
@@ -2793,12 +2845,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.06,
-        "reward": 4,
-        "total": 4.06,
+        "base": 0.08,
+        "reward": 4.2,
+        "total": 4.28,
         "mean30d": 3.9,
         "divFlag": "●",
-        "tvlUsd": 3147813
+        "tvlUsd": 3147803
       },
       {
         "project": "convex-finance",
@@ -2806,12 +2858,12 @@
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
-        "base": 0.06,
-        "reward": 8.4,
-        "total": 8.46,
+        "base": 0.08,
+        "reward": 8.73,
+        "total": 8.81,
         "mean30d": 8.43,
         "divFlag": "●",
-        "tvlUsd": 1541782
+        "tvlUsd": 1541799
       },
       {
         "project": "uniswap-v3",
@@ -2819,25 +2871,12 @@
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
-        "base": 0.04,
+        "base": 0.06,
         "reward": 0,
-        "total": 0.04,
-        "mean30d": 0.51,
+        "total": 0.06,
+        "mean30d": 0.5,
         "divFlag": "▼",
-        "tvlUsd": 3449391
-      },
-      {
-        "project": "fluid-dex",
-        "symbol": "USDE-USDT",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "base": 0.03,
-        "reward": 0,
-        "total": 0.03,
-        "mean30d": 1.32,
-        "divFlag": "▼",
-        "tvlUsd": 1664902
+        "tvlUsd": 3400450
       },
       {
         "project": "curve-dex",
@@ -2846,11 +2885,11 @@
         "bucket": "LP",
         "access": "permissionless",
         "base": 0.01,
-        "reward": 2.83,
-        "total": 2.84,
+        "reward": 2.98,
+        "total": 2.99,
         "mean30d": 2.85,
         "divFlag": "●",
-        "tvlUsd": 34028913
+        "tvlUsd": 34034506
       },
       {
         "project": "convex-finance",
@@ -2859,11 +2898,11 @@
         "bucket": "vault",
         "access": "permissionless",
         "base": 0.01,
-        "reward": 4.43,
-        "total": 4.44,
-        "mean30d": 4.65,
+        "reward": 4.6,
+        "total": 4.61,
+        "mean30d": 4.64,
         "divFlag": "●",
-        "tvlUsd": 33917975
+        "tvlUsd": 33923550
       },
       {
         "project": "uniswap-v3",
@@ -2876,7 +2915,7 @@
         "total": 0,
         "mean30d": 0.01,
         "divFlag": "▼",
-        "tvlUsd": 10070959
+        "tvlUsd": 10071265
       },
       {
         "project": "morpho-blue",
@@ -2889,7 +2928,7 @@
         "total": 4.75,
         "mean30d": 4.61,
         "divFlag": "●",
-        "tvlUsd": 350402362
+        "tvlUsd": 350700408
       },
       {
         "project": "kamino-lend",
@@ -2902,7 +2941,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 267809729
+        "tvlUsd": 267857972
       },
       {
         "project": "aave-v3",
@@ -2913,9 +2952,9 @@
         "base": 0,
         "reward": 0,
         "total": 0,
-        "mean30d": 1.45,
+        "mean30d": 1.43,
         "divFlag": "▼",
-        "tvlUsd": 241859794
+        "tvlUsd": 236557337
       },
       {
         "project": "morpho-blue",
@@ -2928,7 +2967,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 91936303
+        "tvlUsd": 97525482
       },
       {
         "project": "aave-v4",
@@ -2941,7 +2980,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 15236925
+        "tvlUsd": 15240946
       },
       {
         "project": "aave-v3",
@@ -2954,7 +2993,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 3604188
+        "tvlUsd": 3605140
       },
       {
         "project": "fluid-dex",
@@ -2965,9 +3004,9 @@
         "base": 0,
         "reward": 0,
         "total": 0,
-        "mean30d": 1.88,
+        "mean30d": 1.84,
         "divFlag": "▼",
-        "tvlUsd": 3065841
+        "tvlUsd": 3065957
       },
       {
         "project": "curve-llamalend",
@@ -2980,7 +3019,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 2070933
+        "tvlUsd": 2071173
       },
       {
         "project": "morpho-blue",
@@ -2993,7 +3032,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 1666166
+        "tvlUsd": 1666473
       },
       {
         "project": "aerodrome-v1",
@@ -3002,11 +3041,11 @@
         "bucket": "LP",
         "access": "permissionless",
         "base": 0,
-        "reward": 5.88,
-        "total": 5.88,
-        "mean30d": 13.5,
+        "reward": 6.24,
+        "total": 6.24,
+        "mean30d": 13.47,
         "divFlag": "▼",
-        "tvlUsd": 1304285
+        "tvlUsd": 1314172
       },
       {
         "project": "morpho-blue",
@@ -3019,7 +3058,7 @@
         "total": 0,
         "mean30d": 0,
         "divFlag": "?",
-        "tvlUsd": 1268256
+        "tvlUsd": 1268490
       },
       {
         "project": "uniswap-v3",
@@ -3032,58 +3071,58 @@
         "total": 0,
         "mean30d": 0.05,
         "divFlag": "▼",
-        "tvlUsd": 1000070
+        "tvlUsd": 1000205
       }
     ]
   },
   "rejects": {
-    "not-stablecoin": 14164,
-    "chain-excluded": 953,
-    "unmapped-stable-leg": 245,
-    "protocol-not-trusted": 233,
+    "not-stablecoin": 14266,
+    "chain-excluded": 954,
+    "unmapped-stable-leg": 246,
+    "protocol-not-trusted": 234,
     "outlier": 12,
-    "below-tvl-floor": 1359
+    "below-tvl-floor": 1364
   },
   "missingTop": [
     {
       "project": "usd-ai",
-      "tvlUsd": 464236336
+      "tvlUsd": 464986708
     },
     {
       "project": "pendle-v2",
-      "tvlUsd": 310553999
+      "tvlUsd": 312136028
     },
     {
       "project": "re",
-      "tvlUsd": 263041772
+      "tvlUsd": 263342665
     },
     {
       "project": "sentora-curator",
-      "tvlUsd": 207805286
+      "tvlUsd": 207524450
     },
     {
       "project": "pareto-credit",
-      "tvlUsd": 195594381
+      "tvlUsd": 195602075
     },
     {
       "project": "apyx-protocol",
-      "tvlUsd": 177976883
+      "tvlUsd": 176418593
     },
     {
       "project": "dolomite",
-      "tvlUsd": 129631627
+      "tvlUsd": 129350557
     },
     {
       "project": "frax",
-      "tvlUsd": 110000800
+      "tvlUsd": 110019681
     },
     {
       "project": "fx-protocol",
-      "tvlUsd": 87891358
+      "tvlUsd": 87925737
     },
     {
       "project": "bitwise-uscc",
-      "tvlUsd": 81524372
+      "tvlUsd": 85921480
     }
   ]
 }
