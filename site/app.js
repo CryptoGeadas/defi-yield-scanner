@@ -93,17 +93,19 @@ function rowHtml(r, max) {
     ratio == null
       ? "No 30-day history yet"
       : `Spot ${fmtPct(r.total)} is ${fmtSigned(ratio)} vs 30d mean ${fmtPct(r.mean30d)} → ${fm.word}`;
-  const initial = (r.project[0] || "?").toUpperCase();
+  const label = r.name || r.project;
+  const initial = (label[0] || "?").toUpperCase();
   const logo = `<span class="logo"><span class="mono">${initial}</span><img class="ic" src="${protoLogo(r.project)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
   const chainIc = `<img class="chic" src="${chainLogo(r.chain)}" alt="" title="${r.chain}" loading="lazy" onerror="this.remove()">`;
   const lock = r.access === "permissioned" ? `<span class="lock" title="Permissioned — KYC required">🔒</span>` : "";
+  const extTitle = r.linkKind === "defillama" ? "View on DefiLlama" : "Open " + label;
   const ext = r.url
-    ? `<a class="ext ${r.linkKind}" href="${r.url}" target="_blank" rel="noopener" title="${r.linkKind === "exact" ? "Open in " + r.project : "View on DefiLlama"}">↗</a>`
+    ? `<a class="ext ${r.linkKind}" href="${r.url}" target="_blank" rel="noopener" title="${extTitle}">↗</a>`
     : "";
   const open = state.openId === r.poolId;
   return `<div class="row grid ${open ? "open" : ""}" data-id="${r.poolId}" role="button" tabindex="0" aria-expanded="${open}">
     ${logo}
-    <span class="name"><span class="line"><span class="proj">${r.project}</span><span class="sym">${r.symbol}</span>${chainIc}<span class="chain">${r.chain}</span>${lock}${ext}</span></span>
+    <span class="name"><span class="line"><span class="proj">${label}</span><span class="sym">${r.symbol}</span>${chainIc}<span class="chain">${r.chain}</span>${lock}${ext}</span></span>
     <span class="bar hide-sm" title="base ${fmtPct(r.base)} · reward ${fmtPct(r.reward)}"><span class="b" style="width:${basePct}%"></span><span class="r" style="width:${rewPct}%"></span></span>
     <span class="num base">${fmtPct(r.base)}</span>
     <span class="num mean hide-sm">${fmtPct(r.mean30d)}</span>
@@ -123,17 +125,26 @@ function detailHtml(r) {
     ratio == null
       ? "No 30-day history yet — too new to judge durability."
       : `Spot <b>${fmtPct(r.total)}</b> is <b>${fmtSigned(ratio)}</b> versus its 30-day mean of <b>${fmtPct(r.mean30d)}</b> → <b class="${fm.cls}">${fm.word}</b>.`;
+  const label = r.name || r.project;
   const legs = r.symbol.split(/[-/+]/).filter(Boolean);
-  const rewardLine = r.reward > 0 ? ` · <span class="rew">+${fmtPct(r.reward)} rewards (not counted)</span>` : "";
+  const rewardLine = r.reward > 0 ? ` · <span class="rew">+${fmtPct(r.reward)} rewards</span>` : "";
   const vol = fmtVol(r.volumeUsd7d);
 
   const actions =
     r.url == null
       ? `<span class="dnote">🔒 Permissioned — KYC required; no public deposit link.</span>`
-      : r.linkKind === "exact"
-        ? `<a class="btn btn-primary btn-sm" href="${r.url}" target="_blank" rel="noopener">Open in ${r.project} ↗</a>
-           <a class="btn btn-secondary btn-sm" href="https://defillama.com/yields/pool/${r.poolId}" target="_blank" rel="noopener">DefiLlama ↗</a>`
-        : `<a class="btn btn-primary btn-sm" href="${r.url}" target="_blank" rel="noopener">Verify on DefiLlama ↗</a>`;
+      : r.linkKind === "defillama"
+        ? `<a class="btn btn-primary btn-sm" href="${r.url}" target="_blank" rel="noopener">Verify on DefiLlama ↗</a>`
+        : `<a class="btn btn-primary btn-sm" href="${r.url}" target="_blank" rel="noopener">Open ${label} ↗</a>
+           <a class="btn btn-secondary btn-sm" href="https://defillama.com/yields/pool/${r.poolId}" target="_blank" rel="noopener">DefiLlama ↗</a>`;
+
+  const composition =
+    legs.length > 1
+      ? `<div class="dcard wide">
+          <div class="dk">Composition</div>
+          <div class="dline">${legs.join(" + ")} → <b>Tier ${TIERNUM(r)}</b>, set by <b>${r.tierDriver || legs[legs.length - 1]}</b> (its riskiest stablecoin leg).</div>
+        </div>`
+      : "";
 
   return `<div class="detail">
     <div class="dgrid">
@@ -157,10 +168,7 @@ function detailHtml(r) {
         <div class="dline">TVL <b>${fmtTvl(r.tvlUsd)}</b></div>
         <div class="dsub">${vol ? `7d volume ${vol}` : "volume n/a"}</div>
       </div>
-      <div class="dcard wide">
-        <div class="dk">Composition</div>
-        <div class="dline">${legs.join(" + ")} — <b>Tier ${TIERNUM(r)}</b>, taken from its riskiest stablecoin leg.</div>
-      </div>
+      ${composition}
     </div>
     <div class="dactions">${actions}</div>
   </div>`;

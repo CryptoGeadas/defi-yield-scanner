@@ -26,15 +26,37 @@ async function loadMaps() {
   return { protocolMap, stableMap };
 }
 
+const loadNames = async () => strip(JSON.parse(await readFile(join(HERE, "protocol-names.json"), "utf8")));
+
+// Map each protocol slug → its official site URL, from DefiLlama's config
+// (slug derived from the logo path). Used as the primary deposit link.
+async function loadSiteUrls() {
+  try {
+    const cfg = await (await fetch("https://api.llama.fi/config")).json();
+    const arr = Array.isArray(cfg.protocols) ? cfg.protocols : Object.values(cfg.protocols || cfg);
+    const map = {};
+    for (const p of arr) {
+      const slug = (p.logo || "").split("/").pop()?.split("?")[0];
+      if (slug && p.url) map[slug] = p.url;
+    }
+    return map;
+  } catch (e) {
+    console.warn("config fetch failed, site links fall back:", e.message);
+    return {};
+  }
+}
+
 // Trim a pipeline row to what the site actually renders (+ link & detail fields).
-const slim = (r) => {
-  const { url, kind } = buildLink(r);
+const makeSlim = (names, siteUrls) => (r) => {
+  const { url, kind } = buildLink(r, siteUrls[r.project]);
   return {
     project: r.project,
+    name: names[r.project] || r.project,
     symbol: r.symbol,
     chain: r.chain,
     bucket: r.bucket,
     access: r.access,
+    tierDriver: r.tierDriver,
     base: round(r.base),
     reward: round(r.reward),
     total: round(r.total),
@@ -58,6 +80,8 @@ const round = (n) => Math.round(n * 100) / 100;
 
 async function main() {
   const maps = await loadMaps();
+  const [names, siteUrls] = await Promise.all([loadNames(), loadSiteUrls()]);
+  const slim = makeSlim(names, siteUrls);
   console.log("fetching", FEED, "…");
   const res = await fetch(FEED);
   if (!res.ok) throw new Error(`feed ${res.status}`);

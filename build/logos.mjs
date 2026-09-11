@@ -8,13 +8,16 @@
 import { mkdir, writeFile, access } from "node:fs/promises";
 import { join } from "node:path";
 
-const PROTO_ICON = (slug) => `https://icons.llamao.fi/icons/protocols/${slug}?w=48&h=48`;
+// Some protocols get another's icon on purpose (e.g. v3 sharing the v4 mark).
+const LOGO_ALIAS = { "uniswap-v3": "uniswap-v4" };
+
+const PROTO_ICON = (slug) => `https://icons.llamao.fi/icons/protocols/${LOGO_ALIAS[slug] || slug}?w=48&h=48`;
 const CHAIN_ICON = (chain) => `https://icons.llamao.fi/icons/chains/rsz_${chain.toLowerCase()}?w=48&h=48`;
 
 const exists = (p) => access(p).then(() => true).catch(() => false);
 
-async function fetchInto(url, dest) {
-  if (await exists(dest)) return "skip";
+async function fetchInto(url, dest, force = false) {
+  if (!force && (await exists(dest))) return "skip";
   try {
     const res = await fetch(url);
     if (!res.ok) return `miss(${res.status})`;
@@ -35,7 +38,7 @@ export async function vendorLogos(siteDir, protocolSlugs, chains) {
 
   let fetched = 0;
   for (const slug of protocolSlugs) {
-    const r = await fetchInto(PROTO_ICON(slug), join(protoDir, `${slug}.webp`));
+    const r = await fetchInto(PROTO_ICON(slug), join(protoDir, `${slug}.webp`), !!LOGO_ALIAS[slug]);
     if (r === "fetch") fetched++;
   }
   for (const chain of chains) {

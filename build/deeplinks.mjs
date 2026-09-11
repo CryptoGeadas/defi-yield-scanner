@@ -32,14 +32,30 @@ const BUILDERS = {
 
 const dllPool = (row) => (row.pool ? `https://defillama.com/yields/pool/${row.pool}` : null);
 
-// Returns { url, kind }. kind: 'exact' | 'defillama' | null (permissioned/KYC → unlinked).
-export function buildLink(row) {
+// Official site fallbacks for the few protocols DefiLlama's config has no `url` for.
+const SITE_FALLBACK = {
+  "curve-dex": "https://curve.finance",
+  "compound-v2": "https://app.compound.finance",
+  "aerodrome-v1": "https://aerodrome.finance",
+  "aerodrome-slipstream": "https://aerodrome.finance",
+  "raydium-amm": "https://raydium.io",
+};
+
+// Link priority: exact deep link → protocol's own site → DefiLlama pool page (last
+// resort). `siteUrl` is the protocol's official URL from DefiLlama config.
+// Returns { url, kind }. kind: 'exact' | 'site' | 'defillama' | null (permissioned).
+export function buildLink(row, siteUrl) {
   if (row.access === "permissioned") return { url: null, kind: null };
+
   const b = BUILDERS[row.project];
   if (b) {
     const exact = b(row);
     if (exact) return { url: exact, kind: "exact" };
   }
-  const fallback = dllPool(row);
-  return { url: fallback, kind: fallback ? "defillama" : null };
+
+  const site = siteUrl || SITE_FALLBACK[row.project];
+  if (site) return { url: site, kind: "site" };
+
+  const dll = dllPool(row);
+  return { url: dll, kind: dll ? "defillama" : null };
 }
