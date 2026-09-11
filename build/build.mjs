@@ -8,9 +8,12 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { runPipeline } from "./pipeline.mjs";
+import { buildLink } from "./deeplinks.mjs";
+import { vendorLogos } from "./logos.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const OUT = join(HERE, "..", "site", "data", "latest.json");
+const SITE = join(HERE, "..", "site");
+const OUT = join(SITE, "data", "latest.json");
 const FEED = "https://yields.llama.fi/pools";
 
 const strip = (o) => Object.fromEntries(Object.entries(o).filter(([k]) => !k.startsWith("_")));
@@ -23,20 +26,34 @@ async function loadMaps() {
   return { protocolMap, stableMap };
 }
 
-// Trim a pipeline row to what the site actually renders.
-const slim = (r) => ({
-  project: r.project,
-  symbol: r.symbol,
-  chain: r.chain,
-  bucket: r.bucket,
-  access: r.access,
-  base: round(r.base),
-  reward: round(r.reward),
-  total: round(r.total),
-  mean30d: r.mean30d == null ? null : round(r.mean30d),
-  divFlag: r.divFlag,
-  tvlUsd: Math.round(r.tvlUsd),
-});
+// Trim a pipeline row to what the site actually renders (+ link & detail fields).
+const slim = (r) => {
+  const { url, kind } = buildLink(r);
+  return {
+    project: r.project,
+    symbol: r.symbol,
+    chain: r.chain,
+    bucket: r.bucket,
+    access: r.access,
+    base: round(r.base),
+    reward: round(r.reward),
+    total: round(r.total),
+    mean30d: r.mean30d == null ? null : round(r.mean30d),
+    divFlag: r.divFlag,
+    tvlUsd: Math.round(r.tvlUsd),
+    url,
+    linkKind: kind, // 'exact' | 'defillama' | null
+    // detail-panel fields (Phase 3)
+    exposure: r.exposure,
+    ilRisk: r.ilRisk,
+    apyReward: r.apyReward == null ? null : round(r.apyReward),
+    volumeUsd1d: r.volumeUsd1d == null ? null : Math.round(r.volumeUsd1d),
+    volumeUsd7d: r.volumeUsd7d == null ? null : Math.round(r.volumeUsd7d),
+    apyPct7D: r.apyPct7D == null ? null : round(r.apyPct7D),
+    apyPct30D: r.apyPct30D == null ? null : round(r.apyPct30D),
+    poolId: r.pool,
+  };
+};
 const round = (n) => Math.round(n * 100) / 100;
 
 async function main() {
@@ -68,6 +85,11 @@ async function main() {
   console.log(
     `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  tiers ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]}`
   );
+
+  // vendor logos for every allowlisted protocol + configured chain (fetch-if-missing)
+  const slugs = Object.keys(maps.protocolMap);
+  const logo = await vendorLogos(SITE, slugs, r.config.chains);
+  console.log(`  logos: ${slugs.length} protocols + ${r.config.chains.length} chains (${logo.fetched} newly fetched)`);
 }
 
 main().catch((e) => {

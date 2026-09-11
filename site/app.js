@@ -16,7 +16,15 @@ const COLS = [
   { key: "tvlUsd", label: "TVL", cls: "num" },
 ];
 
-const state = { bucket: "all", showKyc: false, sortKey: "base", sortDir: "desc", data: null };
+const CHAINS = ["Ethereum", "Arbitrum", "Base", "Optimism", "Polygon", "Solana"];
+const state = {
+  bucket: "all",
+  chains: new Set(CHAINS),
+  showKyc: false,
+  sortKey: "base",
+  sortDir: "desc",
+  data: null,
+};
 
 const $ = (s) => document.querySelector(s);
 const fmtPct = (n) => (n == null ? "—" : `${n.toFixed(2)}%`);
@@ -49,9 +57,13 @@ function sortVal(r, key) {
   return r[key] ?? -Infinity;
 }
 
+const protoLogo = (slug) => `./assets/logos/protocols/${slug}.webp`;
+const chainLogo = (chain) => `./assets/logos/chains/${chain.toLowerCase()}.webp`;
+
 function rowsFor(tier) {
   let rows = (state.data.windows[tier] || []).slice();
   if (state.bucket !== "all") rows = rows.filter((r) => r.bucket === state.bucket);
+  if (state.chains.size < CHAINS.length) rows = rows.filter((r) => state.chains.has(r.chain));
   if (!state.showKyc) rows = rows.filter((r) => r.access !== "permissioned");
   const dir = state.sortDir === "asc" ? 1 : -1;
   rows.sort((a, b) => {
@@ -80,11 +92,16 @@ function rowHtml(r, max) {
     ratio == null
       ? "No 30-day history yet"
       : `Spot ${fmtPct(r.total)} is ${fmtSigned(ratio)} vs 30d mean ${fmtPct(r.mean30d)} → ${fm.word}`;
-  const lock = r.access === "permissioned" ? `<span class="lock">🔒</span>` : "";
   const initial = (r.project[0] || "?").toUpperCase();
+  const logo = `<span class="logo"><span class="mono">${initial}</span><img class="ic" src="${protoLogo(r.project)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+  const chainIc = `<img class="chic" src="${chainLogo(r.chain)}" alt="" title="${r.chain}" loading="lazy" onerror="this.remove()">`;
+  const lock = r.access === "permissioned" ? `<span class="lock" title="Permissioned — KYC required">🔒</span>` : "";
+  const ext = r.url
+    ? `<a class="ext ${r.linkKind}" href="${r.url}" target="_blank" rel="noopener" title="${r.linkKind === "exact" ? "Open in " + r.project : "View on DefiLlama"}">↗</a>`
+    : "";
   return `<div class="row grid">
-    <span class="logo">${initial}</span>
-    <span class="name"><span class="line"><span class="proj">${r.project}</span><span class="sym">${r.symbol}</span><span class="chain">· ${r.chain}</span>${lock}</span></span>
+    ${logo}
+    <span class="name"><span class="line"><span class="proj">${r.project}</span><span class="sym">${r.symbol}</span>${chainIc}<span class="chain">${r.chain}</span>${lock}${ext}</span></span>
     <span class="bar hide-sm" title="base ${fmtPct(r.base)} · reward ${fmtPct(r.reward)}"><span class="b" style="width:${basePct}%"></span><span class="r" style="width:${rewPct}%"></span></span>
     <span class="num base">${fmtPct(r.base)}</span>
     <span class="num mean hide-sm">${fmtPct(r.mean30d)}</span>
@@ -133,6 +150,26 @@ function render() {
   });
 }
 
+// chain filter chips (multi-select toggles; all-on = no filter)
+function renderChips() {
+  $("#chain").innerHTML = CHAINS.map(
+    (c) =>
+      `<button class="chip ${state.chains.has(c) ? "on" : ""}" data-chain="${c}">
+        <img class="chic" src="${chainLogo(c)}" alt="" onerror="this.remove()"><span>${c}</span>
+      </button>`
+  ).join("");
+}
+$("#chain").addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  const c = b.dataset.chain;
+  if (state.chains.has(c)) state.chains.delete(c);
+  else state.chains.add(c);
+  if (state.chains.size === 0) state.chains = new Set(CHAINS); // never empty
+  renderChips();
+  render();
+});
+
 // controls
 $("#bucket").addEventListener("click", (e) => {
   const b = e.target.closest("button");
@@ -148,4 +185,5 @@ $("#theme").addEventListener("click", () => {
   try { localStorage.setItem("theme", next); } catch {}
 });
 
+renderChips();
 load();

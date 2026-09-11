@@ -95,6 +95,17 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       divFlag: flag,
       tvlUsd: pool.tvlUsd,
       legs,
+      // passthroughs for links + detail panel (consumed downstream, not by ranking)
+      pool: pool.pool,
+      underlyingTokens: pool.underlyingTokens ?? null,
+      poolMeta: pool.poolMeta ?? null,
+      exposure: pool.exposure ?? null,
+      ilRisk: pool.ilRisk ?? null,
+      apyReward: pool.apyReward ?? null,
+      volumeUsd1d: pool.volumeUsd1d ?? null,
+      volumeUsd7d: pool.volumeUsd7d ?? null,
+      apyPct7D: pool.apyPct7D ?? null,
+      apyPct30D: pool.apyPct30D ?? null,
     },
   };
 }
