@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install build deps
+        run: npm ci
+
       - name: Build data snapshot
         run: node build/build.mjs
 
@@ -29,7 +32,7 @@ jobs:
         run: |
           git config user.name "yield-scanner-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add site/data/latest.json
+          git add site/data/latest.json site/assets/logos
           if git diff --cached --quiet; then
             echo "no change"
           else

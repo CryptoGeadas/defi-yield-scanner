@@ -26,17 +26,18 @@ export function parseLegs(symbol) {
     .filter(Boolean);
 }
 
-// tier = riskiest (max) leg; null if any leg is unmapped.
+// tier = riskiest (max) leg; null if any leg is unmapped. driver = the leg that set it.
 function classifyTier(legs, stableMap) {
-  const tiers = [];
   const unmatched = [];
+  let tier = -Infinity;
+  let driver = null;
   for (const leg of legs) {
     const t = stableMap[leg];
     if (t === undefined) unmatched.push(leg);
-    else tiers.push(t);
+    else if (t > tier) { tier = t; driver = leg; }
   }
-  if (unmatched.length) return { tier: null, unmatched };
-  return { tier: Math.max(...tiers), unmatched: [] };
+  if (unmatched.length) return { tier: null, driver: null, unmatched };
+  return { tier, driver, unmatched: [] };
 }
 
 // Organic-yield sort key with the fallback ladder from the spec.
@@ -70,7 +71,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   if (!meta) return { ok: false, reason: "protocol-not-trusted" };
 
   const legs = parseLegs(pool.symbol);
-  const { tier, unmatched } = classifyTier(legs, stableMap);
+  const { tier, driver, unmatched } = classifyTier(legs, stableMap);
   if (tier == null) return { ok: false, reason: "unmapped-stable-leg", unmatched };
 
   const base = baseSortKey(pool);
@@ -87,6 +88,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       bucket: meta.bucket,
       access: meta.access,
       tier,
+      tierDriver: driver,
       base,
       reward,
       total,
@@ -95,6 +97,19 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       divFlag: flag,
       tvlUsd: pool.tvlUsd,
       legs,
+      // passthroughs for links + detail panel (consumed downstream, not by ranking)
+      exactUrl: pool.exactUrl ?? null,   // pre-resolved exact link (e.g. Morpho vault)
+      displayName: pool.displayName ?? null, // override for the row label
+      pool: pool.pool,
+      underlyingTokens: pool.underlyingTokens ?? null,
+      poolMeta: pool.poolMeta ?? null,
+      exposure: pool.exposure ?? null,
+      ilRisk: pool.ilRisk ?? null,
+      apyReward: pool.apyReward ?? null,
+      volumeUsd1d: pool.volumeUsd1d ?? null,
+      volumeUsd7d: pool.volumeUsd7d ?? null,
+      apyPct7D: pool.apyPct7D ?? null,
+      apyPct30D: pool.apyPct30D ?? null,
     },
   };
 }

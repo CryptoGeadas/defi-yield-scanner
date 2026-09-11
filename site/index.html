@@ -5,36 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DeFi Yield Scanner — where to park stables</title>
     <meta name="description" content="A trust filter for stablecoin yield: durable, organic, accessible. High APY is a red flag as often as an opportunity." />
+    <script>
+      document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark";
+    </script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Instrument+Serif&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./brand.css" />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" href="./logo.svg" />
   </head>
   <body>
-    <header class="wrap">
-      <h1>DeFi Yield Scanner</h1>
-      <p class="tag">Where can I park my stables right now — and is that yield <em>real</em>?</p>
-      <p class="sub">A trust filter, not a yield hunter. Ranked by <strong>organic</strong> base APY; rewards shown, never counted. High total APY reads as caution as often as opportunity.</p>
+    <header class="wrap top">
+      <div class="brand">
+        <img class="mark" src="./logo.svg" alt="BG" width="37" height="25" />
+        <span class="wordmark">Yield Scanner</span>
+      </div>
+      <button id="theme" class="btn btn-ghost btn-sm" aria-label="Toggle theme">
+        <span class="theme-dark">☾</span><span class="theme-light">☀</span>
+      </button>
     </header>
 
-    <section class="wrap controls" aria-label="controls">
+    <section class="wrap hero">
+      <h1 class="serif hero-line">Where can I park my stables — and is that yield real?</h1>
+      <p class="sub">
+        A trust filter, not a yield hunter. Ranked by <strong>organic</strong> base APY;
+        rewards shown, never counted. High total APY reads as caution as often as opportunity.
+      </p>
+    </section>
+
+    <section class="wrap controls" aria-label="filters">
       <div class="ctl">
-        <span class="lbl">Sort</span>
-        <div class="seg" id="sort">
-          <button data-v="base" class="on">base APY</button>
-          <button data-v="total">total APY</button>
-          <button data-v="mean30d">30d mean</button>
-        </div>
-      </div>
-      <div class="ctl">
-        <span class="lbl">Bucket</span>
+        <span class="label">Bucket</span>
         <div class="seg" id="bucket">
-          <button data-v="all" class="on">all</button>
-          <button data-v="lend">lend</button>
+          <button data-v="all" class="on">All</button>
+          <button data-v="lend">Lend</button>
           <button data-v="LP">LP</button>
-          <button data-v="vault">vault</button>
+          <button data-v="vault">Vault</button>
         </div>
       </div>
       <div class="ctl">
-        <label class="chk"><input type="checkbox" id="kyc" /> show permissioned <span class="kyc">🔒 KYC</span></label>
+        <span class="label">Chain</span>
+        <div class="chips" id="chain"></div>
       </div>
+      <label class="chk">
+        <input type="checkbox" id="kyc" />
+        show permissioned <span class="badge badge-error">🔒 KYC</span>
+      </label>
     </section>
 
     <main class="wrap" id="windows" aria-live="polite"></main>

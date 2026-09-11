@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74 50" width="74" height="50" role="img" aria-label="BG">
+  <!-- sapphire shadow layer -->
+  <polygon points="16,8 68,8 60,46 8,46" fill="#2563EB"/>
+  <!-- slate primary field -->
+  <polygon points="12,4 64,4 56,42 4,42" fill="#161B26" stroke="#2A3040" stroke-width="1"/>
+  <!-- BG lettermark, extra-bold -->
+  <text x="33" y="31" text-anchor="middle"
+        font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-weight="800"
+        font-size="21" letter-spacing="0.5" fill="#FFFFFF">BG</text>
+</svg>
