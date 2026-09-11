@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { runPipeline } from "./pipeline.mjs";
 import { buildLink } from "./deeplinks.mjs";
+import { buildSources } from "./deeplink-sources.mjs";
 import { vendorLogos } from "./logos.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -47,8 +48,8 @@ async function loadSiteUrls() {
 }
 
 // Trim a pipeline row to what the site actually renders (+ link & detail fields).
-const makeSlim = (names, siteUrls) => (r) => {
-  const { url, kind } = buildLink(r, siteUrls[r.project]);
+const makeSlim = (names, siteUrls, sources) => (r) => {
+  const { url, kind } = buildLink(r, { siteUrl: siteUrls[r.project], sources });
   return {
     project: r.project,
     name: names[r.project] || r.project,
@@ -81,13 +82,14 @@ const round = (n) => Math.round(n * 100) / 100;
 async function main() {
   const maps = await loadMaps();
   const [names, siteUrls] = await Promise.all([loadNames(), loadSiteUrls()]);
-  const slim = makeSlim(names, siteUrls);
   console.log("fetching", FEED, "…");
   const res = await fetch(FEED);
   if (!res.ok) throw new Error(`feed ${res.status}`);
   const { data: pools } = await res.json();
 
   const r = runPipeline(pools, {}, maps);
+  const sources = await buildSources(r.config.chains);
+  const slim = makeSlim(names, siteUrls, sources);
 
   const payload = {
     generatedAt: new Date().toISOString(),

@@ -8,6 +8,8 @@
 // fallback already makes every row clickable, so an absent builder is safe.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { addrKey, CURVE_CHAIN } from "./deeplink-sources.mjs";
+
 const firstToken = (row) => (row.underlyingTokens && row.underlyingTokens[0]) || null;
 
 // Aave v3 — app.aave.com/reserve-overview/?underlyingAsset=<addr>&marketName=<market>
@@ -25,9 +27,19 @@ function aaveV3(row) {
   return `https://app.aave.com/reserve-overview/?underlyingAsset=${addr.toLowerCase()}&marketName=${market}`;
 }
 
+// Curve — match DL pool → Curve pool address by underlying-token set (sources.curve).
+function curveDex(row, sources) {
+  const slug = CURVE_CHAIN[row.chain];
+  if (!slug || !sources?.curve) return null;
+  const hit = sources.curve.get(`${slug}|${addrKey(row.underlyingTokens)}`);
+  return hit ? `https://curve.finance/dex/${slug}/pools/${hit.address}` : null;
+}
+
 // Registry of verified builders, keyed by DefiLlama `project` slug.
+// A builder takes (row, sources) and returns an exact URL or null.
 const BUILDERS = {
   "aave-v3": aaveV3,
+  "curve-dex": curveDex,
 };
 
 const dllPool = (row) => (row.pool ? `https://defillama.com/yields/pool/${row.pool}` : null);
@@ -42,18 +54,18 @@ const SITE_FALLBACK = {
 };
 
 // Link priority: exact deep link → protocol's own site → DefiLlama pool page (last
-// resort). `siteUrl` is the protocol's official URL from DefiLlama config.
+// resort). ctx = { siteUrl, sources }. siteUrl = protocol's official URL (config).
 // Returns { url, kind }. kind: 'exact' | 'site' | 'defillama' | null (permissioned).
-export function buildLink(row, siteUrl) {
+export function buildLink(row, ctx = {}) {
   if (row.access === "permissioned") return { url: null, kind: null };
 
   const b = BUILDERS[row.project];
   if (b) {
-    const exact = b(row);
+    const exact = b(row, ctx.sources);
     if (exact) return { url: exact, kind: "exact" };
   }
 
-  const site = siteUrl || SITE_FALLBACK[row.project];
+  const site = ctx.siteUrl || SITE_FALLBACK[row.project];
   if (site) return { url: site, kind: "site" };
 
   const dll = dllPool(row);
