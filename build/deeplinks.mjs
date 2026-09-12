@@ -99,6 +99,9 @@ const SITE_FALLBACK = {
 export function buildLink(row, ctx = {}) {
   if (row.access === "permissioned") return { url: null, kind: null };
 
+  // manual per-pool override (pool-urls.json) — user-verified, wins over everything
+  if (ctx.override) return { url: ctx.override, kind: "exact" };
+
   // pre-resolved exact URL (set during build pre-processing, e.g. Morpho vaults)
   if (row.exactUrl) return { url: row.exactUrl, kind: "exact" };
 

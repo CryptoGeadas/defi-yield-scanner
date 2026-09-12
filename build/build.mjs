@@ -29,6 +29,16 @@ async function loadMaps() {
 
 const loadNames = async () => strip(JSON.parse(await readFile(join(HERE, "protocol-names.json"), "utf8")));
 
+// Manual per-pool deposit-URL overrides (pool id → exact URL). Highest priority.
+async function loadPoolUrls() {
+  try {
+    const d = JSON.parse(await readFile(join(HERE, "pool-urls.json"), "utf8"));
+    return d.urls || {};
+  } catch {
+    return {};
+  }
+}
+
 // Manual denylist for deprecated-but-functional pools the data can't detect.
 async function loadDenylist() {
   try {
@@ -90,8 +100,8 @@ async function loadSiteUrls() {
 }
 
 // Trim a pipeline row to what the site actually renders (+ link & detail fields).
-const makeSlim = (names, siteUrls, sources) => (r) => {
-  const { url, kind } = buildLink(r, { siteUrl: siteUrls[r.project], sources });
+const makeSlim = (names, siteUrls, sources, poolUrls) => (r) => {
+  const { url, kind } = buildLink(r, { siteUrl: siteUrls[r.project], sources, override: poolUrls[r.pool] });
   return {
     project: r.project,
     name: names[r.project] || r.project,
@@ -126,7 +136,7 @@ const round = (n) => Math.round(n * 100) / 100;
 
 async function main() {
   const maps = await loadMaps();
-  const [names, siteUrls, denylist] = await Promise.all([loadNames(), loadSiteUrls(), loadDenylist()]);
+  const [names, siteUrls, denylist, poolUrls] = await Promise.all([loadNames(), loadSiteUrls(), loadDenylist(), loadPoolUrls()]);
   console.log("fetching", FEED, "…");
   const res = await fetch(FEED);
   if (!res.ok) throw new Error(`feed ${res.status}`);
@@ -140,7 +150,7 @@ async function main() {
   preprocessMorpho(pools, sources.morpho, denylist.morphoVaults);
 
   const r = runPipeline(pools, {}, maps);
-  const slim = makeSlim(names, siteUrls, sources);
+  const slim = makeSlim(names, siteUrls, sources, poolUrls);
 
   const payload = {
     generatedAt: new Date().toISOString(),

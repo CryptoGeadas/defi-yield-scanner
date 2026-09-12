@@ -1,0 +1,4 @@
+{
+  "_comment": "Manual per-pool deposit-URL overrides, keyed by DefiLlama pool id. Highest priority — wins over every auto-built link. Use this for pools whose exact URL can't be derived from data (no contract id in the URL, per-pool slugs, etc.). Populated from the fill-in worksheet's correct_url column. Leave a pool out to keep its current link.",
+  "urls": {}
+}
