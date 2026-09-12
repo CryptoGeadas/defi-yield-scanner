@@ -58,7 +58,7 @@ async function morphoSource() {
   const map = new Map();
   try {
     let skip = 0;
-    for (let page = 0; page < 30; page++) {
+    for (let page = 0; page < 60; page++) {
       const j = await morphoGql(
         `{ vaults(first:100, skip:${skip}) { items { address symbol name chain { id } asset { symbol address } state { totalAssetsUsd } } } }`
       );

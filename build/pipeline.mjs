@@ -26,18 +26,20 @@ export function parseLegs(symbol) {
     .filter(Boolean);
 }
 
-// tier = riskiest (max) leg; null if any leg is unmapped. driver = the leg that set it.
+// tier = riskiest (max) leg; null if any leg is unmapped. driver = the leg that set
+// it; driverType = that leg's stable type (fiat|crypto|yield|rwa|synthetic).
 function classifyTier(legs, stableMap) {
   const unmatched = [];
   let tier = -Infinity;
   let driver = null;
+  let driverType = null;
   for (const leg of legs) {
-    const t = stableMap[leg];
-    if (t === undefined) unmatched.push(leg);
-    else if (t > tier) { tier = t; driver = leg; }
+    const e = stableMap[leg];
+    if (e === undefined) unmatched.push(leg);
+    else if (e.tier > tier) { tier = e.tier; driver = leg; driverType = e.type; }
   }
-  if (unmatched.length) return { tier: null, driver: null, unmatched };
-  return { tier, driver, unmatched: [] };
+  if (unmatched.length) return { tier: null, driver: null, driverType: null, unmatched };
+  return { tier, driver, driverType, unmatched: [] };
 }
 
 // Organic-yield sort key with the fallback ladder from the spec.
@@ -71,7 +73,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   if (!meta) return { ok: false, reason: "protocol-not-trusted" };
 
   const legs = parseLegs(pool.symbol);
-  const { tier, driver, unmatched } = classifyTier(legs, stableMap);
+  const { tier, driver, driverType, unmatched } = classifyTier(legs, stableMap);
   if (tier == null) return { ok: false, reason: "unmapped-stable-leg", unmatched };
 
   const base = baseSortKey(pool);
@@ -89,6 +91,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       access: meta.access,
       tier,
       tierDriver: driver,
+      stableType: driverType,
       base,
       reward,
       total,

@@ -82,6 +82,7 @@ const makeSlim = (names, siteUrls, sources) => (r) => {
     chain: r.chain,
     bucket: r.bucket,
     access: r.access,
+    type: r.stableType, // fiat | crypto | yield | rwa | synthetic
     tierDriver: r.tierDriver,
     base: round(r.base),
     reward: round(r.reward),

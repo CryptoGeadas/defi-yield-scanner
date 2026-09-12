@@ -17,15 +17,19 @@ const COLS = [
 ];
 
 const CHAINS = ["Ethereum", "Arbitrum", "Base", "Optimism", "Polygon", "Solana"];
+const PAGE = 15; // rows shown per tier before "Load more"
 const state = {
   bucket: "all",
+  type: "all",
   chains: new Set(CHAINS),
   showKyc: false,
   sortKey: "base",
   sortDir: "desc",
   openId: null,
+  limits: { 1: PAGE, 2: PAGE, 3: PAGE },
   data: null,
 };
+const resetLimits = () => { state.limits = { 1: PAGE, 2: PAGE, 3: PAGE }; };
 
 const $ = (s) => document.querySelector(s);
 // HTML-escape any externally-sourced string before it goes into innerHTML/attrs.
@@ -69,6 +73,7 @@ const chainLogo = (chain) => `./assets/logos/chains/${chain.toLowerCase()}.webp`
 function rowsFor(tier) {
   let rows = (state.data.windows[tier] || []).slice();
   if (state.bucket !== "all") rows = rows.filter((r) => r.bucket === state.bucket);
+  if (state.type !== "all") rows = rows.filter((r) => r.type === state.type);
   if (state.chains.size < CHAINS.length) rows = rows.filter((r) => state.chains.has(r.chain));
   if (!state.showKyc) rows = rows.filter((r) => r.access !== "permissioned");
   const dir = state.sortDir === "asc" ? 1 : -1;
@@ -186,13 +191,25 @@ function detailHtml(r, tier) {
 
 function windowHtml(tier) {
   const rows = rowsFor(tier);
+  // scale bars over the whole filtered set so they don't rescale as you load more
   const max = rows.reduce((m, r) => Math.max(m, r.base + r.reward), 0);
-  const body = rows.length
-    ? `${headerHtml()}<div class="rows">${rows.map((r) => rowHtml(r, max, tier)).join("")}</div>`
-    : `<p class="empty">— no pools match —</p>`;
+  const limit = state.limits[tier] || PAGE;
+  const shown = rows.slice(0, limit);
+  const remaining = rows.length - shown.length;
   const t = TIER[tier];
+  let body;
+  if (!rows.length) {
+    body = `<p class="empty">— no pools match —</p>`;
+  } else {
+    const loadMore =
+      remaining > 0
+        ? `<button class="loadmore" data-tier="${tier}">Load ${Math.min(PAGE, remaining)} more · ${remaining} left</button>`
+        : "";
+    body = `${headerHtml()}<div class="rows">${shown.map((r) => rowHtml(r, max, tier)).join("")}</div>${loadMore}`;
+  }
+  const countLabel = rows.length > shown.length ? `${shown.length} of ${rows.length}` : `${rows.length}`;
   return `<section class="window ${t.cls}">
-    <div class="wtitle ${t.cls}"><span class="dot"></span><h2>${t.name}</h2><span class="count">${rows.length} pools</span></div>
+    <div class="wtitle ${t.cls}"><span class="dot"></span><h2>${t.name}</h2><span class="count">${countLabel} pools</span></div>
     ${body}
   </section>`;
 }
@@ -222,11 +239,18 @@ function toggleRow(id) {
 // one delegated listener on the container survives re-renders
 function onWindowsClick(e) {
   if (e.target.closest("a")) return; // let outbound / footer links work
+  const more = e.target.closest(".loadmore");
+  if (more) {
+    const t = +more.dataset.tier;
+    state.limits[t] = (state.limits[t] || PAGE) + PAGE;
+    return render();
+  }
   const th = e.target.closest(".th.sortable");
   if (th) {
     const k = th.dataset.sort;
     if (state.sortKey === k) state.sortDir = state.sortDir === "asc" ? "desc" : "asc";
     else { state.sortKey = k; state.sortDir = k === "name" ? "asc" : "desc"; }
+    resetLimits(); // re-sort → start each window from the top again
     return render();
   }
   const row = e.target.closest(".row");
@@ -256,19 +280,25 @@ $("#chain").addEventListener("click", (e) => {
   if (state.chains.has(c)) state.chains.delete(c);
   else state.chains.add(c);
   if (state.chains.size === 0) state.chains = new Set(CHAINS); // never empty
+  resetLimits();
   renderChips();
   render();
 });
 
-// controls
-$("#bucket").addEventListener("click", (e) => {
-  const b = e.target.closest("button");
-  if (!b) return;
-  state.bucket = b.dataset.v;
-  $("#bucket").querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
-  render();
-});
-$("#kyc").addEventListener("change", (e) => { state.showKyc = e.target.checked; render(); });
+// single-select segmented controls (bucket, type)
+function wireSeg(id, key) {
+  $(id).addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    state[key] = b.dataset.v;
+    $(id).querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+    resetLimits();
+    render();
+  });
+}
+wireSeg("#bucket", "bucket");
+wireSeg("#type", "type");
+$("#kyc").addEventListener("change", (e) => { state.showKyc = e.target.checked; resetLimits(); render(); });
 $("#theme").addEventListener("click", () => {
   const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
   document.documentElement.dataset.theme = next;
