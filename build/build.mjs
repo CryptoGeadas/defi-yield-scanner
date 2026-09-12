@@ -36,9 +36,10 @@ async function loadDenylist() {
     return {
       ids: new Set((d.poolIds || []).map((s) => String(s).toLowerCase())),
       keys: new Set((d.keys || []).map((s) => String(s).toLowerCase())),
+      morphoVaults: new Set((d.morphoVaults || []).map((s) => String(s).toLowerCase())),
     };
   } catch {
-    return { ids: new Set(), keys: new Set() };
+    return { ids: new Set(), keys: new Set(), morphoVaults: new Set() };
   }
 }
 const denyKey = (p) => `${p.project}|${p.chain}|${p.symbol}`.toLowerCase();
@@ -48,7 +49,7 @@ const isDenied = (p, dl) => dl.ids.has(String(p.pool).toLowerCase()) || dl.keys.
 // share symbol (STEAKUSDC) which our stable filter drops. Rewrite matched pools to
 // their underlying asset (so they tier correctly), label them with the vault name,
 // and attach the exact vault URL. Mutates pools in place.
-function preprocessMorpho(pools, morpho) {
+function preprocessMorpho(pools, morpho, denyVaults = new Set()) {
   if (!morpho || morpho.size === 0) return 0;
   // collect candidate (pool, vault) matches, then keep one pool per vault address
   const byVault = new Map(); // address -> { pool, hit }
@@ -58,6 +59,7 @@ function preprocessMorpho(pools, morpho) {
     if (!cid) continue;
     const hit = morpho.get(`${cid}|${String(p.symbol).toUpperCase()}|${p.underlyingTokens[0].toLowerCase()}`);
     if (!hit) continue;
+    if (denyVaults.has(hit.address.toLowerCase())) continue; // denylisted vault → don't surface (drops out)
     const prev = byVault.get(hit.address);
     if (!prev || (p.tvlUsd || 0) > (prev.pool.tvlUsd || 0)) byVault.set(hit.address, { pool: p, hit });
   }
@@ -135,7 +137,7 @@ async function main() {
   const denied = before - pools.length;
 
   const sources = await buildSources(DEFAULT_CONFIG.chains);
-  preprocessMorpho(pools, sources.morpho);
+  preprocessMorpho(pools, sources.morpho, denylist.morphoVaults);
 
   const r = runPipeline(pools, {}, maps);
   const slim = makeSlim(names, siteUrls, sources);

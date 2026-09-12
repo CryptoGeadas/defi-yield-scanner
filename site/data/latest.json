@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T17:38:23.014Z",
+  "generatedAt": "2026-09-12T17:44:08.656Z",
   "source": "https://yields.llama.fi/pools",
   "config": {
     "tvlFloor": 1000000,
@@ -20,9 +20,9 @@
   },
   "stats": {
     "totalPools": 17163,
-    "kept": 261,
+    "kept": 260,
     "perTier": {
-      "1": 151,
+      "1": 150,
       "2": 71,
       "3": 39
     }
@@ -572,36 +572,6 @@
         "apyPct7D": 0.46,
         "apyPct30D": -0.55,
         "poolId": "5a55b869-de6e-42ba-9091-6ee0e02525c2"
-      },
-      {
-        "project": "morpho-blue",
-        "name": "Morpho Blue",
-        "symbol": "Gauntlet USDC Frontier",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 5.95,
-        "reward": 0,
-        "total": 5.95,
-        "spot": 5.95,
-        "mean30d": 5.39,
-        "divFlag": "●",
-        "tvlUsd": 25772772,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.morpho.org/ethereum/vault/0xc582F04d8a82795aa2Ff9c8bb4c1c889fe7b754e",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0.84,
-        "apyPct30D": 0.42,
-        "poolId": "ff113246-f6e0-4e10-b92c-abd3cd1d7dd6"
       },
       {
         "project": "morpho-blue",
@@ -7955,7 +7925,7 @@
   "rejects": {
     "not-stablecoin": 14121,
     "chain-excluded": 953,
-    "unmapped-stable-leg": 175,
+    "unmapped-stable-leg": 176,
     "protocol-not-trusted": 236,
     "zero-yield": 39,
     "outlier": 12,

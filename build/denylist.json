@@ -1,5 +1,8 @@
 {
-  "_comment": "Pools to hide even when they look active in the data — deprecated-but-functional venues that a build can't detect. Add either a DefiLlama pool id (uuid), or a \"project|chain|SYMBOL\" key (case-insensitive; SYMBOL is DefiLlama's raw symbol). Anything listed here is dropped from the rankings.",
+  "_comment": "Pools to hide even when they look active in the data — deprecated-but-functional venues a build can't detect. Add: a DefiLlama pool id (uuid) to poolIds; a \"project|chain|SYMBOL\" key (case-insensitive, SYMBOL = DefiLlama's raw symbol) to keys; or a Morpho vault address (from its app.morpho.org URL) to morphoVaults. Anything listed here is dropped from the rankings.",
   "poolIds": [],
-  "keys": []
+  "keys": [],
+  "morphoVaults": [
+    "0xc582F04d8a82795aa2Ff9c8bb4c1c889fe7b754e"
+  ]
 }
