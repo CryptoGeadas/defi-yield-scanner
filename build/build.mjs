@@ -89,6 +89,7 @@ const makeSlim = (names, siteUrls, sources) => (r) => {
     mean30d: r.mean30d == null ? null : round(r.mean30d),
     divFlag: r.divFlag,
     tvlUsd: Math.round(r.tvlUsd),
+    legs: r.legs, // true stablecoin legs (classification), independent of display symbol
     url,
     linkKind: kind, // 'exact' | 'site' | 'defillama' | null
     // detail-panel fields (Phase 3)

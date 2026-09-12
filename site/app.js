@@ -28,6 +28,11 @@ const state = {
 };
 
 const $ = (s) => document.querySelector(s);
+// HTML-escape any externally-sourced string before it goes into innerHTML/attrs.
+const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ESC[c]);
+// Only allow http(s) links; anything else (javascript:, data:, malformed) → null.
+const safeUrl = (u) => (typeof u === "string" && /^https?:\/\//i.test(u) ? u : null);
 const fmtPct = (n) => (n == null ? "—" : `${n.toFixed(2)}%`);
 const fmtSigned = (n) => `${n >= 0 ? "+" : ""}${(n * 100).toFixed(0)}%`;
 const fmtTvl = (n) =>
@@ -53,7 +58,7 @@ async function load() {
 }
 
 function sortVal(r, key) {
-  if (key === "name") return `${r.project} ${r.symbol}`.toLowerCase();
+  if (key === "name") return `${r.name || r.project} ${r.symbol}`.toLowerCase();
   if (key === "divRatio") return divRatio(r) ?? -Infinity;
   return r[key] ?? -Infinity;
 }
@@ -84,7 +89,7 @@ function headerHtml() {
   return `<div class="thead grid"><span></span>${cells}<span></span></div>`;
 }
 
-function rowHtml(r, max) {
+function rowHtml(r, max, tier) {
   const basePct = max > 0 ? (r.base / max) * 100 : 0;
   const rewPct = max > 0 ? (r.reward / max) * 100 : 0;
   const fm = flagMeta(r);
@@ -94,31 +99,32 @@ function rowHtml(r, max) {
       ? "No 30-day history yet"
       : `Spot ${fmtPct(r.total)} is ${fmtSigned(ratio)} vs 30d mean ${fmtPct(r.mean30d)} → ${fm.word}`;
   const label = r.name || r.project;
-  const initial = (label[0] || "?").toUpperCase();
-  const logo = `<span class="logo"><span class="mono">${initial}</span><img class="ic" src="${protoLogo(r.project)}" alt="" loading="lazy" onerror="this.remove()"></span>`;
-  const chainIc = `<img class="chic" src="${chainLogo(r.chain)}" alt="" title="${r.chain}" loading="lazy" onerror="this.remove()">`;
+  const initial = (String(label)[0] || "?").toUpperCase();
+  const logo = `<span class="logo"><span class="mono">${esc(initial)}</span><img class="ic" src="${esc(protoLogo(r.project))}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+  const chainIc = `<img class="chic" src="${esc(chainLogo(r.chain))}" alt="" title="${esc(r.chain)}" loading="lazy" onerror="this.remove()">`;
   const lock = r.access === "permissioned" ? `<span class="lock" title="Permissioned — KYC required">🔒</span>` : "";
+  const safe = safeUrl(r.url);
   const extTitle = r.linkKind === "defillama" ? "View on DefiLlama" : "Open " + label;
-  const ext = r.url
-    ? `<a class="ext ${r.linkKind}" href="${r.url}" target="_blank" rel="noopener" title="${extTitle}">↗</a>`
+  const ext = safe
+    ? `<a class="ext ${esc(r.linkKind)}" href="${esc(safe)}" target="_blank" rel="noopener" title="${esc(extTitle)}">↗</a>`
     : "";
   const open = state.openId === r.poolId;
-  return `<div class="row grid ${open ? "open" : ""}" data-id="${r.poolId}" role="button" tabindex="0" aria-expanded="${open}">
+  return `<div class="row grid ${open ? "open" : ""}" data-id="${esc(r.poolId)}" role="button" tabindex="0" aria-expanded="${open}">
     ${logo}
-    <span class="name"><span class="line"><span class="proj">${label}</span><span class="sym">${r.symbol}</span>${chainIc}<span class="chain">${r.chain}</span>${lock}${ext}</span></span>
+    <span class="name"><span class="line"><span class="proj">${esc(label)}</span><span class="sym">${esc(r.symbol)}</span>${chainIc}<span class="chain">${esc(r.chain)}</span>${lock}${ext}</span></span>
     <span class="bar hide-sm" title="base ${fmtPct(r.base)} · reward ${fmtPct(r.reward)}"><span class="b" style="width:${basePct}%"></span><span class="r" style="width:${rewPct}%"></span></span>
     <span class="num base">${fmtPct(r.base)}</span>
     <span class="num mean hide-sm">${fmtPct(r.mean30d)}</span>
-    <span class="flag ${fm.cls}" data-tip="${tip}"><span class="g">${r.divFlag}</span></span>
+    <span class="flag ${fm.cls}" data-tip="${esc(tip)}"><span class="g">${r.divFlag}</span></span>
     <span class="tvl">${fmtTvl(r.tvlUsd)}</span>
     <span class="chev" aria-hidden="true">›</span>
-  </div>${open ? detailHtml(r) : ""}`;
+  </div>${open ? detailHtml(r, tier) : ""}`;
 }
 
 const fmtVol = (n) => (n == null ? null : fmtTvl(n));
 const fmtChange = (n) => (n == null ? "—" : `${n >= 0 ? "+" : ""}${n.toFixed(2)}pp`);
 
-function detailHtml(r) {
+function detailHtml(r, tier) {
   const ratio = divRatio(r);
   const fm = flagMeta(r);
   const durability =
@@ -126,23 +132,27 @@ function detailHtml(r) {
       ? "No 30-day history yet — too new to judge durability."
       : `Spot <b>${fmtPct(r.total)}</b> is <b>${fmtSigned(ratio)}</b> versus its 30-day mean of <b>${fmtPct(r.mean30d)}</b> → <b class="${fm.cls}">${fm.word}</b>.`;
   const label = r.name || r.project;
-  const legs = r.symbol.split(/[-/+]/).filter(Boolean);
+  // true stablecoin legs come from the classification symbol, carried as r.legs;
+  // fall back to splitting the display symbol only if the field is absent.
+  const legs = Array.isArray(r.legs) ? r.legs : String(r.symbol).split(/[-/+]/).filter(Boolean);
   const rewardLine = r.reward > 0 ? ` · <span class="rew">+${fmtPct(r.reward)} rewards</span>` : "";
   const vol = fmtVol(r.volumeUsd7d);
 
+  const safe = safeUrl(r.url);
+  const dllHref = `https://defillama.com/yields/pool/${encodeURIComponent(r.poolId ?? "")}`;
   const actions =
     r.url == null
       ? `<span class="dnote">🔒 Permissioned — KYC required; no public deposit link.</span>`
       : r.linkKind === "defillama"
-        ? `<a class="btn btn-primary btn-sm" href="${r.url}" target="_blank" rel="noopener">Verify on DefiLlama ↗</a>`
-        : `<a class="btn btn-primary btn-sm" href="${r.url}" target="_blank" rel="noopener">Open ${label} ↗</a>
-           <a class="btn btn-secondary btn-sm" href="https://defillama.com/yields/pool/${r.poolId}" target="_blank" rel="noopener">DefiLlama ↗</a>`;
+        ? `<a class="btn btn-primary btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Verify on DefiLlama ↗</a>`
+        : `<a class="btn btn-primary btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Open ${esc(label)} ↗</a>
+           <a class="btn btn-secondary btn-sm" href="${esc(dllHref)}" target="_blank" rel="noopener">DefiLlama ↗</a>`;
 
   const composition =
     legs.length > 1
       ? `<div class="dcard wide">
           <div class="dk">Composition</div>
-          <div class="dline">${legs.join(" + ")} → <b>Tier ${TIERNUM(r)}</b>, set by <b>${r.tierDriver || legs[legs.length - 1]}</b> (its riskiest stablecoin leg).</div>
+          <div class="dline">${legs.map(esc).join(" + ")} → <b>Tier ${esc(tier ?? "?")}</b>, set by <b>${esc(r.tierDriver || legs[legs.length - 1])}</b> (its riskiest stablecoin leg).</div>
         </div>`
       : "";
 
@@ -160,8 +170,8 @@ function detailHtml(r) {
       </div>
       <div class="dcard">
         <div class="dk">Risk</div>
-        <div class="dline">Exposure: <b>${r.exposure ?? "—"}</b></div>
-        <div class="dsub">Impermanent-loss risk: ${r.ilRisk ?? "—"}</div>
+        <div class="dline">Exposure: <b>${esc(r.exposure ?? "—")}</b></div>
+        <div class="dsub">Impermanent-loss risk: ${esc(r.ilRisk ?? "—")}</div>
       </div>
       <div class="dcard">
         <div class="dk">Size</div>
@@ -173,16 +183,12 @@ function detailHtml(r) {
     <div class="dactions">${actions}</div>
   </div>`;
 }
-const TIERNUM = (r) => {
-  for (const t of [1, 2, 3]) if ((state.data.windows[t] || []).some((x) => x.poolId === r.poolId)) return t;
-  return "?";
-};
 
 function windowHtml(tier) {
   const rows = rowsFor(tier);
   const max = rows.reduce((m, r) => Math.max(m, r.base + r.reward), 0);
   const body = rows.length
-    ? `${headerHtml()}<div class="rows">${rows.map((r) => rowHtml(r, max)).join("")}</div>`
+    ? `${headerHtml()}<div class="rows">${rows.map((r) => rowHtml(r, max, tier)).join("")}</div>`
     : `<p class="empty">— no pools match —</p>`;
   const t = TIER[tier];
   return `<section class="window ${t.cls}">
@@ -205,7 +211,12 @@ function render() {
     Kept <strong>${d.stats.kept}</strong> of ${d.stats.totalPools} pools ·
     tiers ${d.stats.perTier[1]}/${d.stats.perTier[2]}/${d.stats.perTier[3]} ·
     data ${ageH}h old (${when.toISOString().slice(0, 16).replace("T", " ")} UTC) ·
-    source <a href="${d.source}">DefiLlama</a> · <a href="./data/latest.json">raw JSON</a>`;
+    source <a href="${esc(safeUrl(d.source) || "https://defillama.com/yields")}">DefiLlama</a> · <a href="./data/latest.json">raw JSON</a>`;
+}
+
+function toggleRow(id) {
+  state.openId = state.openId === id ? null : id;
+  render();
 }
 
 // one delegated listener on the container survives re-renders
@@ -219,17 +230,13 @@ function onWindowsClick(e) {
     return render();
   }
   const row = e.target.closest(".row");
-  if (row) {
-    state.openId = state.openId === row.dataset.id ? null : row.dataset.id;
-    return render();
-  }
+  if (row) return toggleRow(row.dataset.id);
 }
 $("#windows").addEventListener("click", onWindowsClick);
 $("#windows").addEventListener("keydown", (e) => {
   if ((e.key === "Enter" || e.key === " ") && e.target.classList?.contains("row")) {
     e.preventDefault();
-    state.openId = state.openId === e.target.dataset.id ? null : e.target.dataset.id;
-    render();
+    toggleRow(e.target.dataset.id);
   }
 });
 
