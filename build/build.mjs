@@ -150,6 +150,13 @@ async function main() {
   preprocessMorpho(pools, sources.morpho, denylist.morphoVaults);
 
   const r = runPipeline(pools, {}, maps);
+
+  // Sanity floor: never overwrite good data with a thin/partial feed. A healthy build
+  // keeps 250+ pools; if the feed came back truncated, fail so the last snapshot stays.
+  const MIN_KEPT = 100;
+  if (r.stats.kept < MIN_KEPT)
+    throw new Error(`sanity floor: only ${r.stats.kept} pools kept (< ${MIN_KEPT}); feed likely partial — refusing to overwrite`);
+
   const slim = makeSlim(names, siteUrls, sources, poolUrls);
 
   const payload = {

@@ -101,9 +101,54 @@ Commit history = portfolio proof of the tool running + free APY-drift history
 
 ## Build checklist
 
-- [ ] `trusted-protocols.json` (~20–30 entries incl. Solana) with `bucket` + `access`
-- [ ] `trusted-stables.json` tiered
-- [ ] Build script: fetch → filter → classify → compute base sort key + divergence → write JSON
-- [ ] GitHub Action YAML (cron */6h + dispatch)
-- [ ] Static page: 3 stacked tier windows, bucket column, absolute base|reward bar, re-sort control
-- [ ] README framing the opinion (the portfolio narrative)
+- [x] `trusted-protocols.json` (~20–30 entries incl. Solana) with `bucket` + `access`
+- [x] `trusted-stables.json` tiered (now `{ tier, type }` per coin)
+- [x] Build script: fetch → filter → classify → compute base sort key + divergence → write JSON
+- [x] GitHub Action YAML (cron */6h + dispatch)
+- [x] Static page: 3 stacked tier windows, bucket column, absolute base|reward bar, re-sort control
+- [x] README framing the opinion (the portfolio narrative)
+
+---
+
+## v1.1 — public-facing revisions (2026-09)
+
+Shipped after the initial build; the tool is live at
+https://cryptogeadas.github.io/defi-yield-scanner/.
+
+**Brand & UX**
+- Full [BG brand system](../../brand/BRAND.md) reskin (sapphire/slate, Sora/Instrument
+  Serif/Inter), dark-first with a light toggle, BG monogram.
+- Sortable, labelled column headers (replaced the segmented sort control).
+- Click-to-expand inline detail panel per row (APY breakdown, durability sentence, risk,
+  size, composition, deposit actions).
+- Pagination: 15 rows per tier with a "Load more (+15)" button; resets on filter/sort.
+- `methodology.html` page (linked "How it works") explaining the whole opinion.
+
+**Logos & identity**
+- Protocol + chain logos vendored at build from `icons.llamao.fi` (monogram fallback).
+- Display names via `protocol-names.json`.
+
+**Stable types (new dimension)**
+- Alongside the 3 risk tiers, each stable carries a **type** — `fiat` / `crypto` /
+  `yield` (staked-wrapped) / `rwa` / `synthetic` — filterable on the page. `trusted-stables.json`
+  moved from `symbol→tier` to `symbol→{ tier, type }`.
+
+**Deposit links** (`build/deeplinks.mjs`, priority order)
+1. `pool-urls.json` manual override (pool-id → URL)
+2. exact: Aave V3, Curve, Uniswap V3 (CREATE2), Morpho vaults (via `deeplink-sources.mjs`)
+3. protocol's own app (DefiLlama config URL) · 4. DefiLlama pool page · permissioned = unlinked
+
+**Ranking refinements**
+- **LP/DEX headline = `min(spot, 30-day mean)`** — DefiLlama AMM APY is ~24h-annualized and
+  swings hard; the conservative figure never overstates. Spot kept for the panel + flag.
+- **Liveness filter:** drop dead LP (7d vol < $25k / 1d < $5k) and zero-yield pools.
+- **Sanity floor:** abort the build if <100 pools kept (don't overwrite good data with a partial feed).
+
+**Coverage**
+- MetaMorpho vault surfacing (share-symbol → underlying asset + exact URL); broadened the
+  stable map (staked variants, Maple credit, RWA T-bills → fills the permissioned window).
+- `denylist.json` for deprecated-but-functional venues (pool id / `project|chain|SYMBOL` /
+  Morpho vault address). Ongoing coverage work tracked in [COVERAGE-TODO.md](COVERAGE-TODO.md).
+
+**Deferred to v2:** reward-token quality scoring; per-pool APY-history sparkline (from the
+committed-snapshot history).
