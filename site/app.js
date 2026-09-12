@@ -41,7 +41,10 @@ const fmtPct = (n) => (n == null ? "—" : `${n.toFixed(2)}%`);
 const fmtSigned = (n) => `${n >= 0 ? "+" : ""}${(n * 100).toFixed(0)}%`;
 const fmtTvl = (n) =>
   n >= 1e9 ? `$${(n / 1e9).toFixed(2)}b` : n >= 1e6 ? `$${(n / 1e6).toFixed(1)}m` : `$${Math.round(n / 1e3)}k`;
-const divRatio = (r) => (r.mean30d && r.mean30d !== 0 ? (r.total - r.mean30d) / r.mean30d : null);
+// divergence compares the current spot APY to the 30-day mean (spot is r.spot;
+// for LP pools r.total is the durable mean, so always use r.spot here).
+const spotOf = (r) => (r.spot != null ? r.spot : r.total);
+const divRatio = (r) => (r.mean30d && r.mean30d !== 0 ? (spotOf(r) - r.mean30d) / r.mean30d : null);
 const flagMeta = (r) => {
   const f = r.divFlag;
   if (f === "▲") return { cls: "up", word: "spiking" };
@@ -102,7 +105,7 @@ function rowHtml(r, max, tier) {
   const tip =
     ratio == null
       ? "No 30-day history yet"
-      : `Spot ${fmtPct(r.total)} is ${fmtSigned(ratio)} vs 30d mean ${fmtPct(r.mean30d)} → ${fm.word}`;
+      : `Spot ${fmtPct(spotOf(r))} is ${fmtSigned(ratio)} vs 30d mean ${fmtPct(r.mean30d)} → ${fm.word}`;
   const label = r.name || r.project;
   const initial = (String(label)[0] || "?").toUpperCase();
   const logo = `<span class="logo"><span class="mono">${esc(initial)}</span><img class="ic" src="${esc(protoLogo(r.project))}" alt="" loading="lazy" onerror="this.remove()"></span>`;
@@ -135,7 +138,7 @@ function detailHtml(r, tier) {
   const durability =
     ratio == null
       ? "No 30-day history yet — too new to judge durability."
-      : `Spot <b>${fmtPct(r.total)}</b> is <b>${fmtSigned(ratio)}</b> versus its 30-day mean of <b>${fmtPct(r.mean30d)}</b> → <b class="${fm.cls}">${fm.word}</b>.`;
+      : `Spot <b>${fmtPct(spotOf(r))}</b> is <b>${fmtSigned(ratio)}</b> versus its 30-day mean of <b>${fmtPct(r.mean30d)}</b> → <b class="${fm.cls}">${fm.word}</b>.`;
   const label = r.name || r.project;
   // true stablecoin legs come from the classification symbol, carried as r.legs;
   // fall back to splitting the display symbol only if the field is absent.
@@ -166,7 +169,7 @@ function detailHtml(r, tier) {
       <div class="dcard">
         <div class="dk">APY</div>
         <div class="dbig">${fmtPct(r.total)}</div>
-        <div class="dsub">${fmtPct(r.base)} organic base${rewardLine}</div>
+        <div class="dsub">${r.bucket === "LP" ? `${fmtPct(r.base)} 30-day avg fee APY` : `${fmtPct(r.base)} organic base${rewardLine}`}</div>
       </div>
       <div class="dcard">
         <div class="dk">Durability</div>

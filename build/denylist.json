@@ -1,0 +1,5 @@
+{
+  "_comment": "Pools to hide even when they look active in the data — deprecated-but-functional venues that a build can't detect. Add either a DefiLlama pool id (uuid), or a \"project|chain|SYMBOL\" key (case-insensitive; SYMBOL is DefiLlama's raw symbol). Anything listed here is dropped from the rankings.",
+  "poolIds": [],
+  "keys": []
+}

@@ -14,6 +14,8 @@ export const DEFAULT_CONFIG = {
   chains: ["Ethereum", "Arbitrum", "Base", "Optimism", "Polygon", "Solana"],
   divUp: 0.20,                  // >+20% spot vs 30d mean → ▲ spiking
   divDown: -0.20,              // <−20% → ▼ decaying
+  lpMinVol7d: 25000,           // LP with <$25k 7-day volume → inactive/dead
+  lpMinVol1d: 5000,            // …or <$5k 1-day volume when 7d is unavailable
 };
 
 const norm = (s) => String(s ?? "").trim().toUpperCase();
@@ -76,9 +78,25 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   const { tier, driver, driverType, unmatched } = classifyTier(legs, stableMap);
   if (tier == null) return { ok: false, reason: "unmapped-stable-leg", unmatched };
 
-  const base = baseSortKey(pool);
-  const total = pool.apy ?? 0;
-  const reward = Math.max(0, total - base);
+  // Liveness: drop pools that offer nothing to park for, or dead LP pools.
+  const spot = pool.apy ?? 0;
+  const mean = pool.apyMean30d ?? null;
+  if (spot <= 0 && (mean ?? 0) <= 0) return { ok: false, reason: "zero-yield" };
+  if (meta.bucket === "LP") {
+    const v7 = pool.volumeUsd7d, v1 = pool.volumeUsd1d;
+    const dead = v7 != null ? v7 < cfg.lpMinVol7d : v1 != null ? v1 < cfg.lpMinVol1d : false;
+    if (dead) return { ok: false, reason: "inactive-lp" };
+  }
+
+  // Headline/sort number. Lend & vault APYs are stable, so use the spot organic base.
+  // AMM/LP fee-APY is annualized from ~24h volume and spikes hard, so lead with the
+  // durable 30-day mean instead (spot is still shown in the panel). The ▲/▼ flag keeps
+  // warning when today's spot diverges from that mean.
+  const spotBase = baseSortKey(pool);
+  const isLP = meta.bucket === "LP";
+  const base = isLP && mean != null ? mean : spotBase;
+  const reward = isLP ? 0 : Math.max(0, spot - spotBase);
+  const total = base + reward;
   const { ratio, flag } = divergence(pool, cfg);
 
   return {
@@ -95,7 +113,8 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       base,
       reward,
       total,
-      mean30d: pool.apyMean30d ?? null,
+      spot,                       // current spot total APY (for the panel + divergence)
+      mean30d: mean,
       divRatio: ratio,
       divFlag: flag,
       tvlUsd: pool.tvlUsd,

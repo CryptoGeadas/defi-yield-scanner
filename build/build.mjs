@@ -29,6 +29,21 @@ async function loadMaps() {
 
 const loadNames = async () => strip(JSON.parse(await readFile(join(HERE, "protocol-names.json"), "utf8")));
 
+// Manual denylist for deprecated-but-functional pools the data can't detect.
+async function loadDenylist() {
+  try {
+    const d = JSON.parse(await readFile(join(HERE, "denylist.json"), "utf8"));
+    return {
+      ids: new Set((d.poolIds || []).map((s) => String(s).toLowerCase())),
+      keys: new Set((d.keys || []).map((s) => String(s).toLowerCase())),
+    };
+  } catch {
+    return { ids: new Set(), keys: new Set() };
+  }
+}
+const denyKey = (p) => `${p.project}|${p.chain}|${p.symbol}`.toLowerCase();
+const isDenied = (p, dl) => dl.ids.has(String(p.pool).toLowerCase()) || dl.keys.has(denyKey(p));
+
 // Surface MetaMorpho vaults: DefiLlama lists them under morpho-blue with the vault
 // share symbol (STEAKUSDC) which our stable filter drops. Rewrite matched pools to
 // their underlying asset (so they tier correctly), label them with the vault name,
@@ -87,6 +102,7 @@ const makeSlim = (names, siteUrls, sources) => (r) => {
     base: round(r.base),
     reward: round(r.reward),
     total: round(r.total),
+    spot: r.spot == null ? null : round(r.spot),
     mean30d: r.mean30d == null ? null : round(r.mean30d),
     divFlag: r.divFlag,
     tvlUsd: Math.round(r.tvlUsd),
@@ -108,11 +124,15 @@ const round = (n) => Math.round(n * 100) / 100;
 
 async function main() {
   const maps = await loadMaps();
-  const [names, siteUrls] = await Promise.all([loadNames(), loadSiteUrls()]);
+  const [names, siteUrls, denylist] = await Promise.all([loadNames(), loadSiteUrls(), loadDenylist()]);
   console.log("fetching", FEED, "…");
   const res = await fetch(FEED);
   if (!res.ok) throw new Error(`feed ${res.status}`);
-  const { data: pools } = await res.json();
+  let { data: pools } = await res.json();
+
+  const before = pools.length;
+  pools = pools.filter((p) => !isDenied(p, denylist));
+  const denied = before - pools.length;
 
   const sources = await buildSources(DEFAULT_CONFIG.chains);
   preprocessMorpho(pools, sources.morpho);
@@ -138,7 +158,8 @@ async function main() {
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n");
   console.log(
-    `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  tiers ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]}`
+    `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  tiers ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]}` +
+      `\n  denylisted ${denied} · inactive-lp ${r.rejects["inactive-lp"]?.count || 0} · zero-yield ${r.rejects["zero-yield"]?.count || 0}`
   );
 
   // vendor logos for every allowlisted protocol + configured chain (fetch-if-missing)
