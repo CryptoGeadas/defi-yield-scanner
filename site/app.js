@@ -169,7 +169,7 @@ function detailHtml(r, tier) {
       <div class="dcard">
         <div class="dk">APY</div>
         <div class="dbig">${fmtPct(r.total)}</div>
-        <div class="dsub">${r.bucket === "LP" ? `${fmtPct(r.base)} 30-day avg fee APY` : `${fmtPct(r.base)} organic base${rewardLine}`}</div>
+        <div class="dsub">${r.bucket === "LP" ? `${fmtPct(r.base)} conservative fee APY (lower of current & 30-day avg)` : `${fmtPct(r.base)} organic base${rewardLine}`}</div>
       </div>
       <div class="dcard">
         <div class="dk">Durability</div>

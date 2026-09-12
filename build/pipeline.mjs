@@ -89,12 +89,13 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   }
 
   // Headline/sort number. Lend & vault APYs are stable, so use the spot organic base.
-  // AMM/LP fee-APY is annualized from ~24h volume and spikes hard, so lead with the
-  // durable 30-day mean instead (spot is still shown in the panel). The ▲/▼ flag keeps
-  // warning when today's spot diverges from that mean.
+  // AMM/LP fee-APY is annualized from ~24h volume and swings hard (both up on volume
+  // spikes and down as they fade), so for LP we lead with the CONSERVATIVE figure —
+  // min(current spot, 30-day mean) — which never overstates what you'd earn today.
+  // Spot is still shown in the panel; the ▲/▼ flag compares spot vs the 30-day mean.
   const spotBase = baseSortKey(pool);
   const isLP = meta.bucket === "LP";
-  const base = isLP && mean != null ? mean : spotBase;
+  const base = isLP ? (mean != null ? Math.min(spot, mean) : spotBase) : spotBase;
   const reward = isLP ? 0 : Math.max(0, spot - spotBase);
   const total = base + reward;
   const { ratio, flag } = divergence(pool, cfg);
