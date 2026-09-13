@@ -28,6 +28,23 @@ async function loadMaps() {
 }
 
 const loadNames = async () => strip(JSON.parse(await readFile(join(HERE, "protocol-names.json"), "utf8")));
+const loadTokenLabels = async () => strip(JSON.parse(await readFile(join(HERE, "token-labels.json"), "utf8")));
+
+// Rebuild a pool's shown symbol from its token addresses so flattened variants
+// (USDC.e, USDbC, …) read correctly. DefiLlama's symbol legs align with
+// underlyingTokens order; replace only legs whose address is a known variant,
+// keep DefiLlama's label otherwise. On any mismatch, return the original symbol.
+function relabelSymbol(symbol, tokens, labels) {
+  if (!symbol || !Array.isArray(tokens) || tokens.length === 0) return symbol;
+  const legs = String(symbol).split(/([-/+])/); // keep separators
+  const legIdx = legs.map((s, i) => (i % 2 === 0 ? i : -1)).filter((i) => i >= 0);
+  if (legIdx.length !== tokens.length) return symbol; // can't align → leave as-is
+  legIdx.forEach((li, ti) => {
+    const lab = labels[String(tokens[ti]).toLowerCase()];
+    if (lab) legs[li] = lab;
+  });
+  return legs.join("");
+}
 
 // Manual per-pool deposit-URL overrides (pool id → exact URL). Highest priority.
 async function loadPoolUrls() {
@@ -100,13 +117,14 @@ async function loadSiteUrls() {
 }
 
 // Trim a pipeline row to what the site actually renders (+ link & detail fields).
-const makeSlim = (names, siteUrls, sources, poolUrls) => (r) => {
+const makeSlim = (names, siteUrls, sources, poolUrls, tokenLabels) => (r) => {
   const { url, kind } = buildLink(r, { siteUrl: siteUrls[r.project], sources, override: poolUrls[r.pool] });
   return {
     project: r.project,
     name: names[r.project] || r.project,
-    symbol: r.displayName || r.symbol,
+    symbol: r.displayName || relabelSymbol(r.symbol, r.underlyingTokens, tokenLabels),
     chain: r.chain,
+    meta: r.poolMeta || null, // platform's own market/fee/vault label, to match the venue
     bucket: r.bucket,
     access: r.access,
     type: r.stableType, // fiat | crypto | yield | rwa | synthetic
@@ -136,7 +154,9 @@ const round = (n) => Math.round(n * 100) / 100;
 
 async function main() {
   const maps = await loadMaps();
-  const [names, siteUrls, denylist, poolUrls] = await Promise.all([loadNames(), loadSiteUrls(), loadDenylist(), loadPoolUrls()]);
+  const [names, siteUrls, denylist, poolUrls, tokenLabels] = await Promise.all([
+    loadNames(), loadSiteUrls(), loadDenylist(), loadPoolUrls(), loadTokenLabels(),
+  ]);
   console.log("fetching", FEED, "…");
   const res = await fetch(FEED);
   if (!res.ok) throw new Error(`feed ${res.status}`);
@@ -157,7 +177,7 @@ async function main() {
   if (r.stats.kept < MIN_KEPT)
     throw new Error(`sanity floor: only ${r.stats.kept} pools kept (< ${MIN_KEPT}); feed likely partial — refusing to overwrite`);
 
-  const slim = makeSlim(names, siteUrls, sources, poolUrls);
+  const slim = makeSlim(names, siteUrls, sources, poolUrls, tokenLabels);
 
   const payload = {
     generatedAt: new Date().toISOString(),
