@@ -30,7 +30,7 @@
   "ethena-usde":        { "bucket": "vault", "access": "permissionless" },
   "usual-usd0":         { "bucket": "vault", "access": "permissionless" },
 
-  "maple":              { "bucket": "lend",  "access": "permissioned" },
+  "maple":              { "bucket": "lend",  "access": "permissionless" },
   "ondo-yield-assets":  { "bucket": "lend",  "access": "permissioned" },
   "centrifuge-protocol":{ "bucket": "lend",  "access": "permissioned" },
   "invesco-ustb":       { "bucket": "lend",  "access": "permissioned" },
