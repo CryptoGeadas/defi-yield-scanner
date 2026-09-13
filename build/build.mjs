@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { runPipeline, DEFAULT_CONFIG } from "./pipeline.mjs";
 import { buildLink } from "./deeplinks.mjs";
 import { buildSources, MORPHO_CHAINID } from "./deeplink-sources.mjs";
+import { fetchKaminoVaults } from "./kamino-vaults.mjs";
 import { vendorLogos } from "./logos.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -183,6 +184,16 @@ async function main() {
   preprocessMorpho(pools, sources.morpho, denylist.morphoVaults);
   const yNamed = await preprocessYearn(pools, poolUrls);
   console.log(`  yearn names resolved: ${yNamed}`);
+
+  // Kamino: DefiLlama's kamino-lend = isolated markets (borrow side). Replace them
+  // with the curated Lending Vaults (the passive "Lend" product), read on-chain.
+  const kmBefore = pools.length;
+  pools = pools.filter((p) => p.project !== "kamino-lend");
+  const droppedKm = kmBefore - pools.length;
+  const stableSet = new Set(Object.keys(maps.stableMap));
+  const kaminoVaults = (await fetchKaminoVaults(stableSet, DEFAULT_CONFIG.tvlFloor)).filter((p) => !isDenied(p, denylist));
+  pools.push(...kaminoVaults);
+  console.log(`  kamino: dropped ${droppedKm} isolated-market pools, added ${kaminoVaults.length} lending vaults`);
 
   const r = runPipeline(pools, {}, maps);
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T20:21:45.524Z",
+  "generatedAt": "2026-09-13T20:45:52.719Z",
   "source": "https://yields.llama.fi/pools",
   "config": {
     "tvlFloor": 1000000,
@@ -19,10 +19,10 @@
     "lpMinVol1d": 5000
   },
   "stats": {
-    "totalPools": 16806,
-    "kept": 178,
+    "totalPools": 16675,
+    "kept": 180,
     "perTier": {
-      "1": 131,
+      "1": 133,
       "2": 23,
       "3": 24
     }
@@ -42,7 +42,7 @@
         "reward": 0,
         "total": 11.87,
         "spot": 11.87,
-        "mean30d": 4.91,
+        "mean30d": 4.92,
         "divFlag": "▲",
         "tvlUsd": 26371634,
         "legs": [
@@ -72,7 +72,7 @@
         "reward": 0,
         "total": 7.67,
         "spot": 7.67,
-        "mean30d": 8.15,
+        "mean30d": 8.14,
         "divFlag": "●",
         "tvlUsd": 65211215,
         "legs": [
@@ -102,7 +102,7 @@
         "reward": 0,
         "total": 7.58,
         "spot": 7.58,
-        "mean30d": 9.21,
+        "mean30d": 9.2,
         "divFlag": "●",
         "tvlUsd": 1697703,
         "legs": [
@@ -118,36 +118,6 @@
         "apyPct7D": 2.6,
         "apyPct30D": -3.31,
         "poolId": "d48e9c5a-7c28-4192-ab3d-795b5fbed7be"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "USDG · OnRe Market",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDG",
-        "base": 7.42,
-        "reward": 0,
-        "total": 7.42,
-        "spot": 7.42,
-        "mean30d": 8.75,
-        "divFlag": "●",
-        "tvlUsd": 1397037,
-        "legs": [
-          "USDG"
-        ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.12,
-        "apyPct30D": -0.34,
-        "poolId": "d43d4478-f785-41ab-9bd0-6d48f75c84a1"
       },
       {
         "project": "midas-rwa",
@@ -270,6 +240,36 @@
         "poolId": "90cb9575-6a55-4900-9536-ead80c7dfa6c"
       },
       {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Elemental USDG Optimizer",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDG",
+        "base": 6.91,
+        "reward": 0,
+        "total": 6.91,
+        "spot": 6.91,
+        "mean30d": 7.24,
+        "divFlag": "●",
+        "tvlUsd": 2093676,
+        "legs": [
+          "USDG"
+        ],
+        "url": "https://app.kamino.finance/lend/DJbRxuBckoJpFVUNtWx94NghcthfGaRV5NRmEazUaddE",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 7.47,
+        "apyPct30D": null,
+        "poolId": "DJbRxuBckoJpFVUNtWx94NghcthfGaRV5NRmEazUaddE"
+      },
+      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "Hyperithm USDC Apex",
@@ -278,13 +278,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 6.82,
+        "base": 6.83,
         "reward": 0,
-        "total": 6.82,
-        "spot": 6.82,
+        "total": 6.83,
+        "spot": 6.83,
         "mean30d": 6.39,
         "divFlag": "●",
-        "tvlUsd": 8390199,
+        "tvlUsd": 8390232,
         "legs": [
           "USDC"
         ],
@@ -296,7 +296,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 1.19,
-        "apyPct30D": 0.44,
+        "apyPct30D": 0.45,
         "poolId": "5a55b869-de6e-42ba-9091-6ee0e02525c2"
       },
       {
@@ -374,7 +374,7 @@
         "spot": 6.6,
         "mean30d": 6.66,
         "divFlag": "●",
-        "tvlUsd": 9361143,
+        "tvlUsd": 9344343,
         "legs": [
           "USDC"
         ],
@@ -386,39 +386,8 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.16,
-        "apyPct30D": 0.49,
+        "apyPct30D": 0.42,
         "poolId": "d5959f91-86ce-4177-b234-49e1f17d8f82"
-      },
-      {
-        "project": "uniswap-v4",
-        "name": "Uniswap V4",
-        "symbol": "USDC-USDC · 0.00%",
-        "chain": "Polygon",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 6.12,
-        "reward": 0,
-        "total": 6.12,
-        "spot": 6.12,
-        "mean30d": 6.14,
-        "divFlag": "●",
-        "tvlUsd": 1139889,
-        "legs": [
-          "USDC",
-          "USDC"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/polygon/0xe3f907c3512aea11d4cf0c2990970016b5ee5b1f83368c388287001f419052a4",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 11953804,
-        "volumeUsd7d": null,
-        "apyPct7D": 4.13,
-        "apyPct30D": null,
-        "poolId": "97564477-a91f-4aae-a774-712be64f8c3f"
       },
       {
         "project": "morpho-blue",
@@ -429,13 +398,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 6.09,
+        "base": 6.08,
         "reward": 0,
-        "total": 6.09,
-        "spot": 6.09,
-        "mean30d": 6.35,
+        "total": 6.08,
+        "spot": 6.08,
+        "mean30d": 6.34,
         "divFlag": "●",
-        "tvlUsd": 1412381,
+        "tvlUsd": 1412389,
         "legs": [
           "USDC"
         ],
@@ -446,39 +415,40 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 1.93,
-        "apyPct30D": -0.7,
+        "apyPct7D": 1.95,
+        "apyPct30D": -0.71,
         "poolId": "05c5acfb-eb6c-40bd-865c-2015c017e953"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "USDC · OnRe Market",
-        "chain": "Solana",
-        "bucket": "lend",
+        "project": "uniswap-v4",
+        "name": "Uniswap V4",
+        "symbol": "USDC-USDC · 0.00%",
+        "chain": "Polygon",
+        "bucket": "LP",
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.91,
+        "base": 5.94,
         "reward": 0,
-        "total": 5.91,
-        "spot": 5.91,
-        "mean30d": 7.21,
+        "total": 5.94,
+        "spot": 5.94,
+        "mean30d": 6.14,
         "divFlag": "●",
-        "tvlUsd": 9435886,
+        "tvlUsd": 1139873,
         "legs": [
+          "USDC",
           "USDC"
         ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
+        "url": "https://app.uniswap.org/explore/pools/polygon/0xe3f907c3512aea11d4cf0c2990970016b5ee5b1f83368c388287001f419052a4",
+        "linkKind": "exact",
+        "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": null,
+        "volumeUsd1d": 11593951,
         "volumeUsd7d": null,
-        "apyPct7D": 0.57,
-        "apyPct30D": -0.17,
-        "poolId": "ca537616-5cc3-429a-aded-ebe307121d1f"
+        "apyPct7D": 3.9,
+        "apyPct30D": null,
+        "poolId": "97564477-a91f-4aae-a774-712be64f8c3f"
       },
       {
         "project": "uniswap-v3",
@@ -489,13 +459,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.7,
+        "base": 5.71,
         "reward": 0,
-        "total": 5.7,
-        "spot": 5.7,
+        "total": 5.71,
+        "spot": 5.71,
         "mean30d": 13.58,
         "divFlag": "▼",
-        "tvlUsd": 1204227,
+        "tvlUsd": 1204092,
         "legs": [
           "USDC",
           "USDT"
@@ -505,11 +475,71 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 1880172,
-        "volumeUsd7d": 17712014,
-        "apyPct7D": -3.19,
-        "apyPct30D": 1.24,
+        "volumeUsd1d": 1884308,
+        "volumeUsd7d": 17618332,
+        "apyPct7D": -3.46,
+        "apyPct30D": 1.43,
         "poolId": "afc658d8-6c0b-4ac5-a46b-1bb611bf5234"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Neutral Trade USDC Max Yield",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 5.63,
+        "reward": 0.07,
+        "total": 5.7,
+        "spot": 5.7,
+        "mean30d": 6.06,
+        "divFlag": "●",
+        "tvlUsd": 1984499,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/67dqmR76uAbjX6e81A1ganKv3ou31WUMEdeWJkwVfeXy",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0.07,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.89,
+        "apyPct30D": null,
+        "poolId": "67dqmR76uAbjX6e81A1ganKv3ou31WUMEdeWJkwVfeXy"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "MEV Capital USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 5.59,
+        "reward": 0.07,
+        "total": 5.66,
+        "spot": 5.66,
+        "mean30d": 6.11,
+        "divFlag": "●",
+        "tvlUsd": 1366864,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/EPC2N3AAv84P9TKsnDt2x41p6T7c5vTewBhQbh4RVx4r",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0.07,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.92,
+        "apyPct30D": null,
+        "poolId": "EPC2N3AAv84P9TKsnDt2x41p6T7c5vTewBhQbh4RVx4r"
       },
       {
         "project": "morpho-blue",
@@ -520,13 +550,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.6,
+        "base": 5.59,
         "reward": 0,
-        "total": 5.6,
-        "spot": 5.6,
+        "total": 5.59,
+        "spot": 5.59,
         "mean30d": 5.34,
         "divFlag": "●",
-        "tvlUsd": 11038053,
+        "tvlUsd": 11038080,
         "legs": [
           "USDC"
         ],
@@ -537,7 +567,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.45,
+        "apyPct7D": 0.44,
         "apyPct30D": 0.34,
         "poolId": "086d98c3-e23e-42b2-9425-cb8915724337"
       },
@@ -550,13 +580,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.56,
-        "reward": 0.33,
-        "total": 5.9,
-        "spot": 5.9,
+        "base": 5.54,
+        "reward": 0.36,
+        "total": 5.91,
+        "spot": 5.91,
         "mean30d": 5.82,
         "divFlag": "●",
-        "tvlUsd": 6730715,
+        "tvlUsd": 6730733,
         "legs": [
           "USDC"
         ],
@@ -564,11 +594,11 @@
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 0.33,
+        "apyReward": 0.36,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.35,
-        "apyPct30D": -0.38,
+        "apyPct7D": 0.34,
+        "apyPct30D": -0.37,
         "poolId": "4828569b-ddba-42a7-9bf9-e7e6d809112d"
       },
       {
@@ -580,13 +610,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.51,
+        "base": 5.52,
         "reward": 0,
-        "total": 5.51,
-        "spot": 5.51,
+        "total": 5.52,
+        "spot": 5.52,
         "mean30d": 5.37,
         "divFlag": "●",
-        "tvlUsd": 42645085,
+        "tvlUsd": 42645089,
         "legs": [
           "USDC"
         ],
@@ -598,7 +628,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 0.61,
-        "apyPct30D": -0.1,
+        "apyPct30D": -0.09,
         "poolId": "f8d7740c-4cef-420e-a944-1b7caffde643"
       },
       {
@@ -610,13 +640,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.49,
+        "base": 5.48,
         "reward": 0,
-        "total": 5.49,
-        "spot": 5.49,
-        "mean30d": 5.6,
+        "total": 5.48,
+        "spot": 5.48,
+        "mean30d": 5.59,
         "divFlag": "●",
-        "tvlUsd": 5349343,
+        "tvlUsd": 5342091,
         "legs": [
           "USDC"
         ],
@@ -627,8 +657,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.09,
-        "apyPct30D": -1.01,
+        "apyPct7D": 0.08,
+        "apyPct30D": -1.02,
         "poolId": "92a97f48-005e-4819-a838-f442ea92c401"
       },
       {
@@ -640,13 +670,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "RLUSD",
-        "base": 5.47,
+        "base": 5.46,
         "reward": 0,
-        "total": 5.47,
-        "spot": 5.47,
+        "total": 5.46,
+        "spot": 5.46,
         "mean30d": 5.99,
         "divFlag": "●",
-        "tvlUsd": 2958589,
+        "tvlUsd": 2958595,
         "legs": [
           "RLUSD",
           "USDC"
@@ -658,7 +688,7 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.59,
+        "apyPct7D": -0.58,
         "apyPct30D": 0.44,
         "poolId": "6a577feb-5115-4185-9b55-f9c02bca9399"
       },
@@ -677,7 +707,7 @@
         "spot": 5.18,
         "mean30d": 3.28,
         "divFlag": "▲",
-        "tvlUsd": 1251774,
+        "tvlUsd": 1251782,
         "legs": [
           "USDT"
         ],
@@ -701,13 +731,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.14,
-        "reward": 1.63,
-        "total": 6.78,
-        "spot": 6.78,
+        "base": 5.16,
+        "reward": 1.61,
+        "total": 6.77,
+        "spot": 6.77,
         "mean30d": 6.12,
         "divFlag": "●",
-        "tvlUsd": 13054292,
+        "tvlUsd": 13054811,
         "legs": [
           "USDC"
         ],
@@ -715,12 +745,42 @@
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 1.63,
+        "apyReward": 1.61,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 0.55,
-        "apyPct30D": 0.26,
+        "apyPct30D": 0.25,
         "poolId": "1b33f341-1dc2-446a-856e-caf900563ae2"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Marinade USD Vault",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 5.14,
+        "reward": 0.06,
+        "total": 5.19,
+        "spot": 5.19,
+        "mean30d": 5.8,
+        "divFlag": "●",
+        "tvlUsd": 1607714,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0.06,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.53,
+        "apyPct30D": null,
+        "poolId": "2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA"
       },
       {
         "project": "yearn-finance",
@@ -737,7 +797,7 @@
         "spot": 5.04,
         "mean30d": 5.01,
         "divFlag": "●",
-        "tvlUsd": 1715623,
+        "tvlUsd": 1715576,
         "legs": [
           "USDC"
         ],
@@ -753,6 +813,36 @@
         "poolId": "ea721c71-9a61-481d-aa52-b0198f325c66"
       },
       {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Steakhouse High Yield USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 5.03,
+        "reward": 0.06,
+        "total": 5.09,
+        "spot": 5.09,
+        "mean30d": 5.43,
+        "divFlag": "●",
+        "tvlUsd": 3170198,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/BEEfo7xwgK2ZP13Pxo7qqTPzAteKJmXjVWtMWcXSvbn2",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0.06,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.28,
+        "apyPct30D": null,
+        "poolId": "BEEfo7xwgK2ZP13Pxo7qqTPzAteKJmXjVWtMWcXSvbn2"
+      },
+      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": " Usual Boosted USDC",
@@ -761,13 +851,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.99,
+        "base": 5.02,
         "reward": 0,
-        "total": 4.99,
-        "spot": 4.99,
+        "total": 5.02,
+        "spot": 5.02,
         "mean30d": 5.92,
         "divFlag": "●",
-        "tvlUsd": 2119801,
+        "tvlUsd": 2119809,
         "legs": [
           "USDC"
         ],
@@ -778,8 +868,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.45,
-        "apyPct30D": -2.31,
+        "apyPct7D": -0.42,
+        "apyPct30D": -2.28,
         "poolId": "e553e77d-7ddc-4816-a1c9-4e68605f882c"
       },
       {
@@ -795,9 +885,9 @@
         "reward": 0,
         "total": 4.99,
         "spot": 4.99,
-        "mean30d": 5.1,
+        "mean30d": 5.09,
         "divFlag": "●",
-        "tvlUsd": 50569169,
+        "tvlUsd": 50568478,
         "legs": [
           "USDC"
         ],
@@ -827,7 +917,7 @@
         "spot": 4.99,
         "mean30d": 5.14,
         "divFlag": "●",
-        "tvlUsd": 9285760,
+        "tvlUsd": 9285585,
         "legs": [
           "USDC"
         ],
@@ -857,7 +947,7 @@
         "spot": 4.97,
         "mean30d": 4.92,
         "divFlag": "●",
-        "tvlUsd": 2633149320,
+        "tvlUsd": 2630638194,
         "legs": [
           "USDC"
         ],
@@ -881,13 +971,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.94,
+        "base": 4.93,
         "reward": 0,
-        "total": 4.94,
-        "spot": 4.94,
+        "total": 4.93,
+        "spot": 4.93,
         "mean30d": 5.17,
         "divFlag": "●",
-        "tvlUsd": 31804831,
+        "tvlUsd": 31806628,
         "legs": [
           "USDC"
         ],
@@ -898,8 +988,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.02,
-        "apyPct30D": -0.79,
+        "apyPct7D": -0.03,
+        "apyPct30D": -0.8,
         "poolId": "832c94db-4948-4f14-aa65-af6e737d984e"
       },
       {
@@ -917,7 +1007,7 @@
         "spot": 4.93,
         "mean30d": 4.99,
         "divFlag": "●",
-        "tvlUsd": 363024858,
+        "tvlUsd": 362830738,
         "legs": [
           "USDG"
         ],
@@ -945,9 +1035,9 @@
         "reward": 0,
         "total": 4.86,
         "spot": 4.86,
-        "mean30d": 2.51,
+        "mean30d": 2.56,
         "divFlag": "▲",
-        "tvlUsd": 1972779,
+        "tvlUsd": 1972774,
         "legs": [
           "USDT"
         ],
@@ -961,6 +1051,36 @@
         "apyPct7D": null,
         "apyPct30D": null,
         "poolId": "49a78144-99cc-5d6a-b635-e794c4f186c6"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "RWA USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 4.84,
+        "reward": 0.03,
+        "total": 4.87,
+        "spot": 4.87,
+        "mean30d": 5.33,
+        "divFlag": "●",
+        "tvlUsd": 80918708,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0.03,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.07,
+        "apyPct30D": null,
+        "poolId": "DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP"
       },
       {
         "project": "morpho-blue",
@@ -977,7 +1097,7 @@
         "spot": 4.81,
         "mean30d": 4.8,
         "divFlag": "●",
-        "tvlUsd": 2287968,
+        "tvlUsd": 2288038,
         "legs": [
           "DAI"
         ],
@@ -989,8 +1109,38 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.44,
-        "apyPct30D": -0.04,
+        "apyPct30D": -0.03,
         "poolId": "d78f63a2-98c4-481b-9f3d-147505dd9974"
+      },
+      {
+        "project": "beefy",
+        "name": "Beefy",
+        "symbol": "USDC · Morpho",
+        "chain": "Ethereum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 4.63,
+        "reward": 0,
+        "total": 4.63,
+        "spot": 4.63,
+        "mean30d": 4.53,
+        "divFlag": "●",
+        "tvlUsd": 3361318,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.beefy.com/vault/morpho-smokehouse-usdc",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 0.35,
+        "apyPct30D": 0.29,
+        "poolId": "45ecff73-d1b5-412f-ae15-c409034cc14c"
       },
       {
         "project": "maple",
@@ -1007,7 +1157,7 @@
         "spot": 4.62,
         "mean30d": 4.51,
         "divFlag": "●",
-        "tvlUsd": 870134179,
+        "tvlUsd": 869338991,
         "legs": [
           "USDT"
         ],
@@ -1023,34 +1173,34 @@
         "poolId": "8edfdf02-cdbb-43f7-bca6-954e5fe56813"
       },
       {
-        "project": "beefy",
-        "name": "Beefy",
-        "symbol": "USDC · Morpho",
-        "chain": "Ethereum",
-        "bucket": "vault",
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Allez USDC",
+        "chain": "Solana",
+        "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.62,
-        "reward": 0,
-        "total": 4.62,
-        "spot": 4.62,
-        "mean30d": 4.53,
+        "base": 4.51,
+        "reward": 0.03,
+        "total": 4.55,
+        "spot": 4.55,
+        "mean30d": 5.54,
         "divFlag": "●",
-        "tvlUsd": 3361301,
+        "tvlUsd": 12038529,
         "legs": [
           "USDC"
         ],
-        "url": "https://app.beefy.com/vault/morpho-smokehouse-usdc",
+        "url": "https://app.kamino.finance/lend/A1USdzqDHmw5oz97AkqAGLxEQZfFjASZFuy4T6Qdvnpo",
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": null,
+        "apyReward": 0.03,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.34,
-        "apyPct30D": 0.28,
-        "poolId": "45ecff73-d1b5-412f-ae15-c409034cc14c"
+        "apyPct7D": 5.25,
+        "apyPct30D": null,
+        "poolId": "A1USdzqDHmw5oz97AkqAGLxEQZfFjASZFuy4T6Qdvnpo"
       },
       {
         "project": "morpho-blue",
@@ -1061,13 +1211,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.49,
+        "base": 4.48,
         "reward": 0,
-        "total": 4.49,
-        "spot": 4.49,
+        "total": 4.48,
+        "spot": 4.48,
         "mean30d": 5.06,
         "divFlag": "●",
-        "tvlUsd": 2314969,
+        "tvlUsd": 2311684,
         "legs": [
           "USDC"
         ],
@@ -1078,69 +1228,9 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.16,
-        "apyPct30D": 1.74,
+        "apyPct7D": -0.19,
+        "apyPct30D": 1.68,
         "poolId": "c13f1940-9965-4eee-b7e8-af785591ceda"
-      },
-      {
-        "project": "morpho-blue",
-        "name": "Morpho Blue",
-        "symbol": "Gauntlet USDC Core",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 4.43,
-        "reward": 0,
-        "total": 4.43,
-        "spot": 4.43,
-        "mean30d": 4.58,
-        "divFlag": "●",
-        "tvlUsd": 3789616,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.morpho.org/ethereum/vault/0x8eB67A509616cd6A7c1B3c8C21D48FF57df3d458",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0.34,
-        "apyPct30D": -0.54,
-        "poolId": "baf1a020-a2a4-401a-9425-eba22ffce13c"
-      },
-      {
-        "project": "beefy",
-        "name": "Beefy",
-        "symbol": "USDC · Morpho",
-        "chain": "Base",
-        "bucket": "vault",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 4.43,
-        "reward": 0,
-        "total": 4.43,
-        "spot": 4.43,
-        "mean30d": 4.67,
-        "divFlag": "●",
-        "tvlUsd": 1906279,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.beefy.com/vault/morpho-base-steakhouse-high-yield-usdc",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.07,
-        "apyPct30D": -1.02,
-        "poolId": "2f6ff86c-3d82-4cd9-8e7d-bc3eb3471493"
       },
       {
         "project": "yearn-finance",
@@ -1157,7 +1247,7 @@
         "spot": 4.42,
         "mean30d": 4.41,
         "divFlag": "●",
-        "tvlUsd": 1012980,
+        "tvlUsd": 1012903,
         "legs": [
           "USDC"
         ],
@@ -1173,34 +1263,64 @@
         "poolId": "38f24550-a071-447c-8083-d376edaba156"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "USDC · Figure Market",
-        "chain": "Solana",
+        "project": "morpho-blue",
+        "name": "Morpho Blue",
+        "symbol": "Gauntlet USDC Core",
+        "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.39,
+        "base": 4.42,
         "reward": 0,
-        "total": 4.39,
-        "spot": 4.39,
-        "mean30d": 5.73,
-        "divFlag": "▼",
-        "tvlUsd": 3674765,
+        "total": 4.42,
+        "spot": 4.42,
+        "mean30d": 4.58,
+        "divFlag": "●",
+        "tvlUsd": 3789620,
         "legs": [
           "USDC"
         ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
+        "url": "https://app.morpho.org/ethereum/vault/0x8eB67A509616cd6A7c1B3c8C21D48FF57df3d458",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 0.33,
+        "apyPct30D": -0.54,
+        "poolId": "baf1a020-a2a4-401a-9425-eba22ffce13c"
+      },
+      {
+        "project": "beefy",
+        "name": "Beefy",
+        "symbol": "USDC · Morpho",
+        "chain": "Base",
+        "bucket": "vault",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 4.41,
+        "reward": 0,
+        "total": 4.41,
+        "spot": 4.41,
+        "mean30d": 4.67,
+        "divFlag": "●",
+        "tvlUsd": 1906279,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.beefy.com/vault/morpho-base-steakhouse-high-yield-usdc",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.55,
-        "apyPct30D": -0.83,
-        "poolId": "3cb152e8-1de7-4a2b-8510-f04014c5fe82"
+        "apyPct7D": -0.09,
+        "apyPct30D": -0.62,
+        "poolId": "2f6ff86c-3d82-4cd9-8e7d-bc3eb3471493"
       },
       {
         "project": "morpho-blue",
@@ -1217,7 +1337,7 @@
         "spot": 4.31,
         "mean30d": 4.27,
         "divFlag": "●",
-        "tvlUsd": 428656296,
+        "tvlUsd": 428655825,
         "legs": [
           "USDC"
         ],
@@ -1247,7 +1367,7 @@
         "spot": 4.31,
         "mean30d": 4.27,
         "divFlag": "●",
-        "tvlUsd": 420065187,
+        "tvlUsd": 420065844,
         "legs": [
           "USDC"
         ],
@@ -1258,9 +1378,39 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.06,
-        "apyPct30D": 0.19,
+        "apyPct7D": 0.05,
+        "apyPct30D": 0.18,
         "poolId": "e0672197-9f3e-4414-bca5-e6b4c90aa469"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Steakhouse High Yield USDG",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDG",
+        "base": 4.28,
+        "reward": 2.55,
+        "total": 6.83,
+        "spot": 6.83,
+        "mean30d": 7.34,
+        "divFlag": "●",
+        "tvlUsd": 47657654,
+        "legs": [
+          "USDG"
+        ],
+        "url": "https://app.kamino.finance/lend/BoZDRc1RDY9FzUZZ19WT4GbtTnnbXQ8AGSU5ByEw3ut5",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 2.55,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 7.39,
+        "apyPct30D": null,
+        "poolId": "BoZDRc1RDY9FzUZZ19WT4GbtTnnbXQ8AGSU5ByEw3ut5"
       },
       {
         "project": "morpho-blue",
@@ -1277,7 +1427,7 @@
         "spot": 4.27,
         "mean30d": 4.15,
         "divFlag": "●",
-        "tvlUsd": 1284263,
+        "tvlUsd": 1284264,
         "legs": [
           "USDC"
         ],
@@ -1289,8 +1439,39 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.02,
-        "apyPct30D": 0.23,
+        "apyPct30D": 0.2,
         "poolId": "7c9210dc-9550-47eb-b73c-5774aa629c96"
+      },
+      {
+        "project": "uniswap-v3",
+        "name": "Uniswap V3",
+        "symbol": "USDC-USDT · 0.01%",
+        "chain": "Arbitrum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 4.23,
+        "reward": 0,
+        "total": 4.23,
+        "spot": 4.23,
+        "mean30d": 4.7,
+        "divFlag": "●",
+        "tvlUsd": 1217661,
+        "legs": [
+          "USDC",
+          "USDT"
+        ],
+        "url": "https://app.uniswap.org/explore/pools/arbitrum/0xbE3aD6a5669Dc0B8b12FeBC03608860C31E2eef6",
+        "linkKind": "exact",
+        "exposure": "multi",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": 1412594,
+        "volumeUsd7d": 7393074,
+        "apyPct7D": 1.49,
+        "apyPct30D": -8.85,
+        "poolId": "ba3fb5f5-684e-4834-afca-d58668395b02"
       },
       {
         "project": "morpho-blue",
@@ -1307,7 +1488,7 @@
         "spot": 4.23,
         "mean30d": 4.11,
         "divFlag": "●",
-        "tvlUsd": 23225995,
+        "tvlUsd": 23226397,
         "legs": [
           "USDT"
         ],
@@ -1318,8 +1499,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.42,
-        "apyPct30D": 0.18,
+        "apyPct7D": 0.43,
+        "apyPct30D": 0.2,
         "poolId": "c743eac6-1906-4d96-a7aa-667426ec3cc7"
       },
       {
@@ -1337,7 +1518,7 @@
         "spot": 4.2,
         "mean30d": 4.15,
         "divFlag": "●",
-        "tvlUsd": 3117383,
+        "tvlUsd": 4128324,
         "legs": [
           "USDC"
         ],
@@ -1361,13 +1542,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.14,
+        "base": 4.15,
         "reward": 0,
-        "total": 4.14,
-        "spot": 4.14,
+        "total": 4.15,
+        "spot": 4.15,
         "mean30d": 4.2,
         "divFlag": "●",
-        "tvlUsd": 7305036,
+        "tvlUsd": 7305044,
         "legs": [
           "USDC"
         ],
@@ -1378,8 +1559,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.15,
-        "apyPct30D": -0.02,
+        "apyPct7D": -0.14,
+        "apyPct30D": -0.01,
         "poolId": "2942e247-18c6-4a4e-926f-151dec88910b"
       },
       {
@@ -1397,7 +1578,7 @@
         "spot": 4.14,
         "mean30d": 4.2,
         "divFlag": "●",
-        "tvlUsd": 27796204,
+        "tvlUsd": 27796230,
         "legs": [
           "USDC"
         ],
@@ -1408,39 +1589,9 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.17,
-        "apyPct30D": 0,
+        "apyPct7D": -0.16,
+        "apyPct30D": 0.01,
         "poolId": "a306885c-001e-4479-9ae8-459a56527bc1"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "USDC · Huma Market",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 4.13,
-        "reward": 0,
-        "total": 4.13,
-        "spot": 4.13,
-        "mean30d": 5.73,
-        "divFlag": "▼",
-        "tvlUsd": 4987441,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0.1,
-        "apyPct30D": -2.06,
-        "poolId": "8a6cf606-e8e5-412f-9aad-da512327582a"
       },
       {
         "project": "morpho-blue",
@@ -1451,13 +1602,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.13,
+        "base": 4.14,
         "reward": 0,
-        "total": 4.13,
-        "spot": 4.13,
+        "total": 4.14,
+        "spot": 4.14,
         "mean30d": 4.2,
         "divFlag": "●",
-        "tvlUsd": 106815173,
+        "tvlUsd": 106774295,
         "legs": [
           "USDC"
         ],
@@ -1468,8 +1619,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.15,
-        "apyPct30D": -0.06,
+        "apyPct7D": -0.14,
+        "apyPct30D": -0.05,
         "poolId": "931ea9be-5f4d-428e-beaf-205fc5b4e2b5"
       },
       {
@@ -1485,9 +1636,9 @@
         "reward": 0,
         "total": 4.09,
         "spot": 4.09,
-        "mean30d": 2.47,
+        "mean30d": 2.48,
         "divFlag": "▲",
-        "tvlUsd": 1242588,
+        "tvlUsd": 1242589,
         "legs": [
           "USDC"
         ],
@@ -1498,7 +1649,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.06,
+        "apyPct7D": 0.05,
         "apyPct30D": 4.09,
         "poolId": "47548a32-63c2-4485-b348-eac2cc3a587f"
       },
@@ -1545,9 +1696,9 @@
         "reward": 0,
         "total": 3.94,
         "spot": 3.94,
-        "mean30d": 4.92,
+        "mean30d": 4.91,
         "divFlag": "●",
-        "tvlUsd": 3048475,
+        "tvlUsd": 3048153,
         "legs": [
           "USDG"
         ],
@@ -1558,8 +1709,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -1.71,
-        "apyPct30D": -4.49,
+        "apyPct7D": -3.4,
+        "apyPct30D": -4.25,
         "poolId": "c4d22a9b-a5e3-414e-92d9-76493e1ab239"
       },
       {
@@ -1577,7 +1728,7 @@
         "spot": 3.93,
         "mean30d": 4,
         "divFlag": "●",
-        "tvlUsd": 10720602,
+        "tvlUsd": 10720612,
         "legs": [
           "USDC"
         ],
@@ -1589,7 +1740,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.17,
-        "apyPct30D": -0.03,
+        "apyPct30D": -0.02,
         "poolId": "d7c8dc33-235e-4d08-94e9-8b72c2500d0d"
       },
       {
@@ -1601,13 +1752,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 3.92,
+        "base": 3.91,
         "reward": 0,
-        "total": 3.92,
-        "spot": 3.92,
+        "total": 3.91,
+        "spot": 3.91,
         "mean30d": 3.88,
         "divFlag": "●",
-        "tvlUsd": 1996656,
+        "tvlUsd": 1996657,
         "legs": [
           "USDC"
         ],
@@ -1631,13 +1782,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 3.92,
+        "base": 3.91,
         "reward": 0.22,
-        "total": 4.14,
-        "spot": 4.14,
+        "total": 4.13,
+        "spot": 4.13,
         "mean30d": 4.08,
         "divFlag": "●",
-        "tvlUsd": 4610987,
+        "tvlUsd": 4611780,
         "legs": [
           "USDC"
         ],
@@ -1648,7 +1799,7 @@
         "apyReward": 0.22,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.09,
+        "apyPct7D": 0.08,
         "apyPct30D": -0.46,
         "poolId": "b39b492a-0a64-4926-8598-d5acf05d62b5"
       },
@@ -1667,7 +1818,7 @@
         "spot": 3.88,
         "mean30d": 3.85,
         "divFlag": "●",
-        "tvlUsd": 1842472,
+        "tvlUsd": 1837601,
         "legs": [
           "USDC"
         ],
@@ -1691,13 +1842,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 3.87,
+        "base": 3.86,
         "reward": 0,
-        "total": 3.87,
-        "spot": 3.87,
+        "total": 3.86,
+        "spot": 3.86,
         "mean30d": 3.83,
         "divFlag": "●",
-        "tvlUsd": 277960929,
+        "tvlUsd": 277961502,
         "legs": [
           "USDC"
         ],
@@ -1708,8 +1859,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.05,
-        "apyPct30D": 0.17,
+        "apyPct7D": 0.04,
+        "apyPct30D": 0.16,
         "poolId": "a5fab52f-73fa-4f44-9c09-9af1eb20996c"
       },
       {
@@ -1721,13 +1872,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 3.87,
+        "base": 3.86,
         "reward": 0,
-        "total": 3.87,
-        "spot": 3.87,
+        "total": 3.86,
+        "spot": 3.86,
         "mean30d": 3.83,
         "divFlag": "●",
-        "tvlUsd": 11858464,
+        "tvlUsd": 11858534,
         "legs": [
           "USDC"
         ],
@@ -1738,39 +1889,9 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.05,
-        "apyPct30D": 0.17,
+        "apyPct7D": 0.04,
+        "apyPct30D": 0.16,
         "poolId": "c1949c46-0c01-445f-8017-b3192d9913bc"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "USDG · SOL/BTC Market",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDG",
-        "base": 3.86,
-        "reward": 0,
-        "total": 3.86,
-        "spot": 3.86,
-        "mean30d": 3.89,
-        "divFlag": "●",
-        "tvlUsd": 6449273,
-        "legs": [
-          "USDG"
-        ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0.11,
-        "apyPct30D": 1.07,
-        "poolId": "0cdd7f84-711e-4cd4-916d-da318857559a"
       },
       {
         "project": "aave-v4",
@@ -1787,7 +1908,7 @@
         "spot": 3.81,
         "mean30d": 4.13,
         "divFlag": "●",
-        "tvlUsd": 2677974,
+        "tvlUsd": 2676444,
         "legs": [
           "USDC"
         ],
@@ -1798,7 +1919,7 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.56,
+        "apyPct7D": -0.76,
         "apyPct30D": 0.83,
         "poolId": "4ac1a968-68ab-4da8-87e3-8f1e15e3dae2"
       },
@@ -1811,13 +1932,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDT",
-        "base": 3.81,
+        "base": 3.8,
         "reward": 0,
-        "total": 3.81,
-        "spot": 3.81,
+        "total": 3.8,
+        "spot": 3.8,
         "mean30d": 3.96,
         "divFlag": "●",
-        "tvlUsd": 17687869,
+        "tvlUsd": 17687542,
         "legs": [
           "USDT"
         ],
@@ -1828,8 +1949,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.56,
-        "apyPct30D": 0.17,
+        "apyPct7D": -0.57,
+        "apyPct30D": 0.13,
         "poolId": "a2fbc7ec-22c2-43fe-aa42-49f854aa940d"
       },
       {
@@ -1907,7 +2028,7 @@
         "spot": 3.75,
         "mean30d": 3.8,
         "divFlag": "●",
-        "tvlUsd": 9525952,
+        "tvlUsd": 9525960,
         "legs": [
           "USDC"
         ],
@@ -1918,7 +2039,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.13,
+        "apyPct7D": -0.12,
         "apyPct30D": null,
         "poolId": "80b2d4bf-dac4-4c69-91da-cdc740de1e3b"
       },
@@ -1967,7 +2088,7 @@
         "spot": 3.63,
         "mean30d": 4.06,
         "divFlag": "●",
-        "tvlUsd": 1170642,
+        "tvlUsd": 1170634,
         "legs": [
           "DAI"
         ],
@@ -1979,7 +2100,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.26,
-        "apyPct30D": -0.24,
+        "apyPct30D": -0.22,
         "poolId": "c57bdc97-3100-41ff-845f-075363f6f5a4"
       },
       {
@@ -1997,7 +2118,7 @@
         "spot": 3.6,
         "mean30d": 3.55,
         "divFlag": "●",
-        "tvlUsd": 317813184,
+        "tvlUsd": 317801123,
         "legs": [
           "USDC"
         ],
@@ -2133,36 +2254,6 @@
         "poolId": "1767cdec-8dad-4b8c-a61c-fa10ab4d3f92"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "PYUSD · Figure Market",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "PYUSD",
-        "base": 3.54,
-        "reward": 0,
-        "total": 3.54,
-        "spot": 3.54,
-        "mean30d": 4.48,
-        "divFlag": "▼",
-        "tvlUsd": 6852583,
-        "legs": [
-          "PYUSD"
-        ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0.86,
-        "apyPct30D": -1.21,
-        "poolId": "4decb8fb-be56-48ce-9c61-47a554d248e8"
-      },
-      {
         "project": "jupiter-lend",
         "name": "Jupiter Lend",
         "symbol": "USDC · Earn",
@@ -2175,9 +2266,9 @@
         "reward": 0.37,
         "total": 3.91,
         "spot": 3.91,
-        "mean30d": 4.97,
+        "mean30d": 4.96,
         "divFlag": "▼",
-        "tvlUsd": 482261241,
+        "tvlUsd": 482231943,
         "legs": [
           "USDC"
         ],
@@ -2188,8 +2279,8 @@
         "apyReward": 0.37,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.45,
-        "apyPct30D": -1.52,
+        "apyPct7D": -0.51,
+        "apyPct30D": -1.54,
         "poolId": "d783c8df-e2ed-44b4-8317-161ccc1b5f06"
       },
       {
@@ -2253,6 +2344,36 @@
         "poolId": "590d770e-ed5d-4c8d-ad96-5178c2072295"
       },
       {
+        "project": "compound-v3",
+        "name": "Compound V3",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 3.54,
+        "reward": 0,
+        "total": 3.54,
+        "spot": 3.54,
+        "mean30d": 4.7,
+        "divFlag": "▼",
+        "tvlUsd": 37272327,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://v3-app.compound.finance/markets/usdc-mainnet",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": -0.73,
+        "apyPct30D": 0.25,
+        "poolId": "7da72d09-56ca-4ec5-a45f-59114353e487"
+      },
+      {
         "project": "aave-v3",
         "name": "Aave V3",
         "symbol": "USDC",
@@ -2267,7 +2388,7 @@
         "spot": 3.52,
         "mean30d": 3.53,
         "divFlag": "●",
-        "tvlUsd": 24502188,
+        "tvlUsd": 24562596,
         "legs": [
           "USDC"
         ],
@@ -2297,7 +2418,7 @@
         "spot": 3.52,
         "mean30d": 3.87,
         "divFlag": "●",
-        "tvlUsd": 205724364,
+        "tvlUsd": 205793100,
         "legs": [
           "USDC"
         ],
@@ -2325,9 +2446,9 @@
         "reward": 1.67,
         "total": 5.19,
         "spot": 5.19,
-        "mean30d": 5.4,
+        "mean30d": 5.41,
         "divFlag": "●",
-        "tvlUsd": 58273461,
+        "tvlUsd": 58273895,
         "legs": [
           "USDC"
         ],
@@ -2343,64 +2464,34 @@
         "poolId": "6f00d46b-8735-49ae-9ced-2a0fccc56ad0"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "USDC · SOL/BTC Market",
-        "chain": "Solana",
+        "project": "morpho-blue",
+        "name": "Morpho Blue",
+        "symbol": "Hakutora USDC",
+        "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 3.5,
+        "base": 3.51,
         "reward": 0,
-        "total": 3.5,
-        "spot": 3.5,
-        "mean30d": 4.89,
-        "divFlag": "▼",
-        "tvlUsd": 23328017,
+        "total": 3.51,
+        "spot": 3.51,
+        "mean30d": 3.56,
+        "divFlag": "●",
+        "tvlUsd": 18975245,
         "legs": [
           "USDC"
         ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
+        "url": "https://app.morpho.org/ethereum/vault/0x974c8FBf4fd795F66B85B73ebC988A51F1A040a9",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": null,
+        "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.02,
-        "apyPct30D": -0.74,
-        "poolId": "d2141a59-c199-4be7-8d4b-c8223954836b"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "USDC · JLP Market",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.5,
-        "reward": 0,
-        "total": 3.5,
-        "spot": 3.5,
-        "mean30d": 4.91,
-        "divFlag": "▼",
-        "tvlUsd": 2025520,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.02,
-        "apyPct30D": -0.73,
-        "poolId": "62649c90-e61a-4ffc-ba31-3d754b7461fc"
+        "apyPct7D": -0.12,
+        "apyPct30D": -0.03,
+        "poolId": "677f756a-eda4-48b0-ba35-60adc9b44d88"
       },
       {
         "project": "spark-savings",
@@ -2417,7 +2508,7 @@
         "spot": 3.5,
         "mean30d": 3.2,
         "divFlag": "●",
-        "tvlUsd": 406706805,
+        "tvlUsd": 406712895,
         "legs": [
           "USDT"
         ],
@@ -2447,7 +2538,7 @@
         "spot": 3.5,
         "mean30d": 2.66,
         "divFlag": "▲",
-        "tvlUsd": 4579815,
+        "tvlUsd": 4579816,
         "legs": [
           "USDC"
         ],
@@ -2463,70 +2554,40 @@
         "poolId": "dde4c16c-504d-470b-9404-006287ce0906"
       },
       {
-        "project": "morpho-blue",
-        "name": "Morpho Blue",
-        "symbol": "Hakutora USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.5,
-        "reward": 0,
-        "total": 3.5,
-        "spot": 3.5,
-        "mean30d": 3.56,
-        "divFlag": "●",
-        "tvlUsd": 18975330,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.morpho.org/ethereum/vault/0x974c8FBf4fd795F66B85B73ebC988A51F1A040a9",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.12,
-        "apyPct30D": -0.04,
-        "poolId": "677f756a-eda4-48b0-ba35-60adc9b44d88"
-      },
-      {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "PYUSD · Ethena Market",
+        "symbol": "USDC Prime",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
-        "tierDriver": "PYUSD",
-        "base": 3.34,
+        "tierDriver": "USDC",
+        "base": 3.44,
         "reward": 0,
-        "total": 3.34,
-        "spot": 3.34,
-        "mean30d": 3.49,
-        "divFlag": "●",
-        "tvlUsd": 18014615,
+        "total": 3.44,
+        "spot": 3.44,
+        "mean30d": 5.05,
+        "divFlag": "▼",
+        "tvlUsd": 1753897,
         "legs": [
-          "PYUSD"
+          "USDC"
         ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
+        "url": "https://app.kamino.finance/lend/9E69U4GzWhryRaPe8DYpco6Z9vTZY6gg8w6W2QsBACEj",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.06,
-        "apyPct30D": 0.57,
-        "poolId": "44f4d357-a29d-4990-a64a-a8452be2d884"
+        "apyPct7D": 4.53,
+        "apyPct30D": null,
+        "poolId": "9E69U4GzWhryRaPe8DYpco6Z9vTZY6gg8w6W2QsBACEj"
       },
       {
-        "project": "compound-v3",
-        "name": "Compound V3",
-        "symbol": "USDC",
-        "chain": "Ethereum",
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Steakhouse USDC",
+        "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
@@ -2535,22 +2596,22 @@
         "reward": 0,
         "total": 3.33,
         "spot": 3.33,
-        "mean30d": 4.7,
+        "mean30d": 4.48,
         "divFlag": "▼",
-        "tvlUsd": 37550974,
+        "tvlUsd": 17453883,
         "legs": [
           "USDC"
         ],
-        "url": "https://v3-app.compound.finance/markets/usdc-mainnet",
+        "url": "https://app.kamino.finance/lend/HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E",
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 0,
+        "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.94,
-        "apyPct30D": 0.05,
-        "poolId": "7da72d09-56ca-4ec5-a45f-59114353e487"
+        "apyPct7D": 3.85,
+        "apyPct30D": null,
+        "poolId": "HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E"
       },
       {
         "project": "midas-rwa",
@@ -2673,37 +2734,6 @@
         "poolId": "9ad71299-9318-47b3-9a5a-bbe67c5121bf"
       },
       {
-        "project": "uniswap-v3",
-        "name": "Uniswap V3",
-        "symbol": "USDC-USDT · 0.01%",
-        "chain": "Arbitrum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.28,
-        "reward": 0,
-        "total": 3.28,
-        "spot": 3.28,
-        "mean30d": 4.71,
-        "divFlag": "▼",
-        "tvlUsd": 1213049,
-        "legs": [
-          "USDC",
-          "USDT"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/arbitrum/0xbE3aD6a5669Dc0B8b12FeBC03608860C31E2eef6",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 1089878,
-        "volumeUsd7d": 7330482,
-        "apyPct7D": 1.24,
-        "apyPct30D": -8.79,
-        "poolId": "ba3fb5f5-684e-4834-afca-d58668395b02"
-      },
-      {
         "project": "yearn-finance",
         "name": "Yearn Finance",
         "symbol": "DAI",
@@ -2730,8 +2760,68 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.08,
-        "apyPct30D": 0.2,
+        "apyPct30D": 0.19,
         "poolId": "3fbb0e46-2efe-47cc-acbe-5c892fa56845"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Solana Mobile USDC Earn Vault",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 3.26,
+        "reward": 0,
+        "total": 3.26,
+        "spot": 3.26,
+        "mean30d": 4.2,
+        "divFlag": "▼",
+        "tvlUsd": 1350535,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 3.62,
+        "apyPct30D": null,
+        "poolId": "3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Galaxy USDT",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDT",
+        "base": 3.25,
+        "reward": 0,
+        "total": 3.25,
+        "spot": 3.25,
+        "mean30d": 3.66,
+        "divFlag": "●",
+        "tvlUsd": 2559101,
+        "legs": [
+          "USDT"
+        ],
+        "url": "https://app.kamino.finance/lend/FPQNECVaw9qCHTJ7JRQXQUV94YffmhX3he5khUgx4m3j",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 3.55,
+        "apyPct30D": null,
+        "poolId": "FPQNECVaw9qCHTJ7JRQXQUV94YffmhX3he5khUgx4m3j"
       },
       {
         "project": "blackrock-buidl",
@@ -2802,13 +2892,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDT",
-        "base": 3.15,
+        "base": 3.19,
         "reward": 0,
-        "total": 3.15,
-        "spot": 3.15,
+        "total": 3.19,
+        "spot": 3.19,
         "mean30d": 3.35,
         "divFlag": "●",
-        "tvlUsd": 431727001,
+        "tvlUsd": 410985514,
         "legs": [
           "USDT"
         ],
@@ -2819,8 +2909,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.39,
-        "apyPct30D": 0.28,
+        "apyPct7D": -0.35,
+        "apyPct30D": 0.3,
         "poolId": "f981a304-bb6c-45b8-b0c5-fd2f515ad23a"
       },
       {
@@ -2832,13 +2922,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDT",
-        "base": 3.15,
+        "base": 3.19,
         "reward": 1.44,
-        "total": 4.59,
-        "spot": 4.59,
+        "total": 4.63,
+        "spot": 4.63,
         "mean30d": 4.78,
         "divFlag": "●",
-        "tvlUsd": 71001166,
+        "tvlUsd": 70994959,
         "legs": [
           "USDT"
         ],
@@ -2849,9 +2939,39 @@
         "apyReward": 1.44,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.44,
-        "apyPct30D": 0.33,
+        "apyPct7D": -0.4,
+        "apyPct30D": 0.35,
         "poolId": "a90d554a-b548-4f50-b03e-9dcb724b7777"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Ethena PYUSD Prime",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "PYUSD",
+        "base": 3.17,
+        "reward": 0,
+        "total": 3.17,
+        "spot": 3.17,
+        "mean30d": 2.94,
+        "divFlag": "●",
+        "tvlUsd": 251527145,
+        "legs": [
+          "PYUSD"
+        ],
+        "url": "https://app.kamino.finance/lend/4TwKA9JXEGeLEpAPLoarhSQoQwoiu12dkDCjSuVvHQUf",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 3.23,
+        "apyPct30D": null,
+        "poolId": "4TwKA9JXEGeLEpAPLoarhSQoQwoiu12dkDCjSuVvHQUf"
       },
       {
         "project": "compound-v3",
@@ -2868,7 +2988,7 @@
         "spot": 3.14,
         "mean30d": 3.09,
         "divFlag": "●",
-        "tvlUsd": 22828599,
+        "tvlUsd": 22826044,
         "legs": [
           "USDT"
         ],
@@ -2882,36 +3002,6 @@
         "apyPct7D": 0.14,
         "apyPct30D": -0.01,
         "poolId": "f4d5b566-e815-4ca2-bb07-7bcd8bc797f1"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "USDT · SOL/BTC Market",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDT",
-        "base": 3.14,
-        "reward": 0,
-        "total": 3.14,
-        "spot": 3.14,
-        "mean30d": 4.21,
-        "divFlag": "▼",
-        "tvlUsd": 2509653,
-        "legs": [
-          "USDT"
-        ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.12,
-        "apyPct30D": 0.22,
-        "poolId": "546b3c0c-138d-4190-b46b-efa1765f1dd3"
       },
       {
         "project": "aave-v3",
@@ -2928,7 +3018,7 @@
         "spot": 3.06,
         "mean30d": 2.81,
         "divFlag": "●",
-        "tvlUsd": 17694038,
+        "tvlUsd": 17694244,
         "legs": [
           "DAI"
         ],
@@ -2958,7 +3048,7 @@
         "spot": 3.02,
         "mean30d": 2.7,
         "divFlag": "●",
-        "tvlUsd": 1254592,
+        "tvlUsd": 1254579,
         "legs": [
           "USDC"
         ],
@@ -2972,36 +3062,6 @@
         "apyPct7D": 0.44,
         "apyPct30D": 0.36,
         "poolId": "effcb4a4-4dcb-45e5-935d-f15542c13e6b"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "PYUSD · Maple Market",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "PYUSD",
-        "base": 2.92,
-        "reward": 0,
-        "total": 2.92,
-        "spot": 2.92,
-        "mean30d": 3.89,
-        "divFlag": "▼",
-        "tvlUsd": 6862009,
-        "legs": [
-          "PYUSD"
-        ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.05,
-        "apyPct30D": 0.02,
-        "poolId": "cfced7e4-e041-445b-845e-afde335e3a35"
       },
       {
         "project": "aave-v3",
@@ -3018,7 +3078,7 @@
         "spot": 2.88,
         "mean30d": 2.84,
         "divFlag": "●",
-        "tvlUsd": 11960619,
+        "tvlUsd": 11961321,
         "legs": [
           "USDC"
         ],
@@ -3030,7 +3090,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 0.07,
-        "apyPct30D": 0.02,
+        "apyPct30D": 0.05,
         "poolId": "1b8b4cdb-0728-42a8-bf13-2c8fea7427ee"
       },
       {
@@ -3042,13 +3102,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDG",
-        "base": 2.87,
-        "reward": 3.31,
+        "base": 2.86,
+        "reward": 3.32,
         "total": 6.18,
         "spot": 6.18,
         "mean30d": 6.38,
         "divFlag": "●",
-        "tvlUsd": 3384434,
+        "tvlUsd": 3418997,
         "legs": [
           "USDG"
         ],
@@ -3056,42 +3116,12 @@
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 3.31,
+        "apyReward": 3.32,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.01,
+        "apyPct7D": 0,
         "apyPct30D": null,
         "poolId": "6d36657a-710e-5870-aaf9-f00f20e919b9"
-      },
-      {
-        "project": "morpho-blue",
-        "name": "Morpho Blue",
-        "symbol": "Steakhouse High Yield USDC",
-        "chain": "Base",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 2.85,
-        "reward": 2.75,
-        "total": 5.61,
-        "spot": 5.61,
-        "mean30d": 5.67,
-        "divFlag": "●",
-        "tvlUsd": 399366065,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.morpho.org/base/vault/0xCBeeF01994E24a60f7DCB8De98e75AD8BD4Ad60d",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 2.75,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.01,
-        "apyPct30D": 0.14,
-        "poolId": "8276be38-acc6-4005-ab0d-62680f49f4df"
       },
       {
         "project": "compound-v3",
@@ -3108,7 +3138,7 @@
         "spot": 2.85,
         "mean30d": 2.8,
         "divFlag": "●",
-        "tvlUsd": 3037533,
+        "tvlUsd": 3037474,
         "legs": [
           "USDC"
         ],
@@ -3119,9 +3149,39 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0,
+        "apyPct7D": -0.01,
         "apyPct30D": 0.11,
         "poolId": "d9c395b9-00d0-4426-a6b3-572a6dd68e54"
+      },
+      {
+        "project": "morpho-blue",
+        "name": "Morpho Blue",
+        "symbol": "Steakhouse High Yield USDC",
+        "chain": "Base",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 2.85,
+        "reward": 2.75,
+        "total": 5.6,
+        "spot": 5.6,
+        "mean30d": 5.67,
+        "divFlag": "●",
+        "tvlUsd": 399401888,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.morpho.org/base/vault/0xCBeeF01994E24a60f7DCB8De98e75AD8BD4Ad60d",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 2.75,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": -0.01,
+        "apyPct30D": 0.14,
+        "poolId": "8276be38-acc6-4005-ab0d-62680f49f4df"
       },
       {
         "project": "aave-v3",
@@ -3132,13 +3192,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 2.71,
+        "base": 2.7,
         "reward": 0,
-        "total": 2.71,
-        "spot": 2.71,
+        "total": 2.7,
+        "spot": 2.7,
         "mean30d": 2.5,
         "divFlag": "●",
-        "tvlUsd": 31010623,
+        "tvlUsd": 31169663,
         "legs": [
           "USDC"
         ],
@@ -3154,6 +3214,36 @@
         "poolId": "d9fa8e14-0447-4207-9ae8-7810199dfa1f"
       },
       {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Sentora PYUSD",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "PYUSD",
+        "base": 2.63,
+        "reward": 2.46,
+        "total": 5.1,
+        "spot": 5.1,
+        "mean30d": 6.1,
+        "divFlag": "●",
+        "tvlUsd": 137499365,
+        "legs": [
+          "PYUSD"
+        ],
+        "url": "https://app.kamino.finance/lend/A2wsxhA7pF4B2UKVfXocb6TAAP9ipfPJam6oMKgDE5BK",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 2.46,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.39,
+        "apyPct30D": null,
+        "poolId": "A2wsxhA7pF4B2UKVfXocb6TAAP9ipfPJam6oMKgDE5BK"
+      },
+      {
         "project": "midas-rwa",
         "name": "Midas RWA",
         "symbol": "USDC · mRe7YIELD",
@@ -3166,7 +3256,7 @@
         "reward": 0,
         "total": 2.63,
         "spot": 2.63,
-        "mean30d": 6.89,
+        "mean30d": 6.88,
         "divFlag": "▼",
         "tvlUsd": 6427616,
         "legs": [
@@ -3198,7 +3288,7 @@
         "spot": 2.58,
         "mean30d": 2.54,
         "divFlag": "●",
-        "tvlUsd": 4140373,
+        "tvlUsd": 4139605,
         "legs": [
           "USDT"
         ],
@@ -3228,7 +3318,7 @@
         "spot": 2.5,
         "mean30d": 3.11,
         "divFlag": "●",
-        "tvlUsd": 6398992,
+        "tvlUsd": 6399078,
         "legs": [
           "USDT"
         ],
@@ -3239,9 +3329,70 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.66,
+        "apyPct7D": -0.65,
         "apyPct30D": -0.63,
         "poolId": "025dadbc-c175-4a37-a5ec-dff5062b1a50"
+      },
+      {
+        "project": "uniswap-v3",
+        "name": "Uniswap V3",
+        "symbol": "DAI-USDC · 0.01%",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "DAI",
+        "base": 2.47,
+        "reward": 0,
+        "total": 2.47,
+        "spot": 2.47,
+        "mean30d": 3.82,
+        "divFlag": "▼",
+        "tvlUsd": 1438918,
+        "legs": [
+          "DAI",
+          "USDC"
+        ],
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0x5777d92f208679DB4b9778590Fa3CAB3aC9e2168",
+        "linkKind": "exact",
+        "exposure": "multi",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": 973178,
+        "volumeUsd7d": 7777810,
+        "apyPct7D": -2.11,
+        "apyPct30D": -5.55,
+        "poolId": "1193ef25-862b-43c1-a545-91bbb9678d30"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Elemental USDC Turbo",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 2.39,
+        "reward": 3.58,
+        "total": 5.98,
+        "spot": 5.98,
+        "mean30d": 6.25,
+        "divFlag": "●",
+        "tvlUsd": 4521641,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/A3hTCWdnfV6uiQLxRmnv17EpiEtmc93v1AGQnWy44Mup",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 3.58,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 6.06,
+        "apyPct30D": null,
+        "poolId": "A3hTCWdnfV6uiQLxRmnv17EpiEtmc93v1AGQnWy44Mup"
       },
       {
         "project": "morpho-blue",
@@ -3258,7 +3409,7 @@
         "spot": 2.39,
         "mean30d": 3.04,
         "divFlag": "▼",
-        "tvlUsd": 7715539,
+        "tvlUsd": 7715650,
         "legs": [
           "USDT"
         ],
@@ -3269,8 +3420,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.62,
-        "apyPct30D": -1.27,
+        "apyPct7D": -0.61,
+        "apyPct30D": -1.26,
         "poolId": "0f25159f-753d-4eef-84f5-1f9b47394033"
       },
       {
@@ -3282,13 +3433,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDT",
-        "base": 2.39,
+        "base": 2.38,
         "reward": 0,
-        "total": 2.39,
-        "spot": 2.39,
+        "total": 2.38,
+        "spot": 2.38,
         "mean30d": 2.96,
         "divFlag": "●",
-        "tvlUsd": 87950377,
+        "tvlUsd": 87951559,
         "legs": [
           "USDT"
         ],
@@ -3299,8 +3450,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.61,
-        "apyPct30D": -0.6,
+        "apyPct7D": -0.6,
+        "apyPct30D": -0.59,
         "poolId": "ded5a855-23c1-459d-8390-ba2707fac7c5"
       },
       {
@@ -3318,7 +3469,7 @@
         "spot": 2.38,
         "mean30d": 2.75,
         "divFlag": "●",
-        "tvlUsd": 3145996,
+        "tvlUsd": 3146042,
         "legs": [
           "USDT"
         ],
@@ -3329,40 +3480,9 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.63,
+        "apyPct7D": -0.62,
         "apyPct30D": -0.31,
         "poolId": "ea033b6e-f4d2-46ef-b609-93b680852a64"
-      },
-      {
-        "project": "uniswap-v3",
-        "name": "Uniswap V3",
-        "symbol": "DAI-USDC · 0.01%",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "DAI",
-        "base": 2.25,
-        "reward": 0,
-        "total": 2.25,
-        "spot": 2.25,
-        "mean30d": 3.83,
-        "divFlag": "▼",
-        "tvlUsd": 1438777,
-        "legs": [
-          "DAI",
-          "USDC"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/ethereum/0x5777d92f208679DB4b9778590Fa3CAB3aC9e2168",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 888820,
-        "volumeUsd7d": 7681821,
-        "apyPct7D": -2.34,
-        "apyPct30D": -5.76,
-        "poolId": "1193ef25-862b-43c1-a545-91bbb9678d30"
       },
       {
         "project": "aave-v4",
@@ -3379,7 +3499,7 @@
         "spot": 2.21,
         "mean30d": 1.81,
         "divFlag": "▲",
-        "tvlUsd": 1265738,
+        "tvlUsd": 1265724,
         "legs": [
           "USDC"
         ],
@@ -3409,7 +3529,7 @@
         "spot": 2.12,
         "mean30d": 2.62,
         "divFlag": "●",
-        "tvlUsd": 6301491,
+        "tvlUsd": 6301581,
         "legs": [
           "USDT"
         ],
@@ -3420,39 +3540,40 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.55,
-        "apyPct30D": -0.54,
+        "apyPct7D": -0.54,
+        "apyPct30D": -0.53,
         "poolId": "ab3e992c-dffc-4895-a1a7-58f23460b092"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "PYUSD · SOL/BTC Market",
-        "chain": "Solana",
-        "bucket": "lend",
+        "project": "uniswap-v3",
+        "name": "Uniswap V3",
+        "symbol": "DAI-USDT · 0.01%",
+        "chain": "Ethereum",
+        "bucket": "LP",
         "access": "permissionless",
         "type": "fiat",
-        "tierDriver": "PYUSD",
-        "base": 2.05,
+        "tierDriver": "DAI",
+        "base": 2.06,
         "reward": 0,
-        "total": 2.05,
-        "spot": 2.05,
-        "mean30d": 3.44,
+        "total": 2.06,
+        "spot": 2.06,
+        "mean30d": 5.37,
         "divFlag": "▼",
-        "tvlUsd": 5826665,
+        "tvlUsd": 1356684,
         "legs": [
-          "PYUSD"
+          "DAI",
+          "USDT"
         ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0x48DA0965ab2d2cbf1C17C09cFB5Cbe67Ad5B1406",
+        "linkKind": "exact",
+        "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.06,
-        "apyPct30D": -1.93,
-        "poolId": "eaece65e-ffb2-4631-a95e-7f267cb2f1ba"
+        "volumeUsd1d": 766500,
+        "volumeUsd7d": 8368261,
+        "apyPct7D": -0.37,
+        "apyPct30D": -3.44,
+        "poolId": "802d35a2-5bae-456f-a2a9-4e1b48e0dec5"
       },
       {
         "project": "aave-v4",
@@ -3467,9 +3588,9 @@
         "reward": 4.25,
         "total": 6.18,
         "spot": 6.18,
-        "mean30d": 4.9,
+        "mean30d": 4.91,
         "divFlag": "▲",
-        "tvlUsd": 18435935,
+        "tvlUsd": 18434048,
         "legs": [
           "USDG"
         ],
@@ -3480,7 +3601,7 @@
         "apyReward": 4.25,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.01,
+        "apyPct7D": 0,
         "apyPct30D": 4.9,
         "poolId": "411707d7-0293-4ad3-982d-72125e1f5de7"
       },
@@ -3499,7 +3620,7 @@
         "spot": 1.92,
         "mean30d": 2.38,
         "divFlag": "●",
-        "tvlUsd": 2026656,
+        "tvlUsd": 2026676,
         "legs": [
           "RLUSD"
         ],
@@ -3529,7 +3650,7 @@
         "spot": 1.91,
         "mean30d": 1.64,
         "divFlag": "●",
-        "tvlUsd": 2331166,
+        "tvlUsd": 2331170,
         "legs": [
           "USDT"
         ],
@@ -3540,40 +3661,9 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.18,
+        "apyPct7D": 0.17,
         "apyPct30D": 0.48,
         "poolId": "7ec9f4ba-803c-4935-97e2-342aa75b4ff4"
-      },
-      {
-        "project": "uniswap-v3",
-        "name": "Uniswap V3",
-        "symbol": "DAI-USDT · 0.01%",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "DAI",
-        "base": 1.89,
-        "reward": 0,
-        "total": 1.89,
-        "spot": 1.89,
-        "mean30d": 5.37,
-        "divFlag": "▼",
-        "tvlUsd": 1356662,
-        "legs": [
-          "DAI",
-          "USDT"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/ethereum/0x48DA0965ab2d2cbf1C17C09cFB5Cbe67Ad5B1406",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 702809,
-        "volumeUsd7d": 8272706,
-        "apyPct7D": -0.55,
-        "apyPct30D": -3.62,
-        "poolId": "802d35a2-5bae-456f-a2a9-4e1b48e0dec5"
       },
       {
         "project": "aave-v3",
@@ -3590,7 +3680,7 @@
         "spot": 1.87,
         "mean30d": 1.97,
         "divFlag": "●",
-        "tvlUsd": 1185463,
+        "tvlUsd": 1185483,
         "legs": [
           "DAI"
         ],
@@ -3601,7 +3691,7 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.11,
+        "apyPct7D": -0.1,
         "apyPct30D": -0.28,
         "poolId": "a8e3d841-2788-4647-ad54-5a36fac451b1"
       },
@@ -3618,7 +3708,7 @@
         "reward": 0,
         "total": 1.8,
         "spot": 1.8,
-        "mean30d": 2.49,
+        "mean30d": 2.5,
         "divFlag": "▼",
         "tvlUsd": 1872710,
         "legs": [
@@ -3650,7 +3740,7 @@
         "spot": 1.65,
         "mean30d": 3.65,
         "divFlag": "▼",
-        "tvlUsd": 4579772,
+        "tvlUsd": 4579304,
         "legs": [
           "USDG"
         ],
@@ -3661,8 +3751,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.28,
-        "apyPct30D": -5.54,
+        "apyPct7D": 0.08,
+        "apyPct30D": -2.47,
         "poolId": "83fca810-ec67-401d-831a-2d0ae8e596c9"
       },
       {
@@ -3680,7 +3770,7 @@
         "spot": 4.99,
         "mean30d": 4.99,
         "divFlag": "●",
-        "tvlUsd": 71051641,
+        "tvlUsd": 71052345,
         "legs": [
           "RLUSD"
         ],
@@ -3704,10 +3794,10 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 1.17,
+        "base": 1.14,
         "reward": 0,
-        "total": 1.17,
-        "spot": 1.17,
+        "total": 1.14,
+        "spot": 1.14,
         "mean30d": 1.37,
         "divFlag": "●",
         "tvlUsd": 1555636,
@@ -3720,41 +3810,41 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 497355,
-        "volumeUsd7d": 7011242,
-        "apyPct7D": 0.33,
-        "apyPct30D": -0.05,
+        "volumeUsd1d": 487895,
+        "volumeUsd7d": 6985310,
+        "apyPct7D": 0.26,
+        "apyPct30D": -0.1,
         "poolId": "8ad76d42-6247-42f2-8281-5d59cb77b8b3"
       },
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDC · Nest Market",
+        "symbol": "Plume x Re7 USDC",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 0.93,
-        "reward": 0,
-        "total": 0.93,
-        "spot": 0.93,
-        "mean30d": 0.64,
+        "base": 0.84,
+        "reward": 5.49,
+        "total": 6.33,
+        "spot": 6.33,
+        "mean30d": 2.79,
         "divFlag": "▲",
-        "tvlUsd": 3926163,
+        "tvlUsd": 2527858,
         "legs": [
           "USDC"
         ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
+        "url": "https://app.kamino.finance/lend/HJFEPRRRLBfJBfSJaC69r3nMYskViL9Yy1QLLAqjvnW",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": null,
+        "apyReward": 5.49,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.54,
+        "apyPct7D": 7.48,
         "apyPct30D": null,
-        "poolId": "81c23e0d-0ffc-5aa0-b08d-e1d2326be79d"
+        "poolId": "HJFEPRRRLBfJBfSJaC69r3nMYskViL9Yy1QLLAqjvnW"
       },
       {
         "project": "sparklend",
@@ -3771,7 +3861,7 @@
         "spot": 0.61,
         "mean30d": 0.46,
         "divFlag": "▲",
-        "tvlUsd": 82513145,
+        "tvlUsd": 82511091,
         "legs": [
           "PYUSD"
         ],
@@ -3801,7 +3891,7 @@
         "spot": 0.55,
         "mean30d": 1.31,
         "divFlag": "▼",
-        "tvlUsd": 33273106,
+        "tvlUsd": 33272704,
         "legs": [
           "USDC",
           "USDT"
@@ -3811,8 +3901,8 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 5006874,
-        "volumeUsd7d": 58277130,
+        "volumeUsd1d": 4997752,
+        "volumeUsd7d": 58273720,
         "apyPct7D": 0.14,
         "apyPct30D": -0.21,
         "poolId": "e737d721-f45c-40f0-9793-9f56261862b9"
@@ -3826,13 +3916,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDG",
-        "base": 0.33,
+        "base": 0.37,
         "reward": 0,
-        "total": 0.33,
-        "spot": 0.33,
+        "total": 0.37,
+        "spot": 0.37,
         "mean30d": 0.59,
         "divFlag": "▼",
-        "tvlUsd": 19034537,
+        "tvlUsd": 19033384,
         "legs": [
           "USDG",
           "USDC"
@@ -3842,10 +3932,10 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 1296281,
-        "volumeUsd7d": 16444804,
-        "apyPct7D": -0.72,
-        "apyPct30D": 0.21,
+        "volumeUsd1d": 1294800,
+        "volumeUsd7d": 15829472,
+        "apyPct7D": -0.8,
+        "apyPct30D": 0.25,
         "poolId": "ac225670-41bc-48fa-b8d7-32011abc58fe"
       },
       {
@@ -3863,7 +3953,7 @@
         "spot": 0.19,
         "mean30d": 0.65,
         "divFlag": "▼",
-        "tvlUsd": 2913487,
+        "tvlUsd": 2913515,
         "legs": [
           "USDY",
           "USDC"
@@ -3873,10 +3963,10 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 8749,
-        "volumeUsd7d": 73207,
-        "apyPct7D": 0.16,
-        "apyPct30D": -0.53,
+        "volumeUsd1d": 8852,
+        "volumeUsd7d": 73309,
+        "apyPct7D": 0.17,
+        "apyPct30D": -0.52,
         "poolId": "22f79b01-3ba8-4a75-a12d-615151633875"
       },
       {
@@ -3894,7 +3984,7 @@
         "spot": 0.07,
         "mean30d": 0.27,
         "divFlag": "▼",
-        "tvlUsd": 18939868,
+        "tvlUsd": 18945426,
         "legs": [
           "PYUSD",
           "USDC"
@@ -3904,8 +3994,8 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 167409,
-        "volumeUsd7d": 7115749,
+        "volumeUsd1d": 167470,
+        "volumeUsd7d": 6921108,
         "apyPct7D": 0,
         "apyPct30D": 0.01,
         "poolId": "99203560-4a69-4a67-9dbc-70b78a68a2b9"
@@ -3925,7 +4015,7 @@
         "spot": 0.03,
         "mean30d": 2.62,
         "divFlag": "▼",
-        "tvlUsd": 2780734,
+        "tvlUsd": 2780719,
         "legs": [
           "RLUSD",
           "USDC"
@@ -3935,41 +4025,11 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 22434,
-        "volumeUsd7d": 4003035,
+        "volumeUsd1d": 22532,
+        "volumeUsd7d": 4002869,
         "apyPct7D": -0.08,
-        "apyPct30D": -1.78,
+        "apyPct30D": -1.61,
         "poolId": "4df8be17-df55-47cf-b72b-6ef844f62200"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "PYUSD · Sentora xStocks Market",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "PYUSD",
-        "base": 0,
-        "reward": 0,
-        "total": 0,
-        "spot": 0,
-        "mean30d": 0,
-        "divFlag": "●",
-        "tvlUsd": 7022113,
-        "legs": [
-          "PYUSD"
-        ],
-        "url": "https://kamino.com/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0,
-        "apyPct30D": null,
-        "poolId": "e8be6376-dd6b-5304-a5c1-d7d96d456c10"
       }
     ],
     "2": [
@@ -3988,7 +4048,7 @@
         "spot": 5.41,
         "mean30d": 5,
         "divFlag": "●",
-        "tvlUsd": 2835244,
+        "tvlUsd": 2835583,
         "legs": [
           "USDS",
           "STUSDS"
@@ -4013,13 +4073,13 @@
         "access": "permissionless",
         "type": "crypto",
         "tierDriver": "CRVUSD",
-        "base": 5.36,
+        "base": 5.37,
         "reward": 0,
-        "total": 5.36,
-        "spot": 5.36,
+        "total": 5.37,
+        "spot": 5.37,
         "mean30d": 4.32,
         "divFlag": "▲",
-        "tvlUsd": 1258163,
+        "tvlUsd": 1258428,
         "legs": [
           "CRVUSD"
         ],
@@ -4031,7 +4091,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 0.51,
-        "apyPct30D": 1.75,
+        "apyPct30D": 1.76,
         "poolId": "a4236681-173c-4a52-97d2-30c61f07141b"
       },
       {
@@ -4049,7 +4109,7 @@
         "spot": 5.11,
         "mean30d": 5.5,
         "divFlag": "●",
-        "tvlUsd": 205178181,
+        "tvlUsd": 205182077,
         "legs": [
           "STUSDS"
         ],
@@ -4079,7 +4139,7 @@
         "spot": 4.5,
         "mean30d": 4.35,
         "divFlag": "●",
-        "tvlUsd": 177261529,
+        "tvlUsd": 177253762,
         "legs": [
           "SGHO"
         ],
@@ -4103,13 +4163,13 @@
         "access": "permissionless",
         "type": "crypto",
         "tierDriver": "USDS",
-        "base": 3.63,
+        "base": 3.64,
         "reward": 0,
-        "total": 3.63,
-        "spot": 3.63,
+        "total": 3.64,
+        "spot": 3.64,
         "mean30d": 4.43,
         "divFlag": "●",
-        "tvlUsd": 3770365,
+        "tvlUsd": 3770579,
         "legs": [
           "USDS"
         ],
@@ -4120,8 +4180,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -1.3,
-        "apyPct30D": 0.11,
+        "apyPct7D": -1.29,
+        "apyPct30D": 0.12,
         "poolId": "0d01dc1f-7c3e-46e2-af40-6ec4454c93f0"
       },
       {
@@ -4139,7 +4199,7 @@
         "spot": 3.6,
         "mean30d": 3.55,
         "divFlag": "●",
-        "tvlUsd": 4649911220,
+        "tvlUsd": 4649971531,
         "legs": [
           "SUSDS"
         ],
@@ -4169,7 +4229,7 @@
         "spot": 3.6,
         "mean30d": 3.55,
         "divFlag": "●",
-        "tvlUsd": 362629940,
+        "tvlUsd": 362632673,
         "legs": [
           "SUSDS"
         ],
@@ -4199,7 +4259,7 @@
         "spot": 3.6,
         "mean30d": 3.55,
         "divFlag": "●",
-        "tvlUsd": 362629940,
+        "tvlUsd": 362632673,
         "legs": [
           "USDS"
         ],
@@ -4229,7 +4289,7 @@
         "spot": 3.6,
         "mean30d": 3.55,
         "divFlag": "●",
-        "tvlUsd": 12009239,
+        "tvlUsd": 12009330,
         "legs": [
           "USDS"
         ],
@@ -4259,7 +4319,7 @@
         "spot": 2.88,
         "mean30d": 3.38,
         "divFlag": "●",
-        "tvlUsd": 724910221,
+        "tvlUsd": 724919153,
         "legs": [
           "USDS"
         ],
@@ -4289,7 +4349,7 @@
         "spot": 5.51,
         "mean30d": 4.34,
         "divFlag": "▲",
-        "tvlUsd": 3265000,
+        "tvlUsd": 3264748,
         "legs": [
           "FRXUSD"
         ],
@@ -4319,7 +4379,7 @@
         "spot": 2.59,
         "mean30d": 2.51,
         "divFlag": "●",
-        "tvlUsd": 10541397,
+        "tvlUsd": 10540880,
         "legs": [
           "GHO"
         ],
@@ -4349,7 +4409,7 @@
         "spot": 1.76,
         "mean30d": 1.33,
         "divFlag": "▲",
-        "tvlUsd": 20960786,
+        "tvlUsd": 20959760,
         "legs": [
           "GHO"
         ],
@@ -4390,8 +4450,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.85,
-        "apyPct30D": -2.08,
+        "apyPct7D": -0.82,
+        "apyPct30D": -2.07,
         "poolId": "7501ef09-87d1-405c-b2b2-f269b2727289"
       },
       {
@@ -4440,7 +4500,7 @@
         "spot": 0.54,
         "mean30d": 0.56,
         "divFlag": "●",
-        "tvlUsd": 1282603,
+        "tvlUsd": 1280998,
         "legs": [
           "LUSD"
         ],
@@ -4464,10 +4524,10 @@
         "access": "permissionless",
         "type": "crypto",
         "tierDriver": "USDS",
-        "base": 0.22,
+        "base": 0.19,
         "reward": 0,
-        "total": 0.22,
-        "spot": 0.22,
+        "total": 0.19,
+        "spot": 0.19,
         "mean30d": 0.51,
         "divFlag": "▼",
         "tvlUsd": 1310454,
@@ -4480,10 +4540,10 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 80381,
-        "volumeUsd7d": 1150649,
-        "apyPct7D": -0.07,
-        "apyPct30D": 0.2,
+        "volumeUsd1d": 67699,
+        "volumeUsd7d": 1147266,
+        "apyPct7D": -0.09,
+        "apyPct30D": 0.17,
         "poolId": "5b6c56a9-3b81-48ee-bee7-3f0dcd862e4d"
       },
       {
@@ -4496,12 +4556,12 @@
         "type": "crypto",
         "tierDriver": "USDS",
         "base": 0.15,
-        "reward": 3.4,
+        "reward": 3.41,
         "total": 3.56,
         "spot": 3.56,
         "mean30d": 3.02,
         "divFlag": "●",
-        "tvlUsd": 8762644,
+        "tvlUsd": 8762752,
         "legs": [
           "USDS"
         ],
@@ -4509,10 +4569,10 @@
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 3.4,
+        "apyReward": 3.41,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0,
+        "apyPct7D": 0.01,
         "apyPct30D": 0.02,
         "poolId": "e65588a1-27ad-4e20-9232-68a6cfaccf63"
       },
@@ -4562,7 +4622,7 @@
         "spot": 0.06,
         "mean30d": 0.25,
         "divFlag": "▼",
-        "tvlUsd": 1506645,
+        "tvlUsd": 1506199,
         "legs": [
           "FRAX",
           "USDC"
@@ -4572,9 +4632,9 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 4964,
-        "volumeUsd7d": 84693,
-        "apyPct7D": 0,
+        "volumeUsd1d": 4946,
+        "volumeUsd7d": 84691,
+        "apyPct7D": 0.01,
         "apyPct30D": 0.05,
         "poolId": "d371fc69-9a77-4336-a129-ec79c9548266"
       },
@@ -4593,7 +4653,7 @@
         "spot": 0.04,
         "mean30d": 0.35,
         "divFlag": "▼",
-        "tvlUsd": 1413457,
+        "tvlUsd": 1413817,
         "legs": [
           "BOLD",
           "USDC"
@@ -4604,8 +4664,8 @@
         "ilRisk": "no",
         "apyReward": null,
         "volumeUsd1d": 3243,
-        "volumeUsd7d": 91745,
-        "apyPct7D": -0.05,
+        "volumeUsd7d": 91342,
+        "apyPct7D": -0.04,
         "apyPct30D": 0.04,
         "poolId": "8d4931e1-b573-4802-856d-244645926b19"
       },
@@ -4619,12 +4679,12 @@
         "type": "crypto",
         "tierDriver": "USD3",
         "base": 0,
-        "reward": 1.24,
-        "total": 1.24,
-        "spot": 1.24,
+        "reward": 1.39,
+        "total": 1.39,
+        "spot": 1.39,
         "mean30d": 1.76,
         "divFlag": "▼",
-        "tvlUsd": 17078659,
+        "tvlUsd": 17078577,
         "legs": [
           "USD3"
         ],
@@ -4632,11 +4692,11 @@
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 1.24,
+        "apyReward": 1.39,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.57,
-        "apyPct30D": -0.86,
+        "apyPct7D": -0.42,
+        "apyPct30D": -0.66,
         "poolId": "790ebca5-08ba-46ea-9ef3-f5520bf9584c"
       },
       {
@@ -4680,13 +4740,13 @@
         "access": "permissionless",
         "type": "synthetic",
         "tierDriver": "FXUSD",
-        "base": 9.39,
+        "base": 9.34,
         "reward": 0,
-        "total": 9.39,
-        "spot": 9.39,
-        "mean30d": 7.76,
+        "total": 9.34,
+        "spot": 9.34,
+        "mean30d": 7.77,
         "divFlag": "▲",
-        "tvlUsd": 2030834,
+        "tvlUsd": 2030853,
         "legs": [
           "FXUSD",
           "USDC"
@@ -4698,8 +4758,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.72,
-        "apyPct30D": 3.37,
+        "apyPct7D": 0.81,
+        "apyPct30D": 3.33,
         "poolId": "72a2bad5-812e-4f90-bb1c-a4ccf76d270a"
       },
       {
@@ -4711,13 +4771,13 @@
         "access": "permissionless",
         "type": "synthetic",
         "tierDriver": "USDF",
-        "base": 8.64,
+        "base": 8.52,
         "reward": 0,
-        "total": 8.64,
-        "spot": 8.64,
+        "total": 8.52,
+        "spot": 8.52,
         "mean30d": 8.03,
         "divFlag": "●",
-        "tvlUsd": 1226775,
+        "tvlUsd": 1227693,
         "legs": [
           "USDF",
           "USDC"
@@ -4729,8 +4789,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.47,
-        "apyPct30D": 1.13,
+        "apyPct7D": -0.59,
+        "apyPct30D": 1.01,
         "poolId": "cc8b2028-9dd6-4968-83a5-f21ebba61945"
       },
       {
@@ -4742,13 +4802,13 @@
         "access": "permissionless",
         "type": "synthetic",
         "tierDriver": "MSUSD",
-        "base": 6.02,
+        "base": 5.99,
         "reward": 0,
-        "total": 6.02,
-        "spot": 6.02,
-        "mean30d": 12.7,
+        "total": 5.99,
+        "spot": 5.99,
+        "mean30d": 12.68,
         "divFlag": "▼",
-        "tvlUsd": 1310941,
+        "tvlUsd": 1309820,
         "legs": [
           "MSUSD",
           "USDC"
@@ -4757,11 +4817,11 @@
         "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
-        "apyReward": 6.02,
+        "apyReward": 5.99,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -13.98,
-        "apyPct30D": -11.55,
+        "apyPct7D": -14.09,
+        "apyPct30D": -11.61,
         "poolId": "9652fa5a-8b82-4b48-b1b8-5a5d41ddcc42"
       },
       {
@@ -4773,13 +4833,13 @@
         "access": "permissionless",
         "type": "yield",
         "tierDriver": "SUSDE",
-        "base": 5.52,
+        "base": 5.56,
         "reward": 0,
-        "total": 5.52,
-        "spot": 5.52,
-        "mean30d": 5.63,
+        "total": 5.56,
+        "spot": 5.56,
+        "mean30d": 5.64,
         "divFlag": "●",
-        "tvlUsd": 9437941,
+        "tvlUsd": 9433932,
         "legs": [
           "DOLA",
           "SUSDE"
@@ -4791,8 +4851,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.74,
-        "apyPct30D": 0.8,
+        "apyPct7D": -0.7,
+        "apyPct30D": 0.9,
         "poolId": "77a6c1f4-fc04-47ff-aa62-090bcb20e3db"
       },
       {
@@ -4804,13 +4864,13 @@
         "access": "permissionless",
         "type": "yield",
         "tierDriver": "SUSDE",
-        "base": 4.92,
+        "base": 5.07,
         "reward": 0,
-        "total": 4.92,
-        "spot": 4.92,
+        "total": 5.07,
+        "spot": 5.07,
         "mean30d": 4.57,
         "divFlag": "●",
-        "tvlUsd": 1296876417,
+        "tvlUsd": 1296879473,
         "legs": [
           "SUSDE"
         ],
@@ -4821,8 +4881,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.32,
-        "apyPct30D": 0.63,
+        "apyPct7D": 0.52,
+        "apyPct30D": 0.67,
         "poolId": "66985a81-9c51-46ca-9977-42b4fe7bc6df"
       },
       {
@@ -4838,9 +4898,9 @@
         "reward": 3.05,
         "total": 6.29,
         "spot": 6.29,
-        "mean30d": 2.6,
+        "mean30d": 2.61,
         "divFlag": "▲",
-        "tvlUsd": 1068150,
+        "tvlUsd": 1068155,
         "legs": [
           "USDE"
         ],
@@ -4867,10 +4927,10 @@
         "base": 3,
         "reward": 0,
         "total": 3,
-        "spot": 3.58,
+        "spot": 3.44,
         "mean30d": 3,
         "divFlag": "●",
-        "tvlUsd": 2500064,
+        "tvlUsd": 2499913,
         "legs": [
           "USDG",
           "USDE"
@@ -4881,9 +4941,9 @@
         "ilRisk": "no",
         "apyReward": 0,
         "volumeUsd1d": 2017118,
-        "volumeUsd7d": 16589774,
-        "apyPct7D": -1.38,
-        "apyPct30D": 2.96,
+        "volumeUsd7d": 15901045,
+        "apyPct7D": -2.53,
+        "apyPct30D": 2.82,
         "poolId": "ae8e306b-a55d-48ce-afea-420d177c9272"
       },
       {
@@ -4926,13 +4986,13 @@
         "access": "permissionless",
         "type": "synthetic",
         "tierDriver": "USDE",
-        "base": 2.19,
+        "base": 2.12,
         "reward": 0,
-        "total": 2.19,
-        "spot": 2.19,
-        "mean30d": 15.15,
+        "total": 2.12,
+        "spot": 2.12,
+        "mean30d": 15.06,
         "divFlag": "▼",
-        "tvlUsd": 2180315,
+        "tvlUsd": 2180450,
         "legs": [
           "USDE",
           "USDC"
@@ -4942,7 +5002,7 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 5243909,
+        "volumeUsd1d": 5070538,
         "volumeUsd7d": null,
         "apyPct7D": null,
         "apyPct30D": null,
@@ -4963,7 +5023,7 @@
         "spot": 1.34,
         "mean30d": 1.05,
         "divFlag": "▲",
-        "tvlUsd": 5092983,
+        "tvlUsd": 5092984,
         "legs": [
           "SYRUPUSDT",
           "USDT"
@@ -5025,7 +5085,7 @@
         "spot": 1.01,
         "mean30d": 1.69,
         "divFlag": "▼",
-        "tvlUsd": 4416836,
+        "tvlUsd": 4416692,
         "legs": [
           "SYRUPUSDC",
           "USDC"
@@ -5038,7 +5098,7 @@
         "volumeUsd1d": 152021,
         "volumeUsd7d": null,
         "apyPct7D": 0.05,
-        "apyPct30D": 0.17,
+        "apyPct30D": 0.18,
         "poolId": "df8851f0-5b1d-4843-88fd-88468d129c78"
       },
       {
@@ -5050,13 +5110,13 @@
         "access": "permissionless",
         "type": "synthetic",
         "tierDriver": "USDE",
-        "base": 0.99,
+        "base": 0.98,
         "reward": 0,
-        "total": 0.99,
-        "spot": 0.99,
+        "total": 0.98,
+        "spot": 0.98,
         "mean30d": 5.16,
         "divFlag": "▼",
-        "tvlUsd": 2304932,
+        "tvlUsd": 2304934,
         "legs": [
           "USDE",
           "USDC"
@@ -5066,8 +5126,8 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 622731,
-        "volumeUsd7d": 19533499,
+        "volumeUsd1d": 620597,
+        "volumeUsd7d": 19531743,
         "apyPct7D": -2,
         "apyPct30D": 0.13,
         "poolId": "422cbad0-7a9a-45c2-abd0-27b395d4c461"
@@ -5085,9 +5145,9 @@
         "reward": 4.01,
         "total": 4.75,
         "spot": 4.75,
-        "mean30d": 3.11,
+        "mean30d": 3.12,
         "divFlag": "▲",
-        "tvlUsd": 534957861,
+        "tvlUsd": 535171583,
         "legs": [
           "USDE"
         ],
@@ -5117,7 +5177,7 @@
         "spot": 0.66,
         "mean30d": 1.3,
         "divFlag": "▼",
-        "tvlUsd": 2153239,
+        "tvlUsd": 2153734,
         "legs": [
           "PYUSD",
           "USDE"
@@ -5128,8 +5188,8 @@
         "ilRisk": "no",
         "apyReward": 0,
         "volumeUsd1d": 364857,
-        "volumeUsd7d": 4860769,
-        "apyPct7D": -1.22,
+        "volumeUsd7d": 4546257,
+        "apyPct7D": -1.74,
         "apyPct30D": 0.16,
         "poolId": "8298e97f-83bf-4bc2-a853-f0735aab802d"
       },
@@ -5148,7 +5208,7 @@
         "spot": 0.56,
         "mean30d": 0.56,
         "divFlag": "●",
-        "tvlUsd": 10694730,
+        "tvlUsd": 10693302,
         "legs": [
           "USD0"
         ],
@@ -5178,7 +5238,7 @@
         "spot": 0.21,
         "mean30d": 0.47,
         "divFlag": "▼",
-        "tvlUsd": 14928507,
+        "tvlUsd": 14910398,
         "legs": [
           "MSUSD"
         ],
@@ -5208,7 +5268,7 @@
         "spot": 0.18,
         "mean30d": 0.81,
         "divFlag": "▼",
-        "tvlUsd": 10048021,
+        "tvlUsd": 10039921,
         "legs": [
           "SYRUPUSDC",
           "USDC"
@@ -5219,7 +5279,7 @@
         "ilRisk": "no",
         "apyReward": 0,
         "volumeUsd1d": 491059,
-        "volumeUsd7d": 13511272,
+        "volumeUsd7d": 13486374,
         "apyPct7D": -2.69,
         "apyPct30D": -0.15,
         "poolId": "e1c57765-701f-49ba-810c-0785a51d3764"
@@ -5233,13 +5293,13 @@
         "access": "permissionless",
         "type": "synthetic",
         "tierDriver": "USD0",
-        "base": 0.05,
+        "base": 0.06,
         "reward": 0,
-        "total": 0.05,
-        "spot": 0.05,
+        "total": 0.06,
+        "spot": 0.06,
         "mean30d": 0.48,
         "divFlag": "▼",
-        "tvlUsd": 1855835,
+        "tvlUsd": 1855711,
         "legs": [
           "USD0",
           "USDC"
@@ -5249,9 +5309,9 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 27459,
-        "volumeUsd7d": 2267328,
-        "apyPct7D": -0.27,
+        "volumeUsd1d": 30303,
+        "volumeUsd7d": 2272060,
+        "apyPct7D": -0.26,
         "apyPct30D": -0.12,
         "poolId": "97bd40a6-c57e-4c32-8ee3-3fcfdc1faf9f"
       },
@@ -5270,7 +5330,7 @@
         "spot": 0.36,
         "mean30d": 0.05,
         "divFlag": "▲",
-        "tvlUsd": 1000209,
+        "tvlUsd": 1000215,
         "legs": [
           "USDE",
           "USDC"
@@ -5280,8 +5340,8 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 19623,
-        "volumeUsd7d": 33688,
+        "volumeUsd1d": 19653,
+        "volumeUsd7d": 33718,
         "apyPct7D": 0.35,
         "apyPct30D": 0.36,
         "poolId": "fa41acbb-df3a-4abc-8444-7ab982cc6af4"
@@ -5301,7 +5361,7 @@
         "spot": 0.01,
         "mean30d": 0.45,
         "divFlag": "▼",
-        "tvlUsd": 3399369,
+        "tvlUsd": 3398874,
         "legs": [
           "USD0",
           "USD0"
@@ -5311,9 +5371,9 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 12330,
-        "volumeUsd7d": 3293992,
-        "apyPct7D": 0,
+        "volumeUsd1d": 13078,
+        "volumeUsd7d": 3295161,
+        "apyPct7D": 0.01,
         "apyPct30D": -0.01,
         "poolId": "752413a7-1a7e-4d76-9f34-89568ba026ee"
       },
@@ -5329,10 +5389,10 @@
         "base": 0.01,
         "reward": 0,
         "total": 0.01,
-        "spot": 0.03,
+        "spot": 0.04,
         "mean30d": 0.01,
         "divFlag": "▲",
-        "tvlUsd": 10072229,
+        "tvlUsd": 10075573,
         "legs": [
           "USDT",
           "USDF"
@@ -5342,10 +5402,10 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 80961,
-        "volumeUsd7d": 122796,
-        "apyPct7D": 0.03,
-        "apyPct30D": -0.05,
+        "volumeUsd1d": 103855,
+        "volumeUsd7d": 145680,
+        "apyPct7D": 0.04,
+        "apyPct30D": -0.03,
         "poolId": "be43dcf6-39dd-43b1-85e8-20844c1b0e58"
       },
       {
@@ -5363,7 +5423,7 @@
         "spot": 4.75,
         "mean30d": 4.64,
         "divFlag": "●",
-        "tvlUsd": 352094343,
+        "tvlUsd": 352096088,
         "legs": [
           "USDE"
         ],
@@ -5393,7 +5453,7 @@
         "spot": 0,
         "mean30d": 1.33,
         "divFlag": "▼",
-        "tvlUsd": 230071723,
+        "tvlUsd": 229999147,
         "legs": [
           "SUSDE"
         ],
@@ -5411,31 +5471,31 @@
     ]
   },
   "rejects": {
-    "not-stablecoin": 13780,
-    "chain-excluded": 952,
-    "unmapped-stable-leg": 122,
-    "protocol-not-trusted": 371,
-    "zero-yield": 34,
-    "outlier": 13,
+    "not-stablecoin": 13700,
+    "chain-excluded": 951,
+    "unmapped-stable-leg": 118,
+    "protocol-not-trusted": 372,
+    "zero-yield": 30,
+    "outlier": 12,
     "inactive-lp": 2,
-    "below-tvl-floor": 1354
+    "below-tvl-floor": 1310
   },
   "missingTop": [
     {
       "project": "curve-dex",
-      "tvlUsd": 643752814
+      "tvlUsd": 645667057
     },
     {
       "project": "fluid-lending",
-      "tvlUsd": 553542021
+      "tvlUsd": 553579899
     },
     {
       "project": "usd-ai",
-      "tvlUsd": 467991244
+      "tvlUsd": 467986005
     },
     {
       "project": "pendle-v2",
-      "tvlUsd": 314805077
+      "tvlUsd": 314802643
     },
     {
       "project": "re",
@@ -5443,23 +5503,23 @@
     },
     {
       "project": "convex-finance",
-      "tvlUsd": 248955816
+      "tvlUsd": 248960555
     },
     {
       "project": "sentora-curator",
-      "tvlUsd": 212890748
+      "tvlUsd": 212892084
     },
     {
       "project": "pareto-credit",
-      "tvlUsd": 195667955
+      "tvlUsd": 195664706
     },
     {
       "project": "apyx-protocol",
-      "tvlUsd": 177619254
+      "tvlUsd": 177621793
     },
     {
       "project": "fluid-dex",
-      "tvlUsd": 161654041
+      "tvlUsd": 161602931
     }
   ]
 }
