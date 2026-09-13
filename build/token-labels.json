@@ -1,8 +1,0 @@
-{
-  "_comment": "Address → display label overrides for stablecoins DefiLlama flattens (on-chain symbol is the same as the native token, so only a curated address map can tell them apart). Keyed by lowercased token contract address. Only VERIFIED addresses belong here — a wrong entry mislabels a pool. The build reconstructs a pool's shown symbol from its underlying-token addresses using these, keeping DefiLlama's label for anything not listed.",
-
-  "0x2791bca1f2de4661ed88a30c99a7a9449aa84174": "USDC.e",
-  "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8": "USDC.e",
-  "0x7f5c764cbc14f9669b88837ca1490cca17c31607": "USDC.e",
-  "0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca": "USDbC"
-}

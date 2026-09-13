@@ -104,8 +104,6 @@
 .name .proj { font-weight: 600; color: var(--text); }
 .name .sym { color: var(--muted); }
 .name .chain { color: var(--tertiary); font-size: 12px; }
-.meta { font: 600 10px var(--display); text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted);
-  background: var(--elevated); border: 1px solid var(--border); border-radius: var(--r-badge); padding: 1px 6px; white-space: nowrap; flex: none; }
 .chic { width: 14px; height: 14px; border-radius: 4px; object-fit: cover; flex: none; margin-left: 2px; }
 .ext { color: var(--tertiary); font-size: 13px; margin-left: 2px; text-decoration: none; flex: none; transition: color var(--ease); }
 .ext:hover { color: var(--accent); text-decoration: none; }

@@ -119,7 +119,7 @@ function rowHtml(r, max, tier) {
   const open = state.openId === r.poolId;
   return `<div class="row grid ${open ? "open" : ""}" data-id="${esc(r.poolId)}" role="button" tabindex="0" aria-expanded="${open}">
     ${logo}
-    <span class="name"><span class="line"><span class="proj">${esc(label)}</span><span class="sym">${esc(r.symbol)}</span>${r.meta ? `<span class="meta">${esc(r.meta)}</span>` : ""}${chainIc}<span class="chain">${esc(r.chain)}</span>${lock}${ext}</span></span>
+    <span class="name"><span class="line"><span class="proj">${esc(label)}</span><span class="sym">${esc(r.symbol)}</span>${chainIc}<span class="chain">${esc(r.chain)}</span>${lock}${ext}</span></span>
     <span class="bar hide-sm" title="base ${fmtPct(r.base)} · reward ${fmtPct(r.reward)}"><span class="b" style="width:${basePct}%"></span><span class="r" style="width:${rewPct}%"></span></span>
     <span class="num base">${fmtPct(r.base)}</span>
     <span class="num mean hide-sm">${fmtPct(r.mean30d)}</span>
