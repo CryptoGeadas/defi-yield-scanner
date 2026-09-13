@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T20:18:04.310Z",
+  "generatedAt": "2026-09-13T20:21:45.524Z",
   "source": "https://yields.llama.fi/pools",
   "config": {
     "tvlFloor": 1000000,
@@ -848,7 +848,7 @@
         "symbol": "USDC · Syrup USDC",
         "chain": "Ethereum",
         "bucket": "lend",
-        "access": "permissioned",
+        "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
         "base": 4.97,
@@ -861,8 +861,8 @@
         "legs": [
           "USDC"
         ],
-        "url": null,
-        "linkKind": null,
+        "url": "https://www.maple.finance",
+        "linkKind": "site",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -908,7 +908,7 @@
         "symbol": "USDG · syrupUSDG",
         "chain": "Ethereum",
         "bucket": "lend",
-        "access": "permissioned",
+        "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDG",
         "base": 4.93,
@@ -921,8 +921,8 @@
         "legs": [
           "USDG"
         ],
-        "url": null,
-        "linkKind": null,
+        "url": "https://www.maple.finance",
+        "linkKind": "site",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -998,7 +998,7 @@
         "symbol": "USDT · Syrup USDT",
         "chain": "Ethereum",
         "bucket": "lend",
-        "access": "permissioned",
+        "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDT",
         "base": 4.62,
@@ -1011,8 +1011,8 @@
         "legs": [
           "USDT"
         ],
-        "url": null,
-        "linkKind": null,
+        "url": "https://www.maple.finance",
+        "linkKind": "site",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
