@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T19:34:24.095Z",
+  "generatedAt": "2026-09-13T20:12:05.147Z",
   "source": "https://yields.llama.fi/pools",
   "config": {
     "tvlFloor": 1000000,
@@ -19,11 +19,11 @@
     "lpMinVol1d": 5000
   },
   "stats": {
-    "totalPools": 16813,
-    "kept": 185,
+    "totalPools": 16806,
+    "kept": 178,
     "perTier": {
-      "1": 134,
-      "2": 27,
+      "1": 131,
+      "2": 23,
       "3": 24
     }
   },
@@ -32,7 +32,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mM1USD",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -62,7 +62,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mFONE",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -92,7 +92,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mEDGE",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -122,7 +122,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDG",
+        "symbol": "USDG · OnRe Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -152,7 +152,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mAPOLLO",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -182,7 +182,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mGLOBAL",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -212,7 +212,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mHYPER",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -242,7 +242,7 @@
       {
         "project": "yearn-finance",
         "name": "Yearn Finance",
-        "symbol": "USDC",
+        "symbol": "Morpho Yearn OG USDC Compounder",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -258,8 +258,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0x0e297dE4005883C757c9F09fdF7cF1363C20e626",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -302,7 +302,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mROX",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -332,7 +332,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mMEV",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -362,7 +362,7 @@
       {
         "project": "yearn-finance",
         "name": "Yearn Finance",
-        "symbol": "USDC",
+        "symbol": "yvUSD",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -378,8 +378,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0x696d02Db93291651ED510704c9b286841d506987",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -392,7 +392,7 @@
       {
         "project": "uniswap-v4",
         "name": "Uniswap V4",
-        "symbol": "USDC-USDC",
+        "symbol": "USDC-USDC · 0.00%",
         "chain": "Polygon",
         "bucket": "LP",
         "access": "permissionless",
@@ -409,8 +409,8 @@
           "USDC",
           "USDC"
         ],
-        "url": "https://app.uniswap.org/",
-        "linkKind": "site",
+        "url": "https://app.uniswap.org/explore/pools/polygon/0xe3f907c3512aea11d4cf0c2990970016b5ee5b1f83368c388287001f419052a4",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
@@ -453,7 +453,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDC",
+        "symbol": "USDC · OnRe Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -483,7 +483,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "USDC-USDT",
+        "symbol": "USDC-USDT · 0.01%",
         "chain": "Polygon",
         "bucket": "LP",
         "access": "permissionless",
@@ -634,7 +634,7 @@
       {
         "project": "beefy",
         "name": "Beefy",
-        "symbol": "RLUSD-USDC",
+        "symbol": "RLUSD-USDC · Curve",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -665,7 +665,7 @@
       {
         "project": "aave-v4",
         "name": "Aave V4",
-        "symbol": "USDT",
+        "symbol": "USDT · Core",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -681,8 +681,8 @@
         "legs": [
           "USDT"
         ],
-        "url": "https://aave.com",
-        "linkKind": "site",
+        "url": "https://pro.aave.com/",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -725,7 +725,7 @@
       {
         "project": "yearn-finance",
         "name": "Yearn Finance",
-        "symbol": "USDC",
+        "symbol": "Morpho Yearn OG USDC Compounder",
         "chain": "Base",
         "bucket": "vault",
         "access": "permissionless",
@@ -741,8 +741,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/8453/0xF115C134c23C7A05FBD489A8bE3116EbF54B0D9f",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -785,7 +785,7 @@
       {
         "project": "centrifuge-protocol",
         "name": "Centrifuge",
-        "symbol": "USDC",
+        "symbol": "USDC · Janus Henderson AAA CLO Fund",
         "chain": "Base",
         "bucket": "lend",
         "access": "permissioned",
@@ -815,7 +815,7 @@
       {
         "project": "centrifuge-protocol",
         "name": "Centrifuge",
-        "symbol": "USDC",
+        "symbol": "USDC · JAAA deRWA",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -845,7 +845,7 @@
       {
         "project": "maple",
         "name": "Maple",
-        "symbol": "USDC",
+        "symbol": "USDC · Syrup USDC",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -905,7 +905,7 @@
       {
         "project": "maple",
         "name": "Maple",
-        "symbol": "USDG",
+        "symbol": "USDG · syrupUSDG",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -935,7 +935,7 @@
       {
         "project": "centrifuge-protocol",
         "name": "Centrifuge",
-        "symbol": "USDT",
+        "symbol": "USDT · Zivoe SMB Credit",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -995,7 +995,7 @@
       {
         "project": "maple",
         "name": "Maple",
-        "symbol": "USDT",
+        "symbol": "USDT · Syrup USDT",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -1025,7 +1025,7 @@
       {
         "project": "beefy",
         "name": "Beefy",
-        "symbol": "USDC",
+        "symbol": "USDC · Morpho",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -1115,7 +1115,7 @@
       {
         "project": "beefy",
         "name": "Beefy",
-        "symbol": "USDC",
+        "symbol": "USDC · Morpho",
         "chain": "Base",
         "bucket": "vault",
         "access": "permissionless",
@@ -1145,7 +1145,7 @@
       {
         "project": "yearn-finance",
         "name": "Yearn Finance",
-        "symbol": "USDC",
+        "symbol": "USDC Horizon yVault",
         "chain": "Base",
         "bucket": "vault",
         "access": "permissionless",
@@ -1161,8 +1161,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/8453/0xc3BD0A2193c8F027B82ddE3611D18589ef3f62a9",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -1175,7 +1175,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDC",
+        "symbol": "USDC · Figure Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -1415,7 +1415,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDC",
+        "symbol": "USDC · Huma Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -1505,7 +1505,7 @@
       {
         "project": "yearn-finance",
         "name": "Yearn Finance",
-        "symbol": "USDC",
+        "symbol": "Morpho Steakhouse USDC Compounder",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -1521,8 +1521,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0x074134A2784F4F66b6ceD6f68849382990Ff3215",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -1535,7 +1535,7 @@
       {
         "project": "jupiter-lend",
         "name": "Jupiter Lend",
-        "symbol": "USDG",
+        "symbol": "USDG · Earn",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -1551,8 +1551,8 @@
         "legs": [
           "USDG"
         ],
-        "url": "https://jup.ag/?ref=f6y1ryr2snn3",
-        "linkKind": "site",
+        "url": "https://jup.ag/lend/earn/USDG/deposit",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -1745,7 +1745,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDG",
+        "symbol": "USDG · SOL/BTC Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -1775,7 +1775,7 @@
       {
         "project": "aave-v4",
         "name": "Aave V4",
-        "symbol": "USDC",
+        "symbol": "USDC · Core",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -1791,8 +1791,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://aave.com",
-        "linkKind": "site",
+        "url": "https://pro.aave.com/",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -1805,7 +1805,7 @@
       {
         "project": "jupiter-lend",
         "name": "Jupiter Lend",
-        "symbol": "USDT",
+        "symbol": "USDT · Earn",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -1821,8 +1821,8 @@
         "legs": [
           "USDT"
         ],
-        "url": "https://jup.ag/?ref=f6y1ryr2snn3",
-        "linkKind": "site",
+        "url": "https://jup.ag/lend/earn/USDT/deposit",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -1835,7 +1835,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · msyrupUSDp",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -1881,8 +1881,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0xBe53A109B494E5c9f97b9Cd39Fe969BE68BF6204",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -1925,7 +1925,7 @@
       {
         "project": "yearn-finance",
         "name": "Yearn Finance",
-        "symbol": "USDC",
+        "symbol": "Flex USDC yVault",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -1941,8 +1941,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0x863687e4E9751b57F38b4B0ebA04744C72d0f7B8",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -2001,8 +2001,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
+        "url": "https://app.spark.finance/savings/mainnet/spusdc",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -2015,7 +2015,7 @@
       {
         "project": "blackrock-buidl",
         "name": "BlackRock BUIDL",
-        "symbol": "BUIDL",
+        "symbol": "BUIDL · Institutional",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -2045,7 +2045,7 @@
       {
         "project": "ondo-yield-assets",
         "name": "Ondo Yield Assets",
-        "symbol": "USDY",
+        "symbol": "USDY · US Dollar Yield",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -2075,7 +2075,7 @@
       {
         "project": "ondo-yield-assets",
         "name": "Ondo Yield Assets",
-        "symbol": "USDY",
+        "symbol": "USDY · US Dollar Yield",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissioned",
@@ -2105,7 +2105,7 @@
       {
         "project": "ondo-yield-assets",
         "name": "Ondo Yield Assets",
-        "symbol": "USDY",
+        "symbol": "USDY · US Dollar Yield",
         "chain": "Arbitrum",
         "bucket": "lend",
         "access": "permissioned",
@@ -2135,7 +2135,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "PYUSD",
+        "symbol": "PYUSD · Figure Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -2163,39 +2163,9 @@
         "poolId": "4decb8fb-be56-48ce-9c61-47a554d248e8"
       },
       {
-        "project": "sparklend",
-        "name": "Spark Lend",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.54,
-        "reward": 0,
-        "total": 3.54,
-        "spot": 3.54,
-        "mean30d": 3.5,
-        "divFlag": "●",
-        "tvlUsd": 2044477,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0,
-        "apyPct30D": 0.07,
-        "poolId": "65ce8276-b4d9-41ba-9f6f-21fc374cf9bc"
-      },
-      {
         "project": "jupiter-lend",
         "name": "Jupiter Lend",
-        "symbol": "USDC",
+        "symbol": "USDC · Earn",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -2211,8 +2181,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://jup.ag/?ref=f6y1ryr2snn3",
-        "linkKind": "site",
+        "url": "https://jup.ag/lend/earn/USDC/deposit",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0.37,
@@ -2345,7 +2315,7 @@
       {
         "project": "aave-v3",
         "name": "Aave V3",
-        "symbol": "USDC",
+        "symbol": "USDC · Umbrella",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -2375,7 +2345,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDC",
+        "symbol": "USDC · SOL/BTC Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -2405,7 +2375,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDC",
+        "symbol": "USDC · JLP Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -2451,8 +2421,8 @@
         "legs": [
           "USDT"
         ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
+        "url": "https://app.spark.finance/savings/mainnet/spusdt",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -2465,7 +2435,7 @@
       {
         "project": "save",
         "name": "Save",
-        "symbol": "USDC",
+        "symbol": "USDC · Main Pool",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -2481,8 +2451,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://www.save.finance/",
-        "linkKind": "site",
+        "url": "https://save.finance/",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -2523,39 +2493,9 @@
         "poolId": "677f756a-eda4-48b0-ba35-60adc9b44d88"
       },
       {
-        "project": "sparklend",
-        "name": "Spark Lend",
-        "symbol": "USDT",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDT",
-        "base": 3.39,
-        "reward": 0,
-        "total": 3.39,
-        "spot": 3.39,
-        "mean30d": 3.27,
-        "divFlag": "●",
-        "tvlUsd": 18845560,
-        "legs": [
-          "USDT"
-        ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0.78,
-        "apyPct30D": -2.65,
-        "poolId": "8fbe28b8-140d-4e37-8804-5d2aba4daded"
-      },
-      {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "PYUSD",
+        "symbol": "PYUSD · Ethena Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -2615,7 +2555,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mTBILL",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -2661,8 +2601,8 @@
         "legs": [
           "USDT"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0x310B7Ea7475A0B449Cfd73bE81522F1B88eFAFaa",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -2735,7 +2675,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "USDC-USDT",
+        "symbol": "USDC-USDT · 0.01%",
         "chain": "Arbitrum",
         "bucket": "LP",
         "access": "permissionless",
@@ -2782,8 +2722,8 @@
         "legs": [
           "DAI"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0x028eC7330ff87667b6dfb0D94b954c820195336c",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -2886,7 +2826,7 @@
       {
         "project": "aave-v3",
         "name": "Aave V3",
-        "symbol": "USDT",
+        "symbol": "USDT · Umbrella",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -2946,7 +2886,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDT",
+        "symbol": "USDT · SOL/BTC Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -3006,7 +2946,7 @@
       {
         "project": "aave-v3",
         "name": "Aave V3",
-        "symbol": "USDC",
+        "symbol": "USDC · Prime Instance",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -3036,7 +2976,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "PYUSD",
+        "symbol": "PYUSD · Maple Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -3096,7 +3036,7 @@
       {
         "project": "aave-v4",
         "name": "Aave V4",
-        "symbol": "USDG",
+        "symbol": "USDG · Global Dollar",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -3112,8 +3052,8 @@
         "legs": [
           "USDG"
         ],
-        "url": "https://aave.com",
-        "linkKind": "site",
+        "url": "https://pro.aave.com/",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 3.31,
@@ -3216,7 +3156,7 @@
       {
         "project": "midas-rwa",
         "name": "Midas RWA",
-        "symbol": "USDC",
+        "symbol": "USDC · mRe7YIELD",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -3302,36 +3242,6 @@
         "apyPct7D": -0.66,
         "apyPct30D": -0.63,
         "poolId": "025dadbc-c175-4a37-a5ec-dff5062b1a50"
-      },
-      {
-        "project": "sparklend",
-        "name": "Spark Lend",
-        "symbol": "DAI",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "DAI",
-        "base": 2.46,
-        "reward": 0,
-        "total": 2.46,
-        "spot": 2.46,
-        "mean30d": 2.28,
-        "divFlag": "●",
-        "tvlUsd": 99920952,
-        "legs": [
-          "DAI"
-        ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0,
-        "apyPct30D": 0.29,
-        "poolId": "e26ce7d9-db75-4aa4-b1db-cc21ae17bdfb"
       },
       {
         "project": "morpho-blue",
@@ -3426,7 +3336,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "DAI-USDC",
+        "symbol": "DAI-USDC · 0.01%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -3457,7 +3367,7 @@
       {
         "project": "aave-v4",
         "name": "Aave V4",
-        "symbol": "USDC",
+        "symbol": "USDC · Global Dollar",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -3473,8 +3383,8 @@
         "legs": [
           "USDC"
         ],
-        "url": "https://aave.com",
-        "linkKind": "site",
+        "url": "https://pro.aave.com/",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -3517,7 +3427,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "PYUSD",
+        "symbol": "PYUSD · SOL/BTC Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -3547,7 +3457,7 @@
       {
         "project": "aave-v4",
         "name": "Aave V4",
-        "symbol": "USDG",
+        "symbol": "USDG · Core",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -3563,8 +3473,8 @@
         "legs": [
           "USDG"
         ],
-        "url": "https://aave.com",
-        "linkKind": "site",
+        "url": "https://pro.aave.com/",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 4.25,
@@ -3607,7 +3517,7 @@
       {
         "project": "save",
         "name": "Save",
-        "symbol": "USDT",
+        "symbol": "USDT · Main Pool",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -3623,8 +3533,8 @@
         "legs": [
           "USDT"
         ],
-        "url": "https://www.save.finance/",
-        "linkKind": "site",
+        "url": "https://save.finance/",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -3637,7 +3547,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "DAI-USDT",
+        "symbol": "DAI-USDT · 0.01%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -3698,7 +3608,7 @@
       {
         "project": "centrifuge-protocol",
         "name": "Centrifuge",
-        "symbol": "USDC",
+        "symbol": "USDC · Zivoe SMB Credit",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -3758,7 +3668,7 @@
       {
         "project": "aave-v3",
         "name": "Aave V3",
-        "symbol": "RLUSD",
+        "symbol": "RLUSD · Aave Horizon Market",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -3788,7 +3698,7 @@
       {
         "project": "raydium-amm",
         "name": "Raydium",
-        "symbol": "USDC-USDT",
+        "symbol": "USDC-USDT · Concentrated - 0.01%",
         "chain": "Solana",
         "bucket": "LP",
         "access": "permissionless",
@@ -3805,8 +3715,8 @@
           "USDC",
           "USDT"
         ],
-        "url": "https://raydium.io",
-        "linkKind": "site",
+        "url": "https://raydium.io/clmm/create-position/?pool_id=BZtgQEyS6eXUXicYPHecYQ7PybqodXQMvkjUbP4R8mUU",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
@@ -3819,7 +3729,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "USDC",
+        "symbol": "USDC · Nest Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -3865,8 +3775,8 @@
         "legs": [
           "PYUSD"
         ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
+        "url": "https://app.spark.finance/savings/mainnet/sppyusd",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -3879,7 +3789,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "USDC-USDT",
+        "symbol": "USDC-USDT · 0.01%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -3927,8 +3837,8 @@
           "USDG",
           "USDC"
         ],
-        "url": "https://www.orca.so",
-        "linkKind": "site",
+        "url": "https://www.orca.so/pools/9RqDTfwCx2SgxsvKpspQHc38HUo3B6hRd3oR9JR966Ps",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
@@ -3958,8 +3868,8 @@
           "USDY",
           "USDC"
         ],
-        "url": "https://www.orca.so",
-        "linkKind": "site",
+        "url": "https://www.orca.so/pools/AGXrswVDRoUf62UX9voTXv6TCGw6fBUEwDpyUd9YdZfD",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
@@ -3989,8 +3899,8 @@
           "PYUSD",
           "USDC"
         ],
-        "url": "https://www.orca.so",
-        "linkKind": "site",
+        "url": "https://www.orca.so/pools/9tXiuRRw7kbejLhZXtxDxYs2REe43uH2e7k1kocgdM9B",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
@@ -4003,7 +3913,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "RLUSD-USDC",
+        "symbol": "RLUSD-USDC · 0.01%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -4034,7 +3944,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "PYUSD",
+        "symbol": "PYUSD · Sentora xStocks Market",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -4066,7 +3976,7 @@
       {
         "project": "beefy",
         "name": "Beefy",
-        "symbol": "USDS-STUSDS",
+        "symbol": "USDS-STUSDS · Curve",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -4097,7 +4007,7 @@
       {
         "project": "yearn-finance",
         "name": "Yearn Finance",
-        "symbol": "CRVUSD",
+        "symbol": "crvUSD-2",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -4113,8 +4023,8 @@
         "legs": [
           "CRVUSD"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0xBF319dDC2Edc1Eb6FDf9910E39b37Be221C8805F",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -4127,7 +4037,7 @@
       {
         "project": "sky-lending",
         "name": "Sky Lending",
-        "symbol": "STUSDS",
+        "symbol": "STUSDS · Expert Mode",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -4143,8 +4053,8 @@
         "legs": [
           "STUSDS"
         ],
-        "url": "https://app.sky.money/",
-        "linkKind": "site",
+        "url": "https://app.sky.money/earn/stusds?network=ethereum&flow=supply",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -4187,7 +4097,7 @@
       {
         "project": "jupiter-lend",
         "name": "Jupiter Lend",
-        "symbol": "USDS",
+        "symbol": "USDS · Earn",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -4203,8 +4113,8 @@
         "legs": [
           "USDS"
         ],
-        "url": "https://jup.ag/?ref=f6y1ryr2snn3",
-        "linkKind": "site",
+        "url": "https://jup.ag/lend/earn/USDS/deposit",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -4233,8 +4143,8 @@
         "legs": [
           "SUSDS"
         ],
-        "url": "https://app.sky.money/",
-        "linkKind": "site",
+        "url": "https://app.sky.money/earn/savings?network=ethereum",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -4263,8 +4173,8 @@
         "legs": [
           "SUSDS"
         ],
-        "url": "https://app.sky.money/",
-        "linkKind": "site",
+        "url": "https://app.sky.money/earn/savings?network=arbitrumone",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -4293,8 +4203,8 @@
         "legs": [
           "USDS"
         ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
+        "url": "https://app.spark.finance/savings/mainnet/susds",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -4323,8 +4233,8 @@
         "legs": [
           "USDS"
         ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
+        "url": "https://app.spark.finance/savings/mainnet/susds",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
@@ -4337,7 +4247,7 @@
       {
         "project": "centrifuge-protocol",
         "name": "Centrifuge",
-        "symbol": "USDS",
+        "symbol": "USDS · Janus Henderson Treasury Fund",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissioned",
@@ -4367,7 +4277,7 @@
       {
         "project": "aave-v4",
         "name": "Aave V4",
-        "symbol": "FRXUSD",
+        "symbol": "FRXUSD · Core",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -4383,8 +4293,8 @@
         "legs": [
           "FRXUSD"
         ],
-        "url": "https://aave.com",
-        "linkKind": "site",
+        "url": "https://pro.aave.com/",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 2.7,
@@ -4397,7 +4307,7 @@
       {
         "project": "aave-v3",
         "name": "Aave V3",
-        "symbol": "GHO",
+        "symbol": "GHO · Prime Instance",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -4425,39 +4335,9 @@
         "poolId": "41683a7c-20a2-4cd7-83a7-3ccedaad0db1"
       },
       {
-        "project": "sparklend",
-        "name": "Spark Lend",
-        "symbol": "USDS",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "crypto",
-        "tierDriver": "USDS",
-        "base": 2.32,
-        "reward": 0,
-        "total": 2.32,
-        "spot": 2.32,
-        "mean30d": 2.15,
-        "divFlag": "●",
-        "tvlUsd": 342895558,
-        "legs": [
-          "USDS"
-        ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0,
-        "apyPct30D": 0.28,
-        "poolId": "0ed981dc-b49d-426d-ade5-6014728b1ef9"
-      },
-      {
         "project": "aave-v3",
         "name": "Aave V3",
-        "symbol": "GHO",
+        "symbol": "GHO · Aave Horizon Market",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -4503,8 +4383,8 @@
         "legs": [
           "USDS"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0x182863131F9a4630fF9E27830d945B1413e347E8",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -4515,39 +4395,9 @@
         "poolId": "7501ef09-87d1-405c-b2b2-f269b2727289"
       },
       {
-        "project": "sky-lending",
-        "name": "Sky Lending",
-        "symbol": "SDAI",
-        "chain": "Ethereum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "type": "yield",
-        "tierDriver": "SDAI",
-        "base": 1.25,
-        "reward": 0,
-        "total": 1.25,
-        "spot": 1.25,
-        "mean30d": 1.25,
-        "divFlag": "●",
-        "tvlUsd": 202721100,
-        "legs": [
-          "SDAI"
-        ],
-        "url": "https://app.sky.money/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0,
-        "apyPct30D": 0,
-        "poolId": "c8a24fee-ec00-4f38-86c0-9f6daebc4225"
-      },
-      {
         "project": "uniswap-v4",
         "name": "Uniswap V4",
-        "symbol": "BOLD-USDC",
+        "symbol": "BOLD-USDC · 0.05%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -4564,8 +4414,8 @@
           "BOLD",
           "USDC"
         ],
-        "url": "https://app.uniswap.org/",
-        "linkKind": "site",
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0x5d0ed52610c76d7bf729130ce7ddc0488b2f4bd0a0db1f12adbe6a32deaff893",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
@@ -4608,7 +4458,7 @@
       {
         "project": "raydium-amm",
         "name": "Raydium",
-        "symbol": "USDS-USDC",
+        "symbol": "USDS-USDC · Concentrated - 0.01%",
         "chain": "Solana",
         "bucket": "LP",
         "access": "permissionless",
@@ -4625,8 +4475,8 @@
           "USDS",
           "USDC"
         ],
-        "url": "https://raydium.io",
-        "linkKind": "site",
+        "url": "https://raydium.io/clmm/create-position/?pool_id=AS5MV3ear4NZPMWXbCsEz3AdbCaXEnq4ChdaWsvLgkcM",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
@@ -4669,7 +4519,7 @@
       {
         "project": "uniswap-v4",
         "name": "Uniswap V4",
-        "symbol": "PYUSD-USDS",
+        "symbol": "PYUSD-USDS · 0.00%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -4686,8 +4536,8 @@
           "PYUSD",
           "USDS"
         ],
-        "url": "https://app.uniswap.org/",
-        "linkKind": "site",
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0xe63e32b2ae40601662f760d6bf5d771057324fbd97784fe1d3717069f7b75d45",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
@@ -4700,7 +4550,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "FRAX-USDC",
+        "symbol": "FRAX-USDC · 0.05%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -4731,7 +4581,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "BOLD-USDC",
+        "symbol": "BOLD-USDC · 0.05%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -4760,66 +4610,6 @@
         "poolId": "8d4931e1-b573-4802-856d-244645926b19"
       },
       {
-        "project": "sparklend",
-        "name": "Spark Lend",
-        "symbol": "USDS",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "crypto",
-        "tierDriver": "USDS",
-        "base": 0,
-        "reward": 3.76,
-        "total": 3.76,
-        "spot": 3.76,
-        "mean30d": 3.75,
-        "divFlag": "●",
-        "tvlUsd": 578259305,
-        "legs": [
-          "USDS"
-        ],
-        "url": "https://spark.finance/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 3.76,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.69,
-        "apyPct30D": 0.81,
-        "poolId": "54e9b138-3146-4c1f-8dce-1cb948f5ef96"
-      },
-      {
-        "project": "sky-lending",
-        "name": "Sky Lending",
-        "symbol": "USDS",
-        "chain": "Ethereum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "type": "crypto",
-        "tierDriver": "USDS",
-        "base": 0,
-        "reward": 5.22,
-        "total": 5.22,
-        "spot": 5.22,
-        "mean30d": 5.68,
-        "divFlag": "●",
-        "tvlUsd": 184426107,
-        "legs": [
-          "USDS"
-        ],
-        "url": "https://app.sky.money/",
-        "linkKind": "site",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 5.22,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.55,
-        "apyPct30D": -0.55,
-        "poolId": "4d87430b-688a-5ac5-a593-4e31ac715d02"
-      },
-      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "USD3",
@@ -4838,8 +4628,8 @@
         "legs": [
           "USD3"
         ],
-        "url": "https://app.morpho.org",
-        "linkKind": "site",
+        "url": "https://app.morpho.org/ethereum/variable/0xe3df58f9d3011b7481ff36b939fa5f8da642f34ea5792d25d3958dbf1efa26d7/usdc-usd3",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 1.24,
@@ -4852,7 +4642,7 @@
       {
         "project": "yearn-finance",
         "name": "Yearn Finance",
-        "symbol": "USDS",
+        "symbol": "Spark USDS Compounder",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -4868,8 +4658,8 @@
         "legs": [
           "USDS"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/v3/1/0xc9f01b5c6048B064E6d925d1c2d7206d4fEeF8a3",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
@@ -4884,7 +4674,7 @@
       {
         "project": "beefy",
         "name": "Beefy",
-        "symbol": "FXUSD-USDC",
+        "symbol": "FXUSD-USDC · Fx",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -4915,7 +4705,7 @@
       {
         "project": "beefy",
         "name": "Beefy",
-        "symbol": "USDF-USDC",
+        "symbol": "USDF-USDC · Convex",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -4964,7 +4754,7 @@
           "USDC"
         ],
         "url": "https://aerodrome.finance",
-        "linkKind": "site",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 6.02,
@@ -4977,7 +4767,7 @@
       {
         "project": "yearn-finance",
         "name": "Yearn Finance",
-        "symbol": "DOLA-SUSDE",
+        "symbol": "Curve DOLA-sUSDe Factory yVault",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -4994,8 +4784,8 @@
           "DOLA",
           "SUSDE"
         ],
-        "url": "https://yearn.fi/",
-        "linkKind": "site",
+        "url": "https://yearn.fi/vaults/1/0x1Fc80CfCF5B345b904A0fB36d4222196Ed9eB8a5",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
@@ -5008,7 +4798,7 @@
       {
         "project": "ethena-usde",
         "name": "Ethena USDe",
-        "symbol": "SUSDE",
+        "symbol": "SUSDE · 7 days unstaking",
         "chain": "Ethereum",
         "bucket": "vault",
         "access": "permissionless",
@@ -5038,7 +4828,7 @@
       {
         "project": "aave-v4",
         "name": "Aave V4",
-        "symbol": "USDE",
+        "symbol": "USDE · Plus",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -5054,8 +4844,8 @@
         "legs": [
           "USDE"
         ],
-        "url": "https://aave.com",
-        "linkKind": "site",
+        "url": "https://pro.aave.com/",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 3.05,
@@ -5085,8 +4875,8 @@
           "USDG",
           "USDE"
         ],
-        "url": "https://www.orca.so",
-        "linkKind": "site",
+        "url": "https://www.orca.so/pools/5p58XYzEUuvceAb4momaQ943rTPLgigdBXtJNdnZTDJ9",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
@@ -5099,7 +4889,7 @@
       {
         "project": "uniswap-v4",
         "name": "Uniswap V4",
-        "symbol": "SUSDE-USDT",
+        "symbol": "SUSDE-USDT · 0.01%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -5116,8 +4906,8 @@
           "SUSDE",
           "USDT"
         ],
-        "url": "https://app.uniswap.org/",
-        "linkKind": "site",
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0xb20351bcf606dcc3525d2ed36760a86a5dec7423b77d41125bd4a416ba93448b",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
@@ -5130,7 +4920,7 @@
       {
         "project": "uniswap-v4",
         "name": "Uniswap V4",
-        "symbol": "USDE-USDC",
+        "symbol": "USDE-USDC · 0.00%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -5147,8 +4937,8 @@
           "USDE",
           "USDC"
         ],
-        "url": "https://app.uniswap.org/",
-        "linkKind": "site",
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0x56fc29b86900aa0afa6e20b020429bffba1105cfb45070492c67529b46eb48c1",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
@@ -5161,7 +4951,7 @@
       {
         "project": "uniswap-v4",
         "name": "Uniswap V4",
-        "symbol": "SYRUPUSDT-USDT",
+        "symbol": "SYRUPUSDT-USDT · 0.08%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -5178,8 +4968,8 @@
           "SYRUPUSDT",
           "USDT"
         ],
-        "url": "https://app.uniswap.org/",
-        "linkKind": "site",
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0xd861038a98942312d1495dd1313fb66c7e7de48f549a15edf3a45decf7338e1d",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
@@ -5192,7 +4982,7 @@
       {
         "project": "uniswap-v4",
         "name": "Uniswap V4",
-        "symbol": "USDE-USDT",
+        "symbol": "USDE-USDT · 0.00%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -5209,8 +4999,8 @@
           "USDE",
           "USDT"
         ],
-        "url": "https://app.uniswap.org/",
-        "linkKind": "site",
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0x63bb22f47c7ede6578a25c873e77eb782ec8e4c19778e36ce64d37877b5bd1e7",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
@@ -5223,7 +5013,7 @@
       {
         "project": "uniswap-v4",
         "name": "Uniswap V4",
-        "symbol": "SYRUPUSDC-USDC",
+        "symbol": "SYRUPUSDC-USDC · 0.08%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -5240,8 +5030,8 @@
           "SYRUPUSDC",
           "USDC"
         ],
-        "url": "https://app.uniswap.org/",
-        "linkKind": "site",
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0xcdb422a853a4fa2deb364317db92ad76d1cb7a8e1b82a32219bcb41720a90228",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
@@ -5254,7 +5044,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "USDE-USDC",
+        "symbol": "USDE-USDC · 0.01%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -5332,8 +5122,8 @@
           "PYUSD",
           "USDE"
         ],
-        "url": "https://www.orca.so",
-        "linkKind": "site",
+        "url": "https://www.orca.so/pools/FXPopoKVLHeXonysHMEonZZJ4nsUdFqr4RpFuAvLUvFB",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
@@ -5346,7 +5136,7 @@
       {
         "project": "euler-v2",
         "name": "Euler V2",
-        "symbol": "USD0",
+        "symbol": "USD0 · EVK Vault eUSD0-4",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
@@ -5423,8 +5213,8 @@
           "SYRUPUSDC",
           "USDC"
         ],
-        "url": "https://www.orca.so",
-        "linkKind": "site",
+        "url": "https://www.orca.so/pools/6fteKNvMdv7tYmBoJHhj1jx6rHcEwC6RdSEmVpyS613J",
+        "linkKind": "exact",
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
@@ -5437,7 +5227,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "USD0-USDC",
+        "symbol": "USD0-USDC · 0.01%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -5468,7 +5258,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "USDE-USDC",
+        "symbol": "USDE-USDC · 0.05%",
         "chain": "Base",
         "bucket": "LP",
         "access": "permissionless",
@@ -5499,7 +5289,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "USD0++-USD0",
+        "symbol": "USD0++-USD0 · 0.01%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -5530,7 +5320,7 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
-        "symbol": "USDT-USDF",
+        "symbol": "USDT-USDF · 0.01%",
         "chain": "Ethereum",
         "bucket": "LP",
         "access": "permissionless",
@@ -5577,8 +5367,8 @@
         "legs": [
           "USDE"
         ],
-        "url": "https://app.morpho.org",
-        "linkKind": "site",
+        "url": "https://app.morpho.org/base/variable/0x54cf9be57fdfa6457a660991907434ff9d295c465a603a50126ff647d50b7354/usdc-usde#market",
+        "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 4.75,

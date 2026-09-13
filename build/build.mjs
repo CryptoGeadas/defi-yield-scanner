@@ -81,6 +81,27 @@ function preprocessMorpho(pools, morpho, denyVaults = new Set()) {
   return byVault.size;
 }
 
+// Yearn has no `poolMeta`, so same-asset vaults collide as "Yearn · USDC" ×N.
+// Each manual override URL carries the vault address (yearn.fi/v3/<chainId>/<addr>);
+// resolve the real vault name from ydaemon and use it as the row label. Best-effort:
+// if the API is unreachable the build still proceeds with bare symbols. Mutates in place.
+async function preprocessYearn(pools, poolUrls) {
+  const targets = [];
+  for (const p of pools) {
+    if (p.project !== "yearn-finance") continue;
+    const m = String(poolUrls[p.pool] || "").match(/yearn\.fi\/(?:v3|vaults)\/(\d+)\/(0x[0-9a-fA-F]+)/);
+    if (m) targets.push({ pool: p, cid: m[1], addr: m[2] });
+  }
+  let named = 0;
+  await Promise.all(targets.map(async ({ pool, cid, addr }) => {
+    try {
+      const v = await (await fetch(`https://ydaemon.yearn.fi/${cid}/vaults/${addr}`)).json();
+      if (v?.name) { pool.displayName = v.name; named++; }
+    } catch { /* keep bare symbol */ }
+  }));
+  return named;
+}
+
 // Map each protocol slug → its official site URL, from DefiLlama's config
 // (slug derived from the logo path). Used as the primary deposit link.
 async function loadSiteUrls() {
@@ -99,13 +120,25 @@ async function loadSiteUrls() {
   }
 }
 
+// Row label: prefer an explicit displayName (e.g. a Morpho vault name); otherwise
+// fold the venue's own market/product name (DefiLlama `poolMeta`) into the symbol so
+// same-symbol rows are distinguishable and read like they do on the platform —
+// "USDC · SOL/BTC Market" (Kamino), "USDC · mFONE" (Midas), "USDC · Core" (Aave V4).
+function displayLabel(r) {
+  if (r.displayName) return r.displayName;
+  const meta = String(r.poolMeta ?? "").trim();
+  if (!meta || meta.toLowerCase() === "null") return r.symbol;
+  if (meta.toUpperCase() === String(r.symbol).toUpperCase()) return r.symbol; // redundant
+  return `${r.symbol} · ${meta}`;
+}
+
 // Trim a pipeline row to what the site actually renders (+ link & detail fields).
 const makeSlim = (names, siteUrls, sources, poolUrls) => (r) => {
   const { url, kind } = buildLink(r, { siteUrl: siteUrls[r.project], sources, override: poolUrls[r.pool] });
   return {
     project: r.project,
     name: names[r.project] || r.project,
-    symbol: r.displayName || r.symbol,
+    symbol: displayLabel(r),
     chain: r.chain,
     bucket: r.bucket,
     access: r.access,
@@ -148,6 +181,8 @@ async function main() {
 
   const sources = await buildSources(DEFAULT_CONFIG.chains);
   preprocessMorpho(pools, sources.morpho, denylist.morphoVaults);
+  const yNamed = await preprocessYearn(pools, poolUrls);
+  console.log(`  yearn names resolved: ${yNamed}`);
 
   const r = runPipeline(pools, {}, maps);
 
