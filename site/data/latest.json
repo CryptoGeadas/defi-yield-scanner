@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-14T10:53:43.762Z",
+  "generatedAt": "2026-09-14T11:46:00.118Z",
   "source": "https://yields.llama.fi/pools",
   "config": {
     "tvlFloor": 1000000,
@@ -19,7 +19,7 @@
     "lpMinVol1d": 5000
   },
   "stats": {
-    "totalPools": 16532,
+    "totalPools": 16522,
     "kept": 182,
     "perTier": {
       "1": 134,
@@ -42,7 +42,7 @@
         "reward": 0,
         "total": 11.87,
         "spot": 11.87,
-        "mean30d": 4.95,
+        "mean30d": 4.96,
         "divFlag": "▲",
         "tvlUsd": 26371634,
         "legs": [
@@ -102,7 +102,7 @@
         "reward": 0,
         "total": 7.58,
         "spot": 7.58,
-        "mean30d": 9.14,
+        "mean30d": 9.13,
         "divFlag": "●",
         "tvlUsd": 1697703,
         "legs": [
@@ -118,6 +118,36 @@
         "apyPct7D": 2.6,
         "apyPct30D": -3.31,
         "poolId": "d48e9c5a-7c28-4192-ab3d-795b5fbed7be"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Gauntlet USDC Prime",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 7.57,
+        "reward": 0,
+        "total": 7.57,
+        "spot": 7.57,
+        "mean30d": 5.03,
+        "divFlag": "▲",
+        "tvlUsd": 1746316,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/9E69U4GzWhryRaPe8DYpco6Z9vTZY6gg8w6W2QsBACEj",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 4.5,
+        "apyPct30D": null,
+        "poolId": "9E69U4GzWhryRaPe8DYpco6Z9vTZY6gg8w6W2QsBACEj"
       },
       {
         "project": "midas-rwa",
@@ -162,9 +192,9 @@
         "reward": 0,
         "total": 7.25,
         "spot": 7.25,
-        "mean30d": 5.09,
+        "mean30d": 5.1,
         "divFlag": "▲",
-        "tvlUsd": 50587660,
+        "tvlUsd": 50586010,
         "legs": [
           "USDC"
         ],
@@ -194,7 +224,7 @@
         "spot": 7.25,
         "mean30d": 5.17,
         "divFlag": "▲",
-        "tvlUsd": 9289058,
+        "tvlUsd": 9289052,
         "legs": [
           "USDC"
         ],
@@ -252,7 +282,7 @@
         "reward": 0,
         "total": 7.12,
         "spot": 7.12,
-        "mean30d": 6.39,
+        "mean30d": 6.4,
         "divFlag": "●",
         "tvlUsd": 31568163,
         "legs": [
@@ -296,7 +326,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 0.23,
-        "apyPct30D": null,
+        "apyPct30D": 0.48,
         "poolId": "90cb9575-6a55-4900-9536-ead80c7dfa6c"
       },
       {
@@ -308,13 +338,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDG",
-        "base": 6.94,
+        "base": 6.96,
         "reward": 0,
-        "total": 6.94,
-        "spot": 6.94,
+        "total": 6.96,
+        "spot": 6.96,
         "mean30d": 7.24,
         "divFlag": "●",
-        "tvlUsd": 2047980,
+        "tvlUsd": 2024046,
         "legs": [
           "USDG"
         ],
@@ -325,7 +355,7 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 7.47,
+        "apyPct7D": 7.46,
         "apyPct30D": null,
         "poolId": "DJbRxuBckoJpFVUNtWx94NghcthfGaRV5NRmEazUaddE"
       },
@@ -420,37 +450,6 @@
         "poolId": "d5959f91-86ce-4177-b234-49e1f17d8f82"
       },
       {
-        "project": "uniswap-v3",
-        "name": "Uniswap V3",
-        "symbol": "USDC-USDT · 0.01%",
-        "chain": "Polygon",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 6.31,
-        "reward": 0,
-        "total": 6.31,
-        "spot": 6.31,
-        "mean30d": 13.6,
-        "divFlag": "▼",
-        "tvlUsd": 1030044,
-        "legs": [
-          "USDC",
-          "USDT"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/polygon/0xDaC8A8E6DBf8c690ec6815e0fF03491B2770255D",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 1780053,
-        "volumeUsd7d": 17457783,
-        "apyPct7D": -1.85,
-        "apyPct30D": 2.22,
-        "poolId": "afc658d8-6c0b-4ac5-a46b-1bb611bf5234"
-      },
-      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "Hyperithm USDC Apex",
@@ -459,13 +458,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 6.25,
+        "base": 6.24,
         "reward": 0,
-        "total": 6.25,
-        "spot": 6.25,
+        "total": 6.24,
+        "spot": 6.24,
         "mean30d": 6.39,
         "divFlag": "●",
-        "tvlUsd": 6430613,
+        "tvlUsd": 6430465,
         "legs": [
           "USDC"
         ],
@@ -476,8 +475,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.26,
-        "apyPct30D": -0.06,
+        "apyPct7D": 0.1,
+        "apyPct30D": -0.08,
         "poolId": "5a55b869-de6e-42ba-9091-6ee0e02525c2"
       },
       {
@@ -489,13 +488,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.73,
+        "base": 5.71,
         "reward": 0.07,
-        "total": 5.81,
-        "spot": 5.81,
+        "total": 5.79,
+        "spot": 5.79,
         "mean30d": 6.06,
         "divFlag": "●",
-        "tvlUsd": 2070835,
+        "tvlUsd": 2070846,
         "legs": [
           "USDC"
         ],
@@ -506,9 +505,39 @@
         "apyReward": 0.07,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 5.93,
+        "apyPct7D": 5.94,
         "apyPct30D": null,
         "poolId": "67dqmR76uAbjX6e81A1ganKv3ou31WUMEdeWJkwVfeXy"
+      },
+      {
+        "project": "morpho-blue",
+        "name": "Morpho Blue",
+        "symbol": "Gauntlet USDC RWA",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 5.67,
+        "reward": 0,
+        "total": 5.67,
+        "spot": 5.67,
+        "mean30d": 5.35,
+        "divFlag": "●",
+        "tvlUsd": 11038392,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.morpho.org/ethereum/vault/0xA8875aaeBc4f830524e35d57F9772FfAcbdD6C45",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 0.51,
+        "apyPct30D": 0.5,
+        "poolId": "086d98c3-e23e-42b2-9425-cb8915724337"
       },
       {
         "project": "kamino-lend",
@@ -519,13 +548,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.69,
+        "base": 5.67,
         "reward": 0.07,
-        "total": 5.76,
-        "spot": 5.76,
+        "total": 5.75,
+        "spot": 5.75,
         "mean30d": 6.1,
         "divFlag": "●",
-        "tvlUsd": 1365531,
+        "tvlUsd": 1365538,
         "legs": [
           "USDC"
         ],
@@ -541,34 +570,35 @@
         "poolId": "EPC2N3AAv84P9TKsnDt2x41p6T7c5vTewBhQbh4RVx4r"
       },
       {
-        "project": "aave-v4",
-        "name": "Aave V4",
-        "symbol": "USDT · Core",
-        "chain": "Ethereum",
-        "bucket": "lend",
+        "project": "uniswap-v3",
+        "name": "Uniswap V3",
+        "symbol": "USDC-USDT · 0.01%",
+        "chain": "Polygon",
+        "bucket": "LP",
         "access": "permissionless",
         "type": "fiat",
-        "tierDriver": "USDT",
-        "base": 5.67,
+        "tierDriver": "USDC",
+        "base": 5.63,
         "reward": 0,
-        "total": 5.67,
-        "spot": 5.67,
-        "mean30d": 3.33,
-        "divFlag": "▲",
-        "tvlUsd": 1212672,
+        "total": 5.63,
+        "spot": 5.63,
+        "mean30d": 13.6,
+        "divFlag": "▼",
+        "tvlUsd": 1201295,
         "legs": [
+          "USDC",
           "USDT"
         ],
-        "url": "https://pro.aave.com/",
+        "url": "https://app.uniswap.org/explore/pools/polygon/0xDaC8A8E6DBf8c690ec6815e0fF03491B2770255D",
         "linkKind": "exact",
-        "exposure": "single",
+        "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 1.37,
-        "apyPct30D": 3.45,
-        "poolId": "517f3a7a-a3b0-4af9-be8e-bcb0fb549744"
+        "volumeUsd1d": 1853454,
+        "volumeUsd7d": 17501821,
+        "apyPct7D": -2.46,
+        "apyPct30D": 1.23,
+        "poolId": "afc658d8-6c0b-4ac5-a46b-1bb611bf5234"
       },
       {
         "project": "morpho-blue",
@@ -579,13 +609,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.66,
+        "base": 5.59,
         "reward": 0,
-        "total": 5.66,
-        "spot": 5.66,
+        "total": 5.59,
+        "spot": 5.59,
         "mean30d": 6.33,
         "divFlag": "●",
-        "tvlUsd": 1412499,
+        "tvlUsd": 1412469,
         "legs": [
           "USDC"
         ],
@@ -596,39 +626,9 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 1.79,
-        "apyPct30D": -1.13,
+        "apyPct7D": 1.73,
+        "apyPct30D": -1.2,
         "poolId": "05c5acfb-eb6c-40bd-865c-2015c017e953"
-      },
-      {
-        "project": "morpho-blue",
-        "name": "Morpho Blue",
-        "symbol": "Gauntlet USDC RWA",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 5.66,
-        "reward": 0,
-        "total": 5.66,
-        "spot": 5.66,
-        "mean30d": 5.34,
-        "divFlag": "●",
-        "tvlUsd": 11038650,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.morpho.org/ethereum/vault/0xA8875aaeBc4f830524e35d57F9772FfAcbdD6C45",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0.51,
-        "apyPct30D": 0.47,
-        "poolId": "086d98c3-e23e-42b2-9425-cb8915724337"
       },
       {
         "project": "morpho-blue",
@@ -640,12 +640,12 @@
         "type": "fiat",
         "tierDriver": "USDC",
         "base": 5.58,
-        "reward": 1.15,
-        "total": 6.72,
-        "spot": 6.72,
+        "reward": 1.14,
+        "total": 6.73,
+        "spot": 6.73,
         "mean30d": 6.13,
         "divFlag": "●",
-        "tvlUsd": 13135781,
+        "tvlUsd": 13135478,
         "legs": [
           "USDC"
         ],
@@ -653,11 +653,11 @@
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 1.15,
+        "apyReward": 1.14,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.43,
-        "apyPct30D": 0.37,
+        "apyPct7D": 0.45,
+        "apyPct30D": 0.35,
         "poolId": "1b33f341-1dc2-446a-856e-caf900563ae2"
       },
       {
@@ -675,7 +675,7 @@
         "spot": 5.46,
         "mean30d": 6,
         "divFlag": "●",
-        "tvlUsd": 2943291,
+        "tvlUsd": 2943261,
         "legs": [
           "RLUSD",
           "USDC"
@@ -706,7 +706,7 @@
         "spot": 5.42,
         "mean30d": 5.57,
         "divFlag": "●",
-        "tvlUsd": 5362973,
+        "tvlUsd": 5366236,
         "legs": [
           "USDC"
         ],
@@ -717,8 +717,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.02,
-        "apyPct30D": -1.05,
+        "apyPct7D": 0.01,
+        "apyPct30D": -1.06,
         "poolId": "92a97f48-005e-4819-a838-f442ea92c401"
       },
       {
@@ -730,13 +730,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.37,
+        "base": 5.36,
         "reward": 0.36,
         "total": 5.73,
         "spot": 5.73,
-        "mean30d": 5.81,
+        "mean30d": 5.8,
         "divFlag": "●",
-        "tvlUsd": 6731071,
+        "tvlUsd": 6730908,
         "legs": [
           "USDC"
         ],
@@ -747,8 +747,8 @@
         "apyReward": 0.36,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.21,
-        "apyPct30D": -0.81,
+        "apyPct7D": -0.27,
+        "apyPct30D": -0.82,
         "poolId": "4828569b-ddba-42a7-9bf9-e7e6d809112d"
       },
       {
@@ -766,7 +766,7 @@
         "spot": 5.3,
         "mean30d": 5.37,
         "divFlag": "●",
-        "tvlUsd": 41780274,
+        "tvlUsd": 41779283,
         "legs": [
           "USDC"
         ],
@@ -777,7 +777,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.2,
+        "apyPct7D": 0.16,
         "apyPct30D": -0.12,
         "poolId": "f8d7740c-4cef-420e-a944-1b7caffde643"
       },
@@ -790,13 +790,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.18,
+        "base": 5.19,
         "reward": 0.06,
-        "total": 5.24,
-        "spot": 5.24,
+        "total": 5.25,
+        "spot": 5.25,
         "mean30d": 5.79,
         "divFlag": "●",
-        "tvlUsd": 1605756,
+        "tvlUsd": 1605764,
         "legs": [
           "USDC"
         ],
@@ -812,6 +812,36 @@
         "poolId": "2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA"
       },
       {
+        "project": "morpho-blue",
+        "name": "Morpho Blue",
+        "symbol": " Usual Boosted USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 5.09,
+        "reward": 0,
+        "total": 5.09,
+        "spot": 5.09,
+        "mean30d": 5.88,
+        "divFlag": "●",
+        "tvlUsd": 2119835,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.morpho.org/ethereum/vault/0xd63070114470f685b75B74D60EEc7c1113d33a3D",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": -0.37,
+        "apyPct30D": -1.48,
+        "poolId": "e553e77d-7ddc-4816-a1c9-4e68605f882c"
+      },
+      {
         "project": "kamino-lend",
         "name": "Kamino Lend",
         "symbol": "Steakhouse High Yield USDC",
@@ -820,13 +850,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 5.1,
+        "base": 5.08,
         "reward": 0.06,
-        "total": 5.15,
-        "spot": 5.15,
+        "total": 5.14,
+        "spot": 5.14,
         "mean30d": 5.42,
         "divFlag": "●",
-        "tvlUsd": 3174892,
+        "tvlUsd": 3174906,
         "legs": [
           "USDC"
         ],
@@ -840,66 +870,6 @@
         "apyPct7D": 5.32,
         "apyPct30D": null,
         "poolId": "BEEfo7xwgK2ZP13Pxo7qqTPzAteKJmXjVWtMWcXSvbn2"
-      },
-      {
-        "project": "morpho-blue",
-        "name": "Morpho Blue",
-        "symbol": " Usual Boosted USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 5.07,
-        "reward": 0,
-        "total": 5.07,
-        "spot": 5.07,
-        "mean30d": 5.88,
-        "divFlag": "●",
-        "tvlUsd": 2119885,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.morpho.org/ethereum/vault/0xd63070114470f685b75B74D60EEc7c1113d33a3D",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.39,
-        "apyPct30D": -1.6,
-        "poolId": "e553e77d-7ddc-4816-a1c9-4e68605f882c"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "RockawayX RWA USDC",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 5.06,
-        "reward": 0.03,
-        "total": 5.09,
-        "spot": 5.09,
-        "mean30d": 5.31,
-        "divFlag": "●",
-        "tvlUsd": 79883695,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0.03,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 5.11,
-        "apyPct30D": null,
-        "poolId": "DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP"
       },
       {
         "project": "yearn-finance",
@@ -916,7 +886,7 @@
         "spot": 5.03,
         "mean30d": 5.01,
         "divFlag": "●",
-        "tvlUsd": 1715484,
+        "tvlUsd": 1715524,
         "legs": [
           "USDC"
         ],
@@ -946,7 +916,7 @@
         "spot": 4.98,
         "mean30d": 4.99,
         "divFlag": "●",
-        "tvlUsd": 364705125,
+        "tvlUsd": 364468496,
         "legs": [
           "USDG"
         ],
@@ -960,6 +930,36 @@
         "apyPct7D": 0.05,
         "apyPct30D": 0.04,
         "poolId": "4c004503-9587-46f2-a362-d23a80f4b691"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "RockawayX RWA USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 4.97,
+        "reward": 0.03,
+        "total": 5,
+        "spot": 5,
+        "mean30d": 5.31,
+        "divFlag": "●",
+        "tvlUsd": 80311765,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0.03,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.11,
+        "apyPct30D": null,
+        "poolId": "DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP"
       },
       {
         "project": "maple",
@@ -976,7 +976,7 @@
         "spot": 4.96,
         "mean30d": 4.93,
         "divFlag": "●",
-        "tvlUsd": 2652555073,
+        "tvlUsd": 2649333361,
         "legs": [
           "USDC"
         ],
@@ -1006,7 +1006,7 @@
         "spot": 4.87,
         "mean30d": 5.15,
         "divFlag": "●",
-        "tvlUsd": 31529031,
+        "tvlUsd": 31521200,
         "legs": [
           "USDC"
         ],
@@ -1017,7 +1017,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.09,
+        "apyPct7D": -0.1,
         "apyPct30D": -0.86,
         "poolId": "832c94db-4948-4f14-aa65-af6e737d984e"
       },
@@ -1030,13 +1030,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "DAI",
-        "base": 4.76,
+        "base": 4.75,
         "reward": 0,
-        "total": 4.76,
-        "spot": 4.76,
+        "total": 4.75,
+        "spot": 4.75,
         "mean30d": 4.8,
         "divFlag": "●",
-        "tvlUsd": 2287369,
+        "tvlUsd": 2287066,
         "legs": [
           "DAI"
         ],
@@ -1047,7 +1047,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.54,
+        "apyPct7D": -0.55,
         "apyPct30D": 0,
         "poolId": "d78f63a2-98c4-481b-9f3d-147505dd9974"
       },
@@ -1060,13 +1060,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.63,
+        "base": 4.72,
         "reward": 0.03,
-        "total": 4.67,
-        "spot": 4.67,
+        "total": 4.76,
+        "spot": 4.76,
         "mean30d": 5.52,
         "divFlag": "●",
-        "tvlUsd": 12007960,
+        "tvlUsd": 12008009,
         "legs": [
           "USDC"
         ],
@@ -1080,6 +1080,36 @@
         "apyPct7D": 5.22,
         "apyPct30D": null,
         "poolId": "A1USdzqDHmw5oz97AkqAGLxEQZfFjASZFuy4T6Qdvnpo"
+      },
+      {
+        "project": "beefy",
+        "name": "Beefy",
+        "symbol": "USDC · Morpho",
+        "chain": "Ethereum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 4.62,
+        "reward": 0,
+        "total": 4.62,
+        "spot": 4.62,
+        "mean30d": 4.54,
+        "divFlag": "●",
+        "tvlUsd": 3361661,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.beefy.com/vault/morpho-smokehouse-usdc",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": -0.08,
+        "apyPct30D": 0.36,
+        "poolId": "45ecff73-d1b5-412f-ae15-c409034cc14c"
       },
       {
         "project": "maple",
@@ -1096,7 +1126,7 @@
         "spot": 4.62,
         "mean30d": 4.52,
         "divFlag": "●",
-        "tvlUsd": 878828323,
+        "tvlUsd": 877401715,
         "legs": [
           "USDT"
         ],
@@ -1112,36 +1142,6 @@
         "poolId": "8edfdf02-cdbb-43f7-bca6-954e5fe56813"
       },
       {
-        "project": "beefy",
-        "name": "Beefy",
-        "symbol": "USDC · Morpho",
-        "chain": "Ethereum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 4.59,
-        "reward": 0,
-        "total": 4.59,
-        "spot": 4.59,
-        "mean30d": 4.54,
-        "divFlag": "●",
-        "tvlUsd": 3361643,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.beefy.com/vault/morpho-smokehouse-usdc",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.11,
-        "apyPct30D": 0.3,
-        "poolId": "45ecff73-d1b5-412f-ae15-c409034cc14c"
-      },
-      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "Steakhouse High Yield USDC",
@@ -1150,13 +1150,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.54,
+        "base": 4.55,
         "reward": 0,
-        "total": 4.54,
-        "spot": 4.54,
+        "total": 4.55,
+        "spot": 4.55,
         "mean30d": 5.09,
         "divFlag": "●",
-        "tvlUsd": 2329751,
+        "tvlUsd": 2329538,
         "legs": [
           "USDC"
         ],
@@ -1167,8 +1167,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.65,
-        "apyPct30D": 1.26,
+        "apyPct7D": -0.67,
+        "apyPct30D": 1.21,
         "poolId": "c13f1940-9965-4eee-b7e8-af785591ceda"
       },
       {
@@ -1186,7 +1186,7 @@
         "spot": 4.42,
         "mean30d": 4.41,
         "divFlag": "●",
-        "tvlUsd": 1012437,
+        "tvlUsd": 1012460,
         "legs": [
           "USDC"
         ],
@@ -1210,13 +1210,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.41,
+        "base": 4.38,
         "reward": 0,
-        "total": 4.41,
-        "spot": 4.41,
+        "total": 4.38,
+        "spot": 4.38,
         "mean30d": 4.66,
         "divFlag": "●",
-        "tvlUsd": 1907724,
+        "tvlUsd": 1907736,
         "legs": [
           "USDC"
         ],
@@ -1227,8 +1227,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.14,
-        "apyPct30D": -0.47,
+        "apyPct7D": -0.13,
+        "apyPct30D": -0.66,
         "poolId": "2f6ff86c-3d82-4cd9-8e7d-bc3eb3471493"
       },
       {
@@ -1240,13 +1240,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 4.29,
+        "base": 4.27,
         "reward": 0,
-        "total": 4.29,
-        "spot": 4.29,
+        "total": 4.27,
+        "spot": 4.27,
         "mean30d": 4.56,
         "divFlag": "●",
-        "tvlUsd": 3789736,
+        "tvlUsd": 3789642,
         "legs": [
           "USDC"
         ],
@@ -1257,9 +1257,39 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.17,
-        "apyPct30D": -1.14,
+        "apyPct7D": 0.15,
+        "apyPct30D": -1.19,
         "poolId": "baf1a020-a2a4-401a-9425-eba22ffce13c"
+      },
+      {
+        "project": "morpho-blue",
+        "name": "Morpho Blue",
+        "symbol": "Cronos USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 4.27,
+        "reward": 0,
+        "total": 4.27,
+        "spot": 4.27,
+        "mean30d": 4.15,
+        "divFlag": "●",
+        "tvlUsd": 1285384,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.morpho.org/ethereum/vault/0xbeEf96B330ef1Fe7Ebe41eCe0Bd4a41A94Bc03DC",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": -0.01,
+        "apyPct30D": 0.1,
+        "poolId": "7c9210dc-9550-47eb-b73c-5774aa629c96"
       },
       {
         "project": "morpho-blue",
@@ -1276,7 +1306,7 @@
         "spot": 4.27,
         "mean30d": 4.27,
         "divFlag": "●",
-        "tvlUsd": 428763076,
+        "tvlUsd": 428776400,
         "legs": [
           "USDC"
         ],
@@ -1306,7 +1336,7 @@
         "spot": 4.27,
         "mean30d": 4.27,
         "divFlag": "●",
-        "tvlUsd": 420134546,
+        "tvlUsd": 420099428,
         "legs": [
           "USDC"
         ],
@@ -1324,36 +1354,6 @@
       {
         "project": "morpho-blue",
         "name": "Morpho Blue",
-        "symbol": "Cronos USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 4.27,
-        "reward": 0,
-        "total": 4.27,
-        "spot": 4.27,
-        "mean30d": 4.15,
-        "divFlag": "●",
-        "tvlUsd": 1285418,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.morpho.org/ethereum/vault/0xbeEf96B330ef1Fe7Ebe41eCe0Bd4a41A94Bc03DC",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.01,
-        "apyPct30D": 0.1,
-        "poolId": "7c9210dc-9550-47eb-b73c-5774aa629c96"
-      },
-      {
-        "project": "morpho-blue",
-        "name": "Morpho Blue",
         "symbol": "Steakhouse USDC",
         "chain": "Ethereum",
         "bucket": "lend",
@@ -1366,7 +1366,7 @@
         "spot": 4.26,
         "mean30d": 4.2,
         "divFlag": "●",
-        "tvlUsd": 107035105,
+        "tvlUsd": 107041385,
         "legs": [
           "USDC"
         ],
@@ -1392,11 +1392,11 @@
         "tierDriver": "USDG",
         "base": 4.26,
         "reward": 2.55,
-        "total": 6.8,
-        "spot": 6.8,
+        "total": 6.81,
+        "spot": 6.81,
         "mean30d": 7.33,
         "divFlag": "●",
-        "tvlUsd": 47808193,
+        "tvlUsd": 47810399,
         "legs": [
           "USDG"
         ],
@@ -1426,7 +1426,7 @@
         "spot": 4.25,
         "mean30d": 4.2,
         "divFlag": "●",
-        "tvlUsd": 7305255,
+        "tvlUsd": 7305071,
         "legs": [
           "USDC"
         ],
@@ -1437,8 +1437,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.07,
-        "apyPct30D": 0.11,
+        "apyPct7D": -0.08,
+        "apyPct30D": 0.12,
         "poolId": "2942e247-18c6-4a4e-926f-151dec88910b"
       },
       {
@@ -1456,7 +1456,7 @@
         "spot": 4.23,
         "mean30d": 4.16,
         "divFlag": "●",
-        "tvlUsd": 9523555,
+        "tvlUsd": 9902207,
         "legs": [
           "USDC"
         ],
@@ -1467,8 +1467,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.03,
-        "apyPct30D": 0.11,
+        "apyPct7D": -0.02,
+        "apyPct30D": 0.12,
         "poolId": "3e31d9a0-4d87-492e-8c2d-78471cd76cec"
       },
       {
@@ -1486,7 +1486,7 @@
         "spot": 4.22,
         "mean30d": 4.2,
         "divFlag": "●",
-        "tvlUsd": 24855189,
+        "tvlUsd": 24813575,
         "legs": [
           "USDC"
         ],
@@ -1497,7 +1497,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.12,
+        "apyPct7D": -0.13,
         "apyPct30D": 0.1,
         "poolId": "a306885c-001e-4479-9ae8-459a56527bc1"
       },
@@ -1516,7 +1516,7 @@
         "spot": 4.17,
         "mean30d": 4.12,
         "divFlag": "●",
-        "tvlUsd": 23226756,
+        "tvlUsd": 23225942,
         "legs": [
           "USDT"
         ],
@@ -1527,39 +1527,40 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.12,
-        "apyPct30D": 0.59,
+        "apyPct7D": 0.11,
+        "apyPct30D": 0.58,
         "poolId": "c743eac6-1906-4d96-a7aa-667426ec3cc7"
       },
       {
-        "project": "jupiter-lend",
-        "name": "Jupiter Lend",
-        "symbol": "USDT · Earn",
-        "chain": "Solana",
-        "bucket": "lend",
+        "project": "uniswap-v4",
+        "name": "Uniswap V4",
+        "symbol": "USDC-USDC · 0.00%",
+        "chain": "Polygon",
+        "bucket": "LP",
         "access": "permissionless",
         "type": "fiat",
-        "tierDriver": "USDT",
+        "tierDriver": "USDC",
         "base": 4.06,
         "reward": 0,
         "total": 4.06,
         "spot": 4.06,
-        "mean30d": 3.97,
-        "divFlag": "●",
-        "tvlUsd": 17272074,
+        "mean30d": 6.06,
+        "divFlag": "▼",
+        "tvlUsd": 1157022,
         "legs": [
-          "USDT"
+          "USDC",
+          "USDC"
         ],
-        "url": "https://jup.ag/lend/earn/USDT/deposit",
+        "url": "https://app.uniswap.org/explore/pools/polygon/0xe3f907c3512aea11d4cf0c2990970016b5ee5b1f83368c388287001f419052a4",
         "linkKind": "exact",
-        "exposure": "single",
+        "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": null,
+        "volumeUsd1d": 8052315,
         "volumeUsd7d": null,
-        "apyPct7D": -0.29,
-        "apyPct30D": 0.36,
-        "poolId": "a2fbc7ec-22c2-43fe-aa42-49f854aa940d"
+        "apyPct7D": 1.25,
+        "apyPct30D": null,
+        "poolId": "97564477-a91f-4aae-a774-712be64f8c3f"
       },
       {
         "project": "morpho-blue",
@@ -1576,7 +1577,7 @@
         "spot": 4.05,
         "mean30d": 2.56,
         "divFlag": "▲",
-        "tvlUsd": 1242625,
+        "tvlUsd": 1242594,
         "legs": [
           "USDC"
         ],
@@ -1592,34 +1593,34 @@
         "poolId": "47548a32-63c2-4485-b348-eac2cc3a587f"
       },
       {
-        "project": "aave-v3",
-        "name": "Aave V3",
-        "symbol": "DAI",
-        "chain": "Polygon",
+        "project": "jupiter-lend",
+        "name": "Jupiter Lend",
+        "symbol": "USDT · Earn",
+        "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
-        "tierDriver": "DAI",
+        "tierDriver": "USDT",
         "base": 4.02,
         "reward": 0,
         "total": 4.02,
         "spot": 4.02,
-        "mean30d": 4.06,
+        "mean30d": 3.97,
         "divFlag": "●",
-        "tvlUsd": 1018184,
+        "tvlUsd": 17270571,
         "legs": [
-          "DAI"
+          "USDT"
         ],
-        "url": "https://app.aave.com/reserve-overview/?underlyingAsset=0x8f3cf7ad23cd3cadbd9735aff958023239c6a063&marketName=proto_polygon_v3",
+        "url": "https://jup.ag/lend/earn/USDT/deposit",
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.38,
-        "apyPct30D": -0.01,
-        "poolId": "c57bdc97-3100-41ff-845f-075363f6f5a4"
+        "apyPct7D": -0.35,
+        "apyPct30D": 0.33,
+        "poolId": "a2fbc7ec-22c2-43fe-aa42-49f854aa940d"
       },
       {
         "project": "yearn-finance",
@@ -1666,7 +1667,7 @@
         "spot": 3.99,
         "mean30d": 4,
         "divFlag": "●",
-        "tvlUsd": 13020205,
+        "tvlUsd": 12861093,
         "legs": [
           "USDC"
         ],
@@ -1677,40 +1678,9 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.15,
+        "apyPct7D": -0.16,
         "apyPct30D": 0.06,
         "poolId": "d7c8dc33-235e-4d08-94e9-8b72c2500d0d"
-      },
-      {
-        "project": "uniswap-v4",
-        "name": "Uniswap V4",
-        "symbol": "USDC-USDC · 0.00%",
-        "chain": "Polygon",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.92,
-        "reward": 0,
-        "total": 3.92,
-        "spot": 3.92,
-        "mean30d": 6.06,
-        "divFlag": "▼",
-        "tvlUsd": 1157041,
-        "legs": [
-          "USDC",
-          "USDC"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/polygon/0xe3f907c3512aea11d4cf0c2990970016b5ee5b1f83368c388287001f419052a4",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 7772683,
-        "volumeUsd7d": null,
-        "apyPct7D": 1.28,
-        "apyPct30D": null,
-        "poolId": "97564477-a91f-4aae-a774-712be64f8c3f"
       },
       {
         "project": "morpho-blue",
@@ -1722,12 +1692,12 @@
         "type": "fiat",
         "tierDriver": "USDC",
         "base": 3.85,
-        "reward": 0.21,
+        "reward": 0.22,
         "total": 4.07,
         "spot": 4.07,
         "mean30d": 4.08,
         "divFlag": "●",
-        "tvlUsd": 4609771,
+        "tvlUsd": 4608818,
         "legs": [
           "USDC"
         ],
@@ -1735,11 +1705,11 @@
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 0.21,
+        "apyReward": 0.22,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.01,
-        "apyPct30D": 0.56,
+        "apyPct7D": 0.02,
+        "apyPct30D": 0.57,
         "poolId": "b39b492a-0a64-4926-8598-d5acf05d62b5"
       },
       {
@@ -1757,7 +1727,7 @@
         "spot": 3.85,
         "mean30d": 3.85,
         "divFlag": "●",
-        "tvlUsd": 1838441,
+        "tvlUsd": 1838392,
         "legs": [
           "USDC"
         ],
@@ -1775,36 +1745,6 @@
       {
         "project": "morpho-blue",
         "name": "Morpho Blue",
-        "symbol": "Spark USDC Vault",
-        "chain": "Base",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.83,
-        "reward": 0,
-        "total": 3.83,
-        "spot": 3.83,
-        "mean30d": 3.83,
-        "divFlag": "●",
-        "tvlUsd": 277910653,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.morpho.org/base/vault/0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0,
-        "apyPct30D": 0.13,
-        "poolId": "a5fab52f-73fa-4f44-9c09-9af1eb20996c"
-      },
-      {
-        "project": "morpho-blue",
-        "name": "Morpho Blue",
         "symbol": "Pangolins USDC",
         "chain": "Base",
         "bucket": "lend",
@@ -1817,7 +1757,7 @@
         "spot": 3.83,
         "mean30d": 3.83,
         "divFlag": "●",
-        "tvlUsd": 11858852,
+        "tvlUsd": 11858354,
         "legs": [
           "USDC"
         ],
@@ -1828,15 +1768,15 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0,
+        "apyPct7D": -0.01,
         "apyPct30D": 0.13,
         "poolId": "c1949c46-0c01-445f-8017-b3192d9913bc"
       },
       {
         "project": "morpho-blue",
         "name": "Morpho Blue",
-        "symbol": "Api3 Core USDC",
-        "chain": "Ethereum",
+        "symbol": "Spark USDC Vault",
+        "chain": "Base",
         "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
@@ -1845,22 +1785,22 @@
         "reward": 0,
         "total": 3.83,
         "spot": 3.83,
-        "mean30d": 3.88,
+        "mean30d": 3.84,
         "divFlag": "●",
-        "tvlUsd": 1996708,
+        "tvlUsd": 277903254,
         "legs": [
           "USDC"
         ],
-        "url": "https://app.morpho.org/ethereum/vault/0xB3f4D94A209045Ef35661e657Db9ADAc584141f1",
+        "url": "https://app.morpho.org/base/vault/0x7BfA7C4f149E7415b73bdeDfe609237e29CBF34A",
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.07,
-        "apyPct30D": 0.34,
-        "poolId": "0c2bec53-0061-40f8-b389-6b253b49783e"
+        "apyPct7D": -0.01,
+        "apyPct30D": 0.13,
+        "poolId": "a5fab52f-73fa-4f44-9c09-9af1eb20996c"
       },
       {
         "project": "aave-v4",
@@ -1871,13 +1811,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 3.82,
+        "base": 3.83,
         "reward": 0,
-        "total": 3.82,
-        "spot": 3.82,
+        "total": 3.83,
+        "spot": 3.83,
         "mean30d": 4.15,
         "divFlag": "●",
-        "tvlUsd": 2645924,
+        "tvlUsd": 2635918,
         "legs": [
           "USDC"
         ],
@@ -1888,9 +1828,39 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.23,
+        "apyPct7D": -0.7,
         "apyPct30D": 0.98,
         "poolId": "4ac1a968-68ab-4da8-87e3-8f1e15e3dae2"
+      },
+      {
+        "project": "morpho-blue",
+        "name": "Morpho Blue",
+        "symbol": "Api3 Core USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 3.82,
+        "reward": 0,
+        "total": 3.82,
+        "spot": 3.82,
+        "mean30d": 3.88,
+        "divFlag": "●",
+        "tvlUsd": 1996657,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.morpho.org/ethereum/vault/0xB3f4D94A209045Ef35661e657Db9ADAc584141f1",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": -0.09,
+        "apyPct30D": 0.33,
+        "poolId": "0c2bec53-0061-40f8-b389-6b253b49783e"
       },
       {
         "project": "morpho-blue",
@@ -1907,7 +1877,7 @@
         "spot": 3.82,
         "mean30d": 3.8,
         "divFlag": "●",
-        "tvlUsd": 9526203,
+        "tvlUsd": 9525960,
         "legs": [
           "USDC"
         ],
@@ -1953,6 +1923,37 @@
         "poolId": "7ee289d7-72aa-4295-99a7-c4551e3f15d1"
       },
       {
+        "project": "uniswap-v3",
+        "name": "Uniswap V3",
+        "symbol": "USDC-USDT · 0.01%",
+        "chain": "Arbitrum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 3.77,
+        "reward": 0,
+        "total": 3.77,
+        "spot": 3.77,
+        "mean30d": 4.47,
+        "divFlag": "●",
+        "tvlUsd": 1302210,
+        "legs": [
+          "USDC",
+          "USDT"
+        ],
+        "url": "https://app.uniswap.org/explore/pools/arbitrum/0xbE3aD6a5669Dc0B8b12FeBC03608860C31E2eef6",
+        "linkKind": "exact",
+        "exposure": "multi",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": 1343380,
+        "volumeUsd7d": 7449744,
+        "apyPct7D": 0.24,
+        "apyPct30D": -10.79,
+        "poolId": "ba3fb5f5-684e-4834-afca-d58668395b02"
+      },
+      {
         "project": "yearn-finance",
         "name": "Yearn Finance",
         "symbol": "USDC",
@@ -1979,8 +1980,68 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.04,
-        "apyPct30D": 0.45,
+        "apyPct30D": null,
         "poolId": "7d89af7a-24c9-4292-aa38-7c71b05fbd6d"
+      },
+      {
+        "project": "aave-v4",
+        "name": "Aave V4",
+        "symbol": "USDT · Core",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDT",
+        "base": 3.74,
+        "reward": 0,
+        "total": 3.74,
+        "spot": 3.74,
+        "mean30d": 3.33,
+        "divFlag": "●",
+        "tvlUsd": 1374624,
+        "legs": [
+          "USDT"
+        ],
+        "url": "https://pro.aave.com/",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": -0.62,
+        "apyPct30D": 1.53,
+        "poolId": "517f3a7a-a3b0-4af9-be8e-bcb0fb549744"
+      },
+      {
+        "project": "aave-v3",
+        "name": "Aave V3",
+        "symbol": "DAI",
+        "chain": "Polygon",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "DAI",
+        "base": 3.73,
+        "reward": 0,
+        "total": 3.73,
+        "spot": 3.73,
+        "mean30d": 4.06,
+        "divFlag": "●",
+        "tvlUsd": 1117985,
+        "legs": [
+          "DAI"
+        ],
+        "url": "https://app.aave.com/reserve-overview/?underlyingAsset=0x8f3cf7ad23cd3cadbd9735aff958023239c6a063&marketName=proto_polygon_v3",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 0.1,
+        "apyPct30D": -0.29,
+        "poolId": "c57bdc97-3100-41ff-845f-075363f6f5a4"
       },
       {
         "project": "jupiter-lend",
@@ -1997,7 +2058,7 @@
         "spot": 3.73,
         "mean30d": 4.89,
         "divFlag": "▼",
-        "tvlUsd": 3120353,
+        "tvlUsd": 3120450,
         "legs": [
           "USDG"
         ],
@@ -2009,7 +2070,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -3.84,
-        "apyPct30D": -1.2,
+        "apyPct30D": -0.8,
         "poolId": "c4d22a9b-a5e3-414e-92d9-76493e1ab239"
       },
       {
@@ -2027,7 +2088,7 @@
         "spot": 3.63,
         "mean30d": 3.82,
         "divFlag": "●",
-        "tvlUsd": 1112994,
+        "tvlUsd": 1112988,
         "legs": [
           "USDC"
         ],
@@ -2057,7 +2118,7 @@
         "spot": 3.62,
         "mean30d": 3.56,
         "divFlag": "●",
-        "tvlUsd": 18220226,
+        "tvlUsd": 18069801,
         "legs": [
           "USDC"
         ],
@@ -2087,7 +2148,7 @@
         "spot": 3.6,
         "mean30d": 3.55,
         "divFlag": "●",
-        "tvlUsd": 318381769,
+        "tvlUsd": 318369210,
         "legs": [
           "USDC"
         ],
@@ -2103,34 +2164,64 @@
         "poolId": "c5c74dd1-995c-4445-9d84-3e710bad7d52"
       },
       {
-        "project": "compound-v3",
-        "name": "Compound V3",
+        "project": "aave-v3",
+        "name": "Aave V3",
         "symbol": "USDC",
         "chain": "Ethereum",
         "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 3.59,
+        "base": 3.58,
         "reward": 0,
-        "total": 3.59,
-        "spot": 3.59,
-        "mean30d": 4.71,
-        "divFlag": "▼",
-        "tvlUsd": 37208750,
+        "total": 3.58,
+        "spot": 3.58,
+        "mean30d": 3.88,
+        "divFlag": "●",
+        "tvlUsd": 186360467,
         "legs": [
           "USDC"
         ],
-        "url": "https://v3-app.compound.finance/markets/usdc-mainnet",
+        "url": "https://app.aave.com/reserve-overview/?underlyingAsset=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&marketName=proto_mainnet_v3",
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 0,
+        "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -3.42,
-        "apyPct30D": 0.3,
-        "poolId": "7da72d09-56ca-4ec5-a45f-59114353e487"
+        "apyPct7D": -0.01,
+        "apyPct30D": 0.29,
+        "poolId": "aa70268e-4b52-42bf-a116-608b370f9501"
+      },
+      {
+        "project": "aave-v3",
+        "name": "Aave V3",
+        "symbol": "USDC · Umbrella",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 3.58,
+        "reward": 1.67,
+        "total": 5.25,
+        "spot": 5.25,
+        "mean30d": 5.41,
+        "divFlag": "●",
+        "tvlUsd": 58277675,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.aave.com/reserve-overview/?underlyingAsset=0xd4fa2d31b7968e448877f69a96de69f5de8cd23e&marketName=proto_mainnet_v3",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 1.67,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 0,
+        "apyPct30D": 0.48,
+        "poolId": "6f00d46b-8735-49ae-9ced-2a0fccc56ad0"
       },
       {
         "project": "blackrock-buidl",
@@ -2253,66 +2344,6 @@
         "poolId": "1767cdec-8dad-4b8c-a61c-fa10ab4d3f92"
       },
       {
-        "project": "aave-v3",
-        "name": "Aave V3",
-        "symbol": "USDC",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.56,
-        "reward": 0,
-        "total": 3.56,
-        "spot": 3.56,
-        "mean30d": 3.88,
-        "divFlag": "●",
-        "tvlUsd": 190529153,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.aave.com/reserve-overview/?underlyingAsset=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&marketName=proto_mainnet_v3",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.02,
-        "apyPct30D": 0.28,
-        "poolId": "aa70268e-4b52-42bf-a116-608b370f9501"
-      },
-      {
-        "project": "aave-v3",
-        "name": "Aave V3",
-        "symbol": "USDC · Umbrella",
-        "chain": "Ethereum",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.56,
-        "reward": 1.67,
-        "total": 5.23,
-        "spot": 5.23,
-        "mean30d": 5.41,
-        "divFlag": "●",
-        "tvlUsd": 58277438,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.aave.com/reserve-overview/?underlyingAsset=0xd4fa2d31b7968e448877f69a96de69f5de8cd23e&marketName=proto_mainnet_v3",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 1.67,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": -0.01,
-        "apyPct30D": 0.47,
-        "poolId": "6f00d46b-8735-49ae-9ced-2a0fccc56ad0"
-      },
-      {
         "project": "blackrock-buidl",
         "name": "BlackRock BUIDL",
         "symbol": "BUIDL",
@@ -2387,7 +2418,7 @@
         "spot": 3.54,
         "mean30d": 3.53,
         "divFlag": "●",
-        "tvlUsd": 24174044,
+        "tvlUsd": 24214566,
         "legs": [
           "USDC"
         ],
@@ -2398,9 +2429,39 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.17,
+        "apyPct7D": -0.18,
         "apyPct30D": 0,
         "poolId": "7e0661bf-8cf3-45e6-9424-31916d4c7b84"
+      },
+      {
+        "project": "compound-v3",
+        "name": "Compound V3",
+        "symbol": "USDC",
+        "chain": "Ethereum",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 3.52,
+        "reward": 0,
+        "total": 3.52,
+        "spot": 3.52,
+        "mean30d": 4.71,
+        "divFlag": "▼",
+        "tvlUsd": 37296956,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://v3-app.compound.finance/markets/usdc-mainnet",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": -3.4,
+        "apyPct30D": 0.23,
+        "poolId": "7da72d09-56ca-4ec5-a45f-59114353e487"
       },
       {
         "project": "save",
@@ -2411,13 +2472,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 3.51,
+        "base": 3.52,
         "reward": 0,
-        "total": 3.51,
-        "spot": 3.51,
-        "mean30d": 2.68,
+        "total": 3.52,
+        "spot": 3.52,
+        "mean30d": 2.69,
         "divFlag": "▲",
-        "tvlUsd": 4588997,
+        "tvlUsd": 4588959,
         "legs": [
           "USDC"
         ],
@@ -2428,8 +2489,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.56,
-        "apyPct30D": 1.23,
+        "apyPct7D": 0.57,
+        "apyPct30D": 1.24,
         "poolId": "dde4c16c-504d-470b-9404-006287ce0906"
       },
       {
@@ -2447,7 +2508,7 @@
         "spot": 3.5,
         "mean30d": 3.21,
         "divFlag": "●",
-        "tvlUsd": 406711763,
+        "tvlUsd": 406694181,
         "legs": [
           "USDT"
         ],
@@ -2477,7 +2538,7 @@
         "spot": 3.86,
         "mean30d": 4.94,
         "divFlag": "▼",
-        "tvlUsd": 481347135,
+        "tvlUsd": 481308161,
         "legs": [
           "USDC"
         ],
@@ -2489,7 +2550,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.66,
-        "apyPct30D": -1.27,
+        "apyPct30D": -1.25,
         "poolId": "d783c8df-e2ed-44b4-8317-161ccc1b5f06"
       },
       {
@@ -2507,7 +2568,7 @@
         "spot": 3.43,
         "mean30d": 4.71,
         "divFlag": "▼",
-        "tvlUsd": 1210549,
+        "tvlUsd": 1210546,
         "legs": [
           "USDC"
         ],
@@ -2519,39 +2580,38 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 0.18,
-        "apyPct30D": 0.14,
+        "apyPct30D": 0.13,
         "poolId": "38f1474f-bb56-46ff-b2c6-bc07539a1f2b"
       },
       {
-        "project": "uniswap-v3",
-        "name": "Uniswap V3",
-        "symbol": "USDC-USDT · 0.01%",
-        "chain": "Arbitrum",
-        "bucket": "LP",
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Steakhouse USDC",
+        "chain": "Solana",
+        "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 3.4,
+        "base": 3.37,
         "reward": 0,
-        "total": 3.4,
-        "spot": 3.4,
-        "mean30d": 4.48,
+        "total": 3.37,
+        "spot": 3.37,
+        "mean30d": 4.46,
         "divFlag": "▼",
-        "tvlUsd": 1302596,
+        "tvlUsd": 19418370,
         "legs": [
-          "USDC",
-          "USDT"
+          "USDC"
         ],
-        "url": "https://app.uniswap.org/explore/pools/arbitrum/0xbE3aD6a5669Dc0B8b12FeBC03608860C31E2eef6",
+        "url": "https://app.kamino.finance/lend/HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E",
         "linkKind": "exact",
-        "exposure": "multi",
+        "exposure": "single",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 1213640,
-        "volumeUsd7d": 6995396,
-        "apyPct7D": -0.06,
-        "apyPct30D": -11.42,
-        "poolId": "ba3fb5f5-684e-4834-afca-d58668395b02"
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 3.84,
+        "apyPct30D": null,
+        "poolId": "HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E"
       },
       {
         "project": "midas-rwa",
@@ -2568,7 +2628,7 @@
         "spot": 3.33,
         "mean30d": 3.3,
         "divFlag": "●",
-        "tvlUsd": 72539324,
+        "tvlUsd": 72540023,
         "legs": [
           "USDC"
         ],
@@ -2582,36 +2642,6 @@
         "apyPct7D": -0.31,
         "apyPct30D": 0.12,
         "poolId": "b8d0d351-ac04-40de-9768-1fb9fdc68114"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Gauntlet USDC Prime",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.32,
-        "reward": 0,
-        "total": 3.32,
-        "spot": 3.32,
-        "mean30d": 5.03,
-        "divFlag": "▼",
-        "tvlUsd": 1746308,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/9E69U4GzWhryRaPe8DYpco6Z9vTZY6gg8w6W2QsBACEj",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 4.5,
-        "apyPct30D": null,
-        "poolId": "9E69U4GzWhryRaPe8DYpco6Z9vTZY6gg8w6W2QsBACEj"
       },
       {
         "project": "yearn-finance",
@@ -2658,7 +2688,7 @@
         "spot": 3.31,
         "mean30d": 3.49,
         "divFlag": "●",
-        "tvlUsd": 586409188,
+        "tvlUsd": 586409887,
         "legs": [
           "USTB"
         ],
@@ -2794,6 +2824,36 @@
         "poolId": "1f73ccbf-189e-4471-9e5c-46151b505d7d"
       },
       {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Solana Mobile USDC Earn Vault",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 3.22,
+        "reward": 0,
+        "total": 3.22,
+        "spot": 3.22,
+        "mean30d": 4.18,
+        "divFlag": "▼",
+        "tvlUsd": 1334986,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 3.59,
+        "apyPct30D": null,
+        "poolId": "3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC"
+      },
+      {
         "project": "aave-v3",
         "name": "Aave V3",
         "symbol": "USDT",
@@ -2808,7 +2868,7 @@
         "spot": 3.2,
         "mean30d": 3.36,
         "divFlag": "●",
-        "tvlUsd": 407138849,
+        "tvlUsd": 407740032,
         "legs": [
           "USDT"
         ],
@@ -2819,7 +2879,7 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.35,
+        "apyPct7D": -0.37,
         "apyPct30D": 0.34,
         "poolId": "f981a304-bb6c-45b8-b0c5-fd2f515ad23a"
       },
@@ -2838,7 +2898,7 @@
         "spot": 4.64,
         "mean30d": 4.78,
         "divFlag": "●",
-        "tvlUsd": 70791366,
+        "tvlUsd": 70793054,
         "legs": [
           "USDT"
         ],
@@ -2849,39 +2909,9 @@
         "apyReward": 1.44,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.4,
+        "apyPct7D": -0.43,
         "apyPct30D": 0.42,
         "poolId": "a90d554a-b548-4f50-b03e-9dcb724b7777"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Steakhouse USDC",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.17,
-        "reward": 0,
-        "total": 3.17,
-        "spot": 3.17,
-        "mean30d": 4.46,
-        "divFlag": "▼",
-        "tvlUsd": 19418314,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 3.84,
-        "apyPct30D": null,
-        "poolId": "HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E"
       },
       {
         "project": "kamino-lend",
@@ -2898,7 +2928,7 @@
         "spot": 3.17,
         "mean30d": 2.95,
         "divFlag": "●",
-        "tvlUsd": 251524011,
+        "tvlUsd": 251536054,
         "legs": [
           "PYUSD"
         ],
@@ -2922,13 +2952,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDT",
-        "base": 3.14,
+        "base": 3.11,
         "reward": 0,
-        "total": 3.14,
-        "spot": 3.14,
+        "total": 3.11,
+        "spot": 3.11,
         "mean30d": 3.09,
         "divFlag": "●",
-        "tvlUsd": 22650846,
+        "tvlUsd": 24825902,
         "legs": [
           "USDT"
         ],
@@ -2939,8 +2969,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.15,
-        "apyPct30D": 0.01,
+        "apyPct7D": 0.11,
+        "apyPct30D": -0.03,
         "poolId": "f4d5b566-e815-4ca2-bb07-7bcd8bc797f1"
       },
       {
@@ -2958,7 +2988,7 @@
         "spot": 3.1,
         "mean30d": 2.71,
         "divFlag": "●",
-        "tvlUsd": 1204548,
+        "tvlUsd": 1204508,
         "legs": [
           "USDC"
         ],
@@ -2982,13 +3012,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "DAI",
-        "base": 3.09,
+        "base": 3.07,
         "reward": 0,
-        "total": 3.09,
-        "spot": 3.09,
+        "total": 3.07,
+        "spot": 3.07,
         "mean30d": 3.72,
         "divFlag": "●",
-        "tvlUsd": 1388967,
+        "tvlUsd": 1388989,
         "legs": [
           "DAI",
           "USDC"
@@ -2998,41 +3028,11 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 1174959,
-        "volumeUsd7d": 7587056,
-        "apyPct7D": 0.32,
-        "apyPct30D": -1.96,
+        "volumeUsd1d": 1167198,
+        "volumeUsd7d": 7639429,
+        "apyPct7D": 0.3,
+        "apyPct30D": -1.98,
         "poolId": "1193ef25-862b-43c1-a545-91bbb9678d30"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Solana Mobile USDC Earn Vault",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 3.08,
-        "reward": 0,
-        "total": 3.08,
-        "spot": 3.08,
-        "mean30d": 4.18,
-        "divFlag": "▼",
-        "tvlUsd": 1334165,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 3.6,
-        "apyPct30D": null,
-        "poolId": "3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC"
       },
       {
         "project": "aave-v3",
@@ -3049,7 +3049,7 @@
         "spot": 3.06,
         "mean30d": 2.83,
         "divFlag": "●",
-        "tvlUsd": 17651555,
+        "tvlUsd": 17650654,
         "legs": [
           "DAI"
         ],
@@ -3079,7 +3079,7 @@
         "spot": 2.93,
         "mean30d": 3.65,
         "divFlag": "●",
-        "tvlUsd": 2559068,
+        "tvlUsd": 2559088,
         "legs": [
           "USDT"
         ],
@@ -3103,13 +3103,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 2.88,
+        "base": 2.89,
         "reward": 0,
-        "total": 2.88,
-        "spot": 2.88,
+        "total": 2.89,
+        "spot": 2.89,
         "mean30d": 2.84,
         "divFlag": "●",
-        "tvlUsd": 12010932,
+        "tvlUsd": 11924776,
         "legs": [
           "USDC"
         ],
@@ -3120,8 +3120,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.06,
-        "apyPct30D": 0.04,
+        "apyPct7D": 0.07,
+        "apyPct30D": 0.05,
         "poolId": "1b8b4cdb-0728-42a8-bf13-2c8fea7427ee"
       },
       {
@@ -3139,7 +3139,7 @@
         "spot": 6.18,
         "mean30d": 6.37,
         "divFlag": "●",
-        "tvlUsd": 3437497,
+        "tvlUsd": 3437842,
         "legs": [
           "USDG"
         ],
@@ -3169,7 +3169,7 @@
         "spot": 2.85,
         "mean30d": 2.8,
         "divFlag": "●",
-        "tvlUsd": 3033530,
+        "tvlUsd": 3033527,
         "legs": [
           "USDC"
         ],
@@ -3199,7 +3199,7 @@
         "spot": 5.6,
         "mean30d": 5.68,
         "divFlag": "●",
-        "tvlUsd": 400765950,
+        "tvlUsd": 400857515,
         "legs": [
           "USDC"
         ],
@@ -3211,7 +3211,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.01,
-        "apyPct30D": 0.14,
+        "apyPct30D": 0.15,
         "poolId": "8276be38-acc6-4005-ab0d-62680f49f4df"
       },
       {
@@ -3223,13 +3223,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "PYUSD",
-        "base": 2.84,
+        "base": 2.83,
         "reward": 2.47,
         "total": 5.31,
         "spot": 5.31,
         "mean30d": 6.07,
         "divFlag": "●",
-        "tvlUsd": 136994105,
+        "tvlUsd": 136995222,
         "legs": [
           "PYUSD"
         ],
@@ -3243,6 +3243,37 @@
         "apyPct7D": 5.42,
         "apyPct30D": null,
         "poolId": "A2wsxhA7pF4B2UKVfXocb6TAAP9ipfPJam6oMKgDE5BK"
+      },
+      {
+        "project": "uniswap-v3",
+        "name": "Uniswap V3",
+        "symbol": "DAI-USDT · 0.01%",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "DAI",
+        "base": 2.65,
+        "reward": 0,
+        "total": 2.65,
+        "spot": 2.65,
+        "mean30d": 5.31,
+        "divFlag": "▼",
+        "tvlUsd": 1356830,
+        "legs": [
+          "DAI",
+          "USDT"
+        ],
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0x48DA0965ab2d2cbf1C17C09cFB5Cbe67Ad5B1406",
+        "linkKind": "exact",
+        "exposure": "multi",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": 983887,
+        "volumeUsd7d": 8687619,
+        "apyPct7D": 0.32,
+        "apyPct30D": -0.07,
+        "poolId": "802d35a2-5bae-456f-a2a9-4e1b48e0dec5"
       },
       {
         "project": "aave-v3",
@@ -3259,7 +3290,7 @@
         "spot": 2.64,
         "mean30d": 2.51,
         "divFlag": "●",
-        "tvlUsd": 33203104,
+        "tvlUsd": 33255071,
         "legs": [
           "USDC"
         ],
@@ -3287,7 +3318,7 @@
         "reward": 0,
         "total": 2.63,
         "spot": 2.63,
-        "mean30d": 6.76,
+        "mean30d": 6.75,
         "divFlag": "▼",
         "tvlUsd": 6427616,
         "legs": [
@@ -3319,7 +3350,7 @@
         "spot": 2.58,
         "mean30d": 2.56,
         "divFlag": "●",
-        "tvlUsd": 4140216,
+        "tvlUsd": 4140820,
         "legs": [
           "USDT"
         ],
@@ -3349,7 +3380,7 @@
         "spot": 2.5,
         "mean30d": 3.09,
         "divFlag": "●",
-        "tvlUsd": 6398964,
+        "tvlUsd": 6398725,
         "legs": [
           "USDT"
         ],
@@ -3360,7 +3391,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.27,
+        "apyPct7D": -0.24,
         "apyPct30D": -0.51,
         "poolId": "025dadbc-c175-4a37-a5ec-dff5062b1a50"
       },
@@ -3379,7 +3410,7 @@
         "spot": 2.4,
         "mean30d": 2.6,
         "divFlag": "●",
-        "tvlUsd": 1972683,
+        "tvlUsd": 1972660,
         "legs": [
           "USDT"
         ],
@@ -3409,7 +3440,7 @@
         "spot": 2.39,
         "mean30d": 2.94,
         "divFlag": "●",
-        "tvlUsd": 87856679,
+        "tvlUsd": 87853395,
         "legs": [
           "USDT"
         ],
@@ -3420,7 +3451,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.27,
+        "apyPct7D": -0.24,
         "apyPct30D": -0.5,
         "poolId": "ded5a855-23c1-459d-8390-ba2707fac7c5"
       },
@@ -3439,7 +3470,7 @@
         "spot": 2.39,
         "mean30d": 3.01,
         "divFlag": "▼",
-        "tvlUsd": 7715524,
+        "tvlUsd": 7715235,
         "legs": [
           "USDT"
         ],
@@ -3450,7 +3481,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.28,
+        "apyPct7D": -0.25,
         "apyPct30D": -1.09,
         "poolId": "0f25159f-753d-4eef-84f5-1f9b47394033"
       },
@@ -3469,7 +3500,7 @@
         "spot": 2.38,
         "mean30d": 2.75,
         "divFlag": "●",
-        "tvlUsd": 3245958,
+        "tvlUsd": 3245837,
         "legs": [
           "USDT"
         ],
@@ -3480,7 +3511,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.3,
+        "apyPct7D": -0.27,
         "apyPct30D": -0.19,
         "poolId": "ea033b6e-f4d2-46ef-b609-93b680852a64"
       },
@@ -3493,13 +3524,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 2.17,
+        "base": 2.16,
         "reward": 3.87,
-        "total": 6.04,
-        "spot": 6.04,
+        "total": 6.02,
+        "spot": 6.02,
         "mean30d": 6.24,
         "divFlag": "●",
-        "tvlUsd": 4519038,
+        "tvlUsd": 4531146,
         "legs": [
           "USDC"
         ],
@@ -3529,7 +3560,7 @@
         "spot": 2.12,
         "mean30d": 2.61,
         "divFlag": "●",
-        "tvlUsd": 6301476,
+        "tvlUsd": 6301240,
         "legs": [
           "USDT"
         ],
@@ -3540,7 +3571,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.23,
+        "apyPct7D": -0.2,
         "apyPct30D": -0.45,
         "poolId": "ab3e992c-dffc-4895-a1a7-58f23460b092"
       },
@@ -3559,7 +3590,7 @@
         "spot": 2.05,
         "mean30d": 1.82,
         "divFlag": "●",
-        "tvlUsd": 1405932,
+        "tvlUsd": 1405928,
         "legs": [
           "USDC"
         ],
@@ -3587,9 +3618,9 @@
         "reward": 4.22,
         "total": 6.18,
         "spot": 6.18,
-        "mean30d": 5,
+        "mean30d": 5.01,
         "divFlag": "▲",
-        "tvlUsd": 17905120,
+        "tvlUsd": 17916822,
         "legs": [
           "USDG"
         ],
@@ -3619,7 +3650,7 @@
         "spot": 1.93,
         "mean30d": 2.39,
         "divFlag": "●",
-        "tvlUsd": 2011664,
+        "tvlUsd": 2009520,
         "legs": [
           "RLUSD"
         ],
@@ -3631,7 +3662,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -0.24,
-        "apyPct30D": 0.66,
+        "apyPct30D": 0.67,
         "poolId": "85fc6934-c94d-4ebe-9c60-66beb363669f"
       },
       {
@@ -3679,7 +3710,7 @@
         "spot": 1.87,
         "mean30d": 1.96,
         "divFlag": "●",
-        "tvlUsd": 1185400,
+        "tvlUsd": 1185421,
         "legs": [
           "DAI"
         ],
@@ -3707,7 +3738,7 @@
         "reward": 0,
         "total": 1.8,
         "spot": 1.8,
-        "mean30d": 2.53,
+        "mean30d": 2.54,
         "divFlag": "▼",
         "tvlUsd": 1872710,
         "legs": [
@@ -3725,37 +3756,6 @@
         "poolId": "8046268d-8266-5d70-a746-3bbdc6544e6f"
       },
       {
-        "project": "uniswap-v3",
-        "name": "Uniswap V3",
-        "symbol": "DAI-USDT · 0.01%",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "DAI",
-        "base": 1.79,
-        "reward": 0,
-        "total": 1.79,
-        "spot": 1.79,
-        "mean30d": 5.31,
-        "divFlag": "▼",
-        "tvlUsd": 1356741,
-        "legs": [
-          "DAI",
-          "USDT"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/ethereum/0x48DA0965ab2d2cbf1C17C09cFB5Cbe67Ad5B1406",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 665137,
-        "volumeUsd7d": 8305516,
-        "apyPct7D": -0.59,
-        "apyPct30D": -0.9,
-        "poolId": "802d35a2-5bae-456f-a2a9-4e1b48e0dec5"
-      },
-      {
         "project": "aave-v3",
         "name": "Aave V3",
         "symbol": "USDG",
@@ -3768,9 +3768,9 @@
         "reward": 0,
         "total": 1.68,
         "spot": 1.68,
-        "mean30d": 3.6,
+        "mean30d": 3.59,
         "divFlag": "▼",
-        "tvlUsd": 4513160,
+        "tvlUsd": 4513233,
         "legs": [
           "USDG"
         ],
@@ -3781,8 +3781,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0,
-        "apyPct30D": -2.05,
+        "apyPct7D": 0.08,
+        "apyPct30D": -3,
         "poolId": "83fca810-ec67-401d-831a-2d0ae8e596c9"
       },
       {
@@ -3800,7 +3800,7 @@
         "spot": 4.99,
         "mean30d": 4.99,
         "divFlag": "●",
-        "tvlUsd": 73032078,
+        "tvlUsd": 73029229,
         "legs": [
           "RLUSD"
         ],
@@ -3824,13 +3824,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "USDC",
-        "base": 1.36,
+        "base": 1.37,
         "reward": 0,
-        "total": 1.36,
-        "spot": 2.78,
-        "mean30d": 1.36,
+        "total": 1.37,
+        "spot": 2.69,
+        "mean30d": 1.37,
         "divFlag": "▲",
-        "tvlUsd": 1554694,
+        "tvlUsd": 1559720,
         "legs": [
           "USDC",
           "USDT"
@@ -3840,10 +3840,10 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 1185181,
-        "volumeUsd7d": 7787689,
-        "apyPct7D": 1.59,
-        "apyPct30D": 0.66,
+        "volumeUsd1d": 1147636,
+        "volumeUsd7d": 7768708,
+        "apyPct7D": 1.53,
+        "apyPct30D": 0.71,
         "poolId": "8ad76d42-6247-42f2-8281-5d59cb77b8b3"
       },
       {
@@ -3861,7 +3861,7 @@
         "spot": 6.33,
         "mean30d": 2.92,
         "divFlag": "▲",
-        "tvlUsd": 2299697,
+        "tvlUsd": 2299698,
         "legs": [
           "USDC"
         ],
@@ -3872,9 +3872,40 @@
         "apyReward": 5.49,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 7.34,
+        "apyPct7D": 7.33,
         "apyPct30D": null,
         "poolId": "HJFEPRRRLBfJBfSJaC69r3nMYskViL9Yy1QLLAqjvnW"
+      },
+      {
+        "project": "uniswap-v3",
+        "name": "Uniswap V3",
+        "symbol": "USDC-USDT · 0.01%",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "type": "fiat",
+        "tierDriver": "USDC",
+        "base": 0.62,
+        "reward": 0,
+        "total": 0.62,
+        "spot": 0.62,
+        "mean30d": 1.31,
+        "divFlag": "▼",
+        "tvlUsd": 33271847,
+        "legs": [
+          "USDC",
+          "USDT"
+        ],
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0x3416cF6C708Da44DB2624D63ea0AAef7113527C6",
+        "linkKind": "exact",
+        "exposure": "multi",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": 5676107,
+        "volumeUsd7d": 61743092,
+        "apyPct7D": 0.21,
+        "apyPct30D": 0.08,
+        "poolId": "e737d721-f45c-40f0-9793-9f56261862b9"
       },
       {
         "project": "sparklend",
@@ -3891,7 +3922,7 @@
         "spot": 0.61,
         "mean30d": 0.47,
         "divFlag": "▲",
-        "tvlUsd": 82509886,
+        "tvlUsd": 82514010,
         "legs": [
           "PYUSD"
         ],
@@ -3905,37 +3936,6 @@
         "apyPct7D": 0.03,
         "apyPct30D": 0.31,
         "poolId": "995b269a-8409-4c55-b97e-868f443b432e"
-      },
-      {
-        "project": "uniswap-v3",
-        "name": "Uniswap V3",
-        "symbol": "USDC-USDT · 0.01%",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "fiat",
-        "tierDriver": "USDC",
-        "base": 0.53,
-        "reward": 0,
-        "total": 0.53,
-        "spot": 0.53,
-        "mean30d": 1.31,
-        "divFlag": "▼",
-        "tvlUsd": 33271001,
-        "legs": [
-          "USDC",
-          "USDT"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/ethereum/0x3416cF6C708Da44DB2624D63ea0AAef7113527C6",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 4789767,
-        "volumeUsd7d": 60799589,
-        "apyPct7D": 0.11,
-        "apyPct30D": -0.02,
-        "poolId": "e737d721-f45c-40f0-9793-9f56261862b9"
       },
       {
         "project": "orca-dex",
@@ -3952,7 +3952,7 @@
         "spot": 0.36,
         "mean30d": 0.6,
         "divFlag": "▼",
-        "tvlUsd": 19231007,
+        "tvlUsd": 19221204,
         "legs": [
           "USDG",
           "USDC"
@@ -3962,9 +3962,9 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 1278119,
-        "volumeUsd7d": 15759804,
-        "apyPct7D": -0.06,
+        "volumeUsd1d": 1277787,
+        "volumeUsd7d": 15651434,
+        "apyPct7D": -0.08,
         "apyPct30D": 0.22,
         "poolId": "ac225670-41bc-48fa-b8d7-32011abc58fe"
       },
@@ -3977,13 +3977,13 @@
         "access": "permissionless",
         "type": "rwa",
         "tierDriver": "USDY",
-        "base": 0.29,
+        "base": 0.17,
         "reward": 0,
-        "total": 0.29,
-        "spot": 0.29,
+        "total": 0.17,
+        "spot": 0.17,
         "mean30d": 0.64,
         "divFlag": "▼",
-        "tvlUsd": 2913939,
+        "tvlUsd": 2913516,
         "legs": [
           "USDY",
           "USDC"
@@ -3993,10 +3993,10 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 11238,
-        "volumeUsd7d": 75499,
-        "apyPct7D": 0.26,
-        "apyPct30D": -0.43,
+        "volumeUsd1d": 5534,
+        "volumeUsd7d": 75525,
+        "apyPct7D": 0.15,
+        "apyPct30D": -0.54,
         "poolId": "22f79b01-3ba8-4a75-a12d-615151633875"
       },
       {
@@ -4008,13 +4008,13 @@
         "access": "permissionless",
         "type": "fiat",
         "tierDriver": "PYUSD",
-        "base": 0.1,
+        "base": 0.17,
         "reward": 0,
-        "total": 0.1,
-        "spot": 0.1,
+        "total": 0.17,
+        "spot": 0.17,
         "mean30d": 0.27,
         "divFlag": "▼",
-        "tvlUsd": 18894045,
+        "tvlUsd": 18920599,
         "legs": [
           "PYUSD",
           "USDC"
@@ -4024,10 +4024,10 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 506140,
-        "volumeUsd7d": 6647101,
-        "apyPct7D": -1.43,
-        "apyPct30D": -0.12,
+        "volumeUsd1d": 852802,
+        "volumeUsd7d": 6995952,
+        "apyPct7D": -1.36,
+        "apyPct30D": -0.07,
         "poolId": "99203560-4a69-4a67-9dbc-70b78a68a2b9"
       },
       {
@@ -4058,7 +4058,7 @@
         "volumeUsd1d": 36975,
         "volumeUsd7d": 4023371,
         "apyPct7D": 0.03,
-        "apyPct30D": -3.21,
+        "apyPct30D": -3.33,
         "poolId": "4df8be17-df55-47cf-b72b-6ef844f62200"
       }
     ],
@@ -4089,7 +4089,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.5,
+        "apyPct7D": null,
         "apyPct30D": 1.82,
         "poolId": "a4236681-173c-4a52-97d2-30c61f07141b"
       },
@@ -4108,7 +4108,7 @@
         "spot": 5.34,
         "mean30d": 5.01,
         "divFlag": "●",
-        "tvlUsd": 2835317,
+        "tvlUsd": 2835523,
         "legs": [
           "USDS",
           "STUSDS"
@@ -4139,7 +4139,7 @@
         "spot": 5.11,
         "mean30d": 5.48,
         "divFlag": "●",
-        "tvlUsd": 204990690,
+        "tvlUsd": 204984616,
         "legs": [
           "STUSDS"
         ],
@@ -4169,7 +4169,7 @@
         "spot": 4.5,
         "mean30d": 4.35,
         "divFlag": "●",
-        "tvlUsd": 177199448,
+        "tvlUsd": 177229660,
         "legs": [
           "SGHO"
         ],
@@ -4199,7 +4199,7 @@
         "spot": 3.92,
         "mean30d": 3.37,
         "divFlag": "●",
-        "tvlUsd": 725044738,
+        "tvlUsd": 724973984,
         "legs": [
           "USDS"
         ],
@@ -4229,7 +4229,7 @@
         "spot": 3.66,
         "mean30d": 4.44,
         "divFlag": "●",
-        "tvlUsd": 3770022,
+        "tvlUsd": 3770294,
         "legs": [
           "USDS"
         ],
@@ -4259,7 +4259,7 @@
         "spot": 3.6,
         "mean30d": 3.55,
         "divFlag": "●",
-        "tvlUsd": 4645583866,
+        "tvlUsd": 4646135306,
         "legs": [
           "SUSDS"
         ],
@@ -4273,36 +4273,6 @@
         "apyPct7D": 0,
         "apyPct30D": 0.08,
         "poolId": "d8c4eff5-c8a9-46fc-a888-057c4c668e72"
-      },
-      {
-        "project": "spark-savings",
-        "name": "Spark Savings",
-        "symbol": "USDS",
-        "chain": "Arbitrum",
-        "bucket": "vault",
-        "access": "permissionless",
-        "type": "crypto",
-        "tierDriver": "USDS",
-        "base": 3.6,
-        "reward": 0,
-        "total": 3.6,
-        "spot": 3.6,
-        "mean30d": 3.55,
-        "divFlag": "●",
-        "tvlUsd": 362771255,
-        "legs": [
-          "USDS"
-        ],
-        "url": "https://app.spark.finance/savings/mainnet/susds",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 0,
-        "apyPct30D": 0.08,
-        "poolId": "9d499222-a01a-45bb-bbc9-f01c7923693b"
       },
       {
         "project": "sky-lending",
@@ -4319,7 +4289,7 @@
         "spot": 3.6,
         "mean30d": 3.55,
         "divFlag": "●",
-        "tvlUsd": 362771255,
+        "tvlUsd": 362760633,
         "legs": [
           "SUSDS"
         ],
@@ -4338,6 +4308,36 @@
         "project": "spark-savings",
         "name": "Spark Savings",
         "symbol": "USDS",
+        "chain": "Arbitrum",
+        "bucket": "vault",
+        "access": "permissionless",
+        "type": "crypto",
+        "tierDriver": "USDS",
+        "base": 3.6,
+        "reward": 0,
+        "total": 3.6,
+        "spot": 3.6,
+        "mean30d": 3.55,
+        "divFlag": "●",
+        "tvlUsd": 362760633,
+        "legs": [
+          "USDS"
+        ],
+        "url": "https://app.spark.finance/savings/mainnet/susds",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 0,
+        "apyPct30D": 0.08,
+        "poolId": "9d499222-a01a-45bb-bbc9-f01c7923693b"
+      },
+      {
+        "project": "spark-savings",
+        "name": "Spark Savings",
+        "symbol": "USDS",
         "chain": "Base",
         "bucket": "vault",
         "access": "permissionless",
@@ -4349,7 +4349,7 @@
         "spot": 3.6,
         "mean30d": 3.55,
         "divFlag": "●",
-        "tvlUsd": 12013919,
+        "tvlUsd": 12013567,
         "legs": [
           "USDS"
         ],
@@ -4377,9 +4377,9 @@
         "reward": 2.76,
         "total": 5.5,
         "spot": 5.5,
-        "mean30d": 4.43,
+        "mean30d": 4.44,
         "divFlag": "▲",
-        "tvlUsd": 3589317,
+        "tvlUsd": 3599708,
         "legs": [
           "FRXUSD"
         ],
@@ -4409,7 +4409,7 @@
         "spot": 2.59,
         "mean30d": 2.52,
         "divFlag": "●",
-        "tvlUsd": 10535068,
+        "tvlUsd": 10541977,
         "legs": [
           "GHO"
         ],
@@ -4439,7 +4439,7 @@
         "spot": 1.76,
         "mean30d": 1.34,
         "divFlag": "▲",
-        "tvlUsd": 20956382,
+        "tvlUsd": 20962641,
         "legs": [
           "GHO"
         ],
@@ -4480,8 +4480,8 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.85,
-        "apyPct30D": -2.14,
+        "apyPct7D": null,
+        "apyPct30D": -2.13,
         "poolId": "7501ef09-87d1-405c-b2b2-f269b2727289"
       },
       {
@@ -4530,7 +4530,7 @@
         "spot": 0.54,
         "mean30d": 0.56,
         "divFlag": "●",
-        "tvlUsd": 1284540,
+        "tvlUsd": 1284473,
         "legs": [
           "LUSD"
         ],
@@ -4548,6 +4548,37 @@
       {
         "project": "uniswap-v3",
         "name": "Uniswap V3",
+        "symbol": "BOLD-USDC · 0.05%",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "type": "crypto",
+        "tierDriver": "BOLD",
+        "base": 0.35,
+        "reward": 0,
+        "total": 0.35,
+        "spot": 0.4,
+        "mean30d": 0.35,
+        "divFlag": "●",
+        "tvlUsd": 1413189,
+        "legs": [
+          "BOLD",
+          "USDC"
+        ],
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0x1E4DBb639eBBF725fd243A6190dF5440eE38740E",
+        "linkKind": "exact",
+        "exposure": "multi",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": 30626,
+        "volumeUsd7d": 111434,
+        "apyPct7D": 0.27,
+        "apyPct30D": 0.39,
+        "poolId": "8d4931e1-b573-4802-856d-244645926b19"
+      },
+      {
+        "project": "uniswap-v3",
+        "name": "Uniswap V3",
         "symbol": "FRAX-USDC · 0.05%",
         "chain": "Ethereum",
         "bucket": "LP",
@@ -4560,7 +4591,7 @@
         "spot": 0.33,
         "mean30d": 0.25,
         "divFlag": "▲",
-        "tvlUsd": 1507922,
+        "tvlUsd": 1507736,
         "legs": [
           "FRAX",
           "USDC"
@@ -4570,42 +4601,11 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 26987,
-        "volumeUsd7d": 106976,
+        "volumeUsd1d": 26962,
+        "volumeUsd7d": 106983,
         "apyPct7D": 0.3,
         "apyPct30D": 0.21,
         "poolId": "d371fc69-9a77-4336-a129-ec79c9548266"
-      },
-      {
-        "project": "uniswap-v3",
-        "name": "Uniswap V3",
-        "symbol": "BOLD-USDC · 0.05%",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "crypto",
-        "tierDriver": "BOLD",
-        "base": 0.25,
-        "reward": 0,
-        "total": 0.25,
-        "spot": 0.25,
-        "mean30d": 0.35,
-        "divFlag": "▼",
-        "tvlUsd": 1413637,
-        "legs": [
-          "BOLD",
-          "USDC"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/ethereum/0x1E4DBb639eBBF725fd243A6190dF5440eE38740E",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 19156,
-        "volumeUsd7d": 102746,
-        "apyPct7D": 0.13,
-        "apyPct30D": 0.24,
-        "poolId": "8d4931e1-b573-4802-856d-244645926b19"
       },
       {
         "project": "aave-v3",
@@ -4617,12 +4617,12 @@
         "type": "crypto",
         "tierDriver": "USDS",
         "base": 0.15,
-        "reward": 3.4,
-        "total": 3.55,
-        "spot": 3.55,
+        "reward": 3.41,
+        "total": 3.56,
+        "spot": 3.56,
         "mean30d": 3.02,
         "divFlag": "●",
-        "tvlUsd": 8761790,
+        "tvlUsd": 8762311,
         "legs": [
           "USDS"
         ],
@@ -4630,11 +4630,11 @@
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 3.4,
+        "apyReward": 3.41,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 0.01,
-        "apyPct30D": 0.01,
+        "apyPct30D": 0.03,
         "poolId": "e65588a1-27ad-4e20-9232-68a6cfaccf63"
       },
       {
@@ -4693,9 +4693,9 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 16674,
-        "volumeUsd7d": 1133695,
-        "apyPct7D": -0.09,
+        "volumeUsd1d": 16257,
+        "volumeUsd7d": 1132726,
+        "apyPct7D": -0.08,
         "apyPct30D": 0.04,
         "poolId": "5b6c56a9-3b81-48ee-bee7-3f0dcd862e4d"
       },
@@ -4714,7 +4714,7 @@
         "spot": 0.03,
         "mean30d": 0.64,
         "divFlag": "▼",
-        "tvlUsd": 3023960,
+        "tvlUsd": 3024685,
         "legs": [
           "GHO",
           "USDC"
@@ -4745,7 +4745,7 @@
         "spot": 1.38,
         "mean30d": 1.75,
         "divFlag": "▼",
-        "tvlUsd": 17058594,
+        "tvlUsd": 17058250,
         "legs": [
           "USD3"
         ],
@@ -4756,8 +4756,8 @@
         "apyReward": 1.38,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.43,
-        "apyPct30D": -0.57,
+        "apyPct7D": -0.44,
+        "apyPct30D": -0.63,
         "poolId": "790ebca5-08ba-46ea-9ef3-f5520bf9584c"
       },
       {
@@ -4787,7 +4787,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 0,
-        "apyPct30D": -8.35,
+        "apyPct30D": -8.34,
         "poolId": "3033d94b-dcaf-4a0b-a9dd-a92998c74d5e"
       }
     ],
@@ -4807,7 +4807,7 @@
         "spot": 9.01,
         "mean30d": 7.81,
         "divFlag": "●",
-        "tvlUsd": 2046869,
+        "tvlUsd": 2046888,
         "legs": [
           "FXUSD",
           "USDC"
@@ -4819,8 +4819,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.3,
-        "apyPct30D": 1.85,
+        "apyPct7D": -0.29,
+        "apyPct30D": 1.91,
         "poolId": "72a2bad5-812e-4f90-bb1c-a4ccf76d270a"
       },
       {
@@ -4832,13 +4832,13 @@
         "access": "permissionless",
         "type": "synthetic",
         "tierDriver": "USDF",
-        "base": 8.63,
+        "base": 8.64,
         "reward": 0,
-        "total": 8.63,
-        "spot": 8.63,
+        "total": 8.64,
+        "spot": 8.64,
         "mean30d": 8.06,
         "divFlag": "●",
-        "tvlUsd": 1227850,
+        "tvlUsd": 1227861,
         "legs": [
           "USDF",
           "USDC"
@@ -4850,8 +4850,8 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.63,
-        "apyPct30D": 1.08,
+        "apyPct7D": -0.53,
+        "apyPct30D": 1.07,
         "poolId": "cc8b2028-9dd6-4968-83a5-f21ebba61945"
       },
       {
@@ -4867,9 +4867,9 @@
         "reward": 0,
         "total": 6.08,
         "spot": 6.08,
-        "mean30d": 12.46,
+        "mean30d": 12.44,
         "divFlag": "▼",
-        "tvlUsd": 1311015,
+        "tvlUsd": 1309203,
         "legs": [
           "MSUSD",
           "USDC"
@@ -4882,7 +4882,7 @@
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": -11.77,
-        "apyPct30D": -11.67,
+        "apyPct30D": -11.69,
         "poolId": "9652fa5a-8b82-4b48-b1b8-5a5d41ddcc42"
       },
       {
@@ -4912,7 +4912,7 @@
         "apyReward": 0,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -0.75,
+        "apyPct7D": -0.78,
         "apyPct30D": 0.8,
         "poolId": "77a6c1f4-fc04-47ff-aa62-090bcb20e3db"
       },
@@ -4925,13 +4925,13 @@
         "access": "permissionless",
         "type": "yield",
         "tierDriver": "SUSDE",
-        "base": 4.94,
+        "base": 4.99,
         "reward": 0,
-        "total": 4.94,
-        "spot": 4.94,
-        "mean30d": 4.58,
+        "total": 4.99,
+        "spot": 4.99,
+        "mean30d": 4.59,
         "divFlag": "●",
-        "tvlUsd": 1291625342,
+        "tvlUsd": 1291611653,
         "legs": [
           "SUSDE"
         ],
@@ -4942,9 +4942,40 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 0.31,
-        "apyPct30D": 0.62,
+        "apyPct7D": 0.41,
+        "apyPct30D": 0.67,
         "poolId": "66985a81-9c51-46ca-9977-42b4fe7bc6df"
+      },
+      {
+        "project": "uniswap-v4",
+        "name": "Uniswap V4",
+        "symbol": "USDE-USDC · 0.00%",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "type": "synthetic",
+        "tierDriver": "USDE",
+        "base": 3.05,
+        "reward": 0,
+        "total": 3.05,
+        "spot": 3.05,
+        "mean30d": 13.79,
+        "divFlag": "▼",
+        "tvlUsd": 1240164,
+        "legs": [
+          "USDE",
+          "USDC"
+        ],
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0x56fc29b86900aa0afa6e20b020429bffba1105cfb45070492c67529b46eb48c1",
+        "linkKind": "exact",
+        "exposure": "multi",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": 4147545,
+        "volumeUsd7d": null,
+        "apyPct7D": null,
+        "apyPct30D": null,
+        "poolId": "d6a444b3-d247-5a90-9c67-793bcb23cde0"
       },
       {
         "project": "aave-v4",
@@ -4961,7 +4992,7 @@
         "spot": 6.4,
         "mean30d": 2.71,
         "divFlag": "▲",
-        "tvlUsd": 1504684,
+        "tvlUsd": 1504526,
         "legs": [
           "USDE"
         ],
@@ -5016,13 +5047,13 @@
         "access": "permissionless",
         "type": "synthetic",
         "tierDriver": "USDE",
-        "base": 2.47,
+        "base": 2.48,
         "reward": 0,
-        "total": 2.47,
-        "spot": 2.47,
+        "total": 2.48,
+        "spot": 2.48,
         "mean30d": 3.04,
         "divFlag": "●",
-        "tvlUsd": 2500081,
+        "tvlUsd": 2499363,
         "legs": [
           "USDG",
           "USDE"
@@ -5032,42 +5063,11 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": 0,
-        "volumeUsd1d": 1444187,
-        "volumeUsd7d": 15684383,
-        "apyPct7D": -4.13,
-        "apyPct30D": -0.32,
+        "volumeUsd1d": 1445301,
+        "volumeUsd7d": 15260275,
+        "apyPct7D": -4.76,
+        "apyPct30D": -0.37,
         "poolId": "ae8e306b-a55d-48ce-afea-420d177c9272"
-      },
-      {
-        "project": "uniswap-v4",
-        "name": "Uniswap V4",
-        "symbol": "USDE-USDC · 0.00%",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "synthetic",
-        "tierDriver": "USDE",
-        "base": 2.4,
-        "reward": 0,
-        "total": 2.4,
-        "spot": 2.4,
-        "mean30d": 13.86,
-        "divFlag": "▼",
-        "tvlUsd": 1487446,
-        "legs": [
-          "USDE",
-          "USDC"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/ethereum/0x56fc29b86900aa0afa6e20b020429bffba1105cfb45070492c67529b46eb48c1",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 3910268,
-        "volumeUsd7d": null,
-        "apyPct7D": null,
-        "apyPct30D": null,
-        "poolId": "d6a444b3-d247-5a90-9c67-793bcb23cde0"
       },
       {
         "project": "uniswap-v4",
@@ -5084,7 +5084,7 @@
         "spot": 1.15,
         "mean30d": 1.69,
         "divFlag": "▼",
-        "tvlUsd": 4416939,
+        "tvlUsd": 4416827,
         "legs": [
           "SYRUPUSDC",
           "USDC"
@@ -5094,42 +5094,11 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 173436,
+        "volumeUsd1d": 173336,
         "volumeUsd7d": null,
-        "apyPct7D": 0.24,
+        "apyPct7D": 0.51,
         "apyPct30D": 0.26,
         "poolId": "df8851f0-5b1d-4843-88fd-88468d129c78"
-      },
-      {
-        "project": "uniswap-v3",
-        "name": "Uniswap V3",
-        "symbol": "USDE-USDC · 0.01%",
-        "chain": "Ethereum",
-        "bucket": "LP",
-        "access": "permissionless",
-        "type": "synthetic",
-        "tierDriver": "USDE",
-        "base": 1.1,
-        "reward": 0,
-        "total": 1.1,
-        "spot": 1.1,
-        "mean30d": 5.18,
-        "divFlag": "▼",
-        "tvlUsd": 2304929,
-        "legs": [
-          "USDE",
-          "USDC"
-        ],
-        "url": "https://app.uniswap.org/explore/pools/ethereum/0xE6D7EbB9f1a9519dc06D557e03C522d53520e76A",
-        "linkKind": "exact",
-        "exposure": "multi",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": 691986,
-        "volumeUsd7d": 18961717,
-        "apyPct7D": -1.1,
-        "apyPct30D": 0.53,
-        "poolId": "422cbad0-7a9a-45c2-abd0-27b395d4c461"
       },
       {
         "project": "uniswap-v4",
@@ -5146,7 +5115,7 @@
         "spot": 1.29,
         "mean30d": 1.05,
         "divFlag": "▲",
-        "tvlUsd": 5090001,
+        "tvlUsd": 5089903,
         "legs": [
           "SYRUPUSDT",
           "USDT"
@@ -5161,6 +5130,37 @@
         "apyPct7D": 1.29,
         "apyPct30D": 0.36,
         "poolId": "db5fbc78-e618-4e05-8ab2-61b7c702051b"
+      },
+      {
+        "project": "uniswap-v3",
+        "name": "Uniswap V3",
+        "symbol": "USDE-USDC · 0.01%",
+        "chain": "Ethereum",
+        "bucket": "LP",
+        "access": "permissionless",
+        "type": "synthetic",
+        "tierDriver": "USDE",
+        "base": 1.05,
+        "reward": 0,
+        "total": 1.05,
+        "spot": 1.05,
+        "mean30d": 5.18,
+        "divFlag": "▼",
+        "tvlUsd": 2304938,
+        "legs": [
+          "USDE",
+          "USDC"
+        ],
+        "url": "https://app.uniswap.org/explore/pools/ethereum/0xE6D7EbB9f1a9519dc06D557e03C522d53520e76A",
+        "linkKind": "exact",
+        "exposure": "multi",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": 663826,
+        "volumeUsd7d": 18886794,
+        "apyPct7D": -1.2,
+        "apyPct30D": 0.48,
+        "poolId": "422cbad0-7a9a-45c2-abd0-27b395d4c461"
       },
       {
         "project": "uniswap-v4",
@@ -5208,7 +5208,7 @@
         "spot": 4.75,
         "mean30d": 3.17,
         "divFlag": "▲",
-        "tvlUsd": 536229041,
+        "tvlUsd": 536519158,
         "legs": [
           "USDE"
         ],
@@ -5238,7 +5238,7 @@
         "spot": 0.56,
         "mean30d": 0.56,
         "divFlag": "●",
-        "tvlUsd": 10693102,
+        "tvlUsd": 10694938,
         "legs": [
           "USD0"
         ],
@@ -5268,7 +5268,7 @@
         "spot": 0.3,
         "mean30d": 1.31,
         "divFlag": "▼",
-        "tvlUsd": 2150470,
+        "tvlUsd": 2152661,
         "legs": [
           "PYUSD",
           "USDE"
@@ -5279,9 +5279,9 @@
         "ilRisk": "no",
         "apyReward": 0,
         "volumeUsd1d": 157768,
-        "volumeUsd7d": 4463851,
-        "apyPct7D": -1.5,
-        "apyPct30D": -0.64,
+        "volumeUsd7d": 4287209,
+        "apyPct7D": -1.76,
+        "apyPct30D": -0.67,
         "poolId": "8298e97f-83bf-4bc2-a853-f0735aab802d"
       },
       {
@@ -5299,7 +5299,7 @@
         "spot": 0.2,
         "mean30d": 0.46,
         "divFlag": "▼",
-        "tvlUsd": 14928804,
+        "tvlUsd": 14899778,
         "legs": [
           "MSUSD"
         ],
@@ -5329,7 +5329,7 @@
         "spot": 0.2,
         "mean30d": 0.81,
         "divFlag": "▼",
-        "tvlUsd": 10048095,
+        "tvlUsd": 10040678,
         "legs": [
           "SYRUPUSDC",
           "USDC"
@@ -5340,9 +5340,9 @@
         "ilRisk": "no",
         "apyReward": 0,
         "volumeUsd1d": 419297,
-        "volumeUsd7d": 13402030,
-        "apyPct7D": -2.42,
-        "apyPct30D": -0.04,
+        "volumeUsd7d": 13402026,
+        "apyPct7D": -0.31,
+        "apyPct30D": -0.05,
         "poolId": "e1c57765-701f-49ba-810c-0785a51d3764"
       },
       {
@@ -5354,13 +5354,13 @@
         "access": "permissionless",
         "type": "synthetic",
         "tierDriver": "USD0",
-        "base": 0.08,
+        "base": 0.09,
         "reward": 0,
-        "total": 0.08,
-        "spot": 0.08,
+        "total": 0.09,
+        "spot": 0.09,
         "mean30d": 0.48,
         "divFlag": "▼",
-        "tvlUsd": 1855616,
+        "tvlUsd": 1855791,
         "legs": [
           "USD0",
           "USDC"
@@ -5370,10 +5370,10 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 39223,
-        "volumeUsd7d": 2278688,
-        "apyPct7D": -0.44,
-        "apyPct30D": 0.03,
+        "volumeUsd1d": 44795,
+        "volumeUsd7d": 2182722,
+        "apyPct7D": -0.4,
+        "apyPct30D": 0.04,
         "poolId": "97bd40a6-c57e-4c32-8ee3-3fcfdc1faf9f"
       },
       {
@@ -5391,7 +5391,7 @@
         "spot": 0.01,
         "mean30d": 0.45,
         "divFlag": "▼",
-        "tvlUsd": 3398747,
+        "tvlUsd": 3399446,
         "legs": [
           "USD0",
           "USD0"
@@ -5401,8 +5401,8 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 11499,
-        "volumeUsd7d": 3297374,
+        "volumeUsd1d": 11551,
+        "volumeUsd7d": 3273363,
         "apyPct7D": -0.02,
         "apyPct30D": -0.05,
         "poolId": "752413a7-1a7e-4d76-9f34-89568ba026ee"
@@ -5422,7 +5422,7 @@
         "spot": 0.02,
         "mean30d": 0.01,
         "divFlag": "▲",
-        "tvlUsd": 10071241,
+        "tvlUsd": 10071978,
         "legs": [
           "USDT",
           "USDF"
@@ -5432,8 +5432,8 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 43805,
-        "volumeUsd7d": 152949,
+        "volumeUsd1d": 41700,
+        "volumeUsd7d": 156228,
         "apyPct7D": 0.02,
         "apyPct30D": -0.05,
         "poolId": "be43dcf6-39dd-43b1-85e8-20844c1b0e58"
@@ -5453,7 +5453,7 @@
         "spot": 0,
         "mean30d": 0.06,
         "divFlag": "▼",
-        "tvlUsd": 1000129,
+        "tvlUsd": 1000133,
         "legs": [
           "USDE",
           "USDC"
@@ -5463,7 +5463,7 @@
         "exposure": "multi",
         "ilRisk": "no",
         "apyReward": null,
-        "volumeUsd1d": 225,
+        "volumeUsd1d": 205,
         "volumeUsd7d": 33362,
         "apyPct7D": 0,
         "apyPct30D": 0,
@@ -5484,7 +5484,7 @@
         "spot": 4.75,
         "mean30d": 4.65,
         "divFlag": "●",
-        "tvlUsd": 354444110,
+        "tvlUsd": 354429539,
         "legs": [
           "USDE"
         ],
@@ -5514,7 +5514,7 @@
         "spot": 0,
         "mean30d": 1.32,
         "divFlag": "▼",
-        "tvlUsd": 230226350,
+        "tvlUsd": 230223910,
         "legs": [
           "SUSDE"
         ],
@@ -5525,62 +5525,62 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": -3.08,
-        "apyPct30D": -0.21,
+        "apyPct7D": -3.09,
+        "apyPct30D": -0.22,
         "poolId": "29932dea-cd71-44c3-95bd-3e1525f4e3dd"
       }
     ]
   },
   "rejects": {
-    "not-stablecoin": 13569,
+    "not-stablecoin": 13558,
     "chain-excluded": 948,
     "unmapped-stable-leg": 119,
     "protocol-not-trusted": 371,
     "zero-yield": 30,
     "outlier": 12,
     "inactive-lp": 1,
-    "below-tvl-floor": 1300
+    "below-tvl-floor": 1301
   },
   "missingTop": [
     {
       "project": "curve-dex",
-      "tvlUsd": 645753787
+      "tvlUsd": 645642613
     },
     {
       "project": "fluid-lending",
-      "tvlUsd": 554569693
+      "tvlUsd": 556187173
     },
     {
       "project": "usd-ai",
-      "tvlUsd": 467999782
+      "tvlUsd": 468024550
     },
     {
       "project": "pendle-v2",
-      "tvlUsd": 316237741
+      "tvlUsd": 316482615
     },
     {
       "project": "re",
-      "tvlUsd": 265866883
+      "tvlUsd": 265867690
     },
     {
       "project": "convex-finance",
-      "tvlUsd": 249362541
+      "tvlUsd": 249395208
     },
     {
       "project": "sentora-curator",
-      "tvlUsd": 212347619
+      "tvlUsd": 212367345
     },
     {
       "project": "pareto-credit",
-      "tvlUsd": 195661575
+      "tvlUsd": 195656445
     },
     {
       "project": "apyx-protocol",
-      "tvlUsd": 177254594
+      "tvlUsd": 177246992
     },
     {
       "project": "fluid-dex",
-      "tvlUsd": 160071771
+      "tvlUsd": 160078126
     }
   ]
 }
