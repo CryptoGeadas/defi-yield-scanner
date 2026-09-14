@@ -7,7 +7,11 @@
 // build proceeds without Kamino vaults (never crashes the refresh).
 // ─────────────────────────────────────────────────────────────────────────────
 import crypto from "node:crypto";
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 
+const HERE = dirname(fileURLToPath(import.meta.url));
 const KVAULT = "KvauGMspG5k6rtzrqqn7WNn3oZdyKqLKwK2XWQ8FLjd";
 const RPCS = [
   "https://api.mainnet-beta.solana.com",
@@ -91,7 +95,9 @@ async function mapLimit(items, limit, fn) {
 export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
   const accounts = await rpcGetProgramAccounts();
   if (!accounts) { console.warn("kamino: getProgramAccounts failed on all RPCs — skipping vaults"); return []; }
-  const vaults = decodeVaults(accounts);
+  let nameOverrides = {};
+  try { nameOverrides = JSON.parse(await readFile(join(HERE, "kamino-vault-names.json"), "utf8")).names || {}; } catch { /* none */ }
+  const vaults = decodeVaults(accounts).map((v) => ({ ...v, name: nameOverrides[v.address] || v.name }));
   const symMap = await resolveSymbols([...new Set(vaults.map((v) => v.mint))]);
   // Exclude non-"Lend" products (Institutional / Private Credit are separate,
   // access-gated tabs) and obvious test/staging vaults.

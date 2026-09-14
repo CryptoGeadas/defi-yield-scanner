@@ -1,0 +1,7 @@
+{
+  "_comment": "Manual display-name overrides for Kamino Lending Vaults, keyed by vault address. Kamino's on-chain vault name is whatever the curator set; most include the curator, a few don't. Add an entry here to force a clearer label (e.g. add the curator prefix). Vaults not listed use their on-chain name.",
+  "names": {
+    "DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP": "RockawayX RWA USDC",
+    "9E69U4GzWhryRaPe8DYpco6Z9vTZY6gg8w6W2QsBACEj": "Gauntlet USDC Prime"
+  }
+}
