@@ -1,10 +1,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // KAMINO LENDING VAULTS — on-chain source (DefiLlama only tracks Kamino's isolated
 // markets, not the curated "Lend" vaults). We list the kvault program's VaultState
-// accounts via a public Solana RPC, decode name + token + address, then pull live
-// APY/TVL from Kamino's public metrics API. Output is shaped like DefiLlama pools so
-// it flows through the normal pipeline. Best-effort: any failure returns [] and the
-// build proceeds without Kamino vaults (never crashes the refresh).
+// accounts via a public Solana RPC — filtered server-side by the account
+// discriminator and sliced to only the bytes we read, so the call stays small and is
+// far likelier to be accepted by public/CI RPCs — then pull live APY/TVL from
+// Kamino's public metrics API. Output is shaped like DefiLlama pools so it flows
+// through the normal pipeline. Best-effort: any failure returns [] and the build
+// proceeds without Kamino vaults (never crashes the refresh).
 // ─────────────────────────────────────────────────────────────────────────────
 import crypto from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -19,7 +21,7 @@ const RPCS = [
   "https://rpc.ankr.com/solana",
 ];
 const NAME_OFF = 58528, NAME_LEN = 40;            // VaultState.name (fixed offset)
-const MINT_OFF = 80, DEC_OFF = 112;               // tokenMint, tokenMintDecimals
+const MINT_OFF = 80;                              // VaultState.tokenMint
 const UA = { "User-Agent": "Mozilla/5.0 Chrome/124" };
 
 const B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
@@ -29,31 +31,53 @@ const bs58 = (buf) => {
   let s = ""; for (const b of buf) { if (b === 0) s += "1"; else break; }
   return s + d.reverse().map((x) => B58[x]).join("");
 };
-const u64 = (b, o) => { let v = 0n; for (let i = 7; i >= 0; i--) v = (v << 8n) + BigInt(b[o + i]); return v; };
+const num = (x) => { const n = Number(x); return Number.isFinite(n) ? n : 0; };
+// VaultState.name is a fixed [u8; N]; if the on-chain layout ever shifts, the bytes
+// at NAME_OFF become garbage — only trust a clean printable-ASCII string.
+const cleanName = (buf) => {
+  const s = buf.toString("utf8").replace(/\0+$/, "").trim();
+  return /^[\x20-\x7E]{1,40}$/.test(s) ? s : "";
+};
 
-async function rpcGetProgramAccounts() {
-  const body = JSON.stringify({ jsonrpc: "2.0", id: 1, method: "getProgramAccounts", params: [KVAULT, { encoding: "base64" }] });
+async function rpcCall(method, params) {
+  const body = JSON.stringify({ jsonrpc: "2.0", id: 1, method, params });
   for (const rpc of RPCS) {
     try {
       const r = await fetch(rpc, { method: "POST", headers: { "content-type": "application/json", ...UA }, body });
-      if (!r.ok) continue;
+      if (!r.ok) continue;                       // 4xx/5xx (rate-limit, blocked) → next RPC
       const j = await r.json();
-      if (Array.isArray(j.result) && j.result.length) return j.result;
-    } catch { /* try next RPC */ }
+      if (j.result != null) return j.result;     // JSON-RPC error (result absent) → next RPC
+    } catch { /* network/parse error → next RPC */ }
   }
   return null;
 }
 
-function decodeVaults(accounts) {
+// List all VaultState accounts, returning only address + token mint. Server-side
+// memcmp on the 8-byte discriminator + a 32-byte dataSlice keeps this to a few KB.
+async function listVaultMints() {
   const disc = crypto.createHash("sha256").update("account:VaultState").digest().subarray(0, 8);
-  const out = [];
-  for (const a of accounts) {
-    const data = Buffer.from(a.account.data[0], "base64");
-    if (data.length < NAME_OFF + NAME_LEN || !data.subarray(0, 8).equals(disc)) continue;
-    const name = data.subarray(NAME_OFF, NAME_OFF + NAME_LEN).toString("utf8").replace(/\0+$/, "").trim();
-    out.push({ address: a.pubkey, mint: bs58(data.subarray(MINT_OFF, MINT_OFF + 32)), decimals: Number(u64(data, DEC_OFF)), name });
+  const res = await rpcCall("getProgramAccounts", [KVAULT, {
+    encoding: "base64",
+    filters: [{ memcmp: { offset: 0, bytes: bs58(disc) } }],
+    dataSlice: { offset: MINT_OFF, length: 32 },
+  }]);
+  if (!res) return null;
+  return res.map((a) => ({ address: a.pubkey, mint: bs58(Buffer.from(a.account.data[0], "base64")) }));
+}
+
+// Fetch just the name bytes for the given vaults (getMultipleAccounts, 100/call, sliced).
+async function fetchNames(addresses) {
+  const names = {};
+  for (let i = 0; i < addresses.length; i += 100) {
+    const chunk = addresses.slice(i, i + 100);
+    const res = await rpcCall("getMultipleAccounts", [chunk, { encoding: "base64", dataSlice: { offset: NAME_OFF, length: NAME_LEN } }]);
+    const arr = res?.value || [];
+    chunk.forEach((addr, idx) => {
+      const b64 = arr[idx]?.data?.[0];
+      if (b64) names[addr] = cleanName(Buffer.from(b64, "base64"));
+    });
   }
-  return out;
+  return names;
 }
 
 async function resolveSymbols(mints) {
@@ -68,15 +92,17 @@ async function resolveSymbols(mints) {
   return map;
 }
 
+// Kamino's `apy` (== apyActual == apyTheoretical) is base lending yield only; farm
+// rewards / incentives / reserve incentives are separate additive streams — verified
+// against the app's "combined APY" — so summing them is correct, not a double-count.
 async function fetchMetrics(address) {
   try {
     const m = await (await fetch(`https://api.kamino.finance/kvaults/${address}/metrics`, { headers: UA })).json();
-    const tvl = Number(m.tokensInvestedUsd || 0) + Number(m.tokensAvailableUsd || 0);
-    const base = Number(m.apy || 0) * 100;
-    const reward = (Number(m.apyFarmRewards || 0) + Number(m.apyIncentives || 0) + Number(m.apyReservesIncentives || 0)) * 100;
-    const mean30 = Number(m.apy30d || 0) * 100;
-    const apy7 = m.apy7d != null ? Number(m.apy7d) * 100 : null;
-    if (!Number.isFinite(tvl)) return null;
+    const tvl = num(m.tokensInvestedUsd) + num(m.tokensAvailableUsd);
+    const base = num(m.apy) * 100;
+    const reward = (num(m.apyFarmRewards) + num(m.apyIncentives) + num(m.apyReservesIncentives)) * 100;
+    const mean30 = num(m.apy30d) * 100;
+    const apy7 = m.apy7d != null ? num(m.apy7d) * 100 : null;
     return { tvl, base, reward, mean30, apy7 };
   } catch { return null; }
 }
@@ -90,32 +116,39 @@ async function mapLimit(items, limit, fn) {
   return out;
 }
 
+// Non-"Lend" products (Institutional / Private Credit are separate, access-gated tabs)
+// and obvious test/staging vaults — matched as whole words to avoid excluding a real
+// vault that merely contains one of these as a substring.
+const EXCLUDE = /\b(?:institutional|private[ -]credit|test|staging|dev|e2e|example|demo)\b/i;
+
 // Returns synthetic DefiLlama-shaped pool objects for stable Kamino lending vaults
 // above the TVL floor. `stableSet` = uppercased symbols we trust (from trusted-stables).
 export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
-  const accounts = await rpcGetProgramAccounts();
-  if (!accounts) { console.warn("kamino: getProgramAccounts failed on all RPCs — skipping vaults"); return []; }
+  const list = await listVaultMints();
+  if (!list) { console.warn("kamino: getProgramAccounts failed on all RPCs — skipping vaults"); return []; }
   let nameOverrides = {};
   try { nameOverrides = JSON.parse(await readFile(join(HERE, "kamino-vault-names.json"), "utf8")).names || {}; } catch { /* none */ }
-  const vaults = decodeVaults(accounts).map((v) => ({ ...v, name: nameOverrides[v.address] || v.name }));
-  const symMap = await resolveSymbols([...new Set(vaults.map((v) => v.mint))]);
-  // Exclude non-"Lend" products (Institutional / Private Credit are separate,
-  // access-gated tabs) and obvious test/staging vaults.
-  const EXCLUDE = /institutional|private credit|\btest|staging|\bdev\b|e2e|\bexample\b/i;
-  const stable = vaults
-    .map((v) => ({ ...v, symbol: symMap[v.mint] || "" }))
-    .filter((v) => stableSet.has(v.symbol) && !EXCLUDE.test(v.name));
-  const metrics = await mapLimit(stable, 8, (v) => fetchMetrics(v.address));
+
+  // Resolve symbols and keep only trusted stables BEFORE fetching names/metrics.
+  const symMap = await resolveSymbols([...new Set(list.map((v) => v.mint))]);
+  let cand = list.map((v) => ({ ...v, symbol: symMap[v.mint] || "" })).filter((v) => stableSet.has(v.symbol));
+
+  const nameMap = await fetchNames(cand.map((v) => v.address));
+  cand = cand
+    .map((v) => ({ ...v, name: nameOverrides[v.address] || nameMap[v.address] || v.symbol }))
+    .filter((v) => !EXCLUDE.test(v.name));
+
+  const metrics = await mapLimit(cand, 8, (v) => fetchMetrics(v.address));
   const pools = [];
-  for (let k = 0; k < stable.length; k++) {
-    const v = stable[k], m = metrics[k];
-    if (!m || m.tvl < tvlFloor) continue;
+  for (let k = 0; k < cand.length; k++) {
+    const v = cand[k], m = metrics[k];
+    if (!m || !(m.tvl >= tvlFloor)) continue;   // also drops NaN tvl
     pools.push({
       project: "kamino-lend",
       chain: "Solana",
       symbol: v.symbol,
       poolMeta: null,
-      displayName: v.name || v.symbol,      // real vault name → row label
+      displayName: v.name,                  // real vault name → row label
       exactUrl: `https://app.kamino.finance/lend/${v.address}`,
       pool: v.address,                      // stable id (override + history key)
       underlyingTokens: [v.mint],
@@ -134,6 +167,6 @@ export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
       volumeUsd7d: null,
     });
   }
-  console.log(`  kamino vaults: ${pools.length} stable lending vaults ≥ $${(tvlFloor / 1e6)}M (of ${vaults.length} on-chain)`);
+  console.log(`  kamino vaults: ${pools.length} stable lending vaults ≥ $${tvlFloor / 1e6}M (of ${list.length} on-chain)`);
   return pools;
 }
