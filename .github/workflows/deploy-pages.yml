@@ -7,6 +7,11 @@ on:
       - "site/**"
       - ".github/workflows/deploy-pages.yml"
   workflow_dispatch: {}
+  # The refresh job pushes data with GITHUB_TOKEN, and GitHub never lets those
+  # pushes trigger other workflows, so chain the deploy off the refresh run instead.
+  workflow_run:
+    workflows: ["refresh-yields"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -19,6 +24,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
