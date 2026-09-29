@@ -61,8 +61,11 @@ Resolved at build in priority order (see [`build/deeplinks.mjs`](build/deeplinks
 
 ```
 GitHub Action (cron */6h + manual dispatch)
-  → GET https://yields.llama.fi/pools  (+ Curve / Morpho APIs for exact links & vault surfacing)
-  → filter + classify + compute  (build/pipeline.mjs — pure, portable)
+  → GET https://yields.llama.fi/pools  + venue APIs: Morpho, Yearn, Kamino (on-chain), Curve
+                                         (build/venues.mjs — the only I/O)
+  → pool intake: denylist + venue corrections + explicit identity per pool
+                                         (build/intake.mjs — pure, tested)
+  → filter + classify + compute          (build/pipeline.mjs — pure; tiers on identity legs)
   → write + commit site/data/latest.json (small, pre-filtered) + vendored logos
 static site (GitHub Pages) reads that JSON — instant load, no key, no backend
 ```
@@ -75,13 +78,15 @@ tool has been running. A second workflow deploys `site/` to Pages on every chang
 ```bash
 npm ci                 # installs the one build-only dep (js-sha3, for Uniswap CREATE2)
 node build/build.mjs   # fetch + build site/data/latest.json + vendor logos
+npm test               # intake + pipeline tests (node:test, no network)
 npm run serve          # serve ./site at http://localhost:3000
 ```
 
 ## Design
 
 The full grilled design — every resolved decision and the verified data facts — is in
-[docs/DESIGN.md](docs/DESIGN.md).
+[docs/DESIGN.md](docs/DESIGN.md). Domain terms (pool intake, pool identity, venue
+correction) are defined in [CONTEXT.md](CONTEXT.md).
 
 ---
 

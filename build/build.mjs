@@ -1,16 +1,16 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // BUILD STEP — runs in the GitHub Action (cron */6h + workflow_dispatch).
-// fetch DefiLlama → runPipeline → write site/data/latest.json (committed to repo).
-// The static site reads that JSON. No key, no backend, instant load.
+// fetch DefiLlama + venue APIs → intakePools → runPipeline → write site/data/latest.json
+// (committed to repo). The static site reads that JSON. No key, no backend, instant load.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { runPipeline, DEFAULT_CONFIG } from "./pipeline.mjs";
+import { intakePools } from "./intake.mjs";
+import { fetchVenues } from "./venues.mjs";
 import { buildLink } from "./deeplinks.mjs";
-import { buildSources, MORPHO_CHAINID } from "./deeplink-sources.mjs";
-import { fetchKaminoVaults } from "./kamino-vaults.mjs";
 import { vendorLogos } from "./logos.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -41,66 +41,13 @@ async function loadPoolUrls() {
 }
 
 // Manual denylist for deprecated-but-functional pools the data can't detect.
+// intake.mjs interprets it (pool ids, project|chain|SYMBOL keys, Morpho vaults).
 async function loadDenylist() {
   try {
-    const d = JSON.parse(await readFile(join(HERE, "denylist.json"), "utf8"));
-    return {
-      ids: new Set((d.poolIds || []).map((s) => String(s).toLowerCase())),
-      keys: new Set((d.keys || []).map((s) => String(s).toLowerCase())),
-      morphoVaults: new Set((d.morphoVaults || []).map((s) => String(s).toLowerCase())),
-    };
+    return JSON.parse(await readFile(join(HERE, "denylist.json"), "utf8"));
   } catch {
-    return { ids: new Set(), keys: new Set(), morphoVaults: new Set() };
+    return {};
   }
-}
-const denyKey = (p) => `${p.project}|${p.chain}|${p.symbol}`.toLowerCase();
-const isDenied = (p, dl) => dl.ids.has(String(p.pool).toLowerCase()) || dl.keys.has(denyKey(p));
-
-// Surface MetaMorpho vaults: DefiLlama lists them under morpho-blue with the vault
-// share symbol (STEAKUSDC) which our stable filter drops. Rewrite matched pools to
-// their underlying asset (so they tier correctly), label them with the vault name,
-// and attach the exact vault URL. Mutates pools in place.
-function preprocessMorpho(pools, morpho, denyVaults = new Set()) {
-  if (!morpho || morpho.size === 0) return 0;
-  // collect candidate (pool, vault) matches, then keep one pool per vault address
-  const byVault = new Map(); // address -> { pool, hit }
-  for (const p of pools) {
-    if (p.project !== "morpho-blue" || (p.underlyingTokens || []).length !== 1) continue;
-    const cid = MORPHO_CHAINID[p.chain];
-    if (!cid) continue;
-    const hit = morpho.get(`${cid}|${String(p.symbol).toUpperCase()}|${p.underlyingTokens[0].toLowerCase()}`);
-    if (!hit) continue;
-    if (denyVaults.has(hit.address.toLowerCase())) continue; // denylisted vault → don't surface (drops out)
-    const prev = byVault.get(hit.address);
-    if (!prev || (p.tvlUsd || 0) > (prev.pool.tvlUsd || 0)) byVault.set(hit.address, { pool: p, hit });
-  }
-  for (const { pool, hit } of byVault.values()) {
-    pool.displayName = hit.name;              // e.g. "Steakhouse USDC"
-    pool.symbol = hit.assetSymbol;            // reclassify + tier by the real asset
-    pool.exactUrl = `https://app.morpho.org/${hit.network}/vault/${hit.address}`;
-  }
-  return byVault.size;
-}
-
-// Yearn has no `poolMeta`, so same-asset vaults collide as "Yearn · USDC" ×N.
-// Each manual override URL carries the vault address (yearn.fi/v3/<chainId>/<addr>);
-// resolve the real vault name from ydaemon and use it as the row label. Best-effort:
-// if the API is unreachable the build still proceeds with bare symbols. Mutates in place.
-async function preprocessYearn(pools, poolUrls) {
-  const targets = [];
-  for (const p of pools) {
-    if (p.project !== "yearn-finance") continue;
-    const m = String(poolUrls[p.pool] || "").match(/yearn\.fi\/(?:v3|vaults)\/(\d+)\/(0x[0-9a-fA-F]+)/);
-    if (m) targets.push({ pool: p, cid: m[1], addr: m[2] });
-  }
-  let named = 0;
-  await Promise.all(targets.map(async ({ pool, cid, addr }) => {
-    try {
-      const v = await (await fetch(`https://ydaemon.yearn.fi/${cid}/vaults/${addr}`)).json();
-      if (v?.name) { pool.displayName = v.name; named++; }
-    } catch { /* keep bare symbol */ }
-  }));
-  return named;
 }
 
 // Map each protocol slug → its official site URL, from DefiLlama's config
@@ -121,25 +68,13 @@ async function loadSiteUrls() {
   }
 }
 
-// Row label: prefer an explicit displayName (e.g. a Morpho vault name); otherwise
-// fold the venue's own market/product name (DefiLlama `poolMeta`) into the symbol so
-// same-symbol rows are distinguishable and read like they do on the platform —
-// "USDC · SOL/BTC Market" (Kamino), "USDC · mFONE" (Midas), "USDC · Core" (Aave V4).
-function displayLabel(r) {
-  if (r.displayName) return r.displayName;
-  const meta = String(r.poolMeta ?? "").trim();
-  if (!meta || meta.toLowerCase() === "null") return r.symbol;
-  if (meta.toUpperCase() === String(r.symbol).toUpperCase()) return r.symbol; // redundant
-  return `${r.symbol} · ${meta}`;
-}
-
 // Trim a pipeline row to what the site actually renders (+ link & detail fields).
 const makeSlim = (names, siteUrls, sources, poolUrls) => (r) => {
   const { url, kind } = buildLink(r, { siteUrl: siteUrls[r.project], sources, override: poolUrls[r.pool] });
   return {
     project: r.project,
     name: names[r.project] || r.project,
-    symbol: displayLabel(r),
+    symbol: r.label, // row label from intake: venue's vault name, or symbol · market
     chain: r.chain,
     bucket: r.bucket,
     access: r.access,
@@ -174,26 +109,18 @@ async function main() {
   console.log("fetching", FEED, "…");
   const res = await fetch(FEED);
   if (!res.ok) throw new Error(`feed ${res.status}`);
-  let { data: pools } = await res.json();
+  const { data: feed } = await res.json();
 
-  const before = pools.length;
-  pools = pools.filter((p) => !isDenied(p, denylist));
-  const denied = before - pools.length;
-
-  const sources = await buildSources(DEFAULT_CONFIG.chains);
-  preprocessMorpho(pools, sources.morpho, denylist.morphoVaults);
-  const yNamed = await preprocessYearn(pools, poolUrls);
-  console.log(`  yearn names resolved: ${yNamed}`);
-
-  // Kamino: DefiLlama's kamino-lend = isolated markets (borrow side). Replace them
-  // with the curated Lending Vaults (the passive "Lend" product), read on-chain.
-  const kmBefore = pools.length;
-  pools = pools.filter((p) => p.project !== "kamino-lend");
-  const droppedKm = kmBefore - pools.length;
-  const stableSet = new Set(Object.keys(maps.stableMap));
-  const kaminoVaults = (await fetchKaminoVaults(stableSet, DEFAULT_CONFIG.tvlFloor)).filter((p) => !isDenied(p, denylist));
-  pools.push(...kaminoVaults);
-  console.log(`  kamino: dropped ${droppedKm} isolated-market pools, added ${kaminoVaults.length} lending vaults`);
+  const venues = await fetchVenues({
+    chains: DEFAULT_CONFIG.chains,
+    stableSet: new Set(Object.keys(maps.stableMap)),
+    tvlFloor: DEFAULT_CONFIG.tvlFloor,
+  });
+  const { pools, report } = intakePools(feed, venues, { denylist, poolUrls });
+  console.log(
+    `  intake: denied ${report.denied} · morpho vaults ${report.morphoVaults} · yearn named ${report.yearnNamed}` +
+      ` · kamino −${report.kaminoDropped} isolated markets +${report.kaminoAdded} lending vaults`
+  );
 
   const r = runPipeline(pools, {}, maps);
 
@@ -203,7 +130,7 @@ async function main() {
   if (r.stats.kept < MIN_KEPT)
     throw new Error(`sanity floor: only ${r.stats.kept} pools kept (< ${MIN_KEPT}); feed likely partial — refusing to overwrite`);
 
-  const slim = makeSlim(names, siteUrls, sources, poolUrls);
+  const slim = makeSlim(names, siteUrls, venues, poolUrls);
 
   const payload = {
     generatedAt: new Date().toISOString(),
@@ -224,7 +151,7 @@ async function main() {
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n");
   console.log(
     `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  tiers ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]}` +
-      `\n  denylisted ${denied} · inactive-lp ${r.rejects["inactive-lp"]?.count || 0} · zero-yield ${r.rejects["zero-yield"]?.count || 0}`
+      `\n  inactive-lp ${r.rejects["inactive-lp"]?.count || 0} · zero-yield ${r.rejects["zero-yield"]?.count || 0}`
   );
 
   // vendor logos for every allowlisted protocol + configured chain (fetch-if-missing)

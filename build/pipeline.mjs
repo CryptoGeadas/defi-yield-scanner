@@ -1,10 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// PURE PIPELINE — the bit worth keeping.
+// PURE PIPELINE — the ranking opinion.
 // (pools, config, maps) → { windows, rejects, missingProtocols, stats }
 //
-// No I/O, no console, no terminal codes. The TUI shell imports this and calls it.
-// When the prototype has answered its question, THIS module lifts straight into
-// the real GitHub Action build script; the TUI gets deleted.
+// No I/O, no console. Pools come from intake.mjs, each with an explicit identity:
+// `legs` (the stablecoins it holds — what it is tiered on), `label`, `exactUrl`.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const DEFAULT_CONFIG = {
@@ -19,14 +18,6 @@ export const DEFAULT_CONFIG = {
 };
 
 const norm = (s) => String(s ?? "").trim().toUpperCase();
-
-// DefiLlama `symbol` → array of stable legs. "USDC-USDT" → ["USDC","USDT"].
-export function parseLegs(symbol) {
-  return norm(symbol)
-    .split(/[-/+]/)
-    .map((x) => x.trim())
-    .filter(Boolean);
-}
 
 // tier = riskiest (max) leg; null if any leg is unmapped. driver = the leg that set
 // it; driverType = that leg's stable type (fiat|crypto|yield|rwa|synthetic).
@@ -74,7 +65,8 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   const meta = protocolMap[pool.project];
   if (!meta) return { ok: false, reason: "protocol-not-trusted" };
 
-  const legs = parseLegs(pool.symbol);
+  const legs = pool.legs;
+  if (!Array.isArray(legs) || legs.length === 0) return { ok: false, reason: "missing-identity" };
   const { tier, driver, driverType, unmatched } = classifyTier(legs, stableMap);
   if (tier == null) return { ok: false, reason: "unmapped-stable-leg", unmatched };
 
@@ -121,8 +113,8 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       tvlUsd: pool.tvlUsd,
       legs,
       // passthroughs for links + detail panel (consumed downstream, not by ranking)
-      exactUrl: pool.exactUrl ?? null,   // pre-resolved exact link (e.g. Morpho vault)
-      displayName: pool.displayName ?? null, // override for the row label
+      label: pool.label ?? pool.symbol,  // row label (identity, from intake)
+      exactUrl: pool.exactUrl ?? null,   // venue-verified deposit link (identity, from intake)
       pool: pool.pool,
       underlyingTokens: pool.underlyingTokens ?? null,
       poolMeta: pool.poolMeta ?? null,

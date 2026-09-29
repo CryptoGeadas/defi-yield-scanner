@@ -4,8 +4,8 @@
 // accounts via a public Solana RPC — filtered server-side by the account
 // discriminator and sliced to only the bytes we read, so the call stays small and is
 // far likelier to be accepted by public/CI RPCs — then pull live APY/TVL from
-// Kamino's public metrics API. Output is shaped like DefiLlama pools so it flows
-// through the normal pipeline. Best-effort: any failure returns [] and the build
+// Kamino's public metrics API. Output is plain vault records; intake.mjs shapes them
+// into pools for the normal pipeline. Best-effort: any failure returns [] and the build
 // proceeds without Kamino vaults (never crashes the refresh).
 // ─────────────────────────────────────────────────────────────────────────────
 import crypto from "node:crypto";
@@ -121,8 +121,9 @@ async function mapLimit(items, limit, fn) {
 // vault that merely contains one of these as a substring.
 const EXCLUDE = /\b(?:institutional|private[ -]credit|test|staging|dev|e2e|example|demo)\b/i;
 
-// Returns synthetic DefiLlama-shaped pool objects for stable Kamino lending vaults
-// above the TVL floor. `stableSet` = uppercased symbols we trust (from trusted-stables).
+// Returns vault records { address, name, symbol, mint, tvl, base, reward, mean30, apy7 }
+// for stable Kamino lending vaults above the TVL floor (APYs in %). intake.mjs shapes
+// them into pools. `stableSet` = uppercased symbols we trust (from trusted-stables).
 export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
   const list = await listVaultMints();
   if (!list) { console.warn("kamino: getProgramAccounts failed on all RPCs — skipping vaults"); return []; }
@@ -139,34 +140,12 @@ export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
     .filter((v) => !EXCLUDE.test(v.name));
 
   const metrics = await mapLimit(cand, 8, (v) => fetchMetrics(v.address));
-  const pools = [];
+  const vaults = [];
   for (let k = 0; k < cand.length; k++) {
     const v = cand[k], m = metrics[k];
     if (!m || !(m.tvl >= tvlFloor)) continue;   // also drops NaN tvl
-    pools.push({
-      project: "kamino-lend",
-      chain: "Solana",
-      symbol: v.symbol,
-      poolMeta: null,
-      displayName: v.name,                  // real vault name → row label
-      exactUrl: `https://app.kamino.finance/lend/${v.address}`,
-      pool: v.address,                      // stable id (override + history key)
-      underlyingTokens: [v.mint],
-      stablecoin: true,
-      outlier: false,
-      exposure: "single",
-      ilRisk: "no",
-      tvlUsd: m.tvl,
-      apyBase: m.base,
-      apyReward: m.reward > 0 ? m.reward : null,
-      apy: m.base + (m.reward > 0 ? m.reward : 0),
-      apyMean30d: m.mean30,
-      apyPct7D: m.apy7,
-      apyPct30D: null,
-      volumeUsd1d: null,
-      volumeUsd7d: null,
-    });
+    vaults.push({ address: v.address, name: v.name, symbol: v.symbol, mint: v.mint, ...m });
   }
-  console.log(`  kamino vaults: ${pools.length} stable lending vaults ≥ $${tvlFloor / 1e6}M (of ${list.length} on-chain)`);
-  return pools;
+  console.log(`  kamino vaults: ${vaults.length} stable lending vaults ≥ $${tvlFloor / 1e6}M (of ${list.length} on-chain)`);
+  return vaults;
 }

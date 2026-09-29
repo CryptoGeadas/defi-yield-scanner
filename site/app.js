@@ -140,9 +140,9 @@ function detailHtml(r, tier) {
       ? "No 30-day history yet — too new to judge durability."
       : `Spot <b>${fmtPct(spotOf(r))}</b> is <b>${fmtSigned(ratio)}</b> versus its 30-day mean of <b>${fmtPct(r.mean30d)}</b> → <b class="${fm.cls}">${fm.word}</b>.`;
   const label = r.name || r.project;
-  // true stablecoin legs come from the classification symbol, carried as r.legs;
-  // fall back to splitting the display symbol only if the field is absent.
-  const legs = Array.isArray(r.legs) ? r.legs : String(r.symbol).split(/[-/+]/).filter(Boolean);
+  // the stablecoins the pool actually holds — its identity from build-side intake
+  // (r.symbol is only the row label, e.g. a vault name, so never split it)
+  const legs = Array.isArray(r.legs) ? r.legs : [];
   const rewardLine = r.reward > 0 ? ` · <span class="rew">+${fmtPct(r.reward)} rewards</span>` : "";
   const vol = fmtVol(r.volumeUsd7d);
 

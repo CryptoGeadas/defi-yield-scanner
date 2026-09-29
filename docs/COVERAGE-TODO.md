@@ -26,6 +26,9 @@ stable ticker:
    (Morpho, Yearn, Beefy, ERC-4626 in general), look up the vault's `asset` via the
    protocol API / on-chain and classify by *that* stable, not the share-token symbol.
    The Morpho work (2026-09) is the first instance of this pattern — generalise it.
+   Since 2026-09-29 each venue is a **venue correction** inside `build/intake.mjs`
+   (see CONTEXT.md): add Beefy / generic ERC-4626 there, with a test in
+   `build/intake.test.mjs`. The pipeline needs no change — it tiers on `legs`.
 2. **Broaden `trusted-stables.json`** aggressively (script it from a stablecoin list),
    keeping the tier judgement.
 3. **Reconsider the hard protocol allowlist** — maybe shift from "allowlist to render"

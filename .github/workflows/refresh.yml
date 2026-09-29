@@ -25,6 +25,9 @@ jobs:
       - name: Install build deps
         run: npm ci
 
+      - name: Test intake + pipeline
+        run: npm test
+
       - name: Build data snapshot
         run: node build/build.mjs
 

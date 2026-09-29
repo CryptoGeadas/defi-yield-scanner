@@ -6,10 +6,11 @@
   "description": "A trust filter for stablecoin yield — where to park stables, and whether the yield is real.",
   "scripts": {
     "build": "node build/build.mjs",
-    "serve": "npx --yes serve site"
+    "serve": "npx --yes serve site",
+    "test": "node --test \"build/*.test.mjs\""
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "dependencies": {
     "js-sha3": "^0.9.3"
