@@ -3,77 +3,123 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DeFi Yield Scanner — where to park stables</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <title>DeFi Yield Scanner · Bernardo Geadas</title>
     <meta name="description" content="A trust filter for stablecoin yield: durable, organic, accessible. High APY is a red flag as often as an opportunity." />
-    <script>
-      document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark";
-    </script>
+    <meta name="theme-color" content="#0c110e" />
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Instrument+Serif&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./brand.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- Shared site style, one source of truth on the main site (CryptoGeadas/cryptogeadas.github.io). -->
+    <link rel="stylesheet" href="/site.css" />
     <link rel="stylesheet" href="./styles.css" />
-    <link rel="icon" href="./logo.svg" />
   </head>
   <body>
-    <header class="wrap top">
-      <div class="brand">
-        <img class="mark" src="./logo.svg" alt="BG" width="37" height="25" />
-        <span class="wordmark">Yield Scanner</span>
-      </div>
-      <nav class="topnav">
-        <a class="navlink" href="./methodology.html">How it works</a>
-        <button id="theme" class="btn btn-ghost btn-sm" aria-label="Toggle theme">
-          <span class="theme-dark">☾</span><span class="theme-light">☀</span>
-        </button>
-      </nav>
-    </header>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <section class="wrap hero">
-      <h1 class="serif hero-line">Where can I park my stables — and is that yield real?</h1>
+  <header class="site-header">
+    <div class="ticker" aria-label="Live numbers from my tools">
+      <span class="ticker-label">LIVE</span>
+      <div class="ticker-items" data-ticker>
+        <a class="ticker-item" href="/defi-yield-scanner/" data-tick="scanner"><span class="k">Best stable yield</span><span class="v">—</span><span class="n"></span></a>
+        <a class="ticker-item" href="/tokenized-rwa-tracker/" data-tick="rwa-count"><span class="k">RWA funds classified</span><span class="v">—</span><span class="n"></span></a>
+        <a class="ticker-item" href="/tokenized-rwa-tracker/" data-tick="rwa-unclassified"><span class="k">Unclassified, in review</span><span class="v">—</span><span class="n"></span></a>
+      </div>
+      <span class="ticker-time" data-live-time>● —</span>
+    </div>
+    <div class="site-nav-row">
+      <a class="site-logo" href="/">BERNARDO GEADAS</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/#about">About</a>
+        <a href="/#experience">Experience</a>
+        <a href="/tools/" class="is-active">Tools</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+      <span class="site-tagline">PRODUCT × PARTNERSHIPS × COMPLIANCE</span>
+    </div>
+  </header>
+
+  <main id="main" class="tool-main">
+    <div class="tool-head">
+      <div class="tool-head-copy">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">HOME</a><span aria-hidden="true">/</span><a href="/tools/">BUILD LOG</a><span aria-hidden="true">/</span><span aria-current="page">DEFI YIELD SCANNER</span></nav>
+        <div class="tool-title"><h1>DeFi Yield Scanner</h1><span class="badge badge-live">● Live</span></div>
+        <p class="tool-question">"Where can I park my stables right now, and is that yield real?"</p>
+      </div>
+      <div class="tool-links">
+        <a class="btn btn-sm" href="./methodology.html">Methodology</a>
+        <a class="btn btn-sm" href="https://github.com/CryptoGeadas/defi-yield-scanner" rel="noopener" target="_blank">Source ↗</a>
+      </div>
+    </div>
+
+    <div class="tool-app" id="app">
       <p class="sub">
         A trust filter, not a yield hunter. Ranked by <strong>organic</strong> base APY;
         rewards shown, never counted. High total APY reads as caution as often as opportunity.
       </p>
-    </section>
 
-    <section class="wrap controls" aria-label="filters">
-      <div class="ctl">
-        <span class="label">Bucket</span>
-        <div class="seg" id="bucket">
-          <button data-v="all" class="on">All</button>
-          <button data-v="lend">Lend</button>
-          <button data-v="LP">LP</button>
-          <button data-v="vault">Vault</button>
+      <section class="controls" aria-label="Filters">
+        <div class="ctl">
+          <span class="label">Bucket</span>
+          <div class="seg" id="bucket">
+            <button data-v="all" class="on">All</button>
+            <button data-v="lend">Lend</button>
+            <button data-v="LP">LP</button>
+            <button data-v="vault">Vault</button>
+          </div>
         </div>
-      </div>
-      <div class="ctl">
-        <span class="label">Type</span>
-        <div class="seg" id="type">
-          <button data-v="all" class="on">All</button>
-          <button data-v="fiat">Fiat</button>
-          <button data-v="crypto">Crypto</button>
-          <button data-v="yield">Yield</button>
-          <button data-v="rwa">RWA</button>
-          <button data-v="synthetic">Synthetic</button>
+        <div class="ctl">
+          <span class="label">Type</span>
+          <div class="seg" id="type">
+            <button data-v="all" class="on">All</button>
+            <button data-v="fiat">Fiat</button>
+            <button data-v="crypto">Crypto</button>
+            <button data-v="yield">Yield</button>
+            <button data-v="rwa">RWA</button>
+            <button data-v="synthetic">Synthetic</button>
+          </div>
         </div>
-      </div>
-      <div class="ctl">
-        <span class="label">Chain</span>
-        <div class="chips" id="chain"></div>
-      </div>
-      <label class="chk">
-        <input type="checkbox" id="kyc" />
-        show permissioned <span class="badge badge-error">🔒 KYC</span>
-      </label>
-    </section>
+        <div class="ctl">
+          <span class="label">Chain</span>
+          <div class="chain-chips" id="chain"></div>
+        </div>
+        <label class="chk">
+          <input type="checkbox" id="kyc" />
+          show permissioned <span class="badge badge-down">🔒 KYC</span>
+        </label>
+      </section>
 
-    <main class="wrap" id="windows" aria-live="polite"></main>
+      <div id="windows" aria-live="polite"></div>
 
-    <footer class="wrap" id="foot"></footer>
+      <div class="tool-legend" id="foot"></div>
+    </div>
 
+    <nav class="tool-nav" aria-label="Other tools">
+      <a href="/tools/">← All tools</a>
+      <span><a href="/tokenized-rwa-tracker/">Tokenized RWA Tracker →</a><a href="/crypto-fundamentals/">Crypto Fundamentals →</a></span>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-top">
+      <a class="site-logo" href="/">BERNARDO GEADAS</a>
+      <nav class="site-footer-nav" aria-label="Footer">
+        <a href="/tools/">Tools</a>
+        <a href="/research/unlocks-dont-dump/">Research</a>
+        <a href="mailto:bernardofgeadasj@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/bernardo-geadas" rel="noopener" target="_blank">LinkedIn</a>
+        <a href="https://github.com/CryptoGeadas" rel="noopener" target="_blank">GitHub</a>
+        <a href="https://x.com/Bernardo_Geadas" rel="noopener" target="_blank">X</a>
+      </nav>
+    </div>
+    <div class="site-footer-bottom">
+      <span class="data-line"><span class="dot" data-tool-dot>●</span> <span data-tool-dataline>Source: DefiLlama · Not financial advice</span></span>
+      <span class="credit">© 2026 Bernardo Geadas · Built by hand, no frameworks.</span>
+    </div>
+  </footer>
+
+    <script type="module" src="/site.js"></script>
     <script type="module" src="./app.js"></script>
   </body>
 </html>

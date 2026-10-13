@@ -3,49 +3,74 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Methodology — DeFi Yield Scanner</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Methodology · DeFi Yield Scanner · Bernardo Geadas</title>
     <meta name="description" content="How the DeFi Yield Scanner decides what to show and how it ranks stablecoin yield." />
-    <script>
-      document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark";
-    </script>
+    <meta name="theme-color" content="#0c110e" />
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Instrument+Serif&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./brand.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/site.css" />
     <link rel="stylesheet" href="./styles.css" />
-    <link rel="icon" href="./logo.svg" />
     <style>
-      .doc { max-width: 760px; margin: 0 auto; padding: 0 20px 80px; }
-      .doc .lead { font-size: 17px; color: var(--muted); margin: 8px 0 0; }
-      .doc h2 { margin: 40px 0 12px; font-size: 20px; }
-      .doc h2::before { content: ""; display: block; width: 32px; height: 3px; background: var(--accent); border-radius: 2px; margin-bottom: 12px; }
-      .doc h3 { margin: 22px 0 6px; font-size: 15px; }
-      .doc p { color: var(--text); }
+      .doc { max-width: 760px; padding-bottom: 32px; }
+      .doc .lead { font-size: 17px; line-height: 1.6; color: var(--muted); margin: 0; }
+      .doc h2 { margin: 44px 0 12px; font-size: clamp(22px, 3vw, 26px); }
+      .doc h3 { margin: 22px 0 6px; font-size: 17px; }
+      .doc p, .doc li { color: var(--muted); line-height: 1.7; }
+      .doc p { margin: 10px 0; }
+      .doc strong, .doc b, .doc em { color: var(--fg); }
       .doc li { margin: 4px 0; }
-      .doc .muted { color: var(--muted); }
+      .doc a { color: var(--accent); }
       .flagline { display: flex; gap: 8px; align-items: baseline; margin: 8px 0; }
       .flagline .g { font-weight: 700; font-size: 15px; width: 18px; }
-      .up { color: var(--warning); } .steady { color: var(--success); } .down { color: var(--error); }
+      .doc .up { color: var(--warn); } .doc .steady { color: var(--up); } .doc .down { color: var(--down); }
       .keyrow { display: grid; grid-template-columns: 120px 1fr; gap: 10px 16px; margin: 6px 0; }
-      .keyrow .k { font-weight: 600; }
-      .callout { background: var(--elevated); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r-card); padding: 12px 16px; margin: 16px 0; color: var(--muted); }
-      .backlink { display: inline-flex; align-items: center; gap: 6px; font-family: var(--display); font-weight: 600; font-size: 13px; }
-      code.inline { background: var(--elevated); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; font-size: 13px; }
+      .keyrow .k { font-family: var(--font-mono); font-size: 13px; color: var(--fg); }
+      @media (max-width: 520px) { .keyrow { grid-template-columns: 1fr; gap: 2px; } }
+      .callout { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r-panel); padding: 12px 16px; margin: 16px 0; color: var(--muted); }
+      code.inline { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-ctl); padding: 1px 6px; font: 13px var(--font-mono); color: var(--fg); }
     </style>
   </head>
   <body>
-    <header class="wrap top">
-      <a class="brand" href="./index.html" style="text-decoration:none;color:inherit">
-        <img class="mark" src="./logo.svg" alt="BG" width="37" height="25" />
-        <span class="wordmark">Yield Scanner</span>
-      </a>
-      <a class="btn btn-ghost btn-sm backlink" href="./index.html">← Back to rankings</a>
-    </header>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <main class="doc">
-      <h1 class="serif" style="font-size:34px;margin-top:24px">How this works</h1>
+  <header class="site-header">
+    <div class="ticker" aria-label="Live numbers from my tools">
+      <span class="ticker-label">LIVE</span>
+      <div class="ticker-items" data-ticker>
+        <a class="ticker-item" href="/defi-yield-scanner/" data-tick="scanner"><span class="k">Best stable yield</span><span class="v">—</span><span class="n"></span></a>
+        <a class="ticker-item" href="/tokenized-rwa-tracker/" data-tick="rwa-count"><span class="k">RWA funds classified</span><span class="v">—</span><span class="n"></span></a>
+        <a class="ticker-item" href="/tokenized-rwa-tracker/" data-tick="rwa-unclassified"><span class="k">Unclassified, in review</span><span class="v">—</span><span class="n"></span></a>
+      </div>
+      <span class="ticker-time" data-live-time>● —</span>
+    </div>
+    <div class="site-nav-row">
+      <a class="site-logo" href="/">BERNARDO GEADAS</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/#about">About</a>
+        <a href="/#experience">Experience</a>
+        <a href="/tools/" class="is-active">Tools</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+      <span class="site-tagline">PRODUCT × PARTNERSHIPS × COMPLIANCE</span>
+    </div>
+  </header>
+
+  <div class="tool-main">
+    <div class="tool-head">
+      <div class="tool-head-copy">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">HOME</a><span aria-hidden="true">/</span><a href="/tools/">BUILD LOG</a><span aria-hidden="true">/</span><a href="./">DEFI YIELD SCANNER</a><span aria-hidden="true">/</span><span aria-current="page">METHODOLOGY</span></nav>
+        <div class="tool-title"><h1>How this works</h1></div>
+      </div>
+      <div class="tool-links">
+        <a class="btn btn-primary btn-sm" href="./">← Back to rankings</a>
+        <a class="btn btn-sm" href="https://github.com/CryptoGeadas/defi-yield-scanner" rel="noopener" target="_blank">Source ↗</a>
+      </div>
+    </div>
+
+    <main class="doc" id="main">
       <p class="lead">
         A trust filter for stablecoin yield. It answers one question — <em>“where can I park my
         stables right now, and is that yield real?”</em> — and it treats a high APY as a red flag as
@@ -154,5 +179,31 @@
         Not investment advice. The rankings encode one person’s opinion about trust, deliberately.
       </p>
     </main>
+
+    <nav class="tool-nav" aria-label="Other tools">
+      <a href="/tools/">← All tools</a>
+      <span><a href="./">DeFi Yield Scanner →</a></span>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer-top">
+      <a class="site-logo" href="/">BERNARDO GEADAS</a>
+      <nav class="site-footer-nav" aria-label="Footer">
+        <a href="/tools/">Tools</a>
+        <a href="/research/unlocks-dont-dump/">Research</a>
+        <a href="mailto:bernardofgeadasj@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/bernardo-geadas" rel="noopener" target="_blank">LinkedIn</a>
+        <a href="https://github.com/CryptoGeadas" rel="noopener" target="_blank">GitHub</a>
+        <a href="https://x.com/Bernardo_Geadas" rel="noopener" target="_blank">X</a>
+      </nav>
+    </div>
+    <div class="site-footer-bottom">
+      <span class="data-line"><span class="dot" data-tool-dot>●</span> <span data-tool-dataline>Data: DefiLlama yields · Not investment advice</span></span>
+      <span class="credit">© 2026 Bernardo Geadas · Built by hand, no frameworks.</span>
+    </div>
+  </footer>
+
+    <script type="module" src="/site.js"></script>
   </body>
 </html>

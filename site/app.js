@@ -13,7 +13,7 @@ const COLS = [
   { key: "base", label: "Base APY", cls: "num" },
   { key: "mean30d", label: "30d mean", cls: "num hide-sm" },
   { key: "divRatio", label: "Trend", cls: "center" },
-  { key: "tvlUsd", label: "TVL", cls: "num" },
+  { key: "tvlUsd", label: "TVL", cls: "num hide-sm" },
 ];
 
 const CHAINS = ["Ethereum", "Arbitrum", "Base", "Optimism", "Polygon", "Solana"];
@@ -94,7 +94,7 @@ function headerHtml() {
     const caret = active ? (state.sortDir === "asc" ? "▲" : "▼") : "";
     return `<span class="th sortable ${c.cls} ${active ? "active" : ""}" data-sort="${c.key}">${c.label}<span class="caret">${caret}</span></span>`;
   }).join("");
-  return `<div class="thead grid"><span></span>${cells}<span></span></div>`;
+  return `<div class="thead grid"><span></span>${cells}<span class="chev"></span></div>`;
 }
 
 function rowHtml(r, max, tier) {
@@ -154,7 +154,7 @@ function detailHtml(r, tier) {
       : r.linkKind === "defillama"
         ? `<a class="btn btn-primary btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Verify on DefiLlama ↗</a>`
         : `<a class="btn btn-primary btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Open ${esc(label)} ↗</a>
-           <a class="btn btn-secondary btn-sm" href="${esc(dllHref)}" target="_blank" rel="noopener">DefiLlama ↗</a>`;
+           <a class="btn btn-sm" href="${esc(dllHref)}" target="_blank" rel="noopener">DefiLlama ↗</a>`;
 
   const composition =
     legs.length > 1
@@ -232,6 +232,11 @@ function render() {
     tiers ${d.stats.perTier[1]}/${d.stats.perTier[2]}/${d.stats.perTier[3]} ·
     data ${ageH}h old (${when.toISOString().slice(0, 16).replace("T", " ")} UTC) ·
     source <a href="${esc(safeUrl(d.source) || "https://defillama.com/yields")}">DefiLlama</a> · <a href="./data/latest.json">raw JSON</a>`;
+
+  // shared site footer: the tool fills its own data-health line
+  const line = $("[data-tool-dataline]");
+  if (line) line.textContent = `Data as of ${when.toISOString().slice(11, 16)} UTC, ${when.toISOString().slice(0, 10)} · Source: DefiLlama · Pools screened: ${d.stats.totalPools.toLocaleString("en-US")} · Not financial advice`;
+  $("[data-tool-dot]")?.classList.toggle("stale", ageH > 36);
 }
 
 function toggleRow(id) {
@@ -271,7 +276,7 @@ $("#windows").addEventListener("keydown", (e) => {
 function renderChips() {
   $("#chain").innerHTML = CHAINS.map(
     (c) =>
-      `<button class="chip ${state.chains.has(c) ? "on" : ""}" data-chain="${c}">
+      `<button class="cchip ${state.chains.has(c) ? "on" : ""}" data-chain="${c}">
         <img class="chic" src="${chainLogo(c)}" alt="" onerror="this.remove()"><span>${c}</span>
       </button>`
   ).join("");
@@ -302,11 +307,6 @@ function wireSeg(id, key) {
 wireSeg("#bucket", "bucket");
 wireSeg("#type", "type");
 $("#kyc").addEventListener("change", (e) => { state.showKyc = e.target.checked; resetLimits(); render(); });
-$("#theme").addEventListener("click", () => {
-  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-  document.documentElement.dataset.theme = next;
-  try { localStorage.setItem("theme", next); } catch {}
-});
 
 renderChips();
 load();
