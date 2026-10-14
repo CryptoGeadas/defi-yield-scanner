@@ -92,7 +92,7 @@
         <li><strong>Trusted protocol</strong> — its protocol is on a curated allowlist. Membership <em>is</em> the trust signal; anything not listed doesn’t render.</li>
         <li><strong>Mapped stables</strong> — every leg of the pool maps to a known stablecoin.</li>
         <li><strong>Supported chain</strong> — Ethereum, Arbitrum, Base, Optimism, Polygon, or Solana.</li>
-        <li><strong>Real size</strong> — TVL above $1M, and not flagged as a statistical outlier. For lending pools, TVL is <em>total deposits</em> (what users supplied), not deposits minus loans — the same meaning as for vaults.</li>
+        <li><strong>Real size</strong> — TVL above $1M, and not flagged as a statistical outlier. For lending pools, TVL is <em>total deposits</em> (what users supplied), not deposits minus loans — the same meaning as for vaults. A lending pool must also have at least $1M <em>available to withdraw</em> (not lent out), so a fully borrowed market never shows up.</li>
       </ul>
       <div class="callout">
         The curation is intentional, but it currently also hides legitimate pools (for example,

@@ -19,6 +19,8 @@
 //   label     the row label a person would recognise on the venue's own app.
 //   exactUrl  a venue-verified deposit URL, or null (deeplinks.mjs then decides).
 //   linkGuarded  true when a venue match failed its check: link to DefiLlama, never the site.
+//   availableUsd lending pools only: supplied − borrowed (DefiLlama's own /pools figure);
+//             tvlUsd becomes total deposits. The pipeline floors both.
 //
 // Venue corrections run in a fixed order, all inside this module:
 //   1. drop denylisted feed pools; lending pools take total deposits as TVL
@@ -168,7 +170,7 @@ export function intakePools(feed, venues = {}, curation = {}) {
     const total = venues.lendBorrow?.get(p.pool);
     if (!(total >= p.tvlUsd)) return p; // not lending, unknown, or below net (bad data) → keep
     if (total > p.tvlUsd && p.project !== "kamino-lend") report.lendingTotals++; // rows whose TVL changed (kamino-lend is dropped in step 4)
-    return { ...p, tvlUsd: total };
+    return { ...p, tvlUsd: total, availableUsd: p.tvlUsd }; // feed figure = what can be withdrawn now
   });
 
   // 2–3. venue identities for feed pools

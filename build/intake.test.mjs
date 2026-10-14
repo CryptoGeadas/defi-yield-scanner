@@ -138,14 +138,31 @@ test("lending pools show total deposits as TVL, other pools keep DefiLlama's TVL
   assert.equal(JSON.stringify(feed), before, "the feed is never mutated");
 });
 
-test("the TVL floor judges lending pools on total deposits", () => {
+test("a kept lending row carries total deposits as its TVL", () => {
   const maps = { protocolMap: { "aave-v3": { bucket: "lend", access: "permissionless" } }, stableMap: { USDC: { tier: 1, type: "fiat" } } };
-  const feed = [pool({ pool: "busy", tvlUsd: 0.4e6 })]; // most of it is lent out
+  const feed = [pool({ pool: "busy", tvlUsd: 1.2e6 })]; // most of it is lent out, $1.2M still withdrawable
   const { pools } = intakePools(feed, { lendBorrow: new Map([["busy", 3e6]]) });
   const kept = runPipeline(pools, {}, maps).windows[1];
   assert.equal(kept.length, 1);
   assert.equal(kept[0].tvlUsd, 3e6, "the row the site shows and sorts by carries the total");
-  assert.equal(runPipeline(intakePools(feed).pools, {}, maps).rejects["below-tvl-floor"].count, 1);
+});
+
+test("a lending pool needs $1M available to withdraw, not only $1M of deposits", () => {
+  const maps = {
+    protocolMap: { "euler-v2": { bucket: "lend", access: "permissionless" }, "uniswap-v3": { bucket: "LP", access: "permissionless" } },
+    stableMap: { USDC: { tier: 1, type: "fiat" }, USDT: { tier: 1, type: "fiat" } },
+  };
+  const feed = [
+    pool({ pool: "drained", project: "euler-v2", tvlUsd: 0, apy: 17.5, apyBase: 17.5, apyMean30d: 17.5 }), // 100% borrowed
+    pool({ pool: "thin", project: "euler-v2", tvlUsd: 0.3e6 }),
+    pool({ pool: "ok", project: "euler-v2", tvlUsd: 1.5e6 }),
+    pool({ pool: "lp", project: "uniswap-v3", symbol: "USDC-USDT", tvlUsd: 2e6, volumeUsd7d: 1e6 }),
+  ];
+  const lendBorrow = new Map([["drained", 1.46e6], ["thin", 2.6e6], ["ok", 9e6]]);
+  const r = runPipeline(intakePools(feed, { lendBorrow }).pools, {}, maps);
+  assert.deepEqual(r.windows[1].map((x) => x.pool).sort(), ["lp", "ok"]);
+  assert.equal(r.rejects["no-exit-liquidity"].count, 2);
+  assert.equal(r.windows[1].find((x) => x.pool === "ok").tvlUsd, 9e6, "TVL still shows total deposits");
 });
 
 test("missing venue data degrades to default identities, never throws", () => {

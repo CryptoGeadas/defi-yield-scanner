@@ -8,6 +8,7 @@
 
 export const DEFAULT_CONFIG = {
   tvlFloor: 1_000_000,
+  minAvailableUsd: 1_000_000,   // lending pools: at least this much not lent out (withdrawable now)
   sortKey: "base",              // 'base' | 'total' | 'mean30d'
   dropOutliers: true,
   chains: ["Ethereum", "Arbitrum", "Base", "Optimism", "Polygon", "Solana"],
@@ -60,6 +61,10 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   if (!cfg.chains.some((c) => norm(c) === norm(pool.chain)))
     return { ok: false, reason: "chain-excluded" };
   if (!(pool.tvlUsd > cfg.tvlFloor)) return { ok: false, reason: "below-tvl-floor" };
+  // TVL is total deposits for lending pools; a pool that is almost fully borrowed can't
+  // pay you back, so it also needs real exit liquidity (e.g. a 100%-utilized market).
+  if (pool.availableUsd != null && !(pool.availableUsd > cfg.minAvailableUsd))
+    return { ok: false, reason: "no-exit-liquidity" };
   if (cfg.dropOutliers && pool.outlier === true) return { ok: false, reason: "outlier" };
 
   const meta = protocolMap[pool.project];
