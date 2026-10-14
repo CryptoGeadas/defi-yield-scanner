@@ -4,7 +4,7 @@
 
 :root { --info: oklch(0.74 0.11 235); }   /* tier 3 marker only */
 
-.sub { color: var(--muted); max-width: 760px; font-size: 15px; line-height: 1.6; }
+.sub { color: var(--muted); max-width: 760px; font-size: 15px; line-height: 1.65; }
 .sub strong { color: var(--fg); font-weight: 600; }
 
 /* controls */
