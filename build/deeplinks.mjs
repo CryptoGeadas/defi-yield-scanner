@@ -24,6 +24,9 @@ function checksum(addr) {
 }
 
 // Aave v3 — app.aave.com/reserve-overview/?underlyingAsset=<addr>&marketName=<market>
+// DefiLlama names a non-Core market in poolMeta ("Prime Instance"). An unknown
+// poolMeta (e.g. "Umbrella" stake tokens) or a non-reserve product (sGHO) gets
+// no exact link: guessing Core sends people to the wrong or an empty page.
 const AAVE_V3_MARKET = {
   Ethereum: "proto_mainnet_v3",
   Base: "proto_base_v3",
@@ -31,10 +34,16 @@ const AAVE_V3_MARKET = {
   Optimism: "proto_optimism_v3",
   Polygon: "proto_polygon_v3",
 };
+const AAVE_V3_NAMED_MARKET = {
+  "Ethereum|Prime Instance": "proto_lido_v3",
+  "Ethereum|Aave Horizon Market": "proto_horizon_v3",
+};
+const AAVE_NOT_A_RESERVE = new Set(["SGHO"]);
 function aaveV3(row) {
-  const market = AAVE_V3_MARKET[row.chain];
+  const meta = String(row.poolMeta ?? "").trim();
+  const market = meta ? AAVE_V3_NAMED_MARKET[`${row.chain}|${meta}`] : AAVE_V3_MARKET[row.chain];
   const addr = firstToken(row);
-  if (!market || !addr) return null;
+  if (!market || !addr || AAVE_NOT_A_RESERVE.has(String(row.symbol).toUpperCase())) return null;
   return `https://app.aave.com/reserve-overview/?underlyingAsset=${addr.toLowerCase()}&marketName=${market}`;
 }
 
@@ -82,6 +91,15 @@ const BUILDERS = {
   "uniswap-v3": uniswapV3,
 };
 
+export function isHomepage(url) {
+  try {
+    const u = new URL(url);
+    return (u.pathname === "/" || u.pathname === "") && !u.search && !u.hash;
+  } catch {
+    return false;
+  }
+}
+
 const dllPool = (row) => (row.pool ? `https://defillama.com/yields/pool/${row.pool}` : null);
 
 // Official site fallbacks for the few protocols DefiLlama's config has no `url` for.
@@ -99,8 +117,9 @@ const SITE_FALLBACK = {
 export function buildLink(row, ctx = {}) {
   if (row.access === "permissioned") return { url: null, kind: null };
 
-  // manual per-pool override (pool-urls.json) — user-verified, wins over everything
-  if (ctx.override) return { url: ctx.override, kind: "exact" };
+  // manual per-pool override (pool-urls.json) — user-verified, wins over everything.
+  // An override that is only a homepage (no path, no query) is honest as 'site'.
+  if (ctx.override) return { url: ctx.override, kind: isHomepage(ctx.override) ? "site" : "exact" };
 
   // pre-resolved exact URL (set during build pre-processing, e.g. Morpho vaults)
   if (row.exactUrl) return { url: row.exactUrl, kind: "exact" };
