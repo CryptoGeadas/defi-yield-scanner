@@ -93,11 +93,48 @@
 .dline b { font-weight: 600; }
 .dsub { font-size: 12px; color: var(--muted); margin-top: 4px; }
 .dsub .rew { color: var(--accent); }
-.dline b.up { color: var(--warn); } .dline b.steady { color: var(--up); } .dline b.down { color: var(--down); }
+
+/* durability bar: three zones, a marker, the numbers in a tooltip */
+.dur { position: relative; }
+.dhead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+.dhead .dk { margin-bottom: 0; }
+.dword { font: 500 13px var(--font-mono); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.dword.up { color: var(--warn); } .dword.steady { color: var(--up); } .dword.down { color: var(--down); }
+.dbar {
+  position: relative; display: flex; width: 100%; height: 10px; padding: 0; margin: 4px 0;
+  border: 0; border-radius: 2px; background: none; cursor: help;
+}
+.dbar .z { height: 100%; opacity: 0.28; }
+.dbar .z:first-child { border-radius: 2px 0 0 2px; } .dbar .z:last-child { border-radius: 0 2px 2px 0; }
+.dbar .z.down { background: var(--down); } .dbar .z.steady { background: var(--up); } .dbar .z.up { background: var(--warn); }
+.dbar.down .z.down, .dbar.steady .z.steady, .dbar.up .z.up { opacity: 0.75; }   /* the pool's own zone */
+.dbar.none .z { background: var(--track); opacity: 1; }
+.dbar .mk {
+  position: absolute; top: -4px; width: 4px; height: 18px; margin-left: -2px;
+  background: var(--fg); border-radius: 2px; box-shadow: 0 0 0 2px var(--panel);
+}
+.dbar .mk.off-hi::after, .dbar .mk.off-lo::after {
+  position: absolute; top: 50%; transform: translateY(-50%); color: var(--fg); font-size: 11px; line-height: 1;
+}
+.dbar .mk.off-hi { margin-left: -4px; } .dbar .mk.off-hi::after { content: "▸"; left: 6px; }
+.dbar .mk.off-lo { margin-left: 0; } .dbar .mk.off-lo::after { content: "◂"; right: 6px; }
+.dbar:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.dtip {
+  display: none; position: absolute; left: 0; bottom: calc(100% + 6px); z-index: 10;
+  min-width: 100%; width: max-content; white-space: nowrap;
+  background: var(--panel); color: var(--muted); border: 1px solid var(--border); border-radius: var(--r-ctl);
+  padding: 8px 10px; font: 400 12px/1.6 var(--font-mono); font-variant-numeric: tabular-nums;
+}
+.dtip b { color: var(--fg); font-weight: 500; }
+.dur:hover .dtip, .dbar:focus-visible + .dtip, .dbar.open + .dtip { display: block; }
 .dactions { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
 .dnote { font-size: 13px; color: var(--muted); }
 
-@media (max-width: 760px) { .dgrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) {
+  .dgrid { grid-template-columns: repeat(2, 1fr); position: relative; }
+  .dur { position: static; }   /* half-width card: the tooltip spans the whole grid instead */
+  .dtip { right: 0; width: auto; white-space: normal; }
+}
 
 .logo { position: relative; width: 26px; height: 26px; border-radius: var(--r-ctl); overflow: hidden; background: var(--bg); }
 .logo .mono { position: absolute; inset: 0; display: grid; place-items: center; color: var(--accent); font: 600 11px var(--font-head); }

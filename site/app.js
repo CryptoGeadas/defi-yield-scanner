@@ -132,13 +132,39 @@ function rowHtml(r, max, tier) {
 const fmtVol = (n) => (n == null ? null : fmtTvl(n));
 const fmtChange = (n) => (n == null ? "—" : `${n >= 0 ? "+" : ""}${n.toFixed(2)}pp`);
 
-function detailHtml(r, tier) {
+// Durability bar: spot vs 30-day mean on a −50%…+50% scale, zoned at the
+// pipeline's own thresholds (config.divDown / divUp). Off-scale pools pin to the
+// edge with an arrow. The numbers live in a tooltip (hover, focus or tap).
+const DUR_RANGE = 0.5;
+const durPos = (x) => ((Math.max(-DUR_RANGE, Math.min(DUR_RANGE, x)) + DUR_RANGE) / (2 * DUR_RANGE)) * 100;
+
+function durabilityHtml(r) {
   const ratio = divRatio(r);
   const fm = flagMeta(r);
-  const durability =
-    ratio == null
-      ? "No 30-day history yet — too new to judge durability."
-      : `Spot <b>${fmtPct(spotOf(r))}</b> is <b>${fmtSigned(ratio)}</b> versus its 30-day mean of <b>${fmtPct(r.mean30d)}</b> → <b class="${fm.cls}">${fm.word}</b>.`;
+  const cfg = state.data?.config || {};
+  const lo = durPos(cfg.divDown ?? -0.2), hi = durPos(cfg.divUp ?? 0.2);
+  const zones = `<span class="z down" style="width:${lo}%"></span><span class="z steady" style="width:${hi - lo}%"></span><span class="z up" style="width:${100 - hi}%"></span>`;
+  if (ratio == null)
+    return `<div class="dcard dur">
+        <div class="dhead"><span class="dk">Durability</span><span class="dword">Too new to judge</span></div>
+        <div class="dbar none" role="img" aria-label="No 30-day history yet">${zones}</div>
+      </div>`;
+  const word = fm.word.charAt(0).toUpperCase() + fm.word.slice(1);
+  const off = ratio > DUR_RANGE ? "off-hi" : ratio < -DUR_RANGE ? "off-lo" : "";
+  const tipId = `dtip-${esc(r.poolId)}`;
+  return `<div class="dcard dur">
+      <div class="dhead"><span class="dk">Durability</span><span class="dword ${fm.cls}">${word} ${fmtSigned(ratio)}</span></div>
+      <button class="dbar ${fm.cls}" type="button" aria-describedby="${tipId}" aria-label="Durability: ${word} ${fmtSigned(ratio)}">
+        ${zones}<span class="mk ${off}" style="left:${durPos(ratio)}%"></span>
+      </button>
+      <div class="dtip" role="tooltip" id="${tipId}">
+        Spot <b>${fmtPct(spotOf(r))}</b> · 30-day mean <b>${fmtPct(r.mean30d)}</b><br>
+        Change 7d ${fmtChange(r.apyPct7D)} · 30d ${fmtChange(r.apyPct30D)}
+      </div>
+    </div>`;
+}
+
+function detailHtml(r, tier) {
   const label = r.name || r.project;
   // the stablecoins the pool actually holds — its identity from build-side intake
   // (r.symbol is only the row label, e.g. a vault name, so never split it)
@@ -171,11 +197,7 @@ function detailHtml(r, tier) {
         <div class="dbig">${fmtPct(r.total)}</div>
         <div class="dsub">${r.bucket === "LP" ? `${fmtPct(r.base)} conservative fee APY (lower of current & 30-day avg)` : `${fmtPct(r.base)} organic base${rewardLine}`}</div>
       </div>
-      <div class="dcard">
-        <div class="dk">Durability</div>
-        <div class="dline">${durability}</div>
-        <div class="dsub">Change: 7d ${fmtChange(r.apyPct7D)} · 30d ${fmtChange(r.apyPct30D)}</div>
-      </div>
+      ${durabilityHtml(r)}
       <div class="dcard">
         <div class="dk">Risk</div>
         <div class="dline">Exposure: <b>${esc(r.exposure ?? "—")}</b></div>
@@ -247,6 +269,8 @@ function toggleRow(id) {
 // one delegated listener on the container survives re-renders
 function onWindowsClick(e) {
   if (e.target.closest("a")) return; // let outbound / footer links work
+  const dbar = e.target.closest(".dbar");
+  if (dbar) return dbar.classList.toggle("open"); // tap shows the durability numbers (touch has no hover)
   const more = e.target.closest(".loadmore");
   if (more) {
     const t = +more.dataset.tier;
