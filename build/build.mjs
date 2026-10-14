@@ -121,6 +121,10 @@ async function main() {
     `  intake: denied ${report.denied} · morpho vaults ${report.morphoVaults} · yearn named ${report.yearnNamed}` +
       ` · kamino −${report.kaminoDropped} isolated markets +${report.kaminoAdded} lending vaults`
   );
+  for (const g of report.morphoGuarded)
+    console.warn(
+      `  link guard: ${g.label} (${g.chain}) vault ${g.address} TVL $${Math.round(g.vaultTvl)} vs DefiLlama $${Math.round(g.llamaTvl)} → DefiLlama link`
+    );
 
   const r = runPipeline(pools, {}, maps);
 

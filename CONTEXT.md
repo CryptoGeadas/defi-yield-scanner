@@ -25,6 +25,10 @@ _Avoid_: display name, symbol
 **Exact URL**:
 A venue-verified deposit link straight to the pool. When a pool has none, the deposit link falls back to the protocol's site, then DefiLlama.
 
+**Link guard**:
+The check on an **Exact URL** that came from a name match (today: Morpho). If the matched vault's TVL is more than 2× away from DefiLlama's, the pool gets no exact URL and links to its DefiLlama page instead, never the protocol's site.
+_Avoid_: validation, sanity check
+
 ### The opinion
 
 **Tier**:
@@ -47,7 +51,7 @@ _Avoid_: preprocessing, enrichment
 What a venue's own API knows that DefiLlama doesn't (Morpho vault registry, Yearn vault names, Kamino on-chain vaults). Fetched in `build/venues.mjs`; always allowed to be empty.
 
 **Venue correction**:
-One venue's rule inside **Pool intake** for fixing what DefiLlama gets wrong about it. Today: Morpho (share token → underlying **Leg** + vault), Yearn (vault **Label**), Kamino (replace isolated borrow markets with Lending Vaults).
+One venue's rule inside **Pool intake** for fixing what DefiLlama gets wrong about it. Today: Morpho (share token → underlying **Leg** + V1 or V2 vault, under the **Link guard**), Yearn (vault **Label**), Kamino (replace isolated borrow markets with Lending Vaults).
 _Avoid_: preprocessor, hack, patch
 
 ## Flagged ambiguities

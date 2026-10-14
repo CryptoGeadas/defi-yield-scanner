@@ -115,6 +115,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       // passthroughs for links + detail panel (consumed downstream, not by ranking)
       label: pool.label ?? pool.symbol,  // row label (identity, from intake)
       exactUrl: pool.exactUrl ?? null,   // venue-verified deposit link (identity, from intake)
+      linkGuarded: pool.linkGuarded ?? false, // venue match failed its check → DefiLlama link
       pool: pool.pool,
       underlyingTokens: pool.underlyingTokens ?? null,
       poolMeta: pool.poolMeta ?? null,

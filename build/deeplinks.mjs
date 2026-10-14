@@ -105,6 +105,12 @@ export function buildLink(row, ctx = {}) {
   // pre-resolved exact URL (set during build pre-processing, e.g. Morpho vaults)
   if (row.exactUrl) return { url: row.exactUrl, kind: "exact" };
 
+  // a venue match that failed its check: send people to the data source, not a guess
+  if (row.linkGuarded) {
+    const dll = dllPool(row);
+    return { url: dll, kind: dll ? "defillama" : null };
+  }
+
   const b = BUILDERS[row.project];
   if (b) {
     const exact = b(row, ctx.sources);

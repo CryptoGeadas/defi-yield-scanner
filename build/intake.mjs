@@ -6,7 +6,7 @@
 //
 // feed     DefiLlama `/pools` data array (not mutated).
 // venues   what build.mjs fetched from each venue's own API (see venues.mjs):
-//            morpho  Map `${chainId}|${SHARE_SYMBOL}|${assetAddr}` → { address, assetSymbol, name, network, tvl }
+//            morpho  Map `${chainId}|${SHARE_SYMBOL}|${assetAddr}` → [{ address, assetSymbol, name, network, tvl }]
 //            yearn   Map `${chainId}|${vaultAddr}` → vault name
 //            kamino  [{ address, name, symbol, mint, tvl, base, reward, mean30, apy7 }]
 //          Any of these may be missing/empty (a fetch failed) — intake degrades, never throws.
@@ -17,10 +17,11 @@
 //             Never the share-token symbol of a vault (STEAKUSDC → ["USDC"]).
 //   label     the row label a person would recognise on the venue's own app.
 //   exactUrl  a venue-verified deposit URL, or null (deeplinks.mjs then decides).
+//   linkGuarded  true when a venue match failed its check: link to DefiLlama, never the site.
 //
 // Venue corrections run in a fixed order, all inside this module:
 //   1. drop denylisted feed pools
-//   2. Morpho  — resolve MetaMorpho share tokens to their underlying asset + vault
+//   2. Morpho  — resolve MetaMorpho share tokens to their underlying asset + vault (TVL-guarded)
 //   3. Yearn   — name same-asset vaults (DefiLlama gives no vault name or address)
 //   4. Kamino  — replace DefiLlama's kamino-lend (isolated borrow markets) with the
 //                curated Lending Vaults read on-chain
@@ -63,17 +64,28 @@ function denyChecker(denylist = {}) {
 // ── Morpho ──────────────────────────────────────────────────────────────────
 // DefiLlama lists MetaMorpho vaults under morpho-blue with the vault's SHARE
 // symbol (STEAKUSDC). Match each to the Morpho registry by chain + share symbol +
-// underlying token; several DefiLlama pools can hit one vault, so keep the largest.
-// Returns Map(pool → identity) and the set of pools to drop (denylisted vaults).
+// underlying token. A V1 vault and its V2 successor can share that key, so pick the
+// vault whose TVL is closest to DefiLlama's; several DefiLlama pools can hit one
+// vault, so keep the largest.
+// LINK GUARD: a symbol match proves the asset, not the vault. If the chosen vault's
+// TVL is more than MORPHO_TVL_TOLERANCE× away from DefiLlama's, the pool keeps its
+// legs and label but gets no exact URL — it links to DefiLlama instead (linkGuarded).
+// Returns Map(pool → identity), the set of pools to drop (denylisted vaults) and
+// the guarded pools (for the build log).
+export const MORPHO_TVL_TOLERANCE = 2;
+const tvlGap = (a, b) => (a > 0 && b > 0 ? Math.abs(Math.log(a / b)) : Infinity);
+
 function morphoIdentities(pools, registry, deny) {
   const byVault = new Map(); // address → { pool, hit }
   const drop = new Set();
-  if (!registry?.size) return { ids: new Map(), drop };
+  const guarded = [];
+  if (!registry?.size) return { ids: new Map(), drop, guarded };
   for (const p of pools) {
     if (p.project !== "morpho-blue" || (p.underlyingTokens || []).length !== 1) continue;
     const cid = CHAIN_ID[p.chain];
     if (!cid) continue;
-    const hit = registry.get(`${cid}|${norm(p.symbol)}|${lower(p.underlyingTokens[0])}`);
+    const candidates = registry.get(`${cid}|${norm(p.symbol)}|${lower(p.underlyingTokens[0])}`) || [];
+    const hit = candidates.reduce((best, v) => (!best || tvlGap(v.tvl, p.tvlUsd) < tvlGap(best.tvl, p.tvlUsd) ? v : best), null);
     if (!hit) continue;
     if (deny.morphoVault(hit.address)) { drop.add(p); continue; }
     const prev = byVault.get(hit.address);
@@ -81,13 +93,16 @@ function morphoIdentities(pools, registry, deny) {
   }
   const ids = new Map();
   for (const { pool, hit } of byVault.values()) {
+    const ok = tvlGap(hit.tvl, pool.tvlUsd) <= Math.log(MORPHO_TVL_TOLERANCE);
+    if (!ok) guarded.push({ label: hit.name, chain: pool.chain, llamaTvl: pool.tvlUsd, vaultTvl: hit.tvl, address: hit.address });
     ids.set(pool, {
       legs: parseLegs(hit.assetSymbol),
       label: hit.name, // "Steakhouse USDC"
-      exactUrl: `https://app.morpho.org/${hit.network}/vault/${hit.address}`,
+      exactUrl: ok ? `https://app.morpho.org/${hit.network}/vault/${hit.address}` : null,
+      linkGuarded: !ok,
     });
   }
-  return { ids, drop };
+  return { ids, drop, guarded };
 }
 
 // ── Yearn ───────────────────────────────────────────────────────────────────
@@ -142,7 +157,7 @@ function kaminoPool(v) {
 
 export function intakePools(feed, venues = {}, curation = {}) {
   const deny = denyChecker(curation.denylist);
-  const report = { feed: feed.length, denied: 0, morphoVaults: 0, yearnNamed: 0, kaminoDropped: 0, kaminoAdded: 0 };
+  const report = { feed: feed.length, denied: 0, morphoVaults: 0, morphoGuarded: [], yearnNamed: 0, kaminoDropped: 0, kaminoAdded: 0 };
 
   // 1. denylist (feed)
   let pools = feed.filter((p) => !deny.pool(p));
@@ -155,6 +170,7 @@ export function intakePools(feed, venues = {}, curation = {}) {
     report.denied += morpho.drop.size;
   }
   report.morphoVaults = morpho.ids.size;
+  report.morphoGuarded = morpho.guarded;
   const yearn = yearnLabels(pools, venues.yearn, curation.poolUrls);
   report.yearnNamed = yearn.size;
 
@@ -173,6 +189,7 @@ export function intakePools(feed, venues = {}, curation = {}) {
       legs: id?.legs ?? parseLegs(p.symbol),
       label: id?.label ?? yearn.get(p) ?? defaultLabel(p),
       exactUrl: id?.exactUrl ?? null,
+      linkGuarded: id?.linkGuarded ?? false,
     };
   });
 

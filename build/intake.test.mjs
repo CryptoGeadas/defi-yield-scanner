@@ -4,6 +4,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { intakePools } from "./intake.mjs";
 import { runPipeline } from "./pipeline.mjs";
+import { buildLink } from "./deeplinks.mjs";
 
 const pool = (o) => ({
   project: "aave-v3", chain: "Ethereum", symbol: "USDC", poolMeta: null, pool: "p-" + Math.random(),
@@ -37,8 +38,8 @@ test("denylist hides pools by id or project|chain|SYMBOL, case-insensitively", (
 
 test("Morpho share tokens resolve to their underlying stable, vault name and URL", () => {
   const morpho = new Map([
-    ["1|STEAKUSDC|0xa0b8", { address: "0xV1", assetSymbol: "USDC", name: "Steakhouse USDC", network: "ethereum" }],
-    ["1|GTUSDC|0xa0b8", { address: "0xBAD", assetSymbol: "USDC", name: "Gauntlet USDC Frontier", network: "ethereum" }],
+    ["1|STEAKUSDC|0xa0b8", [{ address: "0xV1", assetSymbol: "USDC", name: "Steakhouse USDC", network: "ethereum", tvl: 9e6 }]],
+    ["1|GTUSDC|0xa0b8", [{ address: "0xBAD", assetSymbol: "USDC", name: "Gauntlet USDC Frontier", network: "ethereum", tvl: 5e6 }]],
   ]);
   const feed = [
     pool({ pool: "big", project: "morpho-blue", symbol: "STEAKUSDC", tvlUsd: 9e6 }),
@@ -55,6 +56,41 @@ test("Morpho share tokens resolve to their underlying stable, vault name and URL
   assert.deepEqual(byId(pools, "small").legs, ["STEAKUSDC"], "one pool per vault: the largest wins");
   assert.equal(byId(pools, "denied"), undefined, "denylisted vault is dropped");
   assert.equal(report.morphoVaults, 1);
+});
+
+test("Morpho: a V1 and V2 vault sharing a symbol resolve to the one whose TVL matches DefiLlama", () => {
+  const vault = (address, tvl) => ({ address, assetSymbol: "USDC", name: "Kabu USDC", network: "ethereum", tvl });
+  const morpho = new Map([["1|KABUUSDC|0xa0b8", [vault("0xOLDV1", 0.03), vault("0xNEWV2", 1.37e6)]]]);
+  const { pools } = intakePools([pool({ pool: "k", project: "morpho-blue", symbol: "KABUUSDC", tvlUsd: 1.368e6 })], { morpho });
+  assert.equal(byId(pools, "k").exactUrl, "https://app.morpho.org/ethereum/vault/0xNEWV2");
+  assert.equal(byId(pools, "k").linkGuarded, false);
+});
+
+test("Morpho link guard: a vault whose TVL is >2x away from DefiLlama's gets no exact URL", () => {
+  const vault = (address, tvl) => [{ address, assetSymbol: "USDC", name: "Some USDC", network: "base", tvl }];
+  const morpho = new Map([
+    ["8453|LOWUSDC|0xa0b8", vault("0xLOW", 9e3)],     // DefiLlama 462m, vault 9k
+    ["8453|HIGHUSDC|0xa0b8", vault("0xHIGH", 30e6)],  // DefiLlama 10m, vault 30m
+    ["8453|EDGEUSDC|0xa0b8", vault("0xEDGE", 2e6)],   // exactly 2x → still trusted
+    ["8453|NOTVL|0xa0b8", vault("0xNOTVL", 0)],       // unknown TVL → fail closed
+  ]);
+  const feed = [
+    pool({ pool: "low", chain: "Base", project: "morpho-blue", symbol: "LOWUSDC", tvlUsd: 462e6 }),
+    pool({ pool: "high", chain: "Base", project: "morpho-blue", symbol: "HIGHUSDC", tvlUsd: 10e6 }),
+    pool({ pool: "edge", chain: "Base", project: "morpho-blue", symbol: "EDGEUSDC", tvlUsd: 1e6 }),
+    pool({ pool: "notvl", chain: "Base", project: "morpho-blue", symbol: "NOTVL", tvlUsd: 1e6 }),
+  ];
+  const { pools, report } = intakePools(feed, { morpho });
+  for (const id of ["low", "high", "notvl"]) {
+    assert.equal(byId(pools, id).exactUrl, null, id);
+    assert.equal(byId(pools, id).linkGuarded, true, id);
+    assert.deepEqual(byId(pools, id).legs, ["USDC"], "a guarded pool is still tiered on its asset");
+  }
+  assert.equal(byId(pools, "edge").exactUrl, "https://app.morpho.org/base/vault/0xEDGE");
+  assert.deepEqual(report.morphoGuarded.map((g) => g.address).sort(), ["0xHIGH", "0xLOW", "0xNOTVL"]);
+
+  const link = buildLink({ ...byId(pools, "low"), access: "permissionless" }, { siteUrl: "https://app.morpho.org" });
+  assert.deepEqual(link, { url: "https://defillama.com/yields/pool/low", kind: "defillama" }, "guarded → DefiLlama, not the site");
 });
 
 test("Yearn vaults are named from the registry via their curated deposit URL", () => {
@@ -98,7 +134,7 @@ test("the pipeline tiers on identity legs, not on the symbol", () => {
     protocolMap: { "morpho-blue": { bucket: "vault", access: "permissionless" } },
     stableMap: { USDC: { tier: 1, type: "fiat" } },
   };
-  const morpho = new Map([["1|STEAKUSDC|0xa0b8", { address: "0xV1", assetSymbol: "USDC", name: "Steakhouse USDC", network: "ethereum" }]]);
+  const morpho = new Map([["1|STEAKUSDC|0xa0b8", [{ address: "0xV1", assetSymbol: "USDC", name: "Steakhouse USDC", network: "ethereum", tvl: 5e6 }]]]);
   const { pools } = intakePools([pool({ pool: "v", project: "morpho-blue", symbol: "STEAKUSDC" })], { morpho });
   const r = runPipeline(pools, {}, maps);
   assert.equal(r.windows[1].length, 1);
