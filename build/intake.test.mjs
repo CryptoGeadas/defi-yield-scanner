@@ -122,6 +122,32 @@ test("Kamino isolated markets are replaced by the on-chain lending vaults", () =
   assert.deepEqual([report.kaminoDropped, report.kaminoAdded], [1, 2]);
 });
 
+test("lending pools show total deposits as TVL, other pools keep DefiLlama's TVL", () => {
+  const feed = [
+    pool({ pool: "aave", tvlUsd: 376e6 }),                                   // net of loans in the feed
+    pool({ pool: "uni", project: "uniswap-v3", symbol: "USDC-USDT", tvlUsd: 9e6 }), // not a lending pool
+    pool({ pool: "odd", tvlUsd: 50e6 }),                                     // supply below net → bad data
+  ];
+  const lendBorrow = new Map([["aave", 2829e6], ["odd", 10e6]]);
+  const before = JSON.stringify(feed);
+  const { pools, report } = intakePools(feed, { lendBorrow });
+  assert.equal(byId(pools, "aave").tvlUsd, 2829e6);
+  assert.equal(byId(pools, "uni").tvlUsd, 9e6);
+  assert.equal(byId(pools, "odd").tvlUsd, 50e6, "a total below the net figure is ignored");
+  assert.equal(report.lendingTotals, 1);
+  assert.equal(JSON.stringify(feed), before, "the feed is never mutated");
+});
+
+test("the TVL floor judges lending pools on total deposits", () => {
+  const maps = { protocolMap: { "aave-v3": { bucket: "lend", access: "permissionless" } }, stableMap: { USDC: { tier: 1, type: "fiat" } } };
+  const feed = [pool({ pool: "busy", tvlUsd: 0.4e6 })]; // most of it is lent out
+  const { pools } = intakePools(feed, { lendBorrow: new Map([["busy", 3e6]]) });
+  const kept = runPipeline(pools, {}, maps).windows[1];
+  assert.equal(kept.length, 1);
+  assert.equal(kept[0].tvlUsd, 3e6, "the row the site shows and sorts by carries the total");
+  assert.equal(runPipeline(intakePools(feed).pools, {}, maps).rejects["below-tvl-floor"].count, 1);
+});
+
 test("missing venue data degrades to default identities, never throws", () => {
   const feed = [pool({ pool: "m", project: "morpho-blue", symbol: "STEAKUSDC" }), pool({ pool: "y", project: "yearn-finance" })];
   const { pools } = intakePools(feed, { morpho: new Map(), yearn: undefined, kamino: undefined });

@@ -9,6 +9,7 @@
 //            morpho  Map `${chainId}|${SHARE_SYMBOL}|${assetAddr}` → [{ address, assetSymbol, name, network, tvl }]
 //            yearn   Map `${chainId}|${vaultAddr}` → vault name
 //            kamino  [{ address, name, symbol, mint, tvl, base, reward, mean30, apy7 }]
+//            lendBorrow  Map DefiLlama pool id → totalSupplyUsd (lending pools only)
 //          Any of these may be missing/empty (a fetch failed) — intake degrades, never throws.
 // curation the hand-kept opinion files: { denylist, poolUrls }.
 //
@@ -20,7 +21,8 @@
 //   linkGuarded  true when a venue match failed its check: link to DefiLlama, never the site.
 //
 // Venue corrections run in a fixed order, all inside this module:
-//   1. drop denylisted feed pools
+//   1. drop denylisted feed pools; lending pools take total deposits as TVL
+//      (DefiLlama's feed counts them net of loans; vaults already count deposits)
 //   2. Morpho  — resolve MetaMorpho share tokens to their underlying asset + vault (TVL-guarded)
 //   3. Yearn   — name same-asset vaults (DefiLlama gives no vault name or address)
 //   4. Kamino  — replace DefiLlama's kamino-lend (isolated borrow markets) with the
@@ -157,11 +159,17 @@ function kaminoPool(v) {
 
 export function intakePools(feed, venues = {}, curation = {}) {
   const deny = denyChecker(curation.denylist);
-  const report = { feed: feed.length, denied: 0, morphoVaults: 0, morphoGuarded: [], yearnNamed: 0, kaminoDropped: 0, kaminoAdded: 0 };
+  const report = { feed: feed.length, denied: 0, lendingTotals: 0, morphoVaults: 0, morphoGuarded: [], yearnNamed: 0, kaminoDropped: 0, kaminoAdded: 0 };
 
-  // 1. denylist (feed)
+  // 1. denylist (feed), then lending TVL = total deposits
   let pools = feed.filter((p) => !deny.pool(p));
   report.denied = feed.length - pools.length;
+  pools = pools.map((p) => {
+    const total = venues.lendBorrow?.get(p.pool);
+    if (!(total >= p.tvlUsd)) return p; // not lending, unknown, or below net (bad data) → keep
+    if (total > p.tvlUsd && p.project !== "kamino-lend") report.lendingTotals++; // rows whose TVL changed (kamino-lend is dropped in step 4)
+    return { ...p, tvlUsd: total };
+  });
 
   // 2–3. venue identities for feed pools
   const morpho = morphoIdentities(pools, venues.morpho, deny);

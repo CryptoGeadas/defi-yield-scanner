@@ -116,9 +116,17 @@ async function main() {
     stableSet: new Set(Object.keys(maps.stableMap)),
     tvlFloor: DEFAULT_CONFIG.tvlFloor,
   });
+  // Lending TVL = total deposits needs the lendBorrow feed. Without it every lending row
+  // would quietly fall back to net-of-loans TVL (and drop under the floor), so keep the
+  // last good snapshot instead, like the sanity floor below.
+  // A short map (degraded upstream, renamed field) is as bad as an empty one. ~2,370 today.
+  const MIN_LENDBORROW = 1000;
+  const lb = venues.lendBorrow?.size ?? 0;
+  if (lb < MIN_LENDBORROW)
+    throw new Error(`lendBorrow feed has ${lb} pools (< ${MIN_LENDBORROW}) — lending TVL would be net of loans; refusing to overwrite`);
   const { pools, report } = intakePools(feed, venues, { denylist, poolUrls });
   console.log(
-    `  intake: denied ${report.denied} · morpho vaults ${report.morphoVaults} · yearn named ${report.yearnNamed}` +
+    `  intake: denied ${report.denied} · lending TVL→deposits ${report.lendingTotals} · morpho vaults ${report.morphoVaults} · yearn named ${report.yearnNamed}` +
       ` · kamino −${report.kaminoDropped} isolated markets +${report.kaminoAdded} lending vaults`
   );
   for (const g of report.morphoGuarded)

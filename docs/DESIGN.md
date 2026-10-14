@@ -59,6 +59,8 @@ A pool whose `project` isn't in the map **does not render**. Solana projects
 
 1. Filter at build: `stablecoin === true` → project in allowlist → all legs in
    stable map → chain in allowlist → `tvlUsd > 1e6` → `outlier !== true`.
+   (`tvlUsd` for lending pools = DefiLlama `lendBorrow` `totalSupplyUsd`, set in intake —
+   the `/pools` feed counts them net of loans.)
 2. **Organic-yield sort key** with fallback:
    - `apyBase` present → use it.
    - `apyBase` null AND `apyReward` null → treat `apy` as base (organic).

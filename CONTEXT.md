@@ -44,7 +44,7 @@ Pools hidden even though they look active, named by DefiLlama pool id, `project|
 ### Getting from the feed to rankings
 
 **Pool intake**:
-The step that turns the raw feed plus **Venue data** into the pools the pipeline judges. It applies the **Denylist** and every **Venue correction**, and gives each pool its **Pool identity**. Pure; lives in `build/intake.mjs`.
+The step that turns the raw feed plus **Venue data** into the pools the pipeline judges. It applies the **Denylist** and every **Venue correction**, sets lending pools' TVL to total deposits (DefiLlama's `/pools` counts them net of loans), and gives each pool its **Pool identity**. Pure; lives in `build/intake.mjs`.
 _Avoid_: preprocessing, enrichment
 
 **Venue data**:
