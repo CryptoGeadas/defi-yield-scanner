@@ -61,6 +61,6 @@ _Avoid_: preprocessor, hack, patch
 ## Example dialogue
 
 > **Dev:** Beefy vaults show up as `mooUSDC`. Do I add `MOOUSDC` to the stable map?
-> **Bernardo:** No, it isn't a stable. It's a vault share. Write a Beefy **Venue correction** so its **Legs** become `["USDC"]` and its **Label** is the vault name.
+> **Owner:** No, it isn't a stable. It's a vault share. Write a Beefy **Venue correction** so its **Legs** become `["USDC"]` and its **Label** is the vault name.
 > **Dev:** And the tier?
-> **Bernardo:** It follows from the **Legs**. Nothing in the pipeline changes. The new correction gets its own test in `intake.test.mjs`.
+> **Owner:** It follows from the **Legs**. Nothing in the pipeline changes. The new correction gets its own test in `intake.test.mjs`.

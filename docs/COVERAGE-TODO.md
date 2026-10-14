@@ -1,6 +1,6 @@
 # TODO: Pool coverage must expand — "represent most of what's out there"
 
-**Priority: high. Owner decision (Bernardo, 2026-09): the site currently shows too
+**Priority: high. Owner decision (2026-09): the site currently shows too
 few pools to credibly represent the stablecoin-yield landscape. Fix this by whatever
 means necessary.**
 
