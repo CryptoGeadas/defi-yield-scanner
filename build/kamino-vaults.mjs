@@ -138,19 +138,26 @@ async function getJson(url) {
   return r.json();
 }
 
-// address → [{ reserve, ctokens }] for every vault, from Kamino's vault list.
+// address → { allocations: [{ reserve, ctokens }], createdAt (ms) } from Kamino's vault list.
 async function fetchAllocations() {
   try {
     const list = await getJson("https://api.kamino.finance/kvaults/vaults");
     const map = new Map();
     for (const v of list || []) {
       const al = v?.state?.vaultAllocationStrategy;
-      if (v?.address && Array.isArray(al))
-        map.set(v.address, al.map((a) => ({ reserve: a.reserve, ctokens: num(a.ctokenAllocation) })));
+      if (!v?.address) continue;
+      const created = Number(v?.state?.creationTimestamp) * 1000;
+      map.set(v.address, {
+        allocations: Array.isArray(al) ? al.map((a) => ({ reserve: a.reserve, ctokens: num(a.ctokenAllocation) })) : null,
+        createdAt: Number.isFinite(created) && created > 0 ? created : null,
+      });
     }
-    if (!map.size) console.warn("kamino: vault list has no allocations — exit-liquidity check off for all vaults");
+    const withAlloc = [...map.values()].filter((v) => v.allocations).length;
+    const withDate = [...map.values()].filter((v) => v.createdAt).length;
+    if (!withAlloc) console.warn("kamino: vault list has no allocations — exit-liquidity check off for all vaults");
+    if (!withDate) console.warn("kamino: vault list has no creationTimestamp — Age unknown for all Kamino vaults");
     return map;
-  } catch (e) { console.warn("kamino: vault allocations failed —", e.message); return null; }
+  } catch (e) { console.warn("kamino: vault list failed — exit-liquidity check off and Age unknown for all Kamino vaults —", e.message); return null; }
 }
 
 // Reserve metrics rows → Map reserve → free liquidity (supplied − borrowed, USD). A row
@@ -202,7 +209,7 @@ async function mapLimit(items, limit, fn) {
 // vault that merely contains one of these as a substring.
 const EXCLUDE = /\b(?:institutional|private[ -]credit|test|staging|dev|e2e|example|demo)\b/i;
 
-// Returns vault records { address, name, symbol, mint, tvl, base, reward, mean30, apy7, available }
+// Returns vault records { address, name, symbol, mint, tvl, base, reward, mean30, apy7, available, createdAt }
 // for stable Kamino lending vaults above the TVL floor (APYs in %). intake.mjs shapes
 // them into pools. `stableSet` = uppercased symbols we trust (from trusted-stables).
 export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
@@ -230,8 +237,9 @@ export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
     const v = cand[k], m = metrics[k];
     if (!m || !(m.tvl >= tvlFloor)) continue;   // also drops NaN tvl
     const { idleUsd, investedUsd, ...rest } = m;
-    const available = withdrawableUsd({ idleUsd, investedUsd, allocations: allocations?.get(v.address), reserveFree });
-    vaults.push({ address: v.address, name: v.name, symbol: v.symbol, mint: v.mint, ...rest, available });
+    const info = allocations?.get(v.address);
+    const available = withdrawableUsd({ idleUsd, investedUsd, allocations: info?.allocations, reserveFree });
+    vaults.push({ address: v.address, name: v.name, symbol: v.symbol, mint: v.mint, ...rest, available, createdAt: info?.createdAt ?? null });
   }
   const unknownVaults = vaults.filter((v) => v.available == null);
   const unknown = unknownVaults.length;

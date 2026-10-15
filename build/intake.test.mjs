@@ -235,3 +235,26 @@ test("reserve rows with missing or inconsistent figures are unknown, never 0 fre
   assert.deepEqual([...free], [["OK", 6]]);
   assert.equal(bad, 3);
 });
+
+// ── pool age (#14) ──────────────────────────────────────────────────────────
+test("intake gives every pool its age: since override, Kamino creation date, DefiLlama count, or unknown", () => {
+  const now = Date.parse("2026-10-15T00:00:00Z");
+  const feed = [pool({ pool: "tracked", count: 400 }), pool({ pool: "late", count: 20 }), pool({ pool: "new" })];
+  const kamino = [
+    { address: "KV", name: "Steakhouse USDC", symbol: "USDC", mint: "EPj", tvl: 3e6, base: 5, reward: 0, mean30: 5, createdAt: now - 560 * 86_400_000 },
+    { address: "KV0", name: "No Date USDC", symbol: "USDC", mint: "EPj", tvl: 3e6, base: 5, reward: 0, mean30: 5, createdAt: null },
+  ];
+  const since = { pools: { late: "2024-10-15" } };
+  const { pools } = intakePools(feed, { kamino }, { since, now });
+  const age = (id) => [byId(pools, id).ageDays, byId(pools, id).ageSource];
+  assert.deepEqual(age("tracked"), [400, "defillama"]);
+  assert.deepEqual(age("late"), [730, "since"]);
+  assert.deepEqual(age("new"), [null, null]);
+  assert.deepEqual(age("KV"), [560, "venue"]);
+  assert.deepEqual(age("KV0"), [null, null], "a vault with no creation date is unknown, not ancient");
+});
+
+test("since.json keys that match no pool are reported", () => {
+  const { report } = intakePools([pool({ pool: "a" })], {}, { since: { pools: { a: "2024-01-01", typo: "2024-01-01" }, protocols: { midas: "2024-01-01" } }, now: Date.parse("2026-10-15") });
+  assert.deepEqual(report.sinceUnused, ["pools.typo", "protocols.midas"]);
+});

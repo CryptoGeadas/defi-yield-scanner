@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { runPipeline, DEFAULT_CONFIG } from "./pipeline.mjs";
 import { intakePools } from "./intake.mjs";
+import { checkSince } from "./age.mjs";
 import { fetchVenues } from "./venues.mjs";
 import { buildLink } from "./deeplinks.mjs";
 import { vendorLogos } from "./logos.mjs";
@@ -42,6 +43,16 @@ async function loadPoolUrls() {
 
 // Manual denylist for deprecated-but-functional pools the data can't detect.
 // intake.mjs interprets it (pool ids, project|chain|SYMBOL keys, Morpho vaults).
+// Since overrides: known start dates (facts, no expiry) for pools DefiLlama tracked late.
+// Every date is checked here, so a bad entry fails the build at once.
+async function loadSince() {
+  let text;
+  try { text = await readFile(join(HERE, "since.json"), "utf8"); }
+  catch (e) { if (e.code === "ENOENT") return {}; throw new Error(`since.json unreadable: ${e.message}`, { cause: e }); }
+  const j = JSON.parse(text);
+  return checkSince({ pools: j?.pools ?? {}, protocols: j?.protocols ?? {} });
+}
+
 async function loadDenylist() {
   try {
     return JSON.parse(await readFile(join(HERE, "denylist.json"), "utf8"));
@@ -109,7 +120,7 @@ const round = (n) => Math.round(n * 100) / 100;
 
 async function main() {
   const maps = await loadMaps();
-  const [names, siteUrls, denylist, poolUrls] = await Promise.all([loadNames(), loadSiteUrls(), loadDenylist(), loadPoolUrls()]);
+  const [names, siteUrls, denylist, poolUrls, since] = await Promise.all([loadNames(), loadSiteUrls(), loadDenylist(), loadPoolUrls(), loadSince()]);
   console.log("fetching", FEED, "…");
   const res = await fetch(FEED);
   if (!res.ok) throw new Error(`feed ${res.status}`);
@@ -128,11 +139,12 @@ async function main() {
   const lb = venues.lendBorrow?.size ?? 0;
   if (lb < MIN_LENDBORROW)
     throw new Error(`lendBorrow feed has ${lb} pools (< ${MIN_LENDBORROW}) — lending TVL would be net of loans; refusing to overwrite`);
-  const { pools, report } = intakePools(feed, venues, { denylist, poolUrls });
+  const { pools, report } = intakePools(feed, venues, { denylist, poolUrls, since, now: Date.now() });
   console.log(
     `  intake: denied ${report.denied} · lending TVL→deposits ${report.lendingTotals} · morpho vaults ${report.morphoVaults} · yearn named ${report.yearnNamed}` +
       ` · kamino −${report.kaminoDropped} isolated markets +${report.kaminoAdded} lending vaults`
   );
+  if (report.sinceUnused.length) console.warn(`  since.json entries that match no pool (typo or stale?): ${report.sinceUnused.join(", ")}`);
   for (const g of report.morphoGuarded)
     console.warn(
       `  link guard: ${g.label} (${g.chain}) vault ${g.address} TVL $${Math.round(g.vaultTvl)} vs DefiLlama $${Math.round(g.llamaTvl)} → DefiLlama link`
@@ -145,6 +157,14 @@ async function main() {
     console.warn(`  LEVEL_WINDOWS=${process.env.LEVEL_WINDOWS} not recognised (use 1 or 0) — switch stays off`);
   if (levelsOn) console.warn("  ⚠ LEVEL_WINDOWS=1: windows grouped by level — local check only, do NOT commit site/data/latest.json from this build");
   const r = runPipeline(pools, levelsOn ? { levelWindows: true } : {}, maps);
+
+  // Age data health over the rows we show: if an age source breaks (renamed field, API
+  // change), every pool silently drops to "unknown" (Level 2). Warn loudly above 20%.
+  const shown = [1, 2, 3].flatMap((w) => r.windows[w]);
+  const ageUnknown = shown.filter((x) => x.factors.find((f) => f.name === "age")?.unknown).length;
+  const ageMsg = `age unknown for ${ageUnknown}/${shown.length} shown pools`;
+  if (ageUnknown > shown.length * 0.2) console.warn(`  ⚠ ${ageMsg} — check DefiLlama count / Kamino creationTimestamp`);
+  else console.log(`  ${ageMsg}`);
 
   // Sanity floor: never overwrite good data with a thin/partial feed. A healthy build
   // keeps 250+ pools; if the feed came back truncated, fail so the last snapshot stays.

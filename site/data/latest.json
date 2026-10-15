@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15T15:11:17.354Z",
+  "generatedAt": "2026-10-15T15:17:05.819Z",
   "source": "https://yields.llama.fi/pools",
   "config": {
     "levelWindows": false,
@@ -7,6 +7,10 @@
       "size": {
         "level1": 50000000,
         "level2": 5000000
+      },
+      "age": {
+        "level1": 180,
+        "level2": 30
       }
     },
     "tvlFloor": 1000000,
@@ -35,9 +39,9 @@
       "3": 24
     },
     "perLevel": {
-      "1": 47,
-      "2": 86,
-      "3": 98
+      "1": 33,
+      "2": 94,
+      "3": 104
     }
   },
   "windows": {
@@ -64,6 +68,12 @@
           {
             "name": "size",
             "value": 155876446,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 740,
             "level": 1,
             "unknown": false
           }
@@ -113,6 +123,12 @@
             "value": 1462153,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 283,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 10.26,
@@ -158,6 +174,12 @@
           {
             "name": "size",
             "value": 26362450,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 112,
             "level": 2,
             "unknown": false
           }
@@ -207,6 +229,12 @@
             "value": 7924142,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 159,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 9.32,
@@ -253,6 +281,12 @@
             "name": "size",
             "value": 3319264,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 32,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -301,6 +335,12 @@
             "value": 2683745,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 35,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 8.8,
@@ -334,8 +374,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -347,6 +387,12 @@
             "name": "size",
             "value": 65729987,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 134,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -395,6 +441,12 @@
             "value": 4715701.609146453,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 473,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 7.34,
@@ -440,6 +492,12 @@
           {
             "name": "size",
             "value": 34321450,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 114,
             "level": 2,
             "unknown": false
           }
@@ -489,6 +547,12 @@
             "value": 2149454,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 7.17,
@@ -535,6 +599,12 @@
             "name": "size",
             "value": 7451908,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 380,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -583,6 +653,12 @@
             "value": 1270858,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.94,
@@ -629,6 +705,12 @@
             "name": "size",
             "value": 1615855,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -677,6 +759,12 @@
             "value": 1085323.1972478447,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 315,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.75,
@@ -722,6 +810,12 @@
           {
             "name": "size",
             "value": 8634390,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 112,
             "level": 2,
             "unknown": false
           }
@@ -771,6 +865,12 @@
             "value": 11586641,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 216,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.56,
@@ -817,6 +917,12 @@
             "name": "size",
             "value": 7307320,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 301,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -865,6 +971,12 @@
             "value": 2375498,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.22,
@@ -898,8 +1010,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -911,6 +1023,12 @@
             "name": "size",
             "value": 51536763,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 35,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -957,6 +1075,12 @@
           {
             "name": "size",
             "value": 29653616,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 134,
             "level": 2,
             "unknown": false
           }
@@ -1006,6 +1130,12 @@
             "value": 20768741,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 205,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.17,
@@ -1052,6 +1182,12 @@
             "name": "size",
             "value": 9812836,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -1100,6 +1236,12 @@
             "value": 10870586.864147259,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 547,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.12,
@@ -1145,6 +1287,12 @@
           {
             "name": "size",
             "value": 34064146,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 35,
             "level": 2,
             "unknown": false
           }
@@ -1194,6 +1342,12 @@
             "value": 47273355.56831842,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 464,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.08,
@@ -1241,6 +1395,12 @@
             "value": 7797203,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 234,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.05,
@@ -1286,6 +1446,12 @@
           {
             "name": "size",
             "value": 58391492.19927184,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 275,
             "level": 1,
             "unknown": false
           }
@@ -1335,6 +1501,12 @@
             "value": 1095860.118916705,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 517,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.99,
@@ -1381,6 +1553,12 @@
             "name": "size",
             "value": 1404410.3792936685,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 475,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -1429,6 +1607,12 @@
             "value": 13121170,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 266,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.9,
@@ -1475,6 +1659,12 @@
             "name": "size",
             "value": 4650200,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -1523,6 +1713,12 @@
             "value": 1206895,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 155,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.82,
@@ -1568,6 +1764,12 @@
           {
             "name": "size",
             "value": 489687709,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 213,
             "level": 1,
             "unknown": false
           }
@@ -1617,6 +1819,12 @@
             "value": 7416702,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.76,
@@ -1663,6 +1871,12 @@
             "name": "size",
             "value": 1228527,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1161,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -1712,6 +1926,12 @@
             "value": 382786958,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1463,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.74,
@@ -1758,6 +1978,12 @@
             "name": "size",
             "value": 1595734.9304936442,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 223,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -1806,6 +2032,12 @@
             "value": 3091752,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 55,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.71,
@@ -1852,6 +2084,12 @@
             "name": "size",
             "value": 14914960,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 316,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -1900,6 +2138,12 @@
             "value": 3691774,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 30,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.58,
@@ -1946,6 +2190,12 @@
             "name": "size",
             "value": 29323731,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -1994,6 +2244,12 @@
             "value": 46130947,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.57,
@@ -2039,6 +2295,12 @@
           {
             "name": "size",
             "value": 9239228,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 44,
             "level": 2,
             "unknown": false
           }
@@ -2088,6 +2350,12 @@
             "value": 738250369,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 444,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.54,
@@ -2134,6 +2402,12 @@
             "name": "size",
             "value": 1934337,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -2182,6 +2456,12 @@
             "value": 2061926.1878109889,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 72,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.51,
@@ -2215,8 +2495,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -2228,6 +2508,12 @@
             "name": "size",
             "value": 53086098,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 66,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -2275,6 +2561,12 @@
             "name": "size",
             "value": 1132819,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1456,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -2324,6 +2616,12 @@
             "value": 3394219,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 112,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.36,
@@ -2370,6 +2668,12 @@
             "name": "size",
             "value": 2526075,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 347,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -2418,6 +2722,12 @@
             "value": 12508807,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.2,
@@ -2463,6 +2773,12 @@
           {
             "name": "size",
             "value": 2775642492,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 444,
             "level": 1,
             "unknown": false
           }
@@ -2512,6 +2828,12 @@
             "value": 46261899,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 175,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.18,
@@ -2558,6 +2880,12 @@
             "name": "size",
             "value": 1789181,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 225,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -2606,6 +2934,12 @@
             "value": 1105125,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 83,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.91,
@@ -2640,8 +2974,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDG",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -2653,6 +2987,12 @@
             "name": "size",
             "value": 519054571,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 125,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -2701,6 +3041,12 @@
             "value": 1617701,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 409,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.87,
@@ -2734,8 +3080,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "PYUSD",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -2747,6 +3093,12 @@
             "name": "size",
             "value": 68436772,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 51,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -2793,6 +3145,12 @@
           {
             "name": "size",
             "value": 3623009,
+            "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 25,
             "level": 3,
             "unknown": false
           }
@@ -2843,6 +3201,12 @@
             "value": 19850040.654974073,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 561,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.81,
@@ -2890,6 +3254,12 @@
             "value": 3328541,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 615,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.79,
@@ -2935,6 +3305,12 @@
           {
             "name": "size",
             "value": 28056219,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 31,
             "level": 2,
             "unknown": false
           }
@@ -2984,6 +3360,12 @@
             "value": 2035242,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 169,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.76,
@@ -3029,6 +3411,12 @@
           {
             "name": "size",
             "value": 169364373,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
             "level": 1,
             "unknown": false
           }
@@ -3078,6 +3466,12 @@
             "value": 188958405,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.75,
@@ -3123,6 +3517,12 @@
           {
             "name": "size",
             "value": 413064594,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
             "level": 1,
             "unknown": false
           }
@@ -3172,6 +3572,12 @@
             "value": 12551395,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 129,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.63,
@@ -3218,6 +3624,12 @@
             "name": "size",
             "value": 16494123,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 213,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -3266,6 +3678,12 @@
             "value": 2556091.9140775604,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 545,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.59,
@@ -3312,6 +3730,12 @@
             "name": "size",
             "value": 1231497,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 46,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -3360,6 +3784,12 @@
             "value": 1385255.7056345958,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 94,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.54,
@@ -3406,6 +3836,12 @@
             "name": "size",
             "value": 1259193,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -3454,6 +3890,12 @@
             "value": 13095022,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.54,
@@ -3500,6 +3942,12 @@
             "name": "size",
             "value": 1246139,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 234,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -3548,6 +3996,12 @@
             "value": 10832816,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.47,
@@ -3595,6 +4049,12 @@
             "value": 4033740,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 79,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.44,
@@ -3640,6 +4100,12 @@
           {
             "name": "size",
             "value": 8092249,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 115,
             "level": 2,
             "unknown": false
           }
@@ -3689,6 +4155,12 @@
             "value": 39064533,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 114,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.34,
@@ -3735,6 +4207,12 @@
             "name": "size",
             "value": 10179308,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 190,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -3783,6 +4261,12 @@
             "value": 1301973,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.33,
@@ -3828,6 +4312,12 @@
           {
             "name": "size",
             "value": 106298910,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 315,
             "level": 1,
             "unknown": false
           }
@@ -3877,6 +4367,12 @@
             "value": 14558618,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 175,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.31,
@@ -3924,6 +4420,12 @@
             "value": 6179110,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.31,
@@ -3969,6 +4471,12 @@
           {
             "name": "size",
             "value": 128185364,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
             "level": 1,
             "unknown": false
           }
@@ -4018,6 +4526,12 @@
             "value": 1821789,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.29,
@@ -4063,6 +4577,12 @@
           {
             "name": "size",
             "value": 6136208,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 80,
             "level": 2,
             "unknown": false
           }
@@ -4112,6 +4632,12 @@
             "value": 4998644,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 3,
+            "level": 3,
+            "unknown": false
           }
         ],
         "base": 4.28,
@@ -4158,6 +4684,12 @@
             "name": "size",
             "value": 2092411,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -4206,6 +4738,12 @@
             "value": 1956365,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.26,
@@ -4253,6 +4791,12 @@
             "value": 2394850,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 667,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.26,
@@ -4298,6 +4842,12 @@
           {
             "name": "size",
             "value": 481073673,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
             "level": 1,
             "unknown": false
           }
@@ -4347,6 +4897,12 @@
             "value": 10440008,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.26,
@@ -4392,6 +4948,12 @@
           {
             "name": "size",
             "value": 27319230,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 31,
             "level": 2,
             "unknown": false
           }
@@ -4441,6 +5003,12 @@
             "value": 3567897,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.17,
@@ -4487,6 +5055,12 @@
             "name": "size",
             "value": 3540211,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -4535,6 +5109,12 @@
             "value": 9600520,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.14,
@@ -4581,6 +5161,12 @@
             "name": "size",
             "value": 2635800,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 199,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -4629,6 +5215,12 @@
             "value": 21874571,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.13,
@@ -4674,6 +5266,12 @@
           {
             "name": "size",
             "value": 66693050,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
             "level": 1,
             "unknown": false
           }
@@ -4723,6 +5321,12 @@
             "value": 110635743.28373846,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 401,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.1,
@@ -4770,6 +5374,12 @@
             "value": 2823485,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 213,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.07,
@@ -4816,6 +5426,12 @@
             "name": "size",
             "value": 1073590,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1543,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -4865,6 +5481,12 @@
             "value": 4525979,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 137,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.95,
@@ -4911,6 +5533,12 @@
             "name": "size",
             "value": 2482121,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 530,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -4960,6 +5588,12 @@
             "value": 3741508,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1522,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.9,
@@ -5007,6 +5641,12 @@
             "value": 8836941,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 248,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.89,
@@ -5052,6 +5692,12 @@
           {
             "name": "size",
             "value": 454557988,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 224,
             "level": 1,
             "unknown": false
           }
@@ -5101,6 +5747,12 @@
             "value": 186356408,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 949,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.84,
@@ -5148,6 +5800,12 @@
             "value": 1723407,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 347,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.83,
@@ -5193,6 +5851,12 @@
           {
             "name": "size",
             "value": 240189402,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 202,
             "level": 1,
             "unknown": false
           }
@@ -5242,6 +5906,12 @@
             "value": 2373251310,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1344,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.81,
@@ -5275,8 +5945,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -5288,6 +5958,12 @@
             "name": "size",
             "value": 53719036,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 152,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -5336,6 +6012,12 @@
             "value": 301005240,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 285,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.8,
@@ -5369,8 +6051,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 2,
-        "levelDriver": "size",
+        "level": 3,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -5382,6 +6064,12 @@
             "name": "size",
             "value": 5649477,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 24,
+            "level": 3,
             "unknown": false
           }
         ],
@@ -5431,6 +6119,12 @@
             "value": 11948626,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 202,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.79,
@@ -5476,6 +6170,12 @@
           {
             "name": "size",
             "value": 885430427,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 202,
             "level": 1,
             "unknown": false
           }
@@ -5525,6 +6225,12 @@
             "value": 6444593,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 134,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.77,
@@ -5572,6 +6278,12 @@
             "value": 722362120,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 285,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.75,
@@ -5605,8 +6317,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "PYUSD",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 3,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -5618,6 +6330,12 @@
             "name": "size",
             "value": 250937278,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 16,
+            "level": 3,
             "unknown": false
           }
         ],
@@ -5666,6 +6384,12 @@
             "value": 1579939,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 302,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.74,
@@ -5711,6 +6435,12 @@
           {
             "name": "size",
             "value": 22753830,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 129,
             "level": 2,
             "unknown": false
           }
@@ -5760,6 +6490,12 @@
             "value": 9310572,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 148,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.73,
@@ -5793,8 +6529,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "PYUSD",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -5806,6 +6542,12 @@
             "name": "size",
             "value": 214411088,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 156,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -5854,6 +6596,12 @@
             "value": 19467095,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 941,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.69,
@@ -5900,6 +6648,12 @@
             "name": "size",
             "value": 21250544,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1596,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -5948,6 +6702,12 @@
             "value": 1116724,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 38,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.64,
@@ -5995,6 +6755,12 @@
             "value": 15425220,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.63,
@@ -6028,8 +6794,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "PYUSD",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -6041,6 +6807,12 @@
             "name": "size",
             "value": 95895447.16242905,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 139,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -6087,6 +6859,12 @@
           {
             "name": "size",
             "value": 602863281,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 195,
             "level": 1,
             "unknown": false
           }
@@ -6136,6 +6914,12 @@
             "value": 1959080,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 195,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.57,
@@ -6181,6 +6965,12 @@
           {
             "name": "size",
             "value": 120676308,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
             "level": 1,
             "unknown": false
           }
@@ -6230,6 +7020,12 @@
             "value": 195813195,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 202,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.48,
@@ -6277,6 +7073,12 @@
             "value": 8588652,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 202,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.48,
@@ -6322,6 +7124,12 @@
           {
             "name": "size",
             "value": 42302749,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 31,
             "level": 2,
             "unknown": false
           }
@@ -6371,6 +7179,12 @@
             "value": 129214834,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1344,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.4,
@@ -6417,6 +7231,12 @@
             "name": "size",
             "value": 5688377,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 806,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -6465,6 +7285,12 @@
             "value": 2804048865,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1334,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.31,
@@ -6498,8 +7324,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDT",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -6511,6 +7337,12 @@
             "name": "size",
             "value": 62646527,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 152,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -6559,6 +7391,12 @@
             "value": 5522379,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 706,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.21,
@@ -6592,8 +7430,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -6605,6 +7443,12 @@
             "name": "size",
             "value": 456178224,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 136,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -6653,6 +7497,12 @@
             "value": 20246507,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.18,
@@ -6699,6 +7549,12 @@
             "name": "size",
             "value": 27504124,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1027,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -6747,6 +7603,12 @@
             "value": 14610867,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1105,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.15,
@@ -6793,6 +7655,12 @@
             "name": "size",
             "value": 1127721,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 267,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -6841,6 +7709,12 @@
             "value": 4218040,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 199,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.12,
@@ -6874,8 +7748,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 2,
-        "levelDriver": "size",
+        "level": 3,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -6887,6 +7761,12 @@
             "name": "size",
             "value": 7153811,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 25,
+            "level": 3,
             "unknown": false
           }
         ],
@@ -6933,6 +7813,12 @@
           {
             "name": "size",
             "value": 6174647.368810658,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 65,
             "level": 2,
             "unknown": false
           }
@@ -6982,6 +7868,12 @@
             "value": 1552483,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 630,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.03,
@@ -7030,6 +7922,12 @@
             "value": 6763547,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 944,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3,
@@ -7076,6 +7974,12 @@
             "name": "size",
             "value": 1400031,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1633,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -7125,6 +8029,12 @@
             "value": 9988775,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 199,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.72,
@@ -7170,6 +8080,12 @@
           {
             "name": "size",
             "value": 398742358,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 296,
             "level": 1,
             "unknown": false
           }
@@ -7219,6 +8135,12 @@
             "value": 2008812,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 47,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 2.53,
@@ -7264,6 +8186,12 @@
           {
             "name": "size",
             "value": 59526237,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 226,
             "level": 1,
             "unknown": false
           }
@@ -7313,6 +8241,12 @@
             "value": 10649810,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 190,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.51,
@@ -7360,6 +8294,12 @@
             "value": 1739878,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 44,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 2.5,
@@ -7405,6 +8345,12 @@
           {
             "name": "size",
             "value": 6543147,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 80,
             "level": 2,
             "unknown": false
           }
@@ -7454,6 +8400,12 @@
             "value": 66185011,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 306,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.5,
@@ -7500,6 +8452,12 @@
             "name": "size",
             "value": 1766735,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 306,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -7548,6 +8506,12 @@
             "value": 5171659,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1596,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.4,
@@ -7593,6 +8557,12 @@
           {
             "name": "size",
             "value": 77890283,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
             "level": 1,
             "unknown": false
           }
@@ -7642,6 +8612,12 @@
             "value": 3004288,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.37,
@@ -7688,6 +8664,12 @@
             "name": "size",
             "value": 2656886,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -7736,6 +8718,12 @@
             "value": 8657533,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.37,
@@ -7782,6 +8770,12 @@
             "name": "size",
             "value": 14729694,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 829,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -7830,6 +8824,12 @@
             "value": 214986610,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1203,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.29,
@@ -7863,8 +8863,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDT",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -7876,6 +8876,12 @@
             "name": "size",
             "value": 78761974,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 128,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -7910,8 +8916,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDG",
-        "level": 2,
-        "levelDriver": "size",
+        "level": 3,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -7923,6 +8929,12 @@
             "name": "size",
             "value": 22960228,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 10,
+            "level": 3,
             "unknown": false
           }
         ],
@@ -7957,8 +8969,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDG",
-        "level": 2,
-        "levelDriver": "size",
+        "level": 3,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -7970,6 +8982,12 @@
             "name": "size",
             "value": 7631907,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 9,
+            "level": 3,
             "unknown": false
           }
         ],
@@ -8018,6 +9036,12 @@
             "value": 5512308,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.12,
@@ -8051,8 +9075,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -8064,6 +9088,12 @@
             "name": "size",
             "value": 74855231,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 134,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -8110,6 +9140,12 @@
           {
             "name": "size",
             "value": 5004063,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 144,
             "level": 2,
             "unknown": false
           }
@@ -8160,6 +9196,12 @@
             "value": 159729890,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 259,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 1.76,
@@ -8193,8 +9235,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "RLUSD",
-        "level": 2,
-        "levelDriver": "size",
+        "level": 3,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -8206,6 +9248,12 @@
             "name": "size",
             "value": 30002011,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 23,
+            "level": 3,
             "unknown": false
           }
         ],
@@ -8253,6 +9301,12 @@
             "name": "size",
             "value": 2470854,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 601,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -8302,6 +9356,12 @@
             "value": 99974386,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 430,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.89,
@@ -8347,6 +9407,12 @@
           {
             "name": "size",
             "value": 12293693,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 72,
             "level": 2,
             "unknown": false
           }
@@ -8396,6 +9462,12 @@
             "value": 33825708,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1633,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.68,
@@ -8443,6 +9515,12 @@
             "name": "size",
             "value": 18078022,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 582,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -8492,6 +9570,12 @@
             "value": 16765487,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 832,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.19,
@@ -8526,8 +9610,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "RLUSD",
-        "level": 1,
-        "levelDriver": "coin",
+        "level": 2,
+        "levelDriver": "age",
         "factors": [
           {
             "name": "coin",
@@ -8539,6 +9623,12 @@
             "name": "size",
             "value": 249998502,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 30,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -8589,6 +9679,12 @@
             "value": 9749345,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 736,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.89,
@@ -8636,6 +9732,12 @@
             "value": 1210521,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 911,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.78,
@@ -8682,6 +9784,12 @@
             "name": "size",
             "value": 1174585,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 687,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -8731,6 +9839,12 @@
             "value": 1017383,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 15,
+            "level": 3,
+            "unknown": false
           }
         ],
         "base": 5.65,
@@ -8777,6 +9891,12 @@
             "name": "size",
             "value": 179851324,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 95,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -8825,6 +9945,12 @@
             "value": 227006226,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 152,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.5,
@@ -8871,6 +9997,12 @@
             "name": "size",
             "value": 2229710,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 318,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -8920,6 +10052,12 @@
             "value": 4928534111,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 601,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.8,
@@ -8965,6 +10103,12 @@
           {
             "name": "size",
             "value": 363772411,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 244,
             "level": 1,
             "unknown": false
           }
@@ -9014,6 +10158,12 @@
             "value": 363772411,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 155,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.8,
@@ -9059,6 +10209,12 @@
           {
             "name": "size",
             "value": 12047074,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 155,
             "level": 2,
             "unknown": false
           }
@@ -9108,6 +10264,12 @@
             "value": 2920254,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 213,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.52,
@@ -9154,6 +10316,12 @@
             "name": "size",
             "value": 326547758,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 148,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -9202,6 +10370,12 @@
             "value": 54056090,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 175,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 2.94,
@@ -9249,6 +10423,12 @@
             "value": 3916277,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 199,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.65,
@@ -9295,6 +10475,12 @@
             "name": "size",
             "value": 4428768,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 267,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -9344,6 +10530,12 @@
             "value": 59987898,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 175,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 1.18,
@@ -9390,6 +10582,12 @@
             "name": "size",
             "value": 40951114,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 226,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -9438,6 +10636,12 @@
             "value": 1887644,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1326,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.56,
@@ -9484,6 +10688,12 @@
             "name": "size",
             "value": 1412446,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 513,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -9533,6 +10743,12 @@
             "value": 4958389,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 743,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.28,
@@ -9578,6 +10794,12 @@
           {
             "name": "size",
             "value": 49518566,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 38,
             "level": 2,
             "unknown": false
           }
@@ -9628,6 +10850,12 @@
             "value": 3026980,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 287,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.12,
@@ -9675,6 +10903,12 @@
             "name": "size",
             "value": 100131887,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 88,
+            "level": 2,
             "unknown": false
           }
         ],
@@ -9724,6 +10958,12 @@
             "value": 50009807,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 50,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 0.07,
@@ -9771,6 +11011,12 @@
             "name": "size",
             "value": 1506846,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 1677,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -9822,6 +11068,12 @@
             "value": 1674912,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 385,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 24.13,
@@ -9869,6 +11121,12 @@
             "name": "size",
             "value": 1942735,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 453,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -9918,6 +11176,12 @@
             "value": 1366736,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 54,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 9.36,
@@ -9965,6 +11229,12 @@
             "name": "size",
             "value": 1234977,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 516,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -10014,6 +11284,12 @@
             "value": 1526691,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 175,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 6.89,
@@ -10061,6 +11337,12 @@
             "name": "size",
             "value": 1829181,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 616,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -10110,6 +11392,12 @@
             "value": 1629281,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 156,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 6.28,
@@ -10157,6 +11445,12 @@
             "name": "size",
             "value": 12875780,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 687,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -10206,6 +11500,12 @@
             "value": 1201383273,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 970,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.91,
@@ -10253,6 +11553,12 @@
             "value": 258896118,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 11,
+            "level": 3,
+            "unknown": false
           }
         ],
         "base": 4.75,
@@ -10298,6 +11604,12 @@
           {
             "name": "size",
             "value": 40283969,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 31,
             "level": 2,
             "unknown": false
           }
@@ -10347,6 +11659,12 @@
             "value": 2414450,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 639,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.1,
@@ -10394,6 +11712,12 @@
             "name": "size",
             "value": 2254835,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 609,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -10443,6 +11767,12 @@
             "value": 5088495,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 287,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 1.4,
@@ -10490,6 +11820,12 @@
             "name": "size",
             "value": 4348974,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 287,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -10539,6 +11875,12 @@
             "value": 17363412,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 569,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.56,
@@ -10585,6 +11927,12 @@
             "name": "size",
             "value": 3373358,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 329,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -10634,6 +11982,12 @@
             "value": 10063343,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 322,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.39,
@@ -10681,6 +12035,12 @@
             "name": "size",
             "value": 1649022,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 511,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -10730,6 +12090,12 @@
             "value": 249804942,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 861,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.25,
@@ -10777,6 +12143,12 @@
             "value": 18532941,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 317,
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.18,
@@ -10823,6 +12195,12 @@
             "name": "size",
             "value": 10054250,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 583,
+            "level": 1,
             "unknown": false
           }
         ],
@@ -10872,6 +12250,12 @@
             "value": 26721920,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 175,
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 0,
@@ -10918,6 +12302,12 @@
             "name": "size",
             "value": 385973453,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 127,
+            "level": 2,
             "unknown": false
           }
         ],

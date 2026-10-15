@@ -102,7 +102,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   const reward = isLP ? 0 : Math.max(0, spot - spotBase);
   const total = base + reward;
   const { ratio, flag } = divergence(pool, cfg);
-  const risk = rateRisk({ coinTier: tier, coinDriver: driver, tvlUsd: pool.tvlUsd }, cfg.riskCuts);
+  const risk = rateRisk({ coinTier: tier, coinDriver: driver, tvlUsd: pool.tvlUsd, ageDays: pool.ageDays }, cfg.riskCuts);
 
   return {
     ok: true,

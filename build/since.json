@@ -1,0 +1,5 @@
+{
+  "_comment": "Since overrides: a known start date (YYYY-MM-DD) for a pool DefiLlama started tracking late, by DefiLlama pool id under \"pools\", or for a whole protocol under \"protocols\" (only when every pool of that protocol is at least that old). A start date is a fact, so entries never expire. Used by the Age factor (build/age.mjs).",
+  "pools": {},
+  "protocols": {}
+}

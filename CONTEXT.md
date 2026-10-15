@@ -43,6 +43,10 @@ _Avoid_: grade, score, rating
 One thing a **Level** is judged on, each rated 1–3 on its own cut lines: Coin (the **Tier**), Size, Age, Yield, Stability, Protocol. A Factor with no data counts as Level 2 and is marked unknown.
 _Avoid_: criterion, metric
 
+**Since override**:
+A known start date for a pool (by DefiLlama pool id) or a whole protocol, kept in `build/since.json`. It fixes the Age **Factor** where DefiLlama started tracking a pool late (its day count can only undercount). A start date is a fact, so it never expires. Age otherwise comes from the venue's creation date (Kamino) or DefiLlama's day count.
+_Avoid_: start-date patch, age hack
+
 **Bucket**:
 How the pool earns: `lend`, `LP` or `vault`, set per protocol in `trusted-protocols.json`.
 

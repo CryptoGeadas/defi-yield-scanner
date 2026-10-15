@@ -8,10 +8,10 @@
 // venues   what build.mjs fetched from each venue's own API (see venues.mjs):
 //            morpho  Map `${chainId}|${SHARE_SYMBOL}|${assetAddr}` → [{ address, assetSymbol, name, network, tvl }]
 //            yearn   Map `${chainId}|${vaultAddr}` → vault name
-//            kamino  [{ address, name, symbol, mint, tvl, base, reward, mean30, apy7, available }]
+//            kamino  [{ address, name, symbol, mint, tvl, base, reward, mean30, apy7, available, createdAt }]
 //            lendBorrow  Map DefiLlama pool id → totalSupplyUsd (lending pools only)
 //          Any of these may be missing/empty (a fetch failed) — intake degrades, never throws.
-// curation the hand-kept opinion files: { denylist, poolUrls }.
+// curation the hand-kept opinion files: { denylist, poolUrls, since }, plus `now` (ms) for ages.
 //
 // Every returned pool carries its IDENTITY alongside the DefiLlama fields:
 //   legs      the stablecoin tickers it actually holds — what the pipeline tiers on.
@@ -19,6 +19,7 @@
 //   label     the row label a person would recognise on the venue's own app.
 //   exactUrl  a venue-verified deposit URL, or null (deeplinks.mjs then decides).
 //   linkGuarded  true when a venue match failed its check: link to DefiLlama, never the site.
+//   ageDays / ageSource  days live and where that came from (age.mjs); null = unknown.
 //   availableUsd what can be withdrawn now. DefiLlama lending pools: supplied − borrowed
 //             (the /pools figure; tvlUsd becomes total deposits). Kamino vaults: idle cash
 //             + per reserve min(share, free liquidity); null = unknown → the vault is kept.
@@ -32,10 +33,12 @@
 //   4. Kamino  — replace DefiLlama's kamino-lend (isolated borrow markets) with the
 //                curated Lending Vaults read on-chain
 //   5. identity for everything else: legs from the symbol, label from symbol + poolMeta
+//   6. age for every pool (age.mjs): Since override → venue date → DefiLlama count
 // ─────────────────────────────────────────────────────────────────────────────
 
 
 import { MORPHO_CHAINID as CHAIN_ID } from "./deeplink-sources.mjs"; // chain name → EVM chain id
+import { poolAge } from "./age.mjs";
 
 const norm = (s) => String(s ?? "").trim().toUpperCase();
 const lower = (s) => String(s ?? "").toLowerCase();
@@ -159,6 +162,7 @@ function kaminoPool(v) {
     legs: parseLegs(v.symbol),
     label: v.name || v.symbol,
     exactUrl: `https://app.kamino.finance/lend/${v.address}`,
+    startedAt: Number.isFinite(v.createdAt) ? v.createdAt : null, // vault creation (venue age)
   };
 }
 
@@ -206,5 +210,17 @@ export function intakePools(feed, venues = {}, curation = {}) {
     };
   });
 
-  return { pools: [...out, ...kamino], report };
+  // 6. age for every pool (Since override → venue date → DefiLlama count → unknown)
+  const withAge = [...out, ...kamino].map((p) => {
+    const a = poolAge(p, curation.since, curation.now ?? Date.now());
+    return { ...p, ageDays: a?.days ?? null, ageSource: a?.source ?? null };
+  });
+  // since.json keys that matched no pool (typo or stale id) — the build warns about them
+  const seenPools = new Set(withAge.map((p) => p.pool)), seenProtocols = new Set(withAge.map((p) => p.project));
+  report.sinceUnused = [
+    ...Object.keys(curation.since?.pools ?? {}).filter((k) => !seenPools.has(k)).map((k) => `pools.${k}`),
+    ...Object.keys(curation.since?.protocols ?? {}).filter((k) => !seenProtocols.has(k)).map((k) => `protocols.${k}`),
+  ];
+
+  return { pools: withAge, report };
 }
