@@ -49,6 +49,18 @@
 .t3 .dot { background: var(--info); }
 .lvl3 .dot { background: var(--down); } /* Level 3 window (risk levels) */
 
+/* risk levels: base-rate line + colour key under the intro */
+.risk-intro { margin: 14px 0 0; }
+.base-rate { font: 13px/1.5 var(--font-body); color: var(--muted); max-width: 70ch; margin: 0; }
+.base-rate b { color: var(--fg); font-family: var(--font-mono); font-weight: 500; }
+.base-rate .lower { color: var(--down); }
+.level-key { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; font: 11px var(--font-mono); color: var(--muted); }
+.level-key i { display: inline-block; width: 14px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+.level-key .k1 { background: var(--accent); }
+.level-key .k2 { background: var(--warn); }
+.level-key .k3 { background: var(--down); }
+.level-key .kx { background: repeating-linear-gradient(135deg, var(--muted) 0 2px, transparent 2px 4px); }
+
 /* shared grid for header + rows */
 .grid {
   display: grid;

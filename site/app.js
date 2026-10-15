@@ -69,6 +69,7 @@ async function load() {
     return;
   }
   render();
+  renderRiskIntro(); // once per data load, not on every re-render
 }
 
 function sortVal(r, key) {
@@ -244,6 +245,19 @@ function windowHtml(tier) {
     <div class="wtitle ${t.cls}"><span class="dot"></span><h2>${t.name}</h2><span class="count">${countLabel} pools</span></div>
     ${body}
   </section>`;
+}
+
+// Risk levels: the base-rate line and the colour key, directly below the intro sentence
+// (above the filters). Only when the build groups windows by level.
+function renderRiskIntro() {
+  document.querySelector("#risk-intro")?.remove();
+  const rate = state.data?.baseRate;
+  if (!byLevel() || !Number.isFinite(rate)) return;
+  const html = `<div id="risk-intro" class="risk-intro">
+    <p class="base-rate">Base rate <b>${rate.toFixed(2)}%</b>: the 30-day average of Aave USDC and USDT on Ethereum. A pool paying far above it ranks <span class="lower">lower</span>.</p>
+    <div class="level-key" aria-label="Colour key"><span><i class="k1"></i>Level 1</span><span><i class="k2"></i>Level 2</span><span><i class="k3"></i>Level 3</span><span><i class="kx"></i>no data</span></div>
+  </div>`;
+  document.querySelector(".tool-app > .sub")?.insertAdjacentHTML("afterend", html);
 }
 
 function render() {

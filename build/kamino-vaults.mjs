@@ -102,7 +102,7 @@ async function fetchMetrics(address) {
     const tvl = investedUsd + idleUsd;
     const base = num(m.apy) * 100;
     const reward = (num(m.apyFarmRewards) + num(m.apyIncentives) + num(m.apyReservesIncentives)) * 100;
-    const mean30 = num(m.apy30d) * 100;
+    const mean30 = m.apy30d != null && Number.isFinite(Number(m.apy30d)) ? Number(m.apy30d) * 100 : null; // no history → null, not 0
     const apy7 = m.apy7d != null ? num(m.apy7d) * 100 : null;
     return { tvl, base, reward, mean30, apy7, idleUsd, investedUsd };
   } catch (e) { console.warn(`kamino: metrics failed for ${address} —`, e.message); return null; }

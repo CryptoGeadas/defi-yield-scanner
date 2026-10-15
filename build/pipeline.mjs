@@ -13,6 +13,7 @@ import { rateRisk, checkCuts, DEFAULT_CUTS } from "./risk.mjs";
 export const DEFAULT_CONFIG = {
   levelWindows: false,          // SWITCH: group windows by risk Level (on) or coin Tier (off)
   riskCuts: DEFAULT_CUTS,       // cut lines per risk Factor (risk.mjs)
+  baseRate: null,               // % APY, set by the build from the feed (base-rate.mjs); none → Yield unknown
   tvlFloor: 1_000_000,
   minAvailableUsd: 1_000_000,   // lending pools: at least this much not lent out (withdrawable now)
   sortKey: "base",              // 'base' | 'total' | 'mean30d'
@@ -102,7 +103,11 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   const reward = isLP ? 0 : Math.max(0, spot - spotBase);
   const total = base + reward;
   const { ratio, flag } = divergence(pool, cfg);
-  const risk = rateRisk({ coinTier: tier, coinDriver: driver, tvlUsd: pool.tvlUsd, ageDays: pool.ageDays }, cfg.riskCuts);
+  // Yield: the organic 30-day mean against the market base rate. DefiLlama's mean is of total
+  // APY, so today's reward share is taken out (rewards are never counted); LP rows already
+  // lead with min(spot, mean) and count no rewards. No usable mean → today's organic base.
+  const yieldPct = isLP ? base : mean > 0 ? Math.max(0, mean - reward) : spotBase;
+  const risk = rateRisk({ coinTier: tier, coinDriver: driver, tvlUsd: pool.tvlUsd, ageDays: pool.ageDays, yieldPct, baseRate: cfg.baseRate }, cfg.riskCuts);
 
   return {
     ok: true,
@@ -148,6 +153,8 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
 export function runPipeline(pools, config = {}, maps) {
   // riskCuts merge per Factor, so overriding one Factor's cut lines keeps the others.
   const cfg = { ...DEFAULT_CONFIG, ...config, riskCuts: checkCuts({ ...DEFAULT_CONFIG.riskCuts, ...config.riskCuts }) };
+  if (!(cfg.baseRate == null || (Number.isFinite(cfg.baseRate) && cfg.baseRate > 0)))
+    throw new Error(`baseRate must be a positive number, got ${JSON.stringify(cfg.baseRate)}`);
   const { protocolMap, stableMap } = maps;
 
   const windows = { 1: [], 2: [], 3: [] };

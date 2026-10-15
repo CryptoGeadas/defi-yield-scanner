@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { runPipeline, DEFAULT_CONFIG } from "./pipeline.mjs";
 import { intakePools } from "./intake.mjs";
 import { checkSince } from "./age.mjs";
+import { baseRate } from "./base-rate.mjs";
 import { fetchVenues } from "./venues.mjs";
 import { buildLink } from "./deeplinks.mjs";
 import { vendorLogos } from "./logos.mjs";
@@ -156,7 +157,9 @@ async function main() {
   if (process.env.LEVEL_WINDOWS && !["0", "1"].includes(process.env.LEVEL_WINDOWS))
     console.warn(`  LEVEL_WINDOWS=${process.env.LEVEL_WINDOWS} not recognised (use 1 or 0) — switch stays off`);
   if (levelsOn) console.warn("  ⚠ LEVEL_WINDOWS=1: windows grouped by level — local check only, do NOT commit site/data/latest.json from this build");
-  const r = runPipeline(pools, levelsOn ? { levelWindows: true } : {}, maps);
+  // Base rate for the Yield factor: Aave V3 USDC + USDT, 30-day mean (throws if missing).
+  const rate = baseRate(feed);
+  const r = runPipeline(pools, { baseRate: rate, ...(levelsOn ? { levelWindows: true } : {}) }, maps);
 
   // Age data health over the rows we show: if an age source breaks (renamed field, API
   // change), every pool silently drops to "unknown" (Level 2). Warn loudly above 20%.
@@ -165,6 +168,10 @@ async function main() {
   const ageMsg = `age unknown for ${ageUnknown}/${shown.length} shown pools`;
   if (ageUnknown > shown.length * 0.2) console.warn(`  ⚠ ${ageMsg} — check DefiLlama count / Kamino creationTimestamp`);
   else console.log(`  ${ageMsg}`);
+  const yieldUnknown = shown.filter((x) => x.factors.find((f) => f.name === "yield")?.unknown).length;
+  const yieldMsg = `yield unknown for ${yieldUnknown}/${shown.length} shown pools`;
+  if (yieldUnknown > shown.length * 0.2) console.warn(`  ⚠ ${yieldMsg} — check DefiLlama apyMean30d / Kamino apy30d`);
+  else console.log(`  ${yieldMsg}`);
 
   // Sanity floor: never overwrite good data with a thin/partial feed. A healthy build
   // keeps 250+ pools; if the feed came back truncated, fail so the last snapshot stays.
@@ -177,6 +184,7 @@ async function main() {
   const payload = {
     generatedAt: new Date().toISOString(),
     source: FEED,
+    baseRate: r.config.baseRate, // % APY — Aave V3 USDC + USDT (Ethereum), 30-day mean
     config: r.config,
     stats: r.stats,
     windows: {
@@ -192,7 +200,7 @@ async function main() {
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n");
   console.log(
-    `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  windows ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]} (${r.config.levelWindows ? "by level" : "by tier"}) · levels ${r.stats.perLevel[1]}/${r.stats.perLevel[2]}/${r.stats.perLevel[3]}` +
+    `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  windows ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]} (${r.config.levelWindows ? "by level" : "by tier"}) · levels ${r.stats.perLevel[1]}/${r.stats.perLevel[2]}/${r.stats.perLevel[3]} · base rate ${r.config.baseRate}%` +
       `\n  inactive-lp ${r.rejects["inactive-lp"]?.count || 0} · zero-yield ${r.rejects["zero-yield"]?.count || 0}`
   );
 

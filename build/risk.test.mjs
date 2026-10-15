@@ -16,7 +16,7 @@ test("Size: Level 1 from $50M, Level 2 from $5M, Level 3 below", () => {
 
 test("a pool takes its weakest factor (weakest link)", () => {
   assert.equal(rateRisk({ coinTier: 1, tvlUsd: 2e6 }).level, 3);
-  assert.equal(rateRisk({ coinTier: 1, tvlUsd: 900e6, ageDays: 1000 }).level, 1);
+  assert.equal(rateRisk({ coinTier: 1, tvlUsd: 900e6, ageDays: 1000, yieldPct: 4, baseRate: 4 }).level, 1);
 });
 
 test("the coin Tier is a ceiling: a big pool is never safer than its riskiest coin", () => {
@@ -35,7 +35,7 @@ test("a missing fact counts as Level 2 and is marked unknown", () => {
 test("ties go to the first factor in the fixed order Coin, Size, …", () => {
   const r = rateRisk({ coinTier: 2, coinDriver: "GHO", tvlUsd: 10e6 }); // coin 2, size 2
   assert.equal(r.driver, "coin");
-  assert.deepEqual(r.factors.map((f) => f.name), ["coin", "size", "age"]);
+  assert.deepEqual(r.factors.map((f) => f.name), ["coin", "size", "age", "yield"]);
 });
 
 // ── pipeline: windows by level behind the switch ────────────────────────────
@@ -53,7 +53,7 @@ const pools = [pool({ pool: "aave" }), pool({ pool: "small", project: "morpho-bl
 const ids = (rows) => rows.map((r) => r.pool);
 
 test("switch on: a $2M USDC vault lands in window 3, a $500M Aave USDC pool stays in window 1", () => {
-  const r = runPipeline(pools, { levelWindows: true }, maps);
+  const r = runPipeline(pools, { baseRate: 4, levelWindows: true }, maps);
   assert.deepEqual(ids(r.windows[1]), ["aave"]);
   assert.deepEqual(ids(r.windows[3]), ["small"]);
   assert.equal(r.windows[3][0].level, 3);
@@ -62,15 +62,15 @@ test("switch on: a $2M USDC vault lands in window 3, a $500M Aave USDC pool stay
 });
 
 test("switch off (default): windows stay by coin tier, rows still carry their level", () => {
-  const r = runPipeline(pools, {}, maps);
+  const r = runPipeline(pools, { baseRate: 4 }, maps);
   assert.deepEqual(ids(r.windows[1]).sort(), ["aave", "small"]);
   const small = r.windows[1].find((x) => x.pool === "small");
   assert.equal(small.level, 3);
-  assert.deepEqual(small.factors.map((f) => f.name), ["coin", "size", "age"]);
+  assert.deepEqual(small.factors.map((f) => f.name), ["coin", "size", "age", "yield"]);
 });
 
 test("custom Size cut lines from the config are used", () => {
-  const r = runPipeline(pools, { levelWindows: true, riskCuts: { size: { level1: 1e6, level2: 0.5e6 } } }, maps);
+  const r = runPipeline(pools, { baseRate: 4, levelWindows: true, riskCuts: { size: { level1: 1e6, level2: 0.5e6 } } }, maps);
   assert.deepEqual(ids(r.windows[1]).sort(), ["aave", "small"], "$2M is Level 1 under the custom Size cut lines");
   assert.deepEqual(r.config.riskCuts.size, { level1: 1e6, level2: 0.5e6 });
   assert.deepEqual(r.stats.perLevel, { 1: 2, 2: 0, 3: 0 });
@@ -87,20 +87,20 @@ test("a missing or non-numeric fact never rates as safe or as Level 3: it is unk
 test("the switch decides grouping both ways: tier-2 coin in a $2M pool", () => {
   const gho = pool({ pool: "gho", legs: ["GHO"], tvlUsd: 2e6 });
   const m = { ...maps, stableMap: { ...maps.stableMap, GHO: { tier: 2, type: "crypto" } } };
-  assert.deepEqual(ids(runPipeline([gho], {}, m).windows[2]), ["gho"], "switch off → coin Tier window");
-  assert.deepEqual(ids(runPipeline([gho], { levelWindows: true }, m).windows[3]), ["gho"], "switch on → Level window");
+  assert.deepEqual(ids(runPipeline([gho], { baseRate: 4 }, m).windows[2]), ["gho"], "switch off → coin Tier window");
+  assert.deepEqual(ids(runPipeline([gho], { baseRate: 4, levelWindows: true }, m).windows[3]), ["gho"], "switch on → Level window");
 });
 
 test("a malformed coin tier fails loudly instead of passing as unknown", () => {
   assert.throws(() => rateRisk({ coinTier: "3", coinDriver: "USDE", tvlUsd: 500e6 }), /coin tier must be 1, 2 or 3/);
   assert.throws(() => rateRisk({ coinTier: -Infinity, tvlUsd: 500e6 }), /coin tier/);
   const bad = { ...maps, stableMap: { USDC: { tier: "1", type: "fiat" } } };
-  assert.throws(() => runPipeline(pools, { levelWindows: true }, bad), /coin tier/);
+  assert.throws(() => runPipeline(pools, { baseRate: 4, levelWindows: true }, bad), /coin tier/);
 });
 
 test("partial or reversed cut lines fail loudly", () => {
-  assert.throws(() => runPipeline(pools, { riskCuts: { size: { level1: 50e6 } } }, maps), /cut lines for "size"/);
-  assert.throws(() => runPipeline(pools, { riskCuts: { size: { level1: 1e6, level2: 5e6 } } }, maps), /level1 >= level2/);
+  assert.throws(() => runPipeline(pools, { baseRate: 4, riskCuts: { size: { level1: 50e6 } } }, maps), /cut lines for "size"/);
+  assert.throws(() => runPipeline(pools, { baseRate: 4, riskCuts: { size: { level1: 1e6, level2: 5e6 } } }, maps), /level1 >= level2/);
 });
 
 // ── Age factor (#14) ────────────────────────────────────────────────────────
@@ -150,4 +150,70 @@ test("age drives the pipeline: a young $500M tier-1 pool lands in window 3, set 
   const r = runPipeline([pool({ pool: "young", ageDays: 10 })], { levelWindows: true }, maps);
   assert.equal(r.windows[3][0].pool, "young");
   assert.equal(r.windows[3][0].levelDriver, "age");
+});
+
+// ── Yield factor + base rate (#15) ──────────────────────────────────────────
+import { baseRate } from "./base-rate.mjs";
+
+const aave = (symbol, apyMean30d, o = {}) => ({ project: "aave-v3", chain: "Ethereum", symbol, poolMeta: null, apyMean30d, ...o });
+
+test("base rate = average 30-day mean of Aave V3 USDC and USDT (main market, Ethereum)", () => {
+  const feed = [aave("USDC", 4.4), aave("USDT", 3.8), aave("USDC", 9, { poolMeta: "Umbrella" }), aave("USDC", 9, { chain: "Base" })];
+  assert.equal(baseRate(feed), 4.1);
+});
+
+test("base rate fails loudly when a pool or its mean is missing", () => {
+  assert.throws(() => baseRate([aave("USDC", 4.4)]), /base rate/);
+  assert.throws(() => baseRate([aave("USDC", 4.4), aave("USDT", null)]), /base rate/);
+});
+
+test("Yield: Level 1 up to 1.5× the base rate, Level 2 up to 2.5×, Level 3 above; no base rate → unknown", () => {
+  const lvl = (y) => factor(rateRisk({ coinTier: 1, tvlUsd: 900e6, ageDays: 1000, yieldPct: y, baseRate: 4 }), "yield");
+  assert.equal(lvl(6).level, 1);    // 1.5×
+  assert.equal(lvl(6.04).level, 2);
+  assert.equal(lvl(10).level, 2);   // 2.5×
+  assert.equal(lvl(10.04).level, 3);
+  assert.equal(lvl(6).value, 1.5, "value is the multiple of the base rate");
+  assert.equal(factor(rateRisk({ coinTier: 1, yieldPct: 5 }), "yield").unknown, true);
+});
+
+test("the pipeline rates yield on the 30-day mean against config.baseRate", () => {
+  const hot = pool({ pool: "hot", apy: 14, apyBase: 14, apyMean30d: 12 }); // 12 / 4 = 3×
+  const r = runPipeline([hot], { levelWindows: true, baseRate: 4 }, maps);
+  assert.equal(r.windows[3][0].levelDriver, "yield");
+});
+
+test("Yield uses the organic 30-day mean: rewards are taken out, a zero mean falls back to today's base", () => {
+  const rewards = pool({ pool: "rew", apy: 12, apyBase: 4, apyReward: 8, apyMean30d: 12 }); // 4% organic = 1× base
+  assert.equal(runPipeline([rewards], { baseRate: 4 }, maps).windows[1][0].factors.find((f) => f.name === "yield").value, 1);
+  const fresh = pool({ pool: "new", apy: 25, apyBase: 25, apyMean30d: 0 }); // no history yet
+  assert.equal(runPipeline([fresh], { baseRate: 4 }, maps).windows[1][0].factors.find((f) => f.name === "yield").level, 3);
+});
+
+test("base rate is pinned by pool id and falls back to the main-market match", () => {
+  const pinned = [aave("USDC", 4, { pool: "aa70268e-4b52-42bf-a116-608b370f9501" }), aave("USDC", 9), aave("USDT", 4, { pool: "f981a304-bb6c-45b8-b0c5-fd2f515ad23a" }), aave("USDT", 9)];
+  assert.equal(baseRate(pinned), 4, "two unlabeled markets, but the pinned ids win");
+});
+
+test("Yield reads the 30-day mean, not today's spike; no mean → today's base", () => {
+  const yieldOf = (p) => runPipeline([p], { baseRate: 4 }, maps).windows[1][0].factors.find((f) => f.name === "yield");
+  assert.deepEqual([yieldOf(pool({ pool: "spike", apy: 14, apyBase: 14, apyMean30d: 5 })).value, yieldOf(pool({ pool: "spike", apy: 14, apyBase: 14, apyMean30d: 5 })).level], [1.25, 1]);
+  const noMean = yieldOf(pool({ pool: "nomean", apy: 12, apyBase: 12, apyMean30d: null }));
+  assert.deepEqual([noMean.value, noMean.level], [3, 3]);
+});
+
+test("reversed Yield cut lines fail loudly; a zero or missing base rate makes Yield unknown", () => {
+  assert.throws(() => runPipeline(pools, { baseRate: 4, riskCuts: { yield: { level1: 2.5, level2: 1.5 } } }, maps), /level1 <= level2/);
+  for (const baseRate of [0, NaN, -1]) assert.equal(factor(rateRisk({ coinTier: 1, yieldPct: 5, baseRate }), "yield").unknown, true, String(baseRate));
+});
+
+test("bad inputs fail loudly: implausible base rate, bad baseRate config, unknown factor in cut lines", () => {
+  assert.throws(() => baseRate([aave("USDC", 0.04), aave("USDT", 0.04)]), /outside 0.5–25%/);
+  assert.throws(() => baseRate([aave("USDC", 4), aave("USDC", 5), aave("USDT", 4)]), /found 2/);
+  assert.throws(() => runPipeline(pools, { baseRate: Infinity }, maps), /baseRate must be a positive number/);
+  assert.throws(() => runPipeline(pools, { baseRate: 4, riskCuts: { yeild: { level1: 1, level2: 2 } } }, maps), /unknown factor "yeild"/);
+});
+
+test("the yield multiple is rated unrounded: 1.504× is Level 2", () => {
+  assert.equal(factor(rateRisk({ coinTier: 1, yieldPct: 6.016, baseRate: 4 }), "yield").level, 2);
 });

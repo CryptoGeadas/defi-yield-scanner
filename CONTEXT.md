@@ -47,6 +47,10 @@ _Avoid_: criterion, metric
 A known start date for a pool (by DefiLlama pool id) or a whole protocol, kept in `build/since.json`. It fixes the Age **Factor** where DefiLlama started tracking a pool late (its day count can only undercount). A start date is a fact, so it never expires. Age otherwise comes from the venue's creation date (Kamino) or DefiLlama's day count.
 _Avoid_: start-date patch, age hack
 
+**Base rate**:
+The market's plain stablecoin lending rate: the average 30-day mean yield of Aave V3 USDC and USDT on Ethereum (main market), from the DefiLlama feed. The Yield **Factor** judges a pool by its 30-day mean as a multiple of it (Level 1 up to 1.5×, Level 2 up to 2.5×), so the cut lines move with the market. Computed in `build/base-rate.mjs`; the build fails if it is missing.
+_Avoid_: benchmark, risk-free rate
+
 **Bucket**:
 How the pool earns: `lend`, `LP` or `vault`, set per protocol in `trusted-protocols.json`.
 
