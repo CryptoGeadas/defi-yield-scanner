@@ -6,6 +6,13 @@ const TIER = {
   2: { name: "Tier 2 · crypto-backed", cls: "t2" },
   3: { name: "Tier 3 · synthetic", cls: "t3" },
 };
+// Window names when the build groups windows by risk Level (config.levelWindows).
+const LEVEL = {
+  1: { name: "Level 1 · Lower risk", cls: "t1" },
+  2: { name: "Level 2 · Medium risk", cls: "t2" },
+  3: { name: "Level 3 · Higher risk", cls: "t3 lvl3" },
+};
+const byLevel = () => state.data?.config?.levelWindows === true;
 
 const COLS = [
   { key: "name", label: "Pool", cls: "" },
@@ -186,7 +193,7 @@ function detailHtml(r, tier) {
     legs.length > 1
       ? `<div class="dcard wide">
           <div class="dk">Composition</div>
-          <div class="dline">${legs.map(esc).join(" + ")} → <b>Tier ${esc(tier ?? "?")}</b>, set by <b>${esc(r.tierDriver || legs[legs.length - 1])}</b> (its riskiest stablecoin leg).</div>
+          <div class="dline">${legs.map(esc).join(" + ")} → <b>Tier ${esc(r.tier ?? (byLevel() ? "?" : tier ?? "?"))}</b>, set by <b>${esc(r.tierDriver || legs[legs.length - 1])}</b> (its riskiest stablecoin leg).</div>
         </div>`
       : "";
 
@@ -221,7 +228,7 @@ function windowHtml(tier) {
   const limit = state.limits[tier] || PAGE;
   const shown = rows.slice(0, limit);
   const remaining = rows.length - shown.length;
-  const t = TIER[tier];
+  const t = (byLevel() ? LEVEL : TIER)[tier];
   let body;
   if (!rows.length) {
     body = `<p class="empty">— no pools match —</p>`;
@@ -251,7 +258,7 @@ function render() {
       <span><span class="g down">▼</span> decaying — spot >20% below its mean (fading)</span>
     </div>
     Kept <strong>${d.stats.kept}</strong> of ${d.stats.totalPools} pools ·
-    tiers ${d.stats.perTier[1]}/${d.stats.perTier[2]}/${d.stats.perTier[3]} ·
+    ${byLevel() ? "levels" : "tiers"} ${d.stats.perTier[1]}/${d.stats.perTier[2]}/${d.stats.perTier[3]} ·
     data ${ageH}h old (${when.toISOString().slice(0, 16).replace("T", " ")} UTC) ·
     source <a href="${esc(safeUrl(d.source) || "https://defillama.com/yields")}">DefiLlama</a> · <a href="./data/latest.json">raw JSON</a>`;
 

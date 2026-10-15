@@ -79,7 +79,11 @@ const makeSlim = (names, siteUrls, sources, poolUrls) => (r) => {
     bucket: r.bucket,
     access: r.access,
     type: r.stableType, // fiat | crypto | yield | rwa | synthetic
+    tier: r.tier, // coin Tier (the Coin factor) — independent of which window the row is in
     tierDriver: r.tierDriver,
+    level: r.level, // risk Level (risk.mjs)
+    levelDriver: r.levelDriver,
+    factors: r.factors,
     base: round(r.base),
     reward: round(r.reward),
     total: round(r.total),
@@ -134,7 +138,13 @@ async function main() {
       `  link guard: ${g.label} (${g.chain}) vault ${g.address} TVL $${Math.round(g.vaultTvl)} vs DefiLlama $${Math.round(g.llamaTvl)} → DefiLlama link`
     );
 
-  const r = runPipeline(pools, {}, maps);
+  // LEVEL_WINDOWS=1 turns the risk-level switch on for a local build only; the
+  // committed default lives in DEFAULT_CONFIG.levelWindows.
+  const levelsOn = process.env.LEVEL_WINDOWS === "1";
+  if (process.env.LEVEL_WINDOWS && !["0", "1"].includes(process.env.LEVEL_WINDOWS))
+    console.warn(`  LEVEL_WINDOWS=${process.env.LEVEL_WINDOWS} not recognised (use 1 or 0) — switch stays off`);
+  if (levelsOn) console.warn("  ⚠ LEVEL_WINDOWS=1: windows grouped by level — local check only, do NOT commit site/data/latest.json from this build");
+  const r = runPipeline(pools, levelsOn ? { levelWindows: true } : {}, maps);
 
   // Sanity floor: never overwrite good data with a thin/partial feed. A healthy build
   // keeps 250+ pools; if the feed came back truncated, fail so the last snapshot stays.
@@ -162,7 +172,7 @@ async function main() {
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n");
   console.log(
-    `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  tiers ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]}` +
+    `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  windows ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]} (${r.config.levelWindows ? "by level" : "by tier"}) · levels ${r.stats.perLevel[1]}/${r.stats.perLevel[2]}/${r.stats.perLevel[3]}` +
       `\n  inactive-lp ${r.rejects["inactive-lp"]?.count || 0} · zero-yield ${r.rejects["zero-yield"]?.count || 0}`
   );
 

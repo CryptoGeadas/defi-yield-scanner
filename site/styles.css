@@ -47,6 +47,7 @@
 .t1 .dot { background: var(--accent); }
 .t2 .dot { background: var(--warn); }
 .t3 .dot { background: var(--info); }
+.lvl3 .dot { background: var(--down); } /* Level 3 window (risk levels) */
 
 /* shared grid for header + rows */
 .grid {

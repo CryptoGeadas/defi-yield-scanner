@@ -32,8 +32,16 @@ _Avoid_: validation, sanity check
 ### The opinion
 
 **Tier**:
-The pool's risk class (1 blue-chip · 2 crypto-backed · 3 synthetic), taken from its riskiest **Leg** via `trusted-stables.json`.
+The coin's class (1 blue-chip · 2 crypto-backed · 3 synthetic), taken from the pool's riskiest **Leg** via `trusted-stables.json`. It is the Coin **Factor**: a ceiling, so a pool's **Level** is never better than its Tier.
 _Avoid_: risk band, grade
+
+**Level**:
+The pool's risk level (1 lower · 2 medium · 3 higher risk): the worst of its **Factor** levels (weakest link). Pure; computed in `build/risk.mjs`. Behind the `levelWindows` switch the three windows are grouped by Level instead of Tier.
+_Avoid_: grade, score, rating
+
+**Factor**:
+One thing a **Level** is judged on, each rated 1–3 on its own cut lines: Coin (the **Tier**), Size, Age, Yield, Stability, Protocol. A Factor with no data counts as Level 2 and is marked unknown.
+_Avoid_: criterion, metric
 
 **Bucket**:
 How the pool earns: `lend`, `LP` or `vault`, set per protocol in `trusted-protocols.json`.

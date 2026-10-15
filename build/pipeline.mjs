@@ -4,9 +4,15 @@
 //
 // No I/O, no console. Pools come from intake.mjs, each with an explicit identity:
 // `legs` (the stablecoins it holds — what it is tiered on), `label`, `exactUrl`.
+// Every kept row also carries its risk Level (risk.mjs). The `levelWindows` switch
+// decides how windows are grouped: off → by coin Tier (as before), on → by Level.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { rateRisk, checkCuts, DEFAULT_CUTS } from "./risk.mjs";
+
 export const DEFAULT_CONFIG = {
+  levelWindows: false,          // SWITCH: group windows by risk Level (on) or coin Tier (off)
+  riskCuts: DEFAULT_CUTS,       // cut lines per risk Factor (risk.mjs)
   tvlFloor: 1_000_000,
   minAvailableUsd: 1_000_000,   // lending pools: at least this much not lent out (withdrawable now)
   sortKey: "base",              // 'base' | 'total' | 'mean30d'
@@ -96,6 +102,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   const reward = isLP ? 0 : Math.max(0, spot - spotBase);
   const total = base + reward;
   const { ratio, flag } = divergence(pool, cfg);
+  const risk = rateRisk({ coinTier: tier, coinDriver: driver, tvlUsd: pool.tvlUsd }, cfg.riskCuts);
 
   return {
     ok: true,
@@ -107,6 +114,9 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       access: meta.access,
       tier,
       tierDriver: driver,
+      level: risk.level,
+      levelDriver: risk.driver,
+      factors: risk.factors,
       stableType: driverType,
       base,
       reward,
@@ -136,17 +146,20 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
 }
 
 export function runPipeline(pools, config = {}, maps) {
-  const cfg = { ...DEFAULT_CONFIG, ...config };
+  // riskCuts merge per Factor, so overriding one Factor's cut lines keeps the others.
+  const cfg = { ...DEFAULT_CONFIG, ...config, riskCuts: checkCuts({ ...DEFAULT_CONFIG.riskCuts, ...config.riskCuts }) };
   const { protocolMap, stableMap } = maps;
 
   const windows = { 1: [], 2: [], 3: [] };
+  const perLevel = { 1: 0, 2: 0, 3: 0 };
   const rejects = {};                 // reason → { count, tvl }
   const missingByProject = {};        // project → { count, tvl } (passed everything but allowlist)
 
   for (const pool of pools) {
     const res = evaluate(pool, cfg, protocolMap, stableMap);
     if (res.ok) {
-      windows[res.row.tier].push(res.row);
+      windows[cfg.levelWindows ? res.row.level : res.row.tier].push(res.row);
+      perLevel[res.row.level]++;
     } else {
       const rj = (rejects[res.reason] ??= { count: 0, tvl: 0 });
       rj.count++;
@@ -173,7 +186,8 @@ export function runPipeline(pools, config = {}, maps) {
   const stats = {
     totalPools: pools.length,
     kept: windows[1].length + windows[2].length + windows[3].length,
-    perTier: { 1: windows[1].length, 2: windows[2].length, 3: windows[3].length },
+    perTier: { 1: windows[1].length, 2: windows[2].length, 3: windows[3].length }, // per window
+    perLevel,
   };
 
   return { windows, rejects, missingProtocols, stats, config: cfg };
