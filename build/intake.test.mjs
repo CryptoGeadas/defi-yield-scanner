@@ -186,3 +186,52 @@ test("the pipeline tiers on identity legs, not on the symbol", () => {
   const bare = runPipeline([{ ...pools[0], legs: undefined }], {}, maps);
   assert.equal(bare.rejects["missing-identity"].count, 1, "a pool without identity is rejected, not guessed");
 });
+
+// ── Kamino exit liquidity (#24) ─────────────────────────────────────────────
+import { withdrawableUsd } from "./kamino-vaults.mjs";
+
+test("Kamino withdrawable = idle cash + what each reserve can pay back", () => {
+  const reserveFree = new Map([["R1", 50e6], ["R2", 0.1e6]]);
+  // $20M invested, split 3:1 by cToken share → $15M in R1, $5M in R2 (only $0.1M free)
+  const allocations = [{ reserve: "R1", ctokens: 3 }, { reserve: "R2", ctokens: 1 }];
+  assert.equal(withdrawableUsd({ idleUsd: 0.08e6, investedUsd: 20e6, allocations, reserveFree }), 0.08e6 + 15e6 + 0.1e6);
+});
+
+test("Kamino withdrawable is unknown (null) when allocation or reserve data is missing", () => {
+  const reserveFree = new Map([["R1", 50e6]]);
+  assert.equal(withdrawableUsd({ idleUsd: 1, investedUsd: 20e6, allocations: null, reserveFree }), null);
+  assert.equal(withdrawableUsd({ idleUsd: 1, investedUsd: 20e6, allocations: [{ reserve: "RX", ctokens: 1 }], reserveFree }), null);
+  assert.equal(withdrawableUsd({ idleUsd: 2e6, investedUsd: 0, allocations: [], reserveFree }), 2e6, "nothing invested → idle cash");
+});
+
+test("a Kamino vault with < $1M withdrawable is rejected; unknown withdrawable keeps the vault", () => {
+  const maps = { protocolMap: { "kamino-lend": { bucket: "lend", access: "permissionless" } }, stableMap: { USDC: { tier: 1, type: "fiat" } } };
+  const v = (address, available) => ({ address, name: address, symbol: "USDC", mint: "EPj", tvl: 20e6, base: 5, reward: 0, mean30: 5, available });
+  const { pools } = intakePools([], { kamino: [v("DRAINED", 0.2e6), v("OK", 15e6), v("UNKNOWN", null)] });
+  const r = runPipeline(pools, {}, maps);
+  assert.deepEqual(r.windows[1].map((x) => x.pool).sort(), ["OK", "UNKNOWN"]);
+  assert.equal(r.rejects["no-exit-liquidity"].count, 1);
+});
+
+test("Kamino withdrawable edge cases: failed reserve data, empty slots, invested with no cTokens", () => {
+  const R1 = new Map([["R1", 0.2e6]]);
+  assert.equal(withdrawableUsd({ idleUsd: 1, investedUsd: 20e6, allocations: [{ reserve: "R1", ctokens: 1 }], reserveFree: null }), null, "reserve fetch failed → unknown");
+  assert.equal(
+    withdrawableUsd({ idleUsd: 0.1e6, investedUsd: 20e6, allocations: [{ reserve: "R1", ctokens: 1 }, { reserve: "RX", ctokens: 0 }], reserveFree: R1 }),
+    0.3e6,
+    "an empty slot with no reserve data is ignored, so a drained vault is still caught"
+  );
+  assert.equal(withdrawableUsd({ idleUsd: 2e6, investedUsd: 20e6, allocations: [], reserveFree: new Map() }), null, "invested but no cTokens → unknown");
+});
+
+import { reserveFreeFrom } from "./kamino-vaults.mjs";
+test("reserve rows with missing or inconsistent figures are unknown, never 0 free", () => {
+  const { free, bad } = reserveFreeFrom([
+    { reserve: "OK", totalSupplyUsd: "10", totalBorrowUsd: "4" },
+    { reserve: "NOSUPPLY", totalBorrowUsd: "4" },
+    { reserve: "NOBORROW", totalSupplyUsd: "10" },
+    { reserve: "OVERBORROWED", totalSupplyUsd: "10", totalBorrowUsd: "50" },
+  ]);
+  assert.deepEqual([...free], [["OK", 6]]);
+  assert.equal(bad, 3);
+});

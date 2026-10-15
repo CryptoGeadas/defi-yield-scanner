@@ -97,14 +97,95 @@ async function resolveSymbols(mints) {
 // against the app's "combined APY" — so summing them is correct, not a double-count.
 async function fetchMetrics(address) {
   try {
-    const m = await (await fetch(`https://api.kamino.finance/kvaults/${address}/metrics`, { headers: UA })).json();
-    const tvl = num(m.tokensInvestedUsd) + num(m.tokensAvailableUsd);
+    const m = await getJson(`https://api.kamino.finance/kvaults/${address}/metrics`);
+    const idleUsd = num(m.tokensAvailableUsd), investedUsd = num(m.tokensInvestedUsd);
+    const tvl = investedUsd + idleUsd;
     const base = num(m.apy) * 100;
     const reward = (num(m.apyFarmRewards) + num(m.apyIncentives) + num(m.apyReservesIncentives)) * 100;
     const mean30 = num(m.apy30d) * 100;
     const apy7 = m.apy7d != null ? num(m.apy7d) * 100 : null;
-    return { tvl, base, reward, mean30, apy7 };
-  } catch { return null; }
+    return { tvl, base, reward, mean30, apy7, idleUsd, investedUsd };
+  } catch (e) { console.warn(`kamino: metrics failed for ${address} —`, e.message); return null; }
+}
+
+// ── exit liquidity ──────────────────────────────────────────────────────────
+// A vault keeps a little idle cash and lends the rest through Kamino reserves. What
+// a depositor can take out now = idle cash + for each reserve, the smaller of the
+// vault's share in it and the reserve's free liquidity (supplied − borrowed). The
+// vault's share per reserve is split from investedUsd by its cToken allocation. Both are
+// approximations, fine for a $1M floor: cToken exchange rates differ between reserves,
+// and a reserve's free liquidity is credited in full to every vault that uses it.
+// Missing allocation or reserve data → null (unknown): the vault is kept, not hidden.
+export function withdrawableUsd({ idleUsd, investedUsd, allocations, reserveFree }) {
+  if (!(investedUsd > 0)) return idleUsd;
+  if (!Array.isArray(allocations) || !reserveFree) return null;
+  const live = allocations.filter((a) => a.ctokens > 0);
+  const total = live.reduce((s, a) => s + a.ctokens, 0);
+  if (!(total > 0)) return null;
+  let out = idleUsd;
+  for (const a of live) {
+    const free = reserveFree.get(a.reserve);
+    if (free == null) return null;
+    out += Math.min((investedUsd * a.ctokens) / total, free);
+  }
+  return out;
+}
+
+// GET JSON, or throw with the HTTP status (so a rate limit reads as one in the log).
+async function getJson(url) {
+  const r = await fetch(url, { headers: UA, signal: AbortSignal.timeout(60_000) });
+  if (!r.ok) throw new Error(`HTTP ${r.status} ${url}`);
+  return r.json();
+}
+
+// address → [{ reserve, ctokens }] for every vault, from Kamino's vault list.
+async function fetchAllocations() {
+  try {
+    const list = await getJson("https://api.kamino.finance/kvaults/vaults");
+    const map = new Map();
+    for (const v of list || []) {
+      const al = v?.state?.vaultAllocationStrategy;
+      if (v?.address && Array.isArray(al))
+        map.set(v.address, al.map((a) => ({ reserve: a.reserve, ctokens: num(a.ctokenAllocation) })));
+    }
+    if (!map.size) console.warn("kamino: vault list has no allocations — exit-liquidity check off for all vaults");
+    return map;
+  } catch (e) { console.warn("kamino: vault allocations failed —", e.message); return null; }
+}
+
+// Reserve metrics rows → Map reserve → free liquidity (supplied − borrowed, USD). A row
+// whose figures are missing, non-numeric or borrow > supply is left out (unknown), never
+// read as 0 free — that would hide every vault using it. `bad` counts those rows.
+export function reserveFreeFrom(rows, into = new Map()) {
+  let bad = 0;
+  for (const r of rows || []) {
+    if (!r?.reserve) continue;
+    const supply = Number(r.totalSupplyUsd), borrow = Number(r.totalBorrowUsd);
+    if (!Number.isFinite(supply) || !Number.isFinite(borrow) || borrow > supply * 1.001) { bad++; continue; }
+    into.set(r.reserve, Math.max(0, supply - borrow));
+  }
+  return { free: into, bad };
+}
+
+// reserve → free liquidity (USD) across every Kamino lending market. A market that fails
+// is skipped; vaults using its reserves then get an unknown withdrawable figure.
+async function fetchReserveFree() {
+  try {
+    const markets = await getJson("https://api.kamino.finance/v2/kamino-market");
+    const ids = (markets || []).map((m) => m.lendingMarket).filter(Boolean);
+    const free = new Map();
+    let failed = 0, bad = 0;
+    await mapLimit(ids, 8, async (id) => {
+      try {
+        const rs = await getJson(`https://api.kamino.finance/kamino-market/${id}/reserves/metrics`);
+        bad += reserveFreeFrom(rs, free).bad;
+      } catch { failed++; }
+    });
+    if (failed) console.warn(`kamino: reserve metrics failed for ${failed}/${ids.length} markets`);
+    if (bad) console.warn(`kamino: ${bad} reserve rows had missing or inconsistent supply/borrow — left unknown`);
+    if (!ids.length || !free.size) console.warn("kamino: no reserve liquidity data — exit-liquidity check off for all vaults");
+    return free;
+  } catch (e) { console.warn("kamino: market list failed —", e.message); return null; }
 }
 
 async function mapLimit(items, limit, fn) {
@@ -121,7 +202,7 @@ async function mapLimit(items, limit, fn) {
 // vault that merely contains one of these as a substring.
 const EXCLUDE = /\b(?:institutional|private[ -]credit|test|staging|dev|e2e|example|demo)\b/i;
 
-// Returns vault records { address, name, symbol, mint, tvl, base, reward, mean30, apy7 }
+// Returns vault records { address, name, symbol, mint, tvl, base, reward, mean30, apy7, available }
 // for stable Kamino lending vaults above the TVL floor (APYs in %). intake.mjs shapes
 // them into pools. `stableSet` = uppercased symbols we trust (from trusted-stables).
 export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
@@ -139,13 +220,22 @@ export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
     .map((v) => ({ ...v, name: nameOverrides[v.address] || nameMap[v.address] || v.symbol }))
     .filter((v) => !EXCLUDE.test(v.name));
 
-  const metrics = await mapLimit(cand, 8, (v) => fetchMetrics(v.address));
+  const [metrics, allocations, reserveFree] = await Promise.all([
+    mapLimit(cand, 8, (v) => fetchMetrics(v.address)),
+    fetchAllocations(),
+    fetchReserveFree(),
+  ]);
   const vaults = [];
   for (let k = 0; k < cand.length; k++) {
     const v = cand[k], m = metrics[k];
     if (!m || !(m.tvl >= tvlFloor)) continue;   // also drops NaN tvl
-    vaults.push({ address: v.address, name: v.name, symbol: v.symbol, mint: v.mint, ...m });
+    const { idleUsd, investedUsd, ...rest } = m;
+    const available = withdrawableUsd({ idleUsd, investedUsd, allocations: allocations?.get(v.address), reserveFree });
+    vaults.push({ address: v.address, name: v.name, symbol: v.symbol, mint: v.mint, ...rest, available });
   }
-  console.log(`  kamino vaults: ${vaults.length} stable lending vaults ≥ $${tvlFloor / 1e6}M (of ${list.length} on-chain)`);
+  const unknownVaults = vaults.filter((v) => v.available == null);
+  const unknown = unknownVaults.length;
+  if (unknown) console.warn(`kamino: withdrawable unknown (vault kept, exit check skipped): ${unknownVaults.map((v) => `${v.name} ${v.address}`).join("; ")}`);
+  console.log(`  kamino vaults: ${vaults.length} stable lending vaults ≥ $${tvlFloor / 1e6}M (of ${list.length} on-chain) · withdrawable unknown for ${unknown}`);
   return vaults;
 }

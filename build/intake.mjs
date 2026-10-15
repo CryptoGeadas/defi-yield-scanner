@@ -8,7 +8,7 @@
 // venues   what build.mjs fetched from each venue's own API (see venues.mjs):
 //            morpho  Map `${chainId}|${SHARE_SYMBOL}|${assetAddr}` → [{ address, assetSymbol, name, network, tvl }]
 //            yearn   Map `${chainId}|${vaultAddr}` → vault name
-//            kamino  [{ address, name, symbol, mint, tvl, base, reward, mean30, apy7 }]
+//            kamino  [{ address, name, symbol, mint, tvl, base, reward, mean30, apy7, available }]
 //            lendBorrow  Map DefiLlama pool id → totalSupplyUsd (lending pools only)
 //          Any of these may be missing/empty (a fetch failed) — intake degrades, never throws.
 // curation the hand-kept opinion files: { denylist, poolUrls }.
@@ -19,8 +19,10 @@
 //   label     the row label a person would recognise on the venue's own app.
 //   exactUrl  a venue-verified deposit URL, or null (deeplinks.mjs then decides).
 //   linkGuarded  true when a venue match failed its check: link to DefiLlama, never the site.
-//   availableUsd lending pools only: supplied − borrowed (DefiLlama's own /pools figure);
-//             tvlUsd becomes total deposits. The pipeline floors both.
+//   availableUsd what can be withdrawn now. DefiLlama lending pools: supplied − borrowed
+//             (the /pools figure; tvlUsd becomes total deposits). Kamino vaults: idle cash
+//             + per reserve min(share, free liquidity); null = unknown → the vault is kept.
+//             The pipeline floors both.
 //
 // Venue corrections run in a fixed order, all inside this module:
 //   1. drop denylisted feed pools; lending pools take total deposits as TVL
@@ -145,6 +147,7 @@ function kaminoPool(v) {
     exposure: "single",
     ilRisk: "no",
     tvlUsd: v.tvl,
+    availableUsd: Number.isFinite(v.available) ? v.available : null, // withdrawable now; null = unknown → kept
     apyBase: v.base,
     apyReward: reward,
     apy: v.base + (reward ?? 0),
