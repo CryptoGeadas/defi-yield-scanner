@@ -81,3 +81,9 @@ test("more sticky rules: better coin Tier moves at once; mixed runs reset streak
   assert.equal(r.invalid, 1);
   assert.throws(() => applySticky({}, [row("p", 4)], T0), /must be 1, 2 or 3/);
 });
+
+test("a hand-set protocol level change moves the pool at once", () => {
+  const a = applySticky({}, [{ id: "p", level: 1, tier: 1, protocolLevel: 1 }], T0);
+  const b = applySticky(a.state, [{ id: "p", level: 3, tier: 1, protocolLevel: 3 }], T0 + 6 * H);
+  assert.equal(b.shown.get("p"), 3);
+});

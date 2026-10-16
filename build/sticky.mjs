@@ -4,9 +4,9 @@
 //
 //   applySticky(state, rows, now) → { shown: Map(id → level), state, invalid }
 //
-// rows   [{ id, level (computed this run, 1–3), tier (coin Tier) }]
+// rows   [{ id, level (computed this run, 1–3), tier (coin Tier), protocolLevel }]
 // state  { [id]: { shown, tier, down, upSince, lastDown, lastSeen } } from the previous
-//        run (site/data/levels-state.json, written by the CI refresh); {} on the first run.
+//        run (build/state/levels-state.json, written by the CI refresh); {} on the first run.
 //
 // Rules:
 //   - a pool new to the state starts at its computed level;
@@ -15,7 +15,8 @@
 //     MIN_GAP_MS after the last counted one, so a re-run cannot speed this up;
 //   - up: after UP_MS of runs in a row computed better than shown (7 days, from the first
 //     better run), it moves to the latest computed level;
-//   - a coin Tier change moves it at once (a denylisted pool leaves the feed at once);
+//   - a coin Tier or hand-set protocol level change moves it at once (a denylisted pool
+//     leaves the feed at once): an owner decision must not wait for the streak;
 //   - a pool missing from a run keeps its state for UP_MS (a pool that drops out for one
 //     run must not skip the 7-day rule), then drops out.
 // `invalid` counts state entries that could not be trusted (they start fresh); the build
@@ -34,15 +35,15 @@ export function applySticky(state = {}, rows, now) {
   const shown = new Map();
   const next = {};
   let invalid = 0;
-  for (const { id, level, tier } of rows) {
+  for (const { id, level, tier, protocolLevel = null } of rows) {
     if (![1, 2, 3].includes(level)) throw new Error(`sticky: computed level for ${id} must be 1, 2 or 3, got ${JSON.stringify(level)}`);
     const raw = state[id];
     if (raw != null && !valid(raw)) invalid++;
     const prev = valid(raw) ? raw : null;
-    const fresh = { shown: level, tier, down: 0, upSince: null, lastDown: null };
+    const fresh = { shown: level, tier, protocolLevel, down: 0, upSince: null, lastDown: null };
     let s;
-    if (!prev || prev.tier !== tier) {
-      s = fresh;                                                    // new pool or coin Tier change
+    if (!prev || prev.tier !== tier || (prev.protocolLevel ?? null) !== protocolLevel) {
+      s = fresh;                                                    // new pool, coin Tier or protocol level change
     } else if (level > prev.shown) {
       const counts = prev.lastDown == null || now - prev.lastDown >= MIN_GAP_MS; // worse: count runs
       const down = counts ? prev.down + 1 : prev.down;

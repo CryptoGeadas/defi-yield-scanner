@@ -52,7 +52,7 @@ The market's plain stablecoin lending rate: the average 30-day mean yield of Aav
 _Avoid_: benchmark, risk-free rate
 
 **Sticky level**:
-The **Level** a pool is shown at, which changes slowly on purpose: it moves down after 2 refreshes in a row at a worse level (~12 hours), up only after 7 days in a row at a better level, and at once when its coin **Tier** changes. The state is kept in `site/data/levels-state.json`; moves are not announced on the page. Pure; `build/sticky.mjs`.
+The **Level** a pool is shown at, which changes slowly on purpose: it moves down after 2 refreshes in a row at a worse level (~12 hours), up only after 7 days in a row at a better level, and at once when its coin **Tier** changes. The state is kept in `build/state/levels-state.json` (not published); moves are not announced on the page. Pure; `build/sticky.mjs`.
 _Avoid_: smoothing, hysteresis
 
 **Bucket**:

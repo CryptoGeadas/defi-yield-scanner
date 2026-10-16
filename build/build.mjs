@@ -21,7 +21,7 @@ const SITE = join(HERE, "..", "site");
 const OUT = join(SITE, "data", "latest.json");
 // Sticky-level state (sticky.mjs): committed next to latest.json so the rule survives
 // between 6-hourly runs. Missing → {} (every pool starts at its computed level).
-const STATE = join(SITE, "data", "levels-state.json");
+const STATE = join(HERE, "state", "levels-state.json"); // not under site/: internal, never published
 async function loadStickyState() {
   let j;
   try { j = JSON.parse(await readFile(STATE, "utf8")); }
@@ -44,13 +44,16 @@ async function loadMaps() {
 const loadNames = async () => strip(JSON.parse(await readFile(join(HERE, "protocol-names.json"), "utf8")));
 
 // Manual per-pool deposit-URL overrides (pool id → exact URL). Highest priority.
+// Opinion files: a missing file is empty, but a broken one fails the build — a typo must
+// never quietly bring back hidden pools or drop curated links.
+async function readOpinion(name) {
+  let text;
+  try { text = await readFile(join(HERE, name), "utf8"); }
+  catch (e) { if (e.code === "ENOENT") return null; throw new Error(`${name} unreadable: ${e.message}`, { cause: e }); }
+  try { return JSON.parse(text); } catch (e) { throw new Error(`${name} is not valid JSON: ${e.message}`, { cause: e }); }
+}
 async function loadPoolUrls() {
-  try {
-    const d = JSON.parse(await readFile(join(HERE, "pool-urls.json"), "utf8"));
-    return d.urls || {};
-  } catch {
-    return {};
-  }
+  return (await readOpinion("pool-urls.json"))?.urls || {};
 }
 
 // Manual denylist for deprecated-but-functional pools the data can't detect.
@@ -66,11 +69,7 @@ async function loadSince() {
 }
 
 async function loadDenylist() {
-  try {
-    return JSON.parse(await readFile(join(HERE, "denylist.json"), "utf8"));
-  } catch {
-    return {};
-  }
+  return (await readOpinion("denylist.json")) || {};
 }
 
 // Map each protocol slug → its official site URL, from DefiLlama's config
@@ -165,16 +164,16 @@ async function main() {
 
   // LEVEL_WINDOWS=1 turns the risk-level switch on for a local build only; the
   // committed default lives in DEFAULT_CONFIG.levelWindows.
-  const levelsOn = process.env.LEVEL_WINDOWS === "1";
+  const levelsOn = process.env.LEVEL_WINDOWS ? process.env.LEVEL_WINDOWS === "1" : DEFAULT_CONFIG.levelWindows;
   if (process.env.LEVEL_WINDOWS && !["0", "1"].includes(process.env.LEVEL_WINDOWS))
     console.warn(`  LEVEL_WINDOWS=${process.env.LEVEL_WINDOWS} not recognised (use 1 or 0) — switch stays off`);
-  if (levelsOn) console.warn("  ⚠ LEVEL_WINDOWS=1: windows grouped by level — local check only, do NOT commit site/data/latest.json from this build");
+  if (process.env.LEVEL_WINDOWS === "1" && !DEFAULT_CONFIG.levelWindows) console.warn("  ⚠ LEVEL_WINDOWS=1: windows grouped by level — local check only, do NOT commit site/data/latest.json from this build");
   // Base rate for the Yield factor: Aave V3 USDC + USDT, 30-day mean (throws if missing).
   const rate = baseRate(feed);
   const noLevel = checkProtocolLevels(maps.protocolMap); // throws on a bad level
   if (noLevel.length) console.warn(`  ⚠ trusted-protocols.json: no level for ${noLevel.join(", ")} — Protocol factor unknown (Level 2) for their pools`);
   const stickyPrev = await loadStickyState();
-  const r = runPipeline(pools, { baseRate: rate, sticky: { state: stickyPrev, now: Date.now() }, ...(levelsOn ? { levelWindows: true } : {}) }, maps);
+  const r = runPipeline(pools, { baseRate: rate, sticky: { state: stickyPrev, now: Date.now() }, levelWindows: levelsOn }, maps);
 
   // Age data health over the rows we show: if an age source breaks (renamed field, API
   // change), every pool silently drops to "unknown" (Level 2). Warn loudly above 20%.
@@ -221,7 +220,10 @@ async function main() {
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n");
   // Only the CI refresh advances the sticky state (6-hourly runs); local builds would count
   // as extra runs and clash with the bot's push. A switch-on local check never writes it.
-  if (process.env.GITHUB_ACTIONS === "true" && !levelsOn) await writeFile(STATE, JSON.stringify(r.stickyState) + "\n");
+  if (process.env.GITHUB_ACTIONS === "true" && !process.env.LEVEL_WINDOWS) {
+    await mkdir(dirname(STATE), { recursive: true });
+    await writeFile(STATE, JSON.stringify(r.stickyState) + "\n");
+  }
   else console.log("  levels-state.json not written (local build)");
   console.log(
     `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  windows ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]} (${r.config.levelWindows ? "by level" : "by tier"}) · levels ${r.stats.perLevel[1]}/${r.stats.perLevel[2]}/${r.stats.perLevel[3]} · base rate ${r.config.baseRate}%` +

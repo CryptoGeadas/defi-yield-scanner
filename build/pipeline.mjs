@@ -108,7 +108,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   // Yield: the organic 30-day mean against the market base rate. DefiLlama's mean is of total
   // APY, so today's reward share is taken out (rewards are never counted); LP rows already
   // lead with min(spot, mean) and count no rewards. No usable mean → today's organic base.
-  const yieldPct = isLP ? base : mean > 0 ? Math.max(0, mean - reward) : spotBase;
+  const yieldPct = isLP ? base : mean > 0 && mean - reward > 0 ? mean - reward : spotBase;
   const risk = rateRisk({ coinTier: tier, coinDriver: driver, tvlUsd: pool.tvlUsd, ageDays: pool.ageDays, yieldPct, baseRate: cfg.baseRate, spotPct: pool.apy ?? null, meanPct: mean, protocol: pool.project, protocolLevel: meta.level }, cfg.riskCuts);
 
   return {
@@ -185,7 +185,7 @@ export function runPipeline(pools, config = {}, maps) {
   // computed this run stays on the row as levelComputed.
   let stickyState = null, stickyInvalid = 0;
   if (cfg.sticky) {
-    const r = applySticky(cfg.sticky.state, kept.map((x) => ({ id: x.pool, level: x.level, tier: x.tier })), cfg.sticky.now);
+    const r = applySticky(cfg.sticky.state, kept.map((x) => ({ id: x.pool, level: x.level, tier: x.tier, protocolLevel: x.factors.find((f) => f.name === "protocol")?.unknown ? null : x.factors.find((f) => f.name === "protocol")?.level ?? null })), cfg.sticky.now);
     stickyState = r.state;
     stickyInvalid = r.invalid;
     for (const x of kept) { x.levelComputed = x.level; x.level = r.shown.get(x.pool); }

@@ -138,19 +138,25 @@ async function getJson(url) {
   return r.json();
 }
 
-// address → { allocations: [{ reserve, ctokens }], createdAt (ms) } from Kamino's vault list.
+// One vault-list row → { allocations: [{ reserve, ctokens }] | null, createdAt (ms) | null }.
+// Kamino gives creationTimestamp in seconds; 0 / missing → null (Age unknown, not 1970).
+export function vaultInfoFrom(v) {
+  const al = v?.state?.vaultAllocationStrategy;
+  const created = Number(v?.state?.creationTimestamp) * 1000;
+  return {
+    allocations: Array.isArray(al) ? al.map((a) => ({ reserve: a.reserve, ctokens: num(a.ctokenAllocation) })) : null,
+    createdAt: Number.isFinite(created) && created > 0 ? created : null,
+  };
+}
+
+// address → vaultInfoFrom(row) for every vault in Kamino's vault list.
 async function fetchAllocations() {
   try {
     const list = await getJson("https://api.kamino.finance/kvaults/vaults");
     const map = new Map();
     for (const v of list || []) {
-      const al = v?.state?.vaultAllocationStrategy;
       if (!v?.address) continue;
-      const created = Number(v?.state?.creationTimestamp) * 1000;
-      map.set(v.address, {
-        allocations: Array.isArray(al) ? al.map((a) => ({ reserve: a.reserve, ctokens: num(a.ctokenAllocation) })) : null,
-        createdAt: Number.isFinite(created) && created > 0 ? created : null,
-      });
+      map.set(v.address, vaultInfoFrom(v));
     }
     const withAlloc = [...map.values()].filter((v) => v.allocations).length;
     const withDate = [...map.values()].filter((v) => v.createdAt).length;

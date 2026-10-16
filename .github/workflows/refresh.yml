@@ -35,10 +35,10 @@ jobs:
         run: |
           git config user.name "yield-scanner-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add site/data/latest.json site/data/levels-state.json site/assets/logos
+          git add site/data/latest.json build/state/levels-state.json site/assets/logos
           if git diff --cached --quiet; then
             echo "no change"
           else
             git commit -m "data: refresh yields snapshot ($(date -u +%FT%TZ))"
-            git push
+            git pull --rebase origin main && git push
           fi

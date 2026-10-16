@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-16T18:44:21.788Z",
+  "generatedAt": "2026-10-16T18:52:15.903Z",
   "source": "https://yields.llama.fi/pools",
   "baseRate": 4.11,
   "config": {
@@ -870,7 +870,7 @@
           },
           {
             "name": "size",
-            "value": 1134682.22386574,
+            "value": 1134684.656357975,
             "level": 3,
             "unknown": false
           },
@@ -905,7 +905,7 @@
         "spot": 7.29,
         "mean30d": 7.3,
         "divFlag": "●",
-        "tvlUsd": 1134682,
+        "tvlUsd": 1134685,
         "legs": [
           "USDG"
         ],
@@ -1641,150 +1641,6 @@
         "poolId": "3d438f2e-0022-4814-80be-f626ba8fcd40"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Solana Mobile USDC Earn Vault",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDC",
-        "level": 3,
-        "levelComputed": 3,
-        "levelDriver": "size",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDC",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 1391754.9253612407,
-            "level": 3,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 95,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.13,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": 43,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 6.62,
-        "reward": 0,
-        "total": 6.62,
-        "spot": 6.62,
-        "mean30d": 4.63,
-        "divFlag": "▲",
-        "tvlUsd": 1391755,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 4.74,
-        "apyPct30D": null,
-        "poolId": "3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Steakhouse USDC",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDC",
-        "level": 2,
-        "levelComputed": 2,
-        "levelDriver": "size",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDC",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 19941460.21393627,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 562,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.26,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": 27,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 6.57,
-        "reward": 0,
-        "total": 6.57,
-        "spot": 6.57,
-        "mean30d": 5.18,
-        "divFlag": "▲",
-        "tvlUsd": 19941460,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 5.37,
-        "apyPct30D": null,
-        "poolId": "HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E"
-      },
-      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "Waterline InfiniFi USDC",
@@ -2143,150 +1999,6 @@
         "apyPct7D": 0.36,
         "apyPct30D": -0.26,
         "poolId": "5a55b869-de6e-42ba-9091-6ee0e02525c2"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Marinade USD Vault",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDC",
-        "level": 3,
-        "levelComputed": 3,
-        "levelDriver": "size",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDC",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 1590274.2546319354,
-            "level": 3,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 224,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.57,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": -2,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 6.3,
-        "reward": 0,
-        "total": 6.3,
-        "spot": 6.3,
-        "mean30d": 6.44,
-        "divFlag": "●",
-        "tvlUsd": 1590274,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 6.51,
-        "apyPct30D": null,
-        "poolId": "2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA"
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Steakhouse High Yield USDC",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDC",
-        "level": 3,
-        "levelComputed": 3,
-        "levelDriver": "size",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDC",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 2556717.5294507477,
-            "level": 3,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 547,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.22,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": 25,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 6.24,
-        "reward": 0,
-        "total": 6.24,
-        "spot": 6.24,
-        "mean30d": 5,
-        "divFlag": "▲",
-        "tvlUsd": 2556718,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/BEEfo7xwgK2ZP13Pxo7qqTPzAteKJmXjVWtMWcXSvbn2",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 5.16,
-        "apyPct30D": null,
-        "poolId": "BEEfo7xwgK2ZP13Pxo7qqTPzAteKJmXjVWtMWcXSvbn2"
       },
       {
         "project": "midas-rwa",
@@ -3031,7 +2743,7 @@
           },
           {
             "name": "size",
-            "value": 59265400.68004779,
+            "value": 59265164.216842316,
             "level": 1,
             "unknown": false
           },
@@ -3060,13 +2772,13 @@
             "unknown": false
           }
         ],
-        "base": 5.68,
+        "base": 5.67,
         "reward": 0.05,
-        "total": 5.74,
-        "spot": 5.74,
+        "total": 5.73,
+        "spot": 5.73,
         "mean30d": 5.74,
         "divFlag": "●",
-        "tvlUsd": 59265401,
+        "tvlUsd": 59265164,
         "legs": [
           "USDC"
         ],
@@ -3077,7 +2789,7 @@
         "apyReward": 0.05,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 6.42,
+        "apyPct7D": 6.43,
         "apyPct30D": null,
         "poolId": "DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP"
       },
@@ -3967,7 +3679,7 @@
           },
           {
             "name": "size",
-            "value": 48748788.572663344,
+            "value": 48748920.02378874,
             "level": 2,
             "unknown": false
           },
@@ -3998,11 +3710,11 @@
         ],
         "base": 5.13,
         "reward": 2.5,
-        "total": 7.62,
-        "spot": 7.62,
+        "total": 7.63,
+        "spot": 7.63,
         "mean30d": 7.75,
         "divFlag": "●",
-        "tvlUsd": 48748789,
+        "tvlUsd": 48748920,
         "legs": [
           "USDG"
         ],
@@ -5024,6 +4736,78 @@
         "apyPct7D": 0.11,
         "apyPct30D": -0.01,
         "poolId": "931ea9be-5f4d-428e-beaf-205fc5b4e2b5"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Marinade USD Vault",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDC",
+        "level": 3,
+        "levelComputed": 3,
+        "levelDriver": "size",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDC",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 1590267.4895293072,
+            "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 224,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 1.57,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": -29,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 4.55,
+        "reward": 0,
+        "total": 4.55,
+        "spot": 4.55,
+        "mean30d": 6.44,
+        "divFlag": "▼",
+        "tvlUsd": 1590267,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 6.51,
+        "apyPct30D": null,
+        "poolId": "2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA"
       },
       {
         "project": "morpho-blue",
@@ -6106,6 +5890,78 @@
         "poolId": "746c13b0-b757-4733-aec5-2b1e72e33958"
       },
       {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Steakhouse USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDC",
+        "level": 2,
+        "levelComputed": 2,
+        "levelDriver": "size",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDC",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 19941369.306395225,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 562,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 1.26,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": -15,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 4.41,
+        "reward": 0,
+        "total": 4.41,
+        "spot": 4.41,
+        "mean30d": 5.18,
+        "divFlag": "●",
+        "tvlUsd": 19941369,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.37,
+        "apyPct30D": null,
+        "poolId": "HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E"
+      },
+      {
         "project": "uniswap-v4",
         "name": "Uniswap V4",
         "symbol": "USDC-USDG · Dynamic fee (hook)",
@@ -6973,6 +6829,78 @@
         "poolId": "6a577feb-5115-4185-9b55-f9c02bca9399"
       },
       {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Steakhouse High Yield USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDC",
+        "level": 3,
+        "levelComputed": 3,
+        "levelDriver": "size",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDC",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 2556706.4214610322,
+            "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 547,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 1.22,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": -16,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 4.21,
+        "reward": 0,
+        "total": 4.21,
+        "spot": 4.21,
+        "mean30d": 5,
+        "divFlag": "●",
+        "tvlUsd": 2556706,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/BEEfo7xwgK2ZP13Pxo7qqTPzAteKJmXjVWtMWcXSvbn2",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.16,
+        "apyPct30D": null,
+        "poolId": "BEEfo7xwgK2ZP13Pxo7qqTPzAteKJmXjVWtMWcXSvbn2"
+      },
+      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "Clearstar cbAssets Vault",
@@ -7138,7 +7066,7 @@
           },
           {
             "name": "size",
-            "value": 109565718.874004,
+            "value": 109571562.79383169,
             "level": 1,
             "unknown": false
           },
@@ -7173,7 +7101,7 @@
         "spot": 6.49,
         "mean30d": 6.42,
         "divFlag": "●",
-        "tvlUsd": 109565719,
+        "tvlUsd": 109571563,
         "legs": [
           "PYUSD"
         ],
@@ -7331,6 +7259,78 @@
         "apyPct7D": 0.2,
         "apyPct30D": -4.86,
         "poolId": "89c36167-17ae-571a-8adf-fca819b3a600"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Solana Mobile USDC Earn Vault",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDC",
+        "level": 3,
+        "levelComputed": 3,
+        "levelDriver": "size",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDC",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 1391756.6476965821,
+            "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 95,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 1.13,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": -15,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 3.94,
+        "reward": 0,
+        "total": 3.94,
+        "spot": 3.94,
+        "mean30d": 4.63,
+        "divFlag": "●",
+        "tvlUsd": 1391757,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 4.74,
+        "apyPct30D": null,
+        "poolId": "3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC"
       },
       {
         "project": "aave-v3",
@@ -8435,7 +8435,7 @@
           },
           {
             "name": "size",
-            "value": 89881974.62277962,
+            "value": 89886758.34478265,
             "level": 1,
             "unknown": false
           },
@@ -8470,7 +8470,7 @@
         "spot": 3.73,
         "mean30d": 3.52,
         "divFlag": "●",
-        "tvlUsd": 89881975,
+        "tvlUsd": 89886758,
         "legs": [
           "PYUSD"
         ],
@@ -8481,7 +8481,7 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 3.66,
+        "apyPct7D": 3.65,
         "apyPct30D": null,
         "poolId": "4TwKA9JXEGeLEpAPLoarhSQoQwoiu12dkDCjSuVvHQUf"
       },
