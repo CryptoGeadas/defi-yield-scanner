@@ -5,7 +5,8 @@
 //   rateRisk(facts, cuts?) → { level, driver, factors: [{ name, value, level, unknown }] }
 //
 // facts  what the pipeline knows about the pool: { coinTier, coinDriver, tvlUsd, ageDays,
-//        yieldPct (30-day mean), baseRate, spotPct (today), meanPct (30-day mean) }.
+//        yieldPct (30-day mean), baseRate, spotPct (today), meanPct (30-day mean),
+//        protocol, protocolLevel (hand-set in trusted-protocols.json) }.
 // cuts   cut lines per Factor (DEFAULT_CUTS); the build config may override them.
 //
 // A Factor with no data counts as Level 2 and is marked unknown — a gap in our data
@@ -63,12 +64,27 @@ const FACTORS = {
     if (!Number.isFinite(d)) return null;
     return { value: Math.round(d * 100), level: atMost(Math.max(0, d), cuts.stability) };
   },
+  // Hand-set per protocol: 1 = current version live 2+ years, $1B+ deposits, no loss of
+  // user funds in that version; 2 = newer/smaller or a fixed past incident; 3 = a recent
+  // loss of user funds or an unclear fix. No level set → unknown.
+  protocol: (f) => (f.protocolLevel == null ? null : { value: f.protocol ?? null, level: f.protocolLevel }),
 };
+
+// Check every allowlisted protocol once at load: a level must be 1, 2 or 3 (or absent →
+// unknown). Returns the protocols without a level so the build can warn about them.
+export function checkProtocolLevels(protocolMap) {
+  for (const [slug, m] of Object.entries(protocolMap))
+    if (m.level != null && ![1, 2, 3].includes(m.level))
+      throw new Error(`protocol level must be 1, 2 or 3, got ${JSON.stringify(m.level)} (${slug}) — check trusted-protocols.json`);
+  return Object.entries(protocolMap).filter(([, m]) => m.level == null).map(([k]) => k);
+}
 
 export function rateRisk(facts, cuts = DEFAULT_CUTS) {
   // A coin Tier is a ceiling, so a malformed one must never pass as "unknown" (Level 2).
   if (facts.coinTier != null && ![1, 2, 3].includes(facts.coinTier))
     throw new Error(`coin tier must be 1, 2 or 3, got ${JSON.stringify(facts.coinTier)} (${facts.coinDriver ?? "?"}) — check trusted-stables.json`);
+  if (facts.protocolLevel != null && ![1, 2, 3].includes(facts.protocolLevel))
+    throw new Error(`protocol level must be 1, 2 or 3, got ${JSON.stringify(facts.protocolLevel)} (${facts.protocol ?? "?"}) — check trusted-protocols.json`);
   const factors = FACTOR_ORDER.filter((name) => FACTORS[name]).map((name) => {
     const r = FACTORS[name](facts, cuts);
     return r ? { name, value: r.value, level: r.level, unknown: false } : { name, value: null, level: UNKNOWN_LEVEL, unknown: true };

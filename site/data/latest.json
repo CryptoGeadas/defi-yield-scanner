@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-16T18:30:08.183Z",
+  "generatedAt": "2026-10-16T18:33:00.772Z",
   "source": "https://yields.llama.fi/pools",
   "baseRate": 4.11,
   "config": {
@@ -50,8 +50,8 @@
     },
     "perLevel": {
       "1": 30,
-      "2": 94,
-      "3": 108
+      "2": 92,
+      "3": 110
     }
   },
   "windows": {
@@ -97,6 +97,12 @@
             "name": "stability",
             "value": 108,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
             "unknown": false
           }
         ],
@@ -163,6 +169,12 @@
             "value": 95,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 12.49,
@@ -226,6 +238,12 @@
           {
             "name": "stability",
             "value": 20,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -293,6 +311,12 @@
             "value": 19,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 10.21,
@@ -356,6 +380,12 @@
           {
             "name": "stability",
             "value": 36,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
             "level": 2,
             "unknown": false
           }
@@ -423,6 +453,12 @@
             "value": 77,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 9.04,
@@ -486,6 +522,12 @@
           {
             "name": "stability",
             "value": 42,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "centrifuge-protocol",
             "level": 2,
             "unknown": false
           }
@@ -553,6 +595,12 @@
             "value": 15,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 7.99,
@@ -616,6 +664,12 @@
           {
             "name": "stability",
             "value": 42,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "jupiter-lend",
             "level": 2,
             "unknown": false
           }
@@ -683,6 +737,12 @@
             "value": -2,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 7.37,
@@ -746,6 +806,12 @@
           {
             "name": "stability",
             "value": 30,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -813,6 +879,12 @@
             "value": 0,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 7.29,
@@ -876,6 +948,12 @@
           {
             "name": "stability",
             "value": 14,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -943,6 +1021,12 @@
             "value": -2,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 7.2,
@@ -1006,6 +1090,12 @@
           {
             "name": "stability",
             "value": 2,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -1073,6 +1163,12 @@
             "value": 3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 7.04,
@@ -1136,6 +1232,12 @@
           {
             "name": "stability",
             "value": 7,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -1203,6 +1305,12 @@
             "value": 10,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.9,
@@ -1267,6 +1375,12 @@
             "name": "stability",
             "value": -4,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -1333,6 +1447,12 @@
             "value": -4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 6.72,
@@ -1398,6 +1518,12 @@
             "value": 44,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.68,
@@ -1461,6 +1587,12 @@
           {
             "name": "stability",
             "value": -6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -1528,6 +1660,12 @@
             "value": -5,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.64,
@@ -1591,6 +1729,12 @@
           {
             "name": "stability",
             "value": 28,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
             "level": 1,
             "unknown": false
           }
@@ -1658,6 +1802,12 @@
             "value": -2,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.48,
@@ -1721,6 +1871,12 @@
           {
             "name": "stability",
             "value": 23,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
             "level": 1,
             "unknown": false
           }
@@ -1788,6 +1944,12 @@
             "value": 0,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.41,
@@ -1852,6 +2014,12 @@
             "name": "stability",
             "value": -13,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -1918,6 +2086,12 @@
             "value": -5,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 6.38,
@@ -1981,6 +2155,12 @@
           {
             "name": "stability",
             "value": -2,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -2048,6 +2228,12 @@
             "value": 26,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.29,
@@ -2111,6 +2297,12 @@
           {
             "name": "stability",
             "value": 31,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
             "level": 2,
             "unknown": false
           }
@@ -2178,6 +2370,12 @@
             "value": 9,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 6.16,
@@ -2243,6 +2441,12 @@
             "value": -4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 6.1,
@@ -2306,6 +2510,12 @@
           {
             "name": "stability",
             "value": -3,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
             "level": 1,
             "unknown": false
           }
@@ -2373,6 +2583,12 @@
             "value": 1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.84,
@@ -2436,6 +2652,12 @@
           {
             "name": "stability",
             "value": -5,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
             "level": 1,
             "unknown": false
           }
@@ -2503,6 +2725,12 @@
             "value": 3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.81,
@@ -2566,6 +2794,12 @@
           {
             "name": "stability",
             "value": -2,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
             "level": 1,
             "unknown": false
           }
@@ -2634,6 +2868,12 @@
             "value": 59,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "compound-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.77,
@@ -2697,6 +2937,12 @@
           {
             "name": "stability",
             "value": 1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
             "level": 1,
             "unknown": false
           }
@@ -2764,6 +3010,12 @@
             "value": -5,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.68,
@@ -2827,6 +3079,12 @@
           {
             "name": "stability",
             "value": 1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -2894,6 +3152,12 @@
             "value": -6,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.62,
@@ -2957,6 +3221,12 @@
           {
             "name": "stability",
             "value": -10,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
             "level": 1,
             "unknown": false
           }
@@ -3024,6 +3294,12 @@
             "value": 7,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.55,
@@ -3087,6 +3363,12 @@
           {
             "name": "stability",
             "value": 12,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -3154,6 +3436,12 @@
             "value": -8,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.48,
@@ -3217,6 +3505,12 @@
           {
             "name": "stability",
             "value": 0,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -3284,6 +3578,12 @@
             "value": 4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "maple",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.4,
@@ -3347,6 +3647,12 @@
           {
             "name": "stability",
             "value": 0,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -3414,6 +3720,12 @@
             "value": 1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "maple",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.23,
@@ -3479,6 +3791,12 @@
             "value": 5,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "jupiter-lend",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.19,
@@ -3542,6 +3860,12 @@
           {
             "name": "stability",
             "value": 8,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "compound-v3",
             "level": 1,
             "unknown": false
           }
@@ -3609,6 +3933,12 @@
             "value": -4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 5.12,
@@ -3672,6 +4002,12 @@
           {
             "name": "stability",
             "value": -2,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
             "level": 1,
             "unknown": false
           }
@@ -3739,6 +4075,12 @@
             "value": 8,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "beefy",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.06,
@@ -3804,6 +4146,12 @@
             "value": 2,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "beefy",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.05,
@@ -3867,6 +4215,12 @@
           {
             "name": "stability",
             "value": 1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "maple",
             "level": 1,
             "unknown": false
           }
@@ -3934,6 +4288,12 @@
             "value": 18,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.93,
@@ -3997,6 +4357,12 @@
           {
             "name": "stability",
             "value": -8,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -4064,6 +4430,12 @@
             "value": 25,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "jupiter-lend",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.89,
@@ -4129,6 +4501,12 @@
             "value": 1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.88,
@@ -4192,6 +4570,12 @@
           {
             "name": "stability",
             "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -4259,6 +4643,12 @@
             "value": 6,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.75,
@@ -4322,6 +4712,12 @@
           {
             "name": "stability",
             "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -4389,6 +4785,12 @@
             "value": -13,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.75,
@@ -4452,6 +4854,12 @@
           {
             "name": "stability",
             "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -4519,6 +4927,12 @@
             "value": 2,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.58,
@@ -4582,6 +4996,12 @@
           {
             "name": "stability",
             "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -4649,6 +5069,12 @@
             "value": 0,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.53,
@@ -4712,6 +5138,12 @@
           {
             "name": "stability",
             "value": 1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -4779,6 +5211,12 @@
             "value": 6,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.52,
@@ -4842,6 +5280,12 @@
           {
             "name": "stability",
             "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -4909,6 +5353,12 @@
             "value": 1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.52,
@@ -4972,6 +5422,12 @@
           {
             "name": "stability",
             "value": 1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -5039,6 +5495,12 @@
             "value": 1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.52,
@@ -5102,6 +5564,12 @@
           {
             "name": "stability",
             "value": 3,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -5169,6 +5637,12 @@
             "value": 1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.51,
@@ -5232,6 +5706,12 @@
           {
             "name": "stability",
             "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -5299,6 +5779,12 @@
             "value": -30,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.5,
@@ -5362,6 +5848,12 @@
           {
             "name": "stability",
             "value": 1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -5429,6 +5921,12 @@
             "value": 3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.46,
@@ -5492,6 +5990,12 @@
           {
             "name": "stability",
             "value": -12,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -5559,6 +6063,12 @@
             "value": -7,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.4,
@@ -5623,6 +6133,12 @@
           {
             "name": "stability",
             "value": 1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -5690,6 +6206,12 @@
             "value": -1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.31,
@@ -5753,6 +6275,12 @@
           {
             "name": "stability",
             "value": 0,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -5820,6 +6348,12 @@
             "value": 0,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.3,
@@ -5885,6 +6419,12 @@
             "value": 3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.27,
@@ -5948,6 +6488,12 @@
           {
             "name": "stability",
             "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -6015,6 +6561,12 @@
             "value": 6,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.26,
@@ -6078,6 +6630,12 @@
           {
             "name": "stability",
             "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -6145,6 +6703,12 @@
             "value": 13,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.25,
@@ -6209,6 +6773,12 @@
             "name": "stability",
             "value": 64,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -6276,6 +6846,12 @@
             "value": 1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "beefy",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.22,
@@ -6340,6 +6916,12 @@
           {
             "name": "stability",
             "value": 2,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -6407,6 +6989,12 @@
             "value": 5,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.17,
@@ -6470,6 +7058,12 @@
           {
             "name": "stability",
             "value": 1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
             "level": 1,
             "unknown": false
           }
@@ -6537,6 +7131,12 @@
             "value": 0,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 4.07,
@@ -6600,6 +7200,12 @@
           {
             "name": "stability",
             "value": -12,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -6667,6 +7273,12 @@
             "value": -13,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.93,
@@ -6731,6 +7343,12 @@
             "name": "stability",
             "value": 50,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
+            "level": 1,
             "unknown": false
           }
         ],
@@ -6797,6 +7415,12 @@
             "value": 5,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.91,
@@ -6862,6 +7486,12 @@
             "value": -3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.89,
@@ -6925,6 +7555,12 @@
           {
             "name": "stability",
             "value": -43,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
             "level": 1,
             "unknown": false
           }
@@ -6993,6 +7629,12 @@
             "value": 3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "blackrock-buidl",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.84,
@@ -7056,6 +7698,12 @@
           {
             "name": "stability",
             "value": 1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -7123,6 +7771,12 @@
             "value": 3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "blackrock-buidl",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.81,
@@ -7186,6 +7840,12 @@
           {
             "name": "stability",
             "value": 3,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "blackrock-buidl",
             "level": 1,
             "unknown": false
           }
@@ -7253,6 +7913,12 @@
             "value": 4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "spark-savings",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.8,
@@ -7286,8 +7952,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 2,
-        "levelDriver": "size",
+        "level": 3,
+        "levelDriver": "protocol",
         "factors": [
           {
             "name": "coin",
@@ -7317,6 +7983,12 @@
             "name": "stability",
             "value": 20,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "save",
+            "level": 3,
             "unknown": false
           }
         ],
@@ -7381,6 +8053,12 @@
           {
             "name": "stability",
             "value": -14,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
             "level": 1,
             "unknown": false
           }
@@ -7448,6 +8126,12 @@
             "value": -6,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.75,
@@ -7511,6 +8195,12 @@
           {
             "name": "stability",
             "value": 4,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "spark-savings",
             "level": 1,
             "unknown": false
           }
@@ -7578,6 +8268,12 @@
             "value": 6,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.75,
@@ -7643,6 +8339,12 @@
             "value": 12,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "jupiter-lend",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.75,
@@ -7706,6 +8408,12 @@
           {
             "name": "stability",
             "value": -10,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -7773,6 +8481,12 @@
             "value": 1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.69,
@@ -7837,6 +8551,12 @@
             "name": "stability",
             "value": 6,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -7903,6 +8623,12 @@
             "value": -4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "centrifuge-protocol",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.63,
@@ -7968,6 +8694,12 @@
             "value": -3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "centrifuge-protocol",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.63,
@@ -8031,6 +8763,12 @@
           {
             "name": "stability",
             "value": 0,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "invesco-ustb",
             "level": 1,
             "unknown": false
           }
@@ -8098,6 +8836,12 @@
             "value": 0,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "invesco-ustb",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.58,
@@ -8163,6 +8907,12 @@
             "value": 2,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "jupiter-lend",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.55,
@@ -8226,6 +8976,12 @@
           {
             "name": "stability",
             "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -8293,6 +9049,12 @@
             "value": 3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "blackrock-buidl",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.5,
@@ -8356,6 +9118,12 @@
           {
             "name": "stability",
             "value": 3,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "blackrock-buidl",
             "level": 1,
             "unknown": false
           }
@@ -8423,6 +9191,12 @@
             "value": -56,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.5,
@@ -8486,6 +9260,12 @@
           {
             "name": "stability",
             "value": -13,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -8553,6 +9333,12 @@
             "value": 3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "midas-rwa",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.42,
@@ -8616,6 +9402,12 @@
           {
             "name": "stability",
             "value": 4,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
             "level": 1,
             "unknown": false
           }
@@ -8683,6 +9475,12 @@
             "value": 3,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.39,
@@ -8746,6 +9544,12 @@
           {
             "name": "stability",
             "value": 0,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -8813,6 +9617,12 @@
             "value": -15,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.29,
@@ -8876,6 +9686,12 @@
           {
             "name": "stability",
             "value": -10,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
             "level": 1,
             "unknown": false
           }
@@ -8943,6 +9759,12 @@
             "value": -1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.21,
@@ -9006,6 +9828,12 @@
           {
             "name": "stability",
             "value": 4,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
             "level": 1,
             "unknown": false
           }
@@ -9073,6 +9901,12 @@
             "value": -4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.16,
@@ -9136,6 +9970,12 @@
           {
             "name": "stability",
             "value": 2,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -9203,6 +10043,12 @@
             "value": -25,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.15,
@@ -9268,6 +10114,12 @@
             "value": 4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "compound-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.13,
@@ -9331,6 +10183,12 @@
           {
             "name": "stability",
             "value": 57,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "raydium-amm",
             "level": 2,
             "unknown": false
           }
@@ -9399,6 +10257,12 @@
             "value": 6,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 3.06,
@@ -9463,6 +10327,12 @@
             "name": "stability",
             "value": -25,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "centrifuge-protocol",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -9529,6 +10399,12 @@
             "value": -47,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 2.96,
@@ -9594,6 +10470,12 @@
             "value": -29,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 2.95,
@@ -9627,8 +10509,8 @@
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDT",
-        "level": 2,
-        "levelDriver": "size",
+        "level": 3,
+        "levelDriver": "protocol",
         "factors": [
           {
             "name": "coin",
@@ -9658,6 +10540,12 @@
             "name": "stability",
             "value": 44,
             "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "save",
+            "level": 3,
             "unknown": false
           }
         ],
@@ -9724,6 +10612,12 @@
             "value": -53,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 2.79,
@@ -9787,6 +10681,12 @@
           {
             "name": "stability",
             "value": -27,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -9854,6 +10754,12 @@
             "value": -19,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.53,
@@ -9917,6 +10823,12 @@
           {
             "name": "stability",
             "value": -26,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -9984,6 +10896,12 @@
             "value": -27,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.51,
@@ -10047,6 +10965,12 @@
           {
             "name": "stability",
             "value": -10,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -10114,6 +11038,12 @@
             "value": -27,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.5,
@@ -10177,6 +11107,12 @@
           {
             "name": "stability",
             "value": -27,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -10244,6 +11180,12 @@
             "value": -31,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.47,
@@ -10307,6 +11249,12 @@
           {
             "name": "stability",
             "value": -36,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
             "level": 1,
             "unknown": false
           }
@@ -10375,6 +11323,12 @@
             "value": -27,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.39,
@@ -10438,6 +11392,12 @@
           {
             "name": "stability",
             "value": -28,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -10505,6 +11465,12 @@
             "value": -27,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.38,
@@ -10568,6 +11534,12 @@
           {
             "name": "stability",
             "value": -27,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -10635,6 +11607,12 @@
             "value": -5,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "compound-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.35,
@@ -10698,6 +11676,12 @@
           {
             "name": "stability",
             "value": -11,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -10765,6 +11749,12 @@
             "value": 12,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.29,
@@ -10828,6 +11818,12 @@
           {
             "name": "stability",
             "value": 3,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -10895,6 +11891,12 @@
             "value": -27,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.26,
@@ -10958,6 +11960,12 @@
           {
             "name": "stability",
             "value": -27,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -11025,6 +12033,12 @@
             "value": -27,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 2.12,
@@ -11088,6 +12102,12 @@
           {
             "name": "stability",
             "value": -22,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -11155,6 +12175,12 @@
             "value": 8,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "sparklend",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 1.93,
@@ -11218,6 +12244,12 @@
           {
             "name": "stability",
             "value": 0,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
             "level": 1,
             "unknown": false
           }
@@ -11285,6 +12317,12 @@
             "value": -74,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 1.47,
@@ -11348,6 +12386,12 @@
           {
             "name": "stability",
             "value": -50,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
             "level": 1,
             "unknown": false
           }
@@ -11416,6 +12460,12 @@
             "value": -11,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.87,
@@ -11481,6 +12531,12 @@
             "value": -29,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "sparklend",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.84,
@@ -11544,6 +12600,12 @@
           {
             "name": "stability",
             "value": -31,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
             "level": 1,
             "unknown": false
           }
@@ -11612,6 +12674,12 @@
             "value": 49,
             "level": 2,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "orca-dex",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 0.38,
@@ -11677,6 +12745,12 @@
             "name": "stability",
             "value": -20,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "orca-dex",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -11744,6 +12818,12 @@
             "value": 90,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.18,
@@ -11807,6 +12887,12 @@
           {
             "name": "stability",
             "value": -88,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
             "level": 1,
             "unknown": false
           }
@@ -11877,6 +12963,12 @@
             "value": -10,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 6.21,
@@ -11941,6 +13033,12 @@
           {
             "name": "stability",
             "value": 57,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
             "level": 2,
             "unknown": false
           }
@@ -12008,6 +13106,12 @@
             "value": 10,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.93,
@@ -12073,6 +13177,12 @@
             "value": 67,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "jupiter-lend",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.87,
@@ -12136,6 +13246,12 @@
           {
             "name": "stability",
             "value": 7,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "sky-lending",
             "level": 1,
             "unknown": false
           }
@@ -12203,6 +13319,12 @@
             "value": 2,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "beefy",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.51,
@@ -12267,6 +13389,12 @@
           {
             "name": "stability",
             "value": 0,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
             "level": 1,
             "unknown": false
           }
@@ -12334,6 +13462,12 @@
             "value": 4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "sky-lending",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.8,
@@ -12397,6 +13531,12 @@
           {
             "name": "stability",
             "value": 4,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "spark-savings",
             "level": 1,
             "unknown": false
           }
@@ -12464,6 +13604,12 @@
             "value": 4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "sky-lending",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.8,
@@ -12527,6 +13673,12 @@
           {
             "name": "stability",
             "value": 4,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "spark-savings",
             "level": 1,
             "unknown": false
           }
@@ -12594,6 +13746,12 @@
             "value": -57,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 3.29,
@@ -12659,6 +13817,12 @@
             "value": -18,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "centrifuge-protocol",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 2.97,
@@ -12722,6 +13886,12 @@
           {
             "name": "stability",
             "value": -4,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
             "level": 1,
             "unknown": false
           }
@@ -12789,6 +13959,12 @@
             "value": -49,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 2.77,
@@ -12853,6 +14029,12 @@
             "name": "stability",
             "value": -10,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -12920,6 +14102,12 @@
             "value": -25,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 1.18,
@@ -12983,6 +14171,12 @@
           {
             "name": "stability",
             "value": 0,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }
@@ -13050,6 +14244,12 @@
             "value": 2,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.56,
@@ -13113,6 +14313,12 @@
           {
             "name": "stability",
             "value": -55,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
             "level": 1,
             "unknown": false
           }
@@ -13181,6 +14387,12 @@
             "value": -22,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 0.29,
@@ -13245,6 +14457,12 @@
           {
             "name": "stability",
             "value": 8,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
             "level": 1,
             "unknown": false
           }
@@ -13312,6 +14530,12 @@
             "value": 76,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 0.09,
@@ -13377,6 +14601,12 @@
             "name": "stability",
             "value": 5,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -13444,6 +14674,12 @@
             "value": -52,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.02,
@@ -13509,6 +14745,12 @@
             "name": "stability",
             "value": -100,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -13578,6 +14820,12 @@
             "value": -58,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aerodrome-slipstream",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 28.07,
@@ -13644,6 +14892,12 @@
             "value": 80,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aerodrome-v1",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 26.01,
@@ -13708,6 +14962,12 @@
           {
             "name": "stability",
             "value": 56,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
             "level": 2,
             "unknown": false
           }
@@ -13776,6 +15036,12 @@
             "value": 60,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "orca-dex",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 9.31,
@@ -13841,6 +15107,12 @@
             "name": "stability",
             "value": 110,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -13908,6 +15180,12 @@
             "value": -4,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "beefy",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 7.96,
@@ -13973,6 +15251,12 @@
             "name": "stability",
             "value": -17,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "beefy",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -14040,6 +15324,12 @@
             "value": -6,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "yearn-finance",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.67,
@@ -14106,6 +15396,12 @@
             "value": 13,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "ethena-usde",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 5.56,
@@ -14170,6 +15466,12 @@
             "name": "stability",
             "value": -24,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "orca-dex",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -14237,6 +15539,12 @@
             "value": 0,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "jupiter-lend",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.75,
@@ -14302,6 +15610,12 @@
             "value": -1,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "jupiter-lend",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 4.75,
@@ -14366,6 +15680,12 @@
             "name": "stability",
             "value": 79,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
+            "level": 1,
             "unknown": false
           }
         ],
@@ -14433,6 +15753,12 @@
             "value": 99,
             "level": 3,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 2.33,
@@ -14498,6 +15824,12 @@
             "name": "stability",
             "value": -22,
             "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v4",
+            "level": 2,
             "unknown": false
           }
         ],
@@ -14565,6 +15897,12 @@
             "value": 0,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "euler-v2",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 0.56,
@@ -14628,6 +15966,12 @@
           {
             "name": "stability",
             "value": -32,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v3",
             "level": 1,
             "unknown": false
           }
@@ -14695,6 +16039,12 @@
             "value": -77,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "orca-dex",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 0.24,
@@ -14761,6 +16111,12 @@
             "value": 5,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.21,
@@ -14824,6 +16180,12 @@
           {
             "name": "stability",
             "value": -68,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
             "level": 1,
             "unknown": false
           }
@@ -14892,6 +16254,12 @@
             "value": -67,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
+            "level": 1,
+            "unknown": false
           }
         ],
         "base": 0.13,
@@ -14957,6 +16325,12 @@
             "name": "stability",
             "value": 248,
             "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
+            "level": 1,
             "unknown": false
           }
         ],
@@ -15024,6 +16398,12 @@
             "value": -100,
             "level": 1,
             "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "aave-v4",
+            "level": 2,
+            "unknown": false
           }
         ],
         "base": 0,
@@ -15087,6 +16467,12 @@
           {
             "name": "stability",
             "value": -100,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "uniswap-v3",
             "level": 1,
             "unknown": false
           }
@@ -15153,6 +16539,12 @@
           {
             "name": "stability",
             "value": -1,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "morpho-blue",
             "level": 1,
             "unknown": false
           }

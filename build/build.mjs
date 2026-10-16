@@ -11,6 +11,7 @@ import { runPipeline, DEFAULT_CONFIG } from "./pipeline.mjs";
 import { intakePools } from "./intake.mjs";
 import { checkSince } from "./age.mjs";
 import { baseRate } from "./base-rate.mjs";
+import { checkProtocolLevels } from "./risk.mjs";
 import { fetchVenues } from "./venues.mjs";
 import { buildLink } from "./deeplinks.mjs";
 import { vendorLogos } from "./logos.mjs";
@@ -159,6 +160,8 @@ async function main() {
   if (levelsOn) console.warn("  ⚠ LEVEL_WINDOWS=1: windows grouped by level — local check only, do NOT commit site/data/latest.json from this build");
   // Base rate for the Yield factor: Aave V3 USDC + USDT, 30-day mean (throws if missing).
   const rate = baseRate(feed);
+  const noLevel = checkProtocolLevels(maps.protocolMap); // throws on a bad level
+  if (noLevel.length) console.warn(`  ⚠ trusted-protocols.json: no level for ${noLevel.join(", ")} — Protocol factor unknown (Level 2) for their pools`);
   const r = runPipeline(pools, { baseRate: rate, ...(levelsOn ? { levelWindows: true } : {}) }, maps);
 
   // Age data health over the rows we show: if an age source breaks (renamed field, API

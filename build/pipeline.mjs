@@ -107,7 +107,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   // APY, so today's reward share is taken out (rewards are never counted); LP rows already
   // lead with min(spot, mean) and count no rewards. No usable mean → today's organic base.
   const yieldPct = isLP ? base : mean > 0 ? Math.max(0, mean - reward) : spotBase;
-  const risk = rateRisk({ coinTier: tier, coinDriver: driver, tvlUsd: pool.tvlUsd, ageDays: pool.ageDays, yieldPct, baseRate: cfg.baseRate, spotPct: pool.apy ?? null, meanPct: mean }, cfg.riskCuts);
+  const risk = rateRisk({ coinTier: tier, coinDriver: driver, tvlUsd: pool.tvlUsd, ageDays: pool.ageDays, yieldPct, baseRate: cfg.baseRate, spotPct: pool.apy ?? null, meanPct: mean, protocol: pool.project, protocolLevel: meta.level }, cfg.riskCuts);
 
   return {
     ok: true,

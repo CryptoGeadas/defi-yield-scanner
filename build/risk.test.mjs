@@ -16,7 +16,7 @@ test("Size: Level 1 from $50M, Level 2 from $5M, Level 3 below", () => {
 
 test("a pool takes its weakest factor (weakest link)", () => {
   assert.equal(rateRisk({ coinTier: 1, tvlUsd: 2e6 }).level, 3);
-  assert.equal(rateRisk({ coinTier: 1, tvlUsd: 900e6, ageDays: 1000, yieldPct: 4, baseRate: 4, spotPct: 4, meanPct: 4 }).level, 1);
+  assert.equal(rateRisk({ coinTier: 1, tvlUsd: 900e6, ageDays: 1000, yieldPct: 4, baseRate: 4, spotPct: 4, meanPct: 4, protocolLevel: 1 }).level, 1);
 });
 
 test("the coin Tier is a ceiling: a big pool is never safer than its riskiest coin", () => {
@@ -35,14 +35,14 @@ test("a missing fact counts as Level 2 and is marked unknown", () => {
 test("ties go to the first factor in the fixed order Coin, Size, …", () => {
   const r = rateRisk({ coinTier: 2, coinDriver: "GHO", tvlUsd: 10e6 }); // coin 2, size 2
   assert.equal(r.driver, "coin");
-  assert.deepEqual(r.factors.map((f) => f.name), ["coin", "size", "age", "yield", "stability"]);
+  assert.deepEqual(r.factors.map((f) => f.name), ["coin", "size", "age", "yield", "stability", "protocol"]);
 });
 
 // ── pipeline: windows by level behind the switch ────────────────────────────
 import { runPipeline } from "./pipeline.mjs";
 
 const maps = {
-  protocolMap: { "aave-v3": { bucket: "lend", access: "permissionless" }, "morpho-blue": { bucket: "vault", access: "permissionless" } },
+  protocolMap: { "aave-v3": { bucket: "lend", access: "permissionless", level: 1 }, "morpho-blue": { bucket: "vault", access: "permissionless", level: 1 } },
   stableMap: { USDC: { tier: 1, type: "fiat" } },
 };
 const pool = (o) => ({
@@ -66,7 +66,7 @@ test("switch off (default): windows stay by coin tier, rows still carry their le
   assert.deepEqual(ids(r.windows[1]).sort(), ["aave", "small"]);
   const small = r.windows[1].find((x) => x.pool === "small");
   assert.equal(small.level, 3);
-  assert.deepEqual(small.factors.map((f) => f.name), ["coin", "size", "age", "yield", "stability"]);
+  assert.deepEqual(small.factors.map((f) => f.name), ["coin", "size", "age", "yield", "stability", "protocol"]);
 });
 
 test("custom Size cut lines from the config are used", () => {
@@ -247,4 +247,30 @@ test("Stability edge cases: no spot → unknown; flat or negative yield is Level
   assert.throws(() => runPipeline(pools, { baseRate: 4, riskCuts: { stability: { level1: 0.6, level2: 0.3 } } }, maps), /level1 <= level2/);
   const custom = runPipeline([pool({ pool: "j", apy: 5, apyBase: 5, apyMean30d: 4 })], { baseRate: 4, riskCuts: { stability: { level1: 0.1, level2: 0.2 } } }, maps);
   assert.equal(custom.windows[1][0].factors.find((f) => f.name === "stability").level, 3, "+25% is Level 3 under custom cut lines");
+});
+
+// ── Protocol factor (#17) ───────────────────────────────────────────────────
+test("Protocol: the hand-set level per protocol; a protocol without a level is unknown", () => {
+  const pr = (protocolLevel) => factor(rateRisk({ coinTier: 1, protocol: "aave-v3", protocolLevel }), "protocol");
+  assert.deepEqual(pr(1), { name: "protocol", value: "aave-v3", level: 1, unknown: false });
+  assert.equal(pr(3).level, 3);
+  assert.deepEqual(pr(undefined), { name: "protocol", value: null, level: 2, unknown: true });
+  assert.throws(() => rateRisk({ coinTier: 1, protocol: "x", protocolLevel: 4 }), /protocol level/);
+});
+
+test("the pipeline reads the protocol level from trusted-protocols", () => {
+  const m = { ...maps, protocolMap: { ...maps.protocolMap, "aave-v3": { bucket: "lend", access: "permissionless", level: 3 } } };
+  const r = runPipeline([pool({ pool: "a" })], { baseRate: 4, levelWindows: true }, m);
+  assert.equal(r.windows[3][0].levelDriver, "protocol");
+});
+
+import { checkProtocolLevels } from "./risk.mjs";
+test("protocol levels: checked at load; bad values throw, missing ones are listed and rated unknown", () => {
+  for (const bad of ["1", 0, 1.5, 4]) assert.throws(() => checkProtocolLevels({ x: { level: bad } }), /protocol level/, String(bad));
+  assert.deepEqual(checkProtocolLevels({ a: { level: 1 }, b: {} }), ["b"]);
+  const noLevel = { ...maps, protocolMap: { "aave-v3": { bucket: "lend", access: "permissionless" } } };
+  const row = runPipeline([pool({ pool: "a" })], { baseRate: 4 }, noLevel).windows[1][0];
+  assert.deepEqual(row.factors.find((f) => f.name === "protocol"), { name: "protocol", value: null, level: 2, unknown: true });
+  const bad = { ...maps, protocolMap: { "aave-v3": { bucket: "lend", access: "permissionless", level: 5 } } };
+  assert.throws(() => runPipeline([pool({ pool: "a" })], { baseRate: 4 }, bad), /protocol level.*trusted-protocols/);
 });
