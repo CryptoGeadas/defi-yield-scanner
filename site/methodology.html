@@ -105,7 +105,60 @@
       <div class="keyrow"><span class="k">Tier 1</span><span>Blue-chip, fiat-backed — USDC, USDT, DAI, and peers.</span></div>
       <div class="keyrow"><span class="k">Tier 2</span><span>Crypto-backed — crvUSD, GHO, LUSD, sUSDS, and similar.</span></div>
       <div class="keyrow"><span class="k">Tier 3</span><span>Synthetic — USDe, USR, and newer designs.</span></div>
-      <p class="muted">A multi-asset pool takes the tier of its <strong>riskiest</strong> leg — a USDC/USDe pool is Tier 3.</p>
+      <p class="muted">A multi-asset pool takes the tier of its <strong>riskiest</strong> leg — a USDC/USDe pool is Tier 3. When levels go live, the tier becomes the <strong>Coin</strong> factor of a pool’s level (see <a href="#levels">Levels</a>).</p>
+
+      <h2 id="levels">Levels</h2>
+      <p class="muted">Being reviewed: levels will replace the tier windows above once the review is done.</p>
+      <p>
+        A pool’s <strong>level</strong> is how much risk it carries as a whole, not only its coin:
+        <strong>Level 1 · Lower risk</strong>, <strong>Level 2 · Medium risk</strong>, <strong>Level 3 · Higher risk</strong>.
+        Each pool is rated on six factors, each one Level 1, 2 or 3, and the pool takes its
+        <strong>weakest factor</strong>. A pool is never safer than its weakest point.
+      </p>
+      <div class="keyrow"><span class="k">Coin</span><span>The tier of its riskiest stablecoin (see Tiers). This is a ceiling: a pool holding a synthetic coin can never be Level 1.</span></div>
+      <div class="keyrow"><span class="k">Size</span><span>TVL (total deposits). Level 1 from $50m, Level 2 from $5m, Level 3 below.</span></div>
+      <div class="keyrow"><span class="k">Age</span><span>Days the pool has been live. Level 1 from 180 days, Level 2 from 30 days, Level 3 below.</span></div>
+      <div class="keyrow"><span class="k">Yield</span><span>The pool’s own 30-day yield (rewards taken out) as a multiple of the base rate. Level 1 up to 1.5×, Level 2 up to 2.5×, Level 3 above. A pool paying far above the market must be taking risk somewhere.</span></div>
+      <div class="keyrow"><span class="k">Stability</span><span>Today’s yield against its 30-day average — only rises count. Level 1 up to +30%, Level 2 up to +60%, Level 3 above. A sudden rise usually means most of the pool is lent out, or a temporary incentive (a reward campaign starting counts too). A falling yield is not a safety risk.</span></div>
+      <div class="keyrow"><span class="k">Protocol</span><span>Set by hand per protocol (list below).</span></div>
+      <p class="muted">Each row shows the six factors as a strip of six segments — colour and height show each factor’s level. Open a row to see the values.</p>
+
+      <h3>Base rate</h3>
+      <p>
+        The <strong>base rate</strong> is the market’s plain stablecoin lending rate: the 30-day average yield of Aave
+        USDC and USDT on Ethereum. It moves with the market, so the Yield limits move with it — 1.5× means
+        6% when Aave pays 4%, and 9% when Aave pays 6%.
+      </p>
+
+      <h3>Missing data</h3>
+      <p>
+        When a factor has no data (for example no start date for a pool), it counts as <strong>Level 2</strong> and the
+        row says <em>unknown</em>, with what is missing. A gap in our data is not proof of risk, and not proof of safety.
+      </p>
+
+      <h3>Levels move slowly on purpose</h3>
+      <p>
+        Data refreshes every 6 hours, but a pool’s level doesn’t jump with every refresh. A pool moves
+        <strong>down</strong> after two refreshes in a row at a worse level (about 12 hours), and <strong>up</strong> only
+        after seven days in a row at a better level. A change to its coin’s tier moves it at once. Bad news shows fast;
+        good news has to hold. Moves are not announced on the page.
+      </p>
+
+      <h3>Protocol levels</h3>
+      <p>
+        <strong>Level 1:</strong> the current version has been live 2+ years, holds $1B+, and has had no loss of user funds.
+        <strong>Level 2:</strong> newer or smaller, or a past incident that was fixed or repaid.
+        <strong>Level 3:</strong> a recent loss of user funds, or a failure without a clear fix.
+        An off-chain party (borrowers, a fund issuer) is not by itself a reason for a lower level.
+      </p>
+      <div class="keyrow"><span class="k">Level 1</span><span>Aave V3, Compound V2 / V3, SparkLend, Spark Savings, Sky, Morpho, Kamino Lend, Uniswap V3, Maple, BlackRock BUIDL, Invesco USTB, Ondo.</span></div>
+      <div class="keyrow"><span class="k">Level 2</span><span>Aave V4, Uniswap V4, Euler V2 (2023 exploit, recoverable funds returned), Jupiter Lend, Yearn, Beefy, Aerodrome, Velodrome, Orca, Raydium, marginfi, Centrifuge, Midas, Balancer V3, Ethena.</span></div>
+      <div class="keyrow"><span class="k">Level 3</span><span>Save (ex-Solend; 2022 oracle exploit), Balancer V2 (exploited November 2025), Usual (USD0++ depeg, January 2025).</span></div>
+      <p class="muted">
+        Maple is Level 1 here but trust tier 2 in the <a href="/tokenized-rwa-tracker/">Tokenized RWA Tracker</a>. They answer
+        different questions: this one asks how safe the <em>protocol</em> is to deposit into; the RWA tracker asks how real
+        and simple the <em>backing</em> is. Both can be true.
+      </p>
 
       <h2>Stable types</h2>
       <p>
