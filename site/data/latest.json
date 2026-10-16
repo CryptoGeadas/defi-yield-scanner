@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-16T18:37:40.471Z",
+  "generatedAt": "2026-10-16T18:38:10.589Z",
   "source": "https://yields.llama.fi/pools",
   "baseRate": 4.11,
   "config": {
@@ -1857,78 +1857,6 @@
         "poolId": "bc59aa21-18b2-40a4-a15b-07fe84107d3c"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Galaxy USDC",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDC",
-        "level": 3,
-        "levelComputed": 3,
-        "levelDriver": "size",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDC",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 2062354.0385032464,
-            "level": 3,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 73,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.27,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": 23,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 6.41,
-        "reward": 0.03,
-        "total": 6.44,
-        "spot": 6.44,
-        "mean30d": 5.23,
-        "divFlag": "▲",
-        "tvlUsd": 2062354,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/ADcgKvst9u9qRXgSCxg2eZtqKNYPuMbfqjntaLepxwE5",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0.03,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 5.64,
-        "apyPct30D": null,
-        "poolId": "ADcgKvst9u9qRXgSCxg2eZtqKNYPuMbfqjntaLepxwE5"
-      },
-      {
         "project": "midas-rwa",
         "name": "Midas RWA",
         "symbol": "USDC · mHYPER",
@@ -2071,6 +1999,78 @@
         "apyPct7D": -0.47,
         "apyPct30D": 0.17,
         "poolId": "d5959f91-86ce-4177-b234-49e1f17d8f82"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Galaxy USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDC",
+        "level": 3,
+        "levelComputed": 3,
+        "levelDriver": "size",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDC",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 2062354.2650390496,
+            "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 73,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 1.27,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": 22,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 6.38,
+        "reward": 0.03,
+        "total": 6.41,
+        "spot": 6.41,
+        "mean30d": 5.23,
+        "divFlag": "▲",
+        "tvlUsd": 2062354,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/ADcgKvst9u9qRXgSCxg2eZtqKNYPuMbfqjntaLepxwE5",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0.03,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 5.64,
+        "apyPct30D": null,
+        "poolId": "ADcgKvst9u9qRXgSCxg2eZtqKNYPuMbfqjntaLepxwE5"
       },
       {
         "project": "morpho-blue",
@@ -3247,7 +3247,7 @@
           },
           {
             "name": "size",
-            "value": 1095981.5232153803,
+            "value": 1095981.3996927638,
             "level": 3,
             "unknown": false
           },
@@ -3282,7 +3282,7 @@
         "spot": 5.71,
         "mean30d": 6.33,
         "divFlag": "●",
-        "tvlUsd": 1095982,
+        "tvlUsd": 1095981,
         "legs": [
           "USDC"
         ],
