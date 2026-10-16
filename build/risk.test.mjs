@@ -16,7 +16,7 @@ test("Size: Level 1 from $50M, Level 2 from $5M, Level 3 below", () => {
 
 test("a pool takes its weakest factor (weakest link)", () => {
   assert.equal(rateRisk({ coinTier: 1, tvlUsd: 2e6 }).level, 3);
-  assert.equal(rateRisk({ coinTier: 1, tvlUsd: 900e6, ageDays: 1000, yieldPct: 4, baseRate: 4 }).level, 1);
+  assert.equal(rateRisk({ coinTier: 1, tvlUsd: 900e6, ageDays: 1000, yieldPct: 4, baseRate: 4, spotPct: 4, meanPct: 4 }).level, 1);
 });
 
 test("the coin Tier is a ceiling: a big pool is never safer than its riskiest coin", () => {
@@ -35,7 +35,7 @@ test("a missing fact counts as Level 2 and is marked unknown", () => {
 test("ties go to the first factor in the fixed order Coin, Size, …", () => {
   const r = rateRisk({ coinTier: 2, coinDriver: "GHO", tvlUsd: 10e6 }); // coin 2, size 2
   assert.equal(r.driver, "coin");
-  assert.deepEqual(r.factors.map((f) => f.name), ["coin", "size", "age", "yield"]);
+  assert.deepEqual(r.factors.map((f) => f.name), ["coin", "size", "age", "yield", "stability"]);
 });
 
 // ── pipeline: windows by level behind the switch ────────────────────────────
@@ -66,7 +66,7 @@ test("switch off (default): windows stay by coin tier, rows still carry their le
   assert.deepEqual(ids(r.windows[1]).sort(), ["aave", "small"]);
   const small = r.windows[1].find((x) => x.pool === "small");
   assert.equal(small.level, 3);
-  assert.deepEqual(small.factors.map((f) => f.name), ["coin", "size", "age", "yield"]);
+  assert.deepEqual(small.factors.map((f) => f.name), ["coin", "size", "age", "yield", "stability"]);
 });
 
 test("custom Size cut lines from the config are used", () => {
@@ -216,4 +216,35 @@ test("bad inputs fail loudly: implausible base rate, bad baseRate config, unknow
 
 test("the yield multiple is rated unrounded: 1.504× is Level 2", () => {
   assert.equal(factor(rateRisk({ coinTier: 1, yieldPct: 6.016, baseRate: 4 }), "yield").level, 2);
+});
+
+// ── Stability factor (#16) ──────────────────────────────────────────────────
+test("Stability: rises only — Level 1 up to +30%, Level 2 up to +60%, Level 3 above; falls are Level 1", () => {
+  const st = (spotPct, meanPct) => factor(rateRisk({ coinTier: 1, spotPct, meanPct }), "stability");
+  assert.equal(st(13, 10).level, 1);   // +30%
+  assert.equal(st(13.1, 10).level, 2);
+  assert.equal(st(16, 10).level, 2);   // +60%
+  assert.equal(st(16.1, 10).level, 3);
+  assert.deepEqual([st(6, 10).value, st(6, 10).level], [-40, 1], "a −40% fall is Level 1; value is the signed %");
+  assert.equal(st(5, null).unknown, true);
+  assert.equal(st(5, 0).unknown, true, "no 30-day mean → unknown");
+});
+
+test("the pipeline rates stability on today's yield vs the 30-day mean (same number as the durability card)", () => {
+  const row = runPipeline([pool({ pool: "s", apy: 5.9, apyBase: 5.9, apyMean30d: 2.5 })], { baseRate: 4 }, maps).windows[1][0];
+  const st = row.factors.find((f) => f.name === "stability");
+  assert.deepEqual([st.value, st.level], [136, 3]);
+  assert.equal(st.value, Math.round(row.divRatio * 100));
+});
+
+test("Stability edge cases: no spot → unknown; flat or negative yield is Level 1; stability cut lines checked", () => {
+  const st = (spotPct, meanPct) => factor(rateRisk({ coinTier: 1, spotPct, meanPct }), "stability");
+  assert.equal(st(null, 10).unknown, true);
+  assert.deepEqual([st(10, 10).value, st(10, 10).level], [0, 1]);
+  assert.deepEqual([st(-2, 10).value, st(-2, 10).level], [-120, 1]);
+  const row = runPipeline([pool({ pool: "nospot", apy: undefined, apyMean30d: 5 })], { baseRate: 4 }, maps).windows[1][0];
+  assert.equal(row.factors.find((f) => f.name === "stability").unknown, true, "a pool with no spot APY is not rated safe");
+  assert.throws(() => runPipeline(pools, { baseRate: 4, riskCuts: { stability: { level1: 0.6, level2: 0.3 } } }, maps), /level1 <= level2/);
+  const custom = runPipeline([pool({ pool: "j", apy: 5, apyBase: 5, apyMean30d: 4 })], { baseRate: 4, riskCuts: { stability: { level1: 0.1, level2: 0.2 } } }, maps);
+  assert.equal(custom.windows[1][0].factors.find((f) => f.name === "stability").level, 3, "+25% is Level 3 under custom cut lines");
 });
