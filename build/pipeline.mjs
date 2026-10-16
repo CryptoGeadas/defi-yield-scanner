@@ -9,10 +9,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { rateRisk, checkCuts, DEFAULT_CUTS } from "./risk.mjs";
+import { applySticky } from "./sticky.mjs";
 
 export const DEFAULT_CONFIG = {
   levelWindows: false,          // SWITCH: group windows by risk Level (on) or coin Tier (off)
   riskCuts: DEFAULT_CUTS,       // cut lines per risk Factor (risk.mjs)
+  sticky: null,                 // { state, now } → shown levels follow the sticky rule (sticky.mjs)
   baseRate: null,               // % APY, set by the build from the feed (base-rate.mjs); none → Yield unknown
   tvlFloor: 1_000_000,
   minAvailableUsd: 1_000_000,   // lending pools: at least this much not lent out (withdrawable now)
@@ -158,6 +160,7 @@ export function runPipeline(pools, config = {}, maps) {
   const { protocolMap, stableMap } = maps;
 
   const windows = { 1: [], 2: [], 3: [] };
+  const kept = [];
   const perLevel = { 1: 0, 2: 0, 3: 0 };
   const rejects = {};                 // reason → { count, tvl }
   const missingByProject = {};        // project → { count, tvl } (passed everything but allowlist)
@@ -165,8 +168,7 @@ export function runPipeline(pools, config = {}, maps) {
   for (const pool of pools) {
     const res = evaluate(pool, cfg, protocolMap, stableMap);
     if (res.ok) {
-      windows[cfg.levelWindows ? res.row.level : res.row.tier].push(res.row);
-      perLevel[res.row.level]++;
+      kept.push(res.row);
     } else {
       const rj = (rejects[res.reason] ??= { count: 0, tvl: 0 });
       rj.count++;
@@ -177,6 +179,20 @@ export function runPipeline(pools, config = {}, maps) {
         m.tvl += pool.tvlUsd ?? 0;
       }
     }
+  }
+
+  // Sticky levels: the level shown (and grouped on) follows the sticky rule; the level
+  // computed this run stays on the row as levelComputed.
+  let stickyState = null, stickyInvalid = 0;
+  if (cfg.sticky) {
+    const r = applySticky(cfg.sticky.state, kept.map((x) => ({ id: x.pool, level: x.level, tier: x.tier })), cfg.sticky.now);
+    stickyState = r.state;
+    stickyInvalid = r.invalid;
+    for (const x of kept) { x.levelComputed = x.level; x.level = r.shown.get(x.pool); }
+  }
+  for (const x of kept) {
+    windows[cfg.levelWindows ? x.level : x.tier].push(x);
+    perLevel[x.level]++;
   }
 
   const cmp = {
@@ -197,5 +213,5 @@ export function runPipeline(pools, config = {}, maps) {
     perLevel,
   };
 
-  return { windows, rejects, missingProtocols, stats, config: cfg };
+  return { windows, rejects, missingProtocols, stats, config: cfg, stickyState, stickyInvalid };
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-16T18:33:00.772Z",
+  "generatedAt": "2026-10-16T18:37:40.471Z",
   "source": "https://yields.llama.fi/pools",
   "baseRate": 4.11,
   "config": {
@@ -67,6 +67,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "stability",
         "factors": [
           {
@@ -138,6 +139,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -209,6 +211,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -280,6 +283,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -351,6 +355,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -422,6 +427,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -493,6 +499,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -564,6 +571,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -574,7 +582,7 @@
           },
           {
             "name": "size",
-            "value": 4840632.757520527,
+            "value": 4840633.461494413,
             "level": 3,
             "unknown": false
           },
@@ -635,6 +643,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "stability",
         "factors": [
           {
@@ -706,6 +715,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -777,6 +787,7 @@
         "tier": 1,
         "tierDriver": "DAI",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -848,6 +859,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -858,7 +870,7 @@
           },
           {
             "name": "size",
-            "value": 1134677.9516146432,
+            "value": 1134682.22386574,
             "level": 3,
             "unknown": false
           },
@@ -893,7 +905,7 @@
         "spot": 7.29,
         "mean30d": 7.3,
         "divFlag": "●",
-        "tvlUsd": 1134678,
+        "tvlUsd": 1134682,
         "legs": [
           "USDG"
         ],
@@ -919,6 +931,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -990,6 +1003,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -1061,6 +1075,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -1132,6 +1147,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -1203,6 +1219,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -1274,6 +1291,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -1345,6 +1363,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -1416,6 +1435,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -1477,77 +1497,6 @@
         "poolId": "0ffd2dc2-72d2-449f-8cac-34a09ce6f323"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Solana Mobile USDC Earn Vault",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDC",
-        "level": 3,
-        "levelDriver": "size",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDC",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 1391648.7159805258,
-            "level": 3,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 95,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.13,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": 44,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 6.68,
-        "reward": 0,
-        "total": 6.68,
-        "spot": 6.68,
-        "mean30d": 4.63,
-        "divFlag": "▲",
-        "tvlUsd": 1391649,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 4.74,
-        "apyPct30D": null,
-        "poolId": "3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC"
-      },
-      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "M1 USDC",
@@ -1558,6 +1507,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -1629,6 +1579,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -1692,14 +1643,15 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "Steakhouse USDC",
+        "symbol": "Solana Mobile USDC Earn Vault",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
         "type": "fiat",
         "tier": 1,
         "tierDriver": "USDC",
-        "level": 2,
+        "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -1710,7 +1662,79 @@
           },
           {
             "name": "size",
-            "value": 19941416.843748566,
+            "value": 1391754.9253612407,
+            "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 95,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 1.13,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": 43,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 6.62,
+        "reward": 0,
+        "total": 6.62,
+        "spot": 6.62,
+        "mean30d": 4.63,
+        "divFlag": "▲",
+        "tvlUsd": 1391755,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 4.74,
+        "apyPct30D": null,
+        "poolId": "3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Steakhouse USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDC",
+        "level": 2,
+        "levelComputed": 2,
+        "levelDriver": "size",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDC",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 19941460.21393627,
             "level": 2,
             "unknown": false
           },
@@ -1728,7 +1752,7 @@
           },
           {
             "name": "stability",
-            "value": 28,
+            "value": 27,
             "level": 1,
             "unknown": false
           },
@@ -1739,13 +1763,13 @@
             "unknown": false
           }
         ],
-        "base": 6.62,
+        "base": 6.57,
         "reward": 0,
-        "total": 6.62,
-        "spot": 6.62,
+        "total": 6.57,
+        "spot": 6.57,
         "mean30d": 5.18,
         "divFlag": "▲",
-        "tvlUsd": 19941417,
+        "tvlUsd": 19941460,
         "legs": [
           "USDC"
         ],
@@ -1771,6 +1795,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -1842,6 +1867,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -1903,77 +1929,6 @@
         "poolId": "ADcgKvst9u9qRXgSCxg2eZtqKNYPuMbfqjntaLepxwE5"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Marinade USD Vault",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDC",
-        "level": 3,
-        "levelDriver": "size",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDC",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 1590274.0653007042,
-            "level": 3,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 224,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.57,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": 0,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 6.41,
-        "reward": 0,
-        "total": 6.41,
-        "spot": 6.41,
-        "mean30d": 6.44,
-        "divFlag": "●",
-        "tvlUsd": 1590274,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 6.51,
-        "apyPct30D": null,
-        "poolId": "2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA"
-      },
-      {
         "project": "midas-rwa",
         "name": "Midas RWA",
         "symbol": "USDC · mHYPER",
@@ -1984,6 +1939,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -2055,6 +2011,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -2126,6 +2083,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -2189,7 +2147,7 @@
       {
         "project": "kamino-lend",
         "name": "Kamino Lend",
-        "symbol": "Steakhouse High Yield USDC",
+        "symbol": "Marinade USD Vault",
         "chain": "Solana",
         "bucket": "lend",
         "access": "permissionless",
@@ -2197,6 +2155,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -2207,7 +2166,79 @@
           },
           {
             "name": "size",
-            "value": 2556717.2627307996,
+            "value": 1590274.2546319354,
+            "level": 3,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 224,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 1.57,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": -2,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 6.3,
+        "reward": 0,
+        "total": 6.3,
+        "spot": 6.3,
+        "mean30d": 6.44,
+        "divFlag": "●",
+        "tvlUsd": 1590274,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 6.51,
+        "apyPct30D": null,
+        "poolId": "2TNCzzYJt3uHmpFpqeeJkza4pQUK9xoLa79DJH9AdgGA"
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Steakhouse High Yield USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDC",
+        "level": 3,
+        "levelComputed": 3,
+        "levelDriver": "size",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDC",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 2556717.5294507477,
             "level": 3,
             "unknown": false
           },
@@ -2225,7 +2256,7 @@
           },
           {
             "name": "stability",
-            "value": 26,
+            "value": 25,
             "level": 1,
             "unknown": false
           },
@@ -2236,13 +2267,13 @@
             "unknown": false
           }
         ],
-        "base": 6.29,
+        "base": 6.24,
         "reward": 0,
-        "total": 6.29,
-        "spot": 6.29,
+        "total": 6.24,
+        "spot": 6.24,
         "mean30d": 5,
         "divFlag": "▲",
-        "tvlUsd": 2556717,
+        "tvlUsd": 2556718,
         "legs": [
           "USDC"
         ],
@@ -2268,6 +2299,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -2339,6 +2371,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -2410,6 +2443,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -2481,6 +2515,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -2491,7 +2526,7 @@
           },
           {
             "name": "size",
-            "value": 10716546.05201595,
+            "value": 10716546.153980628,
             "level": 2,
             "unknown": false
           },
@@ -2520,10 +2555,10 @@
             "unknown": false
           }
         ],
-        "base": 6.01,
+        "base": 6,
         "reward": 0.36,
-        "total": 6.36,
-        "spot": 6.36,
+        "total": 6.35,
+        "spot": 6.35,
         "mean30d": 6.56,
         "divFlag": "●",
         "tvlUsd": 10716546,
@@ -2552,6 +2587,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -2623,6 +2659,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -2633,7 +2670,7 @@
           },
           {
             "name": "size",
-            "value": 1384199.2849229558,
+            "value": 1384199.2171652757,
             "level": 3,
             "unknown": false
           },
@@ -2651,7 +2688,7 @@
           },
           {
             "name": "stability",
-            "value": -5,
+            "value": -6,
             "level": 1,
             "unknown": false
           },
@@ -2662,10 +2699,10 @@
             "unknown": false
           }
         ],
-        "base": 5.84,
+        "base": 5.82,
         "reward": 0.1,
-        "total": 5.93,
-        "spot": 5.93,
+        "total": 5.92,
+        "spot": 5.92,
         "mean30d": 6.28,
         "divFlag": "●",
         "tvlUsd": 1384199,
@@ -2694,6 +2731,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -2765,6 +2803,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -2837,6 +2876,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "stability",
         "factors": [
           {
@@ -2898,77 +2938,6 @@
         "poolId": "f4d5b566-e815-4ca2-bb07-7bcd8bc797f1"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "RockawayX RWA USDC",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDC",
-        "level": 1,
-        "levelDriver": "coin",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDC",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 59265405.46329767,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 276,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.38,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": 1,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 5.73,
-        "reward": 0.05,
-        "total": 5.79,
-        "spot": 5.79,
-        "mean30d": 5.74,
-        "divFlag": "●",
-        "tvlUsd": 59265405,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 0.05,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 6.42,
-        "apyPct30D": null,
-        "poolId": "DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP"
-      },
-      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "Keyrock USDC",
@@ -2979,6 +2948,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -3040,6 +3010,78 @@
         "poolId": "4828569b-ddba-42a7-9bf9-e7e6d809112d"
       },
       {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "RockawayX RWA USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDC",
+        "level": 1,
+        "levelComputed": 1,
+        "levelDriver": "coin",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDC",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 59265400.68004779,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 276,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 1.38,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": 0,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 5.68,
+        "reward": 0.05,
+        "total": 5.74,
+        "spot": 5.74,
+        "mean30d": 5.74,
+        "divFlag": "●",
+        "tvlUsd": 59265401,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 0.05,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 6.42,
+        "apyPct30D": null,
+        "poolId": "DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP"
+      },
+      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "Gauntlet USDC Frontier",
@@ -3050,6 +3092,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -3121,6 +3164,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -3192,6 +3236,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -3263,6 +3308,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -3334,6 +3380,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -3405,6 +3452,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -3476,6 +3524,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -3547,6 +3596,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -3618,6 +3668,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -3689,6 +3740,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -3760,6 +3812,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -3831,6 +3884,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -3892,6 +3946,78 @@
         "poolId": "7da72d09-56ca-4ec5-a45f-59114353e487"
       },
       {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Steakhouse High Yield USDG",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDG",
+        "level": 2,
+        "levelComputed": 2,
+        "levelDriver": "size",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDG",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 48748788.572663344,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 465,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 1.28,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": -2,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 5.13,
+        "reward": 2.5,
+        "total": 7.62,
+        "spot": 7.62,
+        "mean30d": 7.75,
+        "divFlag": "●",
+        "tvlUsd": 48748789,
+        "legs": [
+          "USDG"
+        ],
+        "url": "https://app.kamino.finance/lend/BoZDRc1RDY9FzUZZ19WT4GbtTnnbXQ8AGSU5ByEw3ut5",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 2.5,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 7.59,
+        "apyPct30D": null,
+        "poolId": "BoZDRc1RDY9FzUZZ19WT4GbtTnnbXQ8AGSU5ByEw3ut5"
+      },
+      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "Wintermute USDT Select",
@@ -3902,6 +4028,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -3963,77 +4090,6 @@
         "poolId": "37ba6878-526b-51a9-9bea-8b18986d9eb3"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Steakhouse High Yield USDG",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDG",
-        "level": 2,
-        "levelDriver": "size",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDG",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 48738623.23894312,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 465,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.28,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": -2,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 5.12,
-        "reward": 2.5,
-        "total": 7.62,
-        "spot": 7.62,
-        "mean30d": 7.75,
-        "divFlag": "●",
-        "tvlUsd": 48738623,
-        "legs": [
-          "USDG"
-        ],
-        "url": "https://app.kamino.finance/lend/BoZDRc1RDY9FzUZZ19WT4GbtTnnbXQ8AGSU5ByEw3ut5",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 2.5,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 7.59,
-        "apyPct30D": null,
-        "poolId": "BoZDRc1RDY9FzUZZ19WT4GbtTnnbXQ8AGSU5ByEw3ut5"
-      },
-      {
         "project": "beefy",
         "name": "Beefy",
         "symbol": "USDC · Morpho",
@@ -4044,6 +4100,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -4115,6 +4172,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -4186,6 +4244,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -4257,6 +4316,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -4328,6 +4388,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -4399,6 +4460,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -4470,6 +4532,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -4541,6 +4604,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -4612,6 +4676,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -4683,6 +4748,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -4754,6 +4820,7 @@
         "tier": 1,
         "tierDriver": "PYUSD",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -4825,6 +4892,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -4896,6 +4964,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -4967,6 +5036,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -5038,6 +5108,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -5109,6 +5180,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -5180,6 +5252,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -5251,6 +5324,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -5322,6 +5396,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -5393,6 +5468,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -5464,6 +5540,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -5535,6 +5612,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "age",
         "factors": [
           {
@@ -5606,6 +5684,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -5677,6 +5756,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -5748,6 +5828,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -5819,6 +5900,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -5890,6 +5972,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -5961,6 +6044,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -6032,6 +6116,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -6104,6 +6189,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -6175,6 +6261,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -6246,6 +6333,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -6317,6 +6405,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -6388,6 +6477,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -6459,6 +6549,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -6530,6 +6621,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -6601,6 +6693,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -6672,6 +6765,7 @@
         "tier": 1,
         "tierDriver": "RLUSD",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -6743,6 +6837,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "age",
         "factors": [
           {
@@ -6815,6 +6910,7 @@
         "tier": 1,
         "tierDriver": "RLUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -6887,6 +6983,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -6958,6 +7055,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -7029,6 +7127,7 @@
         "tier": 1,
         "tierDriver": "PYUSD",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -7039,7 +7138,7 @@
           },
           {
             "name": "size",
-            "value": 109563952.19900978,
+            "value": 109565718.874004,
             "level": 1,
             "unknown": false
           },
@@ -7074,7 +7173,7 @@
         "spot": 6.49,
         "mean30d": 6.42,
         "divFlag": "●",
-        "tvlUsd": 109563952,
+        "tvlUsd": 109565719,
         "legs": [
           "PYUSD"
         ],
@@ -7100,6 +7199,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -7171,6 +7271,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -7242,6 +7343,7 @@
         "tier": 1,
         "tierDriver": "DAI",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -7313,6 +7415,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "stability",
         "factors": [
           {
@@ -7384,6 +7487,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -7455,6 +7559,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -7526,6 +7631,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -7598,6 +7704,7 @@
         "tier": 1,
         "tierDriver": "BUIDL",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -7669,6 +7776,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -7740,6 +7848,7 @@
         "tier": 1,
         "tierDriver": "BUIDL",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -7811,6 +7920,7 @@
         "tier": 1,
         "tierDriver": "BUIDL",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -7882,6 +7992,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -7953,6 +8064,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "protocol",
         "factors": [
           {
@@ -8024,6 +8136,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -8095,6 +8208,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -8166,6 +8280,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -8227,77 +8342,6 @@
         "poolId": "a5d67f7e-5b51-4a9d-969d-caf051a7f5a4"
       },
       {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Ethena PYUSD Prime",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "PYUSD",
-        "level": 2,
-        "levelDriver": "age",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "PYUSD",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 89881451.664413,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 141,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 0.86,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": 6,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 3.75,
-        "reward": 0,
-        "total": 3.75,
-        "spot": 3.75,
-        "mean30d": 3.52,
-        "divFlag": "●",
-        "tvlUsd": 89881452,
-        "legs": [
-          "PYUSD"
-        ],
-        "url": "https://app.kamino.finance/lend/4TwKA9JXEGeLEpAPLoarhSQoQwoiu12dkDCjSuVvHQUf",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": null,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 3.66,
-        "apyPct30D": null,
-        "poolId": "4TwKA9JXEGeLEpAPLoarhSQoQwoiu12dkDCjSuVvHQUf"
-      },
-      {
         "project": "jupiter-lend",
         "name": "Jupiter Lend",
         "symbol": "PYUSD · Earn (Sentora Market)",
@@ -8308,6 +8352,7 @@
         "tier": 1,
         "tierDriver": "PYUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "age",
         "factors": [
           {
@@ -8369,6 +8414,78 @@
         "poolId": "1183ffb5-0049-5e11-859c-c1bf2788214c"
       },
       {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Ethena PYUSD Prime",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "PYUSD",
+        "level": 2,
+        "levelComputed": 2,
+        "levelDriver": "age",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "PYUSD",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 89881974.62277962,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 141,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 0.86,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": 6,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 3.73,
+        "reward": 0,
+        "total": 3.73,
+        "spot": 3.73,
+        "mean30d": 3.52,
+        "divFlag": "●",
+        "tvlUsd": 89881975,
+        "legs": [
+          "PYUSD"
+        ],
+        "url": "https://app.kamino.finance/lend/4TwKA9JXEGeLEpAPLoarhSQoQwoiu12dkDCjSuVvHQUf",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": null,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 3.66,
+        "apyPct30D": null,
+        "poolId": "4TwKA9JXEGeLEpAPLoarhSQoQwoiu12dkDCjSuVvHQUf"
+      },
+      {
         "project": "morpho-blue",
         "name": "Morpho Blue",
         "symbol": "Sentora PRIME Main",
@@ -8379,6 +8496,7 @@
         "tier": 1,
         "tierDriver": "PYUSD",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -8450,6 +8568,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -8521,6 +8640,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -8592,6 +8712,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -8663,6 +8784,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -8734,6 +8856,7 @@
         "tier": 1,
         "tierDriver": "USTB",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -8805,6 +8928,7 @@
         "tier": 1,
         "tierDriver": "USTB",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -8876,6 +9000,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -8947,6 +9072,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -9018,6 +9144,7 @@
         "tier": 1,
         "tierDriver": "BUIDL",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -9089,6 +9216,7 @@
         "tier": 1,
         "tierDriver": "BUIDL",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -9160,6 +9288,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -9231,6 +9360,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -9302,6 +9432,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -9373,6 +9504,7 @@
         "tier": 1,
         "tierDriver": "DAI",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -9444,6 +9576,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -9515,6 +9648,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -9586,6 +9720,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -9657,6 +9792,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -9728,6 +9864,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -9799,6 +9936,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -9870,6 +10008,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -9880,7 +10019,7 @@
           },
           {
             "name": "size",
-            "value": 6310780.753158666,
+            "value": 6310659.233105223,
             "level": 2,
             "unknown": false
           },
@@ -9915,7 +10054,7 @@
         "spot": 8.6,
         "mean30d": 8.95,
         "divFlag": "●",
-        "tvlUsd": 6310781,
+        "tvlUsd": 6310659,
         "legs": [
           "USDC"
         ],
@@ -9941,6 +10080,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -10012,6 +10152,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -10083,6 +10224,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -10154,6 +10296,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -10226,6 +10369,7 @@
         "tier": 1,
         "tierDriver": "DAI",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -10297,6 +10441,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "age",
         "factors": [
           {
@@ -10368,6 +10513,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -10439,6 +10585,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -10510,6 +10657,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "protocol",
         "factors": [
           {
@@ -10581,6 +10729,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -10652,6 +10801,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -10723,6 +10873,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -10794,6 +10945,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -10865,6 +11017,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -10936,6 +11089,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -11007,6 +11161,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -11078,6 +11233,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -11149,6 +11305,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -11220,6 +11377,7 @@
         "tier": 1,
         "tierDriver": "DAI",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -11292,6 +11450,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -11363,6 +11522,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -11434,6 +11594,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -11505,6 +11666,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -11576,6 +11738,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -11647,6 +11810,7 @@
         "tier": 1,
         "tierDriver": "PYUSD",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -11718,6 +11882,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "age",
         "factors": [
           {
@@ -11789,6 +11954,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "age",
         "factors": [
           {
@@ -11860,6 +12026,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -11931,6 +12098,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "age",
         "factors": [
           {
@@ -12002,6 +12170,7 @@
         "tier": 1,
         "tierDriver": "USDT",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -12073,6 +12242,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -12144,6 +12314,7 @@
         "tier": 1,
         "tierDriver": "RLUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "age",
         "factors": [
           {
@@ -12215,6 +12386,7 @@
         "tier": 1,
         "tierDriver": "RLUSD",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -12286,6 +12458,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -12357,6 +12530,7 @@
         "tier": 1,
         "tierDriver": "DAI",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -12429,6 +12603,7 @@
         "tier": 1,
         "tierDriver": "PYUSD",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -12500,6 +12675,7 @@
         "tier": 1,
         "tierDriver": "PYUSD",
         "level": 1,
+        "levelComputed": 1,
         "levelDriver": "coin",
         "factors": [
           {
@@ -12571,6 +12747,7 @@
         "tier": 1,
         "tierDriver": "USDC",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -12643,6 +12820,7 @@
         "tier": 1,
         "tierDriver": "PYUSD",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -12715,6 +12893,7 @@
         "tier": 1,
         "tierDriver": "USDG",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "size",
         "factors": [
           {
@@ -12787,6 +12966,7 @@
         "tier": 1,
         "tierDriver": "RLUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "stability",
         "factors": [
           {
@@ -12858,6 +13038,7 @@
         "tier": 1,
         "tierDriver": "RLUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -12932,6 +13113,7 @@
         "tier": 2,
         "tierDriver": "DOLA",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -13004,6 +13186,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -13075,6 +13258,7 @@
         "tier": 2,
         "tierDriver": "CRVUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -13146,6 +13330,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -13217,6 +13402,7 @@
         "tier": 2,
         "tierDriver": "STUSDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -13288,6 +13474,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -13360,6 +13547,7 @@
         "tier": 2,
         "tierDriver": "SGHO",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -13431,6 +13619,7 @@
         "tier": 2,
         "tierDriver": "SUSDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -13502,6 +13691,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -13573,6 +13763,7 @@
         "tier": 2,
         "tierDriver": "SUSDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -13644,6 +13835,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -13715,6 +13907,7 @@
         "tier": 2,
         "tierDriver": "FRXUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -13786,6 +13979,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -13857,6 +14051,7 @@
         "tier": 2,
         "tierDriver": "GHO",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -13928,6 +14123,7 @@
         "tier": 2,
         "tierDriver": "FRXUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -13999,6 +14195,7 @@
         "tier": 2,
         "tierDriver": "BOLD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -14071,6 +14268,7 @@
         "tier": 2,
         "tierDriver": "GHO",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -14142,6 +14340,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -14213,6 +14412,7 @@
         "tier": 2,
         "tierDriver": "LUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -14284,6 +14484,7 @@
         "tier": 2,
         "tierDriver": "BOLD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -14356,6 +14557,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -14428,6 +14630,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -14499,6 +14702,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "stability",
         "factors": [
           {
@@ -14571,6 +14775,7 @@
         "tier": 2,
         "tierDriver": "USDS",
         "level": 2,
+        "levelComputed": 2,
         "levelDriver": "coin",
         "factors": [
           {
@@ -14643,6 +14848,7 @@
         "tier": 2,
         "tierDriver": "FRAX",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -14715,6 +14921,7 @@
         "tier": 2,
         "tierDriver": "GHO",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "size",
         "factors": [
           {
@@ -14789,6 +14996,7 @@
         "tier": 3,
         "tierDriver": "MSUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -14861,6 +15069,7 @@
         "tier": 3,
         "tierDriver": "MSUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -14933,6 +15142,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15005,6 +15215,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15077,6 +15288,7 @@
         "tier": 3,
         "tierDriver": "SUSDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15149,6 +15361,7 @@
         "tier": 3,
         "tierDriver": "USDF",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15221,6 +15434,7 @@
         "tier": 3,
         "tierDriver": "FXUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15293,6 +15507,7 @@
         "tier": 3,
         "tierDriver": "SUSDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15365,6 +15580,7 @@
         "tier": 3,
         "tierDriver": "SUSDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15436,6 +15652,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15508,6 +15725,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15579,6 +15797,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15650,6 +15869,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15722,6 +15942,7 @@
         "tier": 3,
         "tierDriver": "SYRUPUSDT",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15794,6 +16015,7 @@
         "tier": 3,
         "tierDriver": "SYRUPUSDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15866,6 +16088,7 @@
         "tier": 3,
         "tierDriver": "USD0",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -15937,6 +16160,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -16008,6 +16232,7 @@
         "tier": 3,
         "tierDriver": "SYRUPUSDC",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -16080,6 +16305,7 @@
         "tier": 3,
         "tierDriver": "MSUSD",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -16151,6 +16377,7 @@
         "tier": 3,
         "tierDriver": "USD0",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -16223,6 +16450,7 @@
         "tier": 3,
         "tierDriver": "USD0",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -16295,6 +16523,7 @@
         "tier": 3,
         "tierDriver": "USDF",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -16367,6 +16596,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -16438,6 +16668,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {
@@ -16510,6 +16741,7 @@
         "tier": 3,
         "tierDriver": "USDE",
         "level": 3,
+        "levelComputed": 3,
         "levelDriver": "coin",
         "factors": [
           {

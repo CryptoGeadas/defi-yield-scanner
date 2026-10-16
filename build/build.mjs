@@ -19,6 +19,16 @@ import { vendorLogos } from "./logos.mjs";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SITE = join(HERE, "..", "site");
 const OUT = join(SITE, "data", "latest.json");
+// Sticky-level state (sticky.mjs): committed next to latest.json so the rule survives
+// between 6-hourly runs. Missing → {} (every pool starts at its computed level).
+const STATE = join(SITE, "data", "levels-state.json");
+async function loadStickyState() {
+  let j;
+  try { j = JSON.parse(await readFile(STATE, "utf8")); }
+  catch (e) { if (e.code === "ENOENT") return {}; throw new Error(`levels-state.json unreadable: ${e.message}`, { cause: e }); }
+  if (j === null || typeof j !== "object" || Array.isArray(j)) throw new Error("levels-state.json is not an object");
+  return j;
+}
 const FEED = "https://yields.llama.fi/pools";
 
 const strip = (o) => Object.fromEntries(Object.entries(o).filter(([k]) => !k.startsWith("_")));
@@ -94,7 +104,8 @@ const makeSlim = (names, siteUrls, sources, poolUrls) => (r) => {
     type: r.stableType, // fiat | crypto | yield | rwa | synthetic
     tier: r.tier, // coin Tier (the Coin factor) — independent of which window the row is in
     tierDriver: r.tierDriver,
-    level: r.level, // risk Level (risk.mjs)
+    level: r.level, // risk Level shown (sticky rule applied, sticky.mjs)
+    levelComputed: r.levelComputed, // this run's level before the sticky rule
     levelDriver: r.levelDriver,
     factors: r.factors,
     base: round(r.base),
@@ -162,7 +173,8 @@ async function main() {
   const rate = baseRate(feed);
   const noLevel = checkProtocolLevels(maps.protocolMap); // throws on a bad level
   if (noLevel.length) console.warn(`  ⚠ trusted-protocols.json: no level for ${noLevel.join(", ")} — Protocol factor unknown (Level 2) for their pools`);
-  const r = runPipeline(pools, { baseRate: rate, ...(levelsOn ? { levelWindows: true } : {}) }, maps);
+  const stickyPrev = await loadStickyState();
+  const r = runPipeline(pools, { baseRate: rate, sticky: { state: stickyPrev, now: Date.now() }, ...(levelsOn ? { levelWindows: true } : {}) }, maps);
 
   // Age data health over the rows we show: if an age source breaks (renamed field, API
   // change), every pool silently drops to "unknown" (Level 2). Warn loudly above 20%.
@@ -171,6 +183,11 @@ async function main() {
   const ageMsg = `age unknown for ${ageUnknown}/${shown.length} shown pools`;
   if (ageUnknown > shown.length * 0.2) console.warn(`  ⚠ ${ageMsg} — check DefiLlama count / Kamino creationTimestamp`);
   else console.log(`  ${ageMsg}`);
+  if (r.stickyInvalid) {
+    const share = r.stickyInvalid / Math.max(1, shown.length);
+    if (share > 0.1) throw new Error(`levels-state.json: ${r.stickyInvalid} entries invalid (${Math.round(share * 100)}%) — refusing to reset that many pools`);
+    console.warn(`  ⚠ levels-state.json: ${r.stickyInvalid} invalid entries started fresh`);
+  }
   const yieldUnknown = shown.filter((x) => x.factors.find((f) => f.name === "yield")?.unknown).length;
   const yieldMsg = `yield unknown for ${yieldUnknown}/${shown.length} shown pools`;
   if (yieldUnknown > shown.length * 0.2) console.warn(`  ⚠ ${yieldMsg} — check DefiLlama apyMean30d / Kamino apy30d`);
@@ -188,7 +205,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
     source: FEED,
     baseRate: r.config.baseRate, // % APY — Aave V3 USDC + USDT (Ethereum), 30-day mean
-    config: r.config,
+    config: { ...r.config, sticky: undefined }, // the sticky state lives in levels-state.json
     stats: r.stats,
     windows: {
       1: r.windows[1].map(slim),
@@ -202,6 +219,10 @@ async function main() {
 
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n");
+  // Only the CI refresh advances the sticky state (6-hourly runs); local builds would count
+  // as extra runs and clash with the bot's push. A switch-on local check never writes it.
+  if (process.env.GITHUB_ACTIONS === "true" && !levelsOn) await writeFile(STATE, JSON.stringify(r.stickyState) + "\n");
+  else console.log("  levels-state.json not written (local build)");
   console.log(
     `wrote ${OUT}\n  kept ${r.stats.kept}/${r.stats.totalPools}  windows ${r.stats.perTier[1]}/${r.stats.perTier[2]}/${r.stats.perTier[3]} (${r.config.levelWindows ? "by level" : "by tier"}) · levels ${r.stats.perLevel[1]}/${r.stats.perLevel[2]}/${r.stats.perLevel[3]} · base rate ${r.config.baseRate}%` +
       `\n  inactive-lp ${r.rejects["inactive-lp"]?.count || 0} · zero-yield ${r.rejects["zero-yield"]?.count || 0}`
