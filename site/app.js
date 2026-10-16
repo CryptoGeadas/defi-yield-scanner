@@ -14,6 +14,58 @@ const LEVEL = {
 };
 const byLevel = () => state.data?.config?.levelWindows === true;
 
+// ── risk factors (levels UI) ──────────────────────────────────────────────────
+const FACTOR_NAME = { coin: "Coin", size: "Size", age: "Age", yield: "Yield", stability: "Stability", protocol: "Protocol" };
+const TIER_WORD = { 1: "blue-chip", 2: "crypto-backed", 3: "synthetic" };
+const UNKNOWN_WHY = {
+  coin: "no coin tier", size: "no TVL", age: "no start date for this pool",
+  yield: "no 30-day yield", stability: "no 30-day history", protocol: "protocol not rated yet",
+};
+// Only well-formed factors with a known name; a level outside 1–3 is drawn as Level 2.
+const lvOf = (f) => ([1, 2, 3].includes(f.level) ? f.level : 2);
+const factorsOf = (r) =>
+  Array.isArray(r.factors) ? r.factors.filter((f) => f && typeof f === "object" && f.name in FACTOR_NAME) : [];
+// What a factor's value means, in words (unknown → what is missing; never blank, 0 or "none").
+function factorText(f, r) {
+  const unknown = `unknown, ${UNKNOWN_WHY[f.name] || "no data"}`;
+  if (f.unknown) return unknown;
+  const numeric = ["size", "age", "yield", "stability"].includes(f.name);
+  if (numeric && !Number.isFinite(f.value)) return unknown;
+  if (f.name === "coin") return [f.value ?? (r.legs || []).join(" + "), TIER_WORD[f.level]].filter(Boolean).join(" · ") || unknown;
+  if (f.name === "size") return fmtTvl(f.value);
+  if (f.name === "age") return `${f.value} days`;
+  if (f.name === "yield") return `${f.value}× the base rate`;
+  if (f.name === "stability") return `${f.value > 0 ? "+" : f.value < 0 ? "−" : ""}${Math.abs(f.value)}% vs 30-day mean${f.value < 0 ? " (only rises count)" : ""}`;
+  if (f.name === "protocol") return r.name || f.value || unknown;
+  return String(f.value);
+}
+// Six segments, coloured and sized by each factor's level; hatched when unknown.
+function stripHtml(r, cls = "") {
+  const fs = factorsOf(r);
+  if (!fs.length) return "";
+  const label = fs.map((f) => `${FACTOR_NAME[f.name]} Level ${lvOf(f)}${f.unknown ? ", unknown" : ""}`).join(", ");
+  return `<span class="risk-strip ${cls}" role="img" aria-label="Risk factors: ${esc(label)}">${fs
+    .map((f) => `<i class="l${lvOf(f)}${f.unknown ? " unk" : ""}" title="${esc(FACTOR_NAME[f.name])}: Level ${lvOf(f)}"></i>`)
+    .join("")}</span>`;
+}
+function riskCardHtml(r) {
+  const fs = factorsOf(r);
+  if (!fs.length) return "";
+  return `<div class="dcard wide risk-card"><div class="dk">Risk level</div><div class="rfac">${fs
+    .map((f) => `<div class="l${lvOf(f)}"><div class="rfn"><span>${FACTOR_NAME[f.name]}</span><span class="rlv">Level ${lvOf(f)}</span></div><div class="rfv${f.unknown ? " unk" : ""}">${esc(factorText(f, r))}</div></div>`)
+    .join("")}</div></div>`;
+}
+// Empty level window: name the filters that hide everything, and offer to clear them.
+function emptyLevelHtml(level) {
+  const parts = [];
+  if (state.chains.size < CHAINS.length) parts.push(`on ${CHAINS.filter((c) => state.chains.has(c)).join(" / ")}`);
+  if (state.bucket !== "all") parts.push(`in ${state.bucket}`);
+  if (state.type !== "all") parts.push(`of type ${state.type}`);
+  if (!parts.length) return `<p class="empty level-empty">No Level ${level} pools today.</p>`;
+  const where = parts.join(" ");
+  return `<p class="empty level-empty">No Level ${level} pools ${esc(where)}. <button class="clear-filters" type="button">${state.chains.size < CHAINS.length && parts.length === 1 ? "Show all chains" : "Clear filters"}</button></p>`;
+}
+
 const COLS = [
   { key: "name", label: "Pool", cls: "" },
   { key: null, label: "Base · reward", cls: "hide-sm" },
@@ -97,7 +149,7 @@ function rowsFor(tier) {
 
 function headerHtml() {
   const cells = COLS.map((c) => {
-    if (!c.key) return `<span class="th ${c.cls}">${c.label}</span>`;
+    if (!c.key) return `<span class="th ${c.cls}">${byLevel() ? "Risk factors" : c.label}</span>`;
     const active = state.sortKey === c.key;
     const caret = active ? (state.sortDir === "asc" ? "▲" : "▼") : "";
     return `<span class="th sortable ${c.cls} ${active ? "active" : ""}" data-sort="${c.key}">${c.label}<span class="caret">${caret}</span></span>`;
@@ -127,8 +179,10 @@ function rowHtml(r, max, tier) {
   const open = state.openId === r.poolId;
   return `<div class="row grid ${open ? "open" : ""}" data-id="${esc(r.poolId)}" role="button" tabindex="0" aria-expanded="${open}">
     ${logo}
-    <span class="name"><span class="line"><span class="proj">${esc(label)}</span><span class="sym">${esc(r.symbol)}</span>${chainIc}<span class="chain">${esc(r.chain)}</span>${lock}${ext}</span></span>
-    <span class="bar hide-sm" title="base ${fmtPct(r.base)} · reward ${fmtPct(r.reward)}"><span class="b" style="width:${basePct}%"></span><span class="r" style="width:${rewPct}%"></span></span>
+    <span class="name"><span class="line"><span class="proj">${esc(label)}</span><span class="sym">${esc(r.symbol)}</span>${chainIc}<span class="chain">${esc(r.chain)}</span>${lock}${ext}</span>${byLevel() ? stripHtml(r, "strip-m") : ""}</span>
+    ${byLevel()
+      ? `<span class="bar risk-col hide-sm">${stripHtml(r)}</span>`
+      : `<span class="bar hide-sm" title="base ${fmtPct(r.base)} · reward ${fmtPct(r.reward)}"><span class="b" style="width:${basePct}%"></span><span class="r" style="width:${rewPct}%"></span></span>`}
     <span class="num base">${fmtPct(r.base)}</span>
     <span class="num mean hide-sm">${fmtPct(r.mean30d)}</span>
     <span class="flag ${fm.cls}" data-tip="${esc(tip)}"><span class="g">${r.divFlag}</span></span>
@@ -217,6 +271,7 @@ function detailHtml(r, tier) {
         <div class="dsub">${vol ? `7d volume ${vol}` : "volume n/a"}</div>
       </div>
       ${composition}
+      ${byLevel() ? riskCardHtml(r) : ""}
     </div>
     <div class="dactions">${actions}</div>
   </div>`;
@@ -232,7 +287,7 @@ function windowHtml(tier) {
   const t = (byLevel() ? LEVEL : TIER)[tier];
   let body;
   if (!rows.length) {
-    body = `<p class="empty">— no pools match —</p>`;
+    body = byLevel() ? emptyLevelHtml(tier) : `<p class="empty">— no pools match —</p>`;
   } else {
     const loadMore =
       remaining > 0
@@ -292,6 +347,12 @@ function onWindowsClick(e) {
   if (e.target.closest("a")) return; // let outbound / footer links work
   const dbar = e.target.closest(".dbar");
   if (dbar) return dbar.classList.toggle("open"); // tap shows the durability numbers (touch has no hover)
+  if (e.target.closest(".clear-filters")) {
+    state.bucket = "all"; state.type = "all"; state.chains = new Set(CHAINS); // KYC choice is kept
+    document.querySelectorAll("#bucket button, #type button").forEach((x) => x.classList.toggle("on", x.dataset.v === "all"));
+    resetLimits(); renderChips(); render();
+    return $("#bucket button.on")?.focus(); // the clicked button is gone after render
+  }
   const more = e.target.closest(".loadmore");
   if (more) {
     const t = +more.dataset.tier;

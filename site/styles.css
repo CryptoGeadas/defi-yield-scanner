@@ -61,6 +61,31 @@
 .level-key .k3 { background: var(--down); }
 .level-key .kx { background: repeating-linear-gradient(135deg, var(--muted) 0 2px, transparent 2px 4px); }
 
+/* risk factor strip: six segments, colour + height = level, hatched = unknown */
+.bar.risk-col { background: none; overflow: visible; height: auto; align-items: center; }
+.risk-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; align-items: end; height: 12px; width: 100%; max-width: 150px; }
+.risk-strip i { display: block; border-radius: 2px; }
+.risk-strip i.l1 { height: 5px; background: var(--accent); }
+.risk-strip i.l2 { height: 9px; background: var(--warn); }
+.risk-strip i.l3 { height: 12px; background: var(--down); }
+.risk-strip i.unk { background: repeating-linear-gradient(135deg, var(--warn) 0 2px, transparent 2px 4px); }
+.risk-strip.strip-m { display: none; }
+@media (max-width: 760px) { .risk-strip.strip-m { display: grid; max-width: none; margin-top: 8px; } }
+
+/* expanded row: Risk level card with six factor blocks */
+.rfac { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px 14px; }
+.rfac > div { border-top: 3px solid var(--lv); padding-top: 7px; }
+.rfac > .l1 { --lv: var(--accent); } .rfac > .l2 { --lv: var(--warn); } .rfac > .l3 { --lv: var(--down); }
+.rfn { display: flex; justify-content: space-between; gap: 6px; font: 11px var(--font-mono); color: var(--muted); margin-bottom: 3px; }
+.rfn .rlv { color: var(--lv); white-space: nowrap; }
+.rfv { font-size: 13px; color: var(--fg); line-height: 1.35; }
+.rfv.unk { color: var(--muted); }
+@media (max-width: 960px) { .rfac { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .rfac { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* empty level window */
+.level-empty .clear-filters { background: none; border: 0; padding: 0; margin-left: 6px; color: var(--accent); font: inherit; text-decoration: underline; cursor: pointer; }
+
 /* shared grid for header + rows */
 .grid {
   display: grid;
