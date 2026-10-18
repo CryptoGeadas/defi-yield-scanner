@@ -3,6 +3,8 @@
 // (weakest link): the pool's Level is the worst Factor Level.
 //
 //   rateRisk(facts, cuts?) → { level, driver, factors: [{ name, value, level, unknown }] }
+//   (stability also carries risePp, the rise in percentage points, and belowMinPp: true
+//   when the rise was too small to count)
 //
 // facts  what the pipeline knows about the pool: { coinTier, coinDriver, tvlUsd, ageDays,
 //        yieldPct (30-day mean), baseRate, spotPct (today), meanPct (30-day mean),
@@ -20,7 +22,8 @@ export const DEFAULT_CUTS = {
   size: { level1: 50_000_000, level2: 5_000_000 }, // TVL (total deposits) at or above
   age: { level1: 180, level2: 30 },                 // days live at or above (age.mjs)
   yield: { level1: 1.5, level2: 2.5 },              // × base rate, at or below (base-rate.mjs)
-  stability: { level1: 0.3, level2: 0.6 },          // rise of today vs 30-day mean, at or below
+  stability: { level1: 0.3, level2: 0.6, minPp: 1 }, // rise of today vs 30-day mean, at or below;
+                                                    // a rise under minPp percentage points never counts
 };
 
 // "up": higher is safer (Level 1 at or above level1). "down": lower is safer (Level 1 at
@@ -39,6 +42,10 @@ export function checkCuts(cuts) {
     const ordered = down ? c?.level1 <= c?.level2 : c?.level1 >= c?.level2;
     if (!(Number.isFinite(c?.level1) && Number.isFinite(c?.level2) && ordered))
       throw new Error(`risk cut lines for "${name}" must be numbers with level1 ${down ? "<=" : ">="} level2, got ${JSON.stringify(c)}`);
+    if (c.minPp !== undefined && name !== "stability")
+      throw new Error(`risk cut lines for "${name}": minPp is only used by stability`);
+    if (c.minPp !== undefined && !(Number.isFinite(c.minPp) && c.minPp >= 0))
+      throw new Error(`risk cut lines for "${name}": minPp must be a number >= 0, got ${JSON.stringify(c.minPp)}`);
   }
   return cuts;
 }
@@ -58,11 +65,16 @@ const FACTORS = {
   },
   // Today vs the 30-day mean. Only rises count: a jump signals high utilization or a
   // temporary incentive; a fall is not a safety risk. Value = signed % (as the durability card).
+  // On tiny yields a meaningless move is a big %, so a rise under minPp percentage points
+  // is Level 1 whatever the %. risePp carries the rise; belowMinPp marks a rise that the %
+  // alone would have counted, so the card and review sheet never re-derive the decision.
   stability: (f, cuts) => {
     if (!known(f.spotPct) || !(known(f.meanPct) && f.meanPct > 0)) return null;
     const d = (f.spotPct - f.meanPct) / f.meanPct;
     if (!Number.isFinite(d)) return null;
-    return { value: Math.round(d * 100), level: atMost(Math.max(0, d), cuts.stability) };
+    const risePp = Math.round((f.spotPct - f.meanPct) * 100) / 100;
+    const counts = f.spotPct - f.meanPct >= (cuts.stability.minPp ?? 0) - 1e-9;
+    return { value: Math.round(d * 100), level: counts ? atMost(Math.max(0, d), cuts.stability) : 1, risePp, belowMinPp: !counts && d > cuts.stability.level1 };
   },
   // Hand-set per protocol: 1 = current version live 2+ years, $1B+ deposits, no loss of
   // user funds in that version; 2 = newer/smaller or a fixed past incident; 3 = a recent
@@ -87,7 +99,9 @@ export function rateRisk(facts, cuts = DEFAULT_CUTS) {
     throw new Error(`protocol level must be 1, 2 or 3, got ${JSON.stringify(facts.protocolLevel)} (${facts.protocol ?? "?"}) — check trusted-protocols.json`);
   const factors = FACTOR_ORDER.filter((name) => FACTORS[name]).map((name) => {
     const r = FACTORS[name](facts, cuts);
-    return r ? { name, value: r.value, level: r.level, unknown: false } : { name, value: null, level: UNKNOWN_LEVEL, unknown: true };
+    if (!r) return { name, value: null, level: UNKNOWN_LEVEL, unknown: true };
+    const { value, level, ...extra } = r; // stability: risePp, belowMinPp
+    return { name, value, level, unknown: false, ...extra };
   });
   const level = Math.max(...factors.map((f) => f.level));
   const driver = factors.find((f) => f.level === level).name;

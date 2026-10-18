@@ -153,8 +153,13 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
 }
 
 export function runPipeline(pools, config = {}, maps) {
-  // riskCuts merge per Factor, so overriding one Factor's cut lines keeps the others.
-  const cfg = { ...DEFAULT_CONFIG, ...config, riskCuts: checkCuts({ ...DEFAULT_CONFIG.riskCuts, ...config.riskCuts }) };
+  // riskCuts merge per Factor, so overriding one Factor's cut lines keeps the others. An
+  // override must give both level1 and level2 (checkCuts fails loudly otherwise), but keeps
+  // stability's minPp unless it sets one (minPp: 0 drops it).
+  const merged = { ...DEFAULT_CONFIG.riskCuts };
+  for (const [k, v] of Object.entries(config.riskCuts ?? {}))
+    merged[k] = k === "stability" && v?.minPp === undefined ? { ...v, minPp: DEFAULT_CONFIG.riskCuts.stability.minPp } : v;
+  const cfg = { ...DEFAULT_CONFIG, ...config, riskCuts: checkCuts(merged) };
   if (!(cfg.baseRate == null || (Number.isFinite(cfg.baseRate) && cfg.baseRate > 0)))
     throw new Error(`baseRate must be a positive number, got ${JSON.stringify(cfg.baseRate)}`);
   const { protocolMap, stableMap } = maps;

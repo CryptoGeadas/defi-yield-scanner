@@ -50,3 +50,27 @@ test("sticky rows, escaping, lock and missing factors; bad data throws", () => {
   assert.throws(() => reviewSheet({ ...data, config: {} }), /no cut lines/);
   assert.throws(() => reviewSheet({ ...data, windows: { 1: [{ ...base, level: undefined }], 2: [], 3: [] } }), /has level/);
 });
+
+test("near-cut: a rise near the +1 pp minimum is flagged when the % alone would count", () => {
+  const c = { ...cuts, stability: { ...cuts.stability, minPp: 1 } };
+  assert.deepEqual(nearCuts({ name: "stability", value: 100, risePp: 0.95 }, c), ["stability near +1 pp"]);
+  assert.deepEqual(nearCuts({ name: "stability", value: 100, risePp: 1.08 }, c), ["stability near +1 pp"]);
+  assert.deepEqual(nearCuts({ name: "stability", value: 100, risePp: 0.09 }, c), []);
+  assert.deepEqual(nearCuts({ name: "stability", value: 10, risePp: 1 }, c), [], "a +10% rise is Level 1 anyway");
+  assert.deepEqual(nearCuts({ name: "stability", value: 100, risePp: 1 }, cuts), [], "no minPp → no flag");
+});
+
+test("the sheet header states the +1 pp minimum only when it is set", () => {
+  const data = (stab) => ({ generatedAt: "t", baseRate: 4, config: { riskCuts: { ...cuts, stability: stab } }, windows: { 1: [], 2: [], 3: [] } });
+  assert.match(reviewSheet(data({ ...cuts.stability, minPp: 1 })), /rises under \+1 pp never count/);
+  assert.doesNotMatch(reviewSheet(data(cuts.stability)), /never count/);
+});
+
+test("near +1 pp: inclusive band edges, coexists with a % flag, never on falls; belowMinPp always eligible", () => {
+  const c = { ...cuts, stability: { ...cuts.stability, minPp: 1 } };
+  for (const r of [0.9, 1.1]) assert.deepEqual(nearCuts({ name: "stability", value: 100, risePp: r }, c), ["stability near +1 pp"], String(r));
+  for (const r of [0.89, 1.11]) assert.deepEqual(nearCuts({ name: "stability", value: 100, risePp: r }, c), [], String(r));
+  assert.deepEqual(nearCuts({ name: "stability", value: 57, risePp: 1.05 }, c), ["stability near +60%", "stability near +1 pp"]);
+  assert.deepEqual(nearCuts({ name: "stability", value: -50, risePp: -1 }, c), []);
+  assert.deepEqual(nearCuts({ name: "stability", value: 30, risePp: 1.02 }, c), ["stability near +30%", "stability near +1 pp"], "a rounded 30% may be just over the line");
+});

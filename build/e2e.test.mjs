@@ -66,3 +66,23 @@ test("Kamino vault rows: creationTimestamp seconds → ms; missing or 0 → null
   assert.equal(vaultInfoFrom({ state: { creationTimestamp: 0 } }).createdAt, null);
   assert.equal(vaultInfoFrom({ state: { vaultAllocationStrategy: [{ reserve: "R", ctokenAllocation: "5" }] } }).allocations[0].ctokens, 5);
 });
+
+test("Stability +1 pp minimum survives pipeline → JSON → review sheet", () => {
+  const pools = [
+    feedPool({ pool: "tiny", apy: 0.18, apyBase: 0.18, apyMean30d: 0.09 }),
+    feedPool({ pool: "big", apy: 6, apyBase: 6, apyMean30d: 4 }),
+    feedPool({ pool: "edge", apy: 1.95, apyBase: 1.95, apyMean30d: 1 }),
+  ].map((p) => ({ ...p, legs: ["USDC"], ageDays: 1000 }));
+  const r = runPipeline(pools, { baseRate: 4, levelWindows: true }, maps);
+  const all = [1, 2, 3].flatMap((w) => r.windows[w]);
+  const st = (id) => factor(all.find((x) => x.pool === id), "stability");
+  assert.deepEqual([st("tiny").value, st("tiny").level, st("tiny").risePp, st("tiny").belowMinPp], [100, 1, 0.09, true]);
+  assert.equal(all.find((x) => x.pool === "tiny").level, 1, "a tiny rise alone no longer makes the pool Level 3");
+  assert.equal(st("big").level, 2);
+  const shape = (w) => r.windows[w].map((x) => ({ ...x, poolId: x.pool, name: x.project }));
+  const data = JSON.parse(JSON.stringify({ generatedAt: "t", baseRate: 4, config: r.config, windows: { 1: shape(1), 2: shape(2), 3: shape(3) } }));
+  assert.equal(data.config.riskCuts.stability.minPp, 1);
+  const md = reviewSheet(data);
+  assert.match(md, /rises under \+1 pp never count/);
+  assert.equal(md.split("\n").filter((l) => /stability near \+1 pp/.test(l)).length, 1, "only the 0.95 pp pool is near the line");
+});

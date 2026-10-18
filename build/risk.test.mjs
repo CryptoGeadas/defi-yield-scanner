@@ -274,3 +274,41 @@ test("protocol levels: checked at load; bad values throw, missing ones are liste
   const bad = { ...maps, protocolMap: { "aave-v3": { bucket: "lend", access: "permissionless", level: 5 } } };
   assert.throws(() => runPipeline([pool({ pool: "a" })], { baseRate: 4 }, bad), /protocol level.*trusted-protocols/);
 });
+
+// ── Stability minimum rise (#27) ────────────────────────────────────────────
+import { DEFAULT_CUTS, checkCuts } from "./risk.mjs";
+test("Stability: a rise under +1 percentage point never counts; at +1 pp or more the % cut lines apply", () => {
+  const st = (spotPct, meanPct) => factor(rateRisk({ coinTier: 1, spotPct, meanPct }), "stability");
+  assert.deepEqual([st(0.18, 0.09).value, st(0.18, 0.09).level], [100, 1], "+100% on 0.09% → 0.18% is Level 1; value stays the %");
+  assert.equal(st(6, 4).level, 2, "+50% on 4% → 6% (+2 pp) is still Level 2");
+  assert.equal(st(2, 1).level, 3, "exactly +1 pp counts");
+  assert.equal(st(1.99, 1).level, 1, "just under +1 pp does not");
+  assert.equal(st(4.1, 3.1).level, 2, "+32% at +1 pp (0.9999999999999996 in floating point) still counts");
+  assert.equal(st(2.3, 1.3).level, 3);
+  assert.equal(st(1.995, 1).level, 1, "+0.995 pp does not count");
+  assert.equal(st(0.3, 0.1).risePp, 0.2, "the rise in percentage points is on the factor");
+  assert.equal(DEFAULT_CUTS.stability.minPp, 1);
+  assert.equal(st(0.18, 0.09).belowMinPp, true, "the factor says the rise did not count");
+  assert.equal(st(1.0996, 0.1).belowMinPp, true, "0.9996 pp is below the line even though risePp rounds to 1");
+  assert.equal(st(1.0996, 0.1).level, 1);
+  assert.equal(st(1.1, 1).belowMinPp, false, "+10% is Level 1 anyway: nothing to explain");
+  assert.equal(st(6, 4).belowMinPp, false);
+  assert.equal(st(0.05, 0.1).level, 1, "a fall stays Level 1");
+});
+
+test("Stability minPp is checked; a custom stability cut without minPp has no minimum", () => {
+  assert.throws(() => checkCuts({ stability: { level1: 0.3, level2: 0.6, minPp: -1 } }), /minPp/);
+  assert.throws(() => checkCuts({ stability: { level1: 0.3, level2: 0.6, minPp: "1" } }), /minPp/);
+  assert.throws(() => checkCuts({ size: { level1: 50e6, level2: 5e6, minPp: 1 } }), /only used by stability/);
+  assert.equal(factor(rateRisk({ coinTier: 1, spotPct: 0.18, meanPct: 0.09 }, { ...DEFAULT_CUTS, stability: { level1: 0.3, level2: 0.6, minPp: 0 } }), "stability").level, 3, "minPp 0 = no minimum");
+  const st = factor(rateRisk({ coinTier: 1, spotPct: 0.18, meanPct: 0.09 }, { ...DEFAULT_CUTS, stability: { level1: 0.3, level2: 0.6 } }), "stability");
+  assert.equal(st.level, 3);
+});
+
+test("pipeline: tuning stability's % cut lines keeps the +1 pp minimum; minPp 0 drops it", () => {
+  const tiny = [pool({ pool: "t", apy: 0.18, apyBase: 0.18, apyMean30d: 0.09 })];
+  const lv = (stability) => runPipeline(tiny, { baseRate: 4, riskCuts: { stability } }, maps).windows[1][0].factors.find((f) => f.name === "stability").level;
+  assert.equal(lv({ level1: 0.2, level2: 0.5 }), 1);
+  assert.equal(lv({ level1: 0.3, level2: 0.6, minPp: 0 }), 3);
+  assert.throws(() => lv({ minPp: 0 }), /cut lines for "stability"/, "a partial override still fails loudly");
+});

@@ -35,7 +35,11 @@ function factorText(f, r) {
   if (f.name === "size") return fmtTvl(f.value);
   if (f.name === "age") return `${f.value} days`;
   if (f.name === "yield") return `${f.value}× the base rate`;
-  if (f.name === "stability") return `${f.value > 0 ? "+" : f.value < 0 ? "−" : ""}${Math.abs(f.value)}% vs 30-day mean${f.value < 0 ? " (only rises count)" : ""}`;
+  if (f.name === "stability") {
+    const minPp = state.data?.config?.riskCuts?.stability?.minPp;
+    const tiny = f.belowMinPp === true && Number.isFinite(f.risePp) && minPp > 0; // set by risk.mjs
+    return `${f.value > 0 ? "+" : f.value < 0 ? "−" : ""}${Math.abs(f.value)}% vs 30-day mean${f.value < 0 ? " (only rises count)" : tiny ? ` (+${f.risePp} pp, under ${minPp} pp does not count)` : ""}`;
+  }
   if (f.name === "protocol") return r.name || f.value || unknown;
   return String(f.value);
 }

@@ -30,7 +30,11 @@ export function nearCuts(f, cuts) {
   const c = cuts?.[f.name];
   if (!c || f.unknown || !Number.isFinite(f.value) || !LABEL[f.name]) return [];
   const v = comparable(f);
-  return [c.level1, c.level2].filter((cut) => Math.abs(v - cut) <= Math.abs(cut) * NEAR + 1e-9).map((cut) => `${f.name} near ${LABEL[f.name](cut)}`);
+  const near = [c.level1, c.level2].filter((cut) => Math.abs(v - cut) <= Math.abs(cut) * NEAR + 1e-9).map((cut) => `${f.name} near ${LABEL[f.name](cut)}`);
+  // the +minPp floor only matters when the % alone would count
+  if (f.name === "stability" && c.minPp > 0 && (f.belowMinPp || v >= c.level1) && Number.isFinite(f.risePp) && Math.abs(f.risePp - c.minPp) <= c.minPp * NEAR + 1e-9)
+    near.push(`stability near +${c.minPp} pp`);
+  return near;
 }
 
 const NUMERIC = new Set(["size", "age", "yield", "stability"]);
@@ -60,7 +64,7 @@ export function reviewSheet(data) {
     ``,
     `Data ${data.generatedAt} · Base rate ${data.baseRate}% · Levels 1/2/3: ${counts.join(" / ")} · ${rows.length} pools`,
     ``,
-    `Cut lines: size L1 ≥ ${money(cuts.size?.level1)}, L2 ≥ ${money(cuts.size?.level2)} · age L1 ≥ ${cuts.age?.level1}d, L2 ≥ ${cuts.age?.level2}d · yield L1 ≤ ${cuts.yield?.level1}×, L2 ≤ ${cuts.yield?.level2}× · stability L1 ≤ +${Math.round((cuts.stability?.level1 ?? 0) * 100)}%, L2 ≤ +${Math.round((cuts.stability?.level2 ?? 0) * 100)}%`,
+    `Cut lines: size L1 ≥ ${money(cuts.size?.level1)}, L2 ≥ ${money(cuts.size?.level2)} · age L1 ≥ ${cuts.age?.level1}d, L2 ≥ ${cuts.age?.level2}d · yield L1 ≤ ${cuts.yield?.level1}×, L2 ≤ ${cuts.yield?.level2}× · stability L1 ≤ +${Math.round((cuts.stability?.level1 ?? 0) * 100)}%, L2 ≤ +${Math.round((cuts.stability?.level2 ?? 0) * 100)}%${cuts.stability?.minPp ? `, rises under +${cuts.stability.minPp} pp never count` : ""}`,
     ``,
     `"Near" = within ${NEAR * 100}% of a cut line. Factor cells show value (Level); values are rounded, levels use the unrounded value. "sticky" = the shown level is held by the sticky rule.`,
     ``,
