@@ -43,7 +43,7 @@ async function rpcCall(method, params) {
   const body = JSON.stringify({ jsonrpc: "2.0", id: 1, method, params });
   for (const rpc of RPCS) {
     try {
-      const r = await fetch(rpc, { method: "POST", headers: { "content-type": "application/json", ...UA }, body });
+      const r = await fetch(rpc, { method: "POST", headers: { "content-type": "application/json", ...UA }, body, signal: AbortSignal.timeout(30_000) });
       if (!r.ok) continue;                       // 4xx/5xx (rate-limit, blocked) → next RPC
       const j = await r.json();
       if (j.result != null) return j.result;     // JSON-RPC error (result absent) → next RPC
@@ -82,13 +82,18 @@ async function fetchNames(addresses) {
 
 async function resolveSymbols(mints) {
   const map = {};
+  let failed = 0, chunks = 0;
   for (let i = 0; i < mints.length; i += 40) {
     const chunk = mints.slice(i, i + 40).map((m) => "solana:" + m);
+    chunks++;
     try {
-      const p = await (await fetch("https://coins.llama.fi/prices/current/" + chunk.join(","), { headers: UA })).json();
+      const r = await fetch("https://coins.llama.fi/prices/current/" + chunk.join(","), { headers: UA, signal: AbortSignal.timeout(30_000) });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const p = await r.json();
       for (const [k, v] of Object.entries(p.coins || {})) map[k.split(":")[1]] = (v.symbol || "").toUpperCase();
-    } catch { /* leave unresolved */ }
+    } catch { failed++; /* leave unresolved */ }
   }
+  if (failed) console.warn(`kamino: symbol lookup failed for ${failed}/${chunks} chunks (coins.llama.fi) — those vaults are skipped`);
   return map;
 }
 
@@ -218,7 +223,14 @@ const EXCLUDE = /\b(?:institutional|private[ -]credit|test|staging|dev|e2e|examp
 // Returns vault records { address, name, symbol, mint, tvl, base, reward, mean30, apy7, available, createdAt }
 // for stable Kamino lending vaults above the TVL floor (APYs in %). intake.mjs shapes
 // them into pools. `stableSet` = uppercased symbols we trust (from trusted-stables).
+// Any unexpected error (e.g. an RPC answer in another shape) means no vaults, never a
+// failed refresh: the build then publishes without Kamino and shows a notice (#29).
 export async function fetchKaminoVaults(stableSet, tvlFloor = 1e6) {
+  try { return await kaminoVaults(stableSet, tvlFloor); }
+  catch (e) { console.warn("kamino: vault fetch failed —", e.message, "— publishing without Kamino"); return []; }
+}
+
+async function kaminoVaults(stableSet, tvlFloor) {
   const list = await listVaultMints();
   if (!list) { console.warn("kamino: getProgramAccounts failed on all RPCs — skipping vaults"); return []; }
   let nameOverrides = {};

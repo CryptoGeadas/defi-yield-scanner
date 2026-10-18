@@ -124,6 +124,7 @@ async function load() {
     $("#windows").innerHTML = `<p class="empty">No data yet — run the refresh workflow.</p>`;
     return;
   }
+  renderNotices(); // first: a render error below must not hide a data notice
   render();
   renderRiskIntro(); // once per data load, not on every re-render
 }
@@ -317,6 +318,15 @@ function renderRiskIntro() {
     <div class="level-key" aria-label="Colour key"><span><i class="k1"></i>Level 1</span><span><i class="k2"></i>Level 2</span><span><i class="k3"></i>Level 3</span><span><i class="kx"></i>no data</span></div>
   </div>`;
   document.querySelector(".tool-app > .sub")?.insertAdjacentHTML("afterend", html);
+}
+
+// Notices from the build (e.g. a venue's data missing at this refresh), one line each,
+// directly above the windows.
+function renderNotices() {
+  document.querySelector("#notices")?.remove();
+  const list = Array.isArray(state.data?.notices) ? state.data.notices.filter((n) => n && typeof n.text === "string" && n.text) : [];
+  if (!list.length) return;
+  $("#windows").insertAdjacentHTML("beforebegin", `<div id="notices" class="notices" role="status">${list.map((n) => `<p class="notice">${esc(n.text)}</p>`).join("")}</div>`);
 }
 
 function render() {

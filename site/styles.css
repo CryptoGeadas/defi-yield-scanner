@@ -210,6 +210,8 @@
   z-index: 10; font-variant-numeric: tabular-nums;
 }
 .lock { color: var(--down); font-size: 11px; margin-left: 4px; }
+.notices { margin: 14px 0 0; }
+.notice { margin: 0; padding: 10px 14px; border-left: 2px solid var(--muted); color: var(--muted); font-family: var(--font-mono); font-size: 13px; }
 .empty { color: var(--muted); padding: 14px; font-family: var(--font-mono); font-size: 13px; }
 .loadmore {
   display: block; width: 100%; margin-top: 8px; padding: 12px;

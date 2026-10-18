@@ -13,6 +13,7 @@ import { checkSince } from "./age.mjs";
 import { baseRate } from "./base-rate.mjs";
 import { checkProtocolLevels } from "./risk.mjs";
 import { fetchVenues } from "./venues.mjs";
+import { venueNotices, noticeLog } from "./notices.mjs";
 import { buildLink } from "./deeplinks.mjs";
 import { vendorLogos } from "./logos.mjs";
 
@@ -151,6 +152,9 @@ async function main() {
   const lb = venues.lendBorrow?.size ?? 0;
   if (lb < MIN_LENDBORROW)
     throw new Error(`lendBorrow feed has ${lb} pools (< ${MIN_LENDBORROW}) — lending TVL would be net of loans; refusing to overwrite`);
+  // Venue data that failed completely is shown on the page, not only in this log.
+  const notices = venueNotices(venues);
+  for (const line of noticeLog(notices, process.env)) console.log(line);
   const { pools, report } = intakePools(feed, venues, { denylist, poolUrls, since, now: Date.now() });
   console.log(
     `  intake: denied ${report.denied} · lending TVL→deposits ${report.lendingTotals} · morpho vaults ${report.morphoVaults} · yearn named ${report.yearnNamed}` +
@@ -206,6 +210,7 @@ async function main() {
     baseRate: r.config.baseRate, // % APY — Aave V3 USDC + USDT (Ethereum), 30-day mean
     config: { ...r.config, sticky: undefined }, // the sticky state lives in levels-state.json
     stats: r.stats,
+    notices, // [{ id, text }]: missing venue data, shown above the windows
     windows: {
       1: r.windows[1].map(slim),
       2: r.windows[2].map(slim),
