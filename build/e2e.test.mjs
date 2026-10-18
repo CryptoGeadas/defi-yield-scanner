@@ -86,3 +86,44 @@ test("Stability +1 pp minimum survives pipeline → JSON → review sheet", () =
   assert.match(md, /rises under \+1 pp never count/);
   assert.equal(md.split("\n").filter((l) => /stability near \+1 pp/.test(l)).length, 1, "only the 0.95 pp pool is near the line");
 });
+
+// ── LP rows organic only (#28) ──────────────────────────────────────────────
+test("LP rows: headline is organic only — min(today's apyBase, 30-day mean minus rewards); rewards in the rewards field", () => {
+  const lp = (o) => runPipeline([{ ...feedPool({ pool: "lp", project: "uniswap-v3", symbol: "USDC-USDT", volumeUsd7d: 5e6, ...o }), legs: ["USDC", "USDT"], ageDays: 1000 }], { baseRate: 4 }, maps).windows[1][0];
+  const slip = lp({ apy: 28.07, apyBase: 10.62, apyReward: 17.45, apyMean30d: 66.71 }); // Slipstream-like
+  const r2 = (n) => Math.round(n * 100) / 100;
+  assert.deepEqual([slip.base, r2(slip.reward)], [10.62, 17.45]);
+  assert.equal(Math.round(slip.total * 100) / 100, 28.07);
+  const v1 = lp({ apy: 46.71, apyBase: 0, apyReward: 46.71, apyMean30d: 26.01 }); // all rewards
+  assert.deepEqual([v1.base, v1.reward], [0, 46.71], "a reward-only LP pool shows 0 organic, rewards in the tail");
+  assert.equal(factor(v1, "yield").value, 0);
+  const meanLow = lp({ apy: 12, apyBase: 8, apyReward: 4, apyMean30d: 9 }); // mean 9 − rewards 4 = 5 < 8
+  assert.equal(meanLow.base, 5);
+  assert.equal(factor(meanLow, "yield").value, 1.25, "Yield rates the same organic figure");
+  const noBase = lp({ apy: 10, apyBase: null, apyReward: 3, apyMean30d: 20 }); // organic = apy − reward; today wins
+  assert.deepEqual([noBase.base, noBase.reward], [7, 3]);
+  assert.equal(lp({ apy: 10, apyBase: null, apyReward: 3, apyMean30d: 8 }).base, 5, "mean 8 − rewards 3 wins");
+  assert.equal(meanLow.total, 9, "total = base + reward, not spot");
+  assert.equal(v1.total, 46.71);
+  const noMean = lp({ apy: 10, apyBase: 6, apyReward: 4, apyMean30d: null });
+  assert.deepEqual([noMean.base, noMean.reward, noMean.total, factor(noMean, "yield").value], [6, 4, 10, 1.5], "no 30-day mean → today's organic");
+  const fresh = lp({ apy: 10, apyBase: 6, apyReward: 4, apyMean30d: 3 }); // rewards started recently
+  assert.equal(fresh.base, 6, "a mean not above today's rewards → today's organic, not 0");
+  assert.equal(slip.divFlag, "▼", "the trend flag still compares total spot vs total mean");
+  assert.equal(Math.round(slip.divRatio * 1000) / 1000, Math.round(((28.07 - 66.71) / 66.71) * 1000) / 1000);
+  const jump = lp({ apy: 12, apyBase: 4, apyReward: 8, apyMean30d: 4 });
+  assert.deepEqual([factor(jump, "stability").value, jump.base], [200, 4], "Stability counts a total rise; the headline stays organic");
+});
+
+test("LP rows without rewards are unchanged: min(today, 30-day mean)", () => {
+  const lp = (apy, apyMean30d) => runPipeline([{ ...feedPool({ pool: "lp", project: "uniswap-v3", symbol: "USDC-USDT", apy, apyBase: apy, apyReward: null, apyMean30d, volumeUsd7d: 5e6 }), legs: ["USDC", "USDT"], ageDays: 1000 }], { baseRate: 4 }, maps).windows[1][0];
+  assert.deepEqual([lp(20, 5).base, lp(20, 5).reward], [5, 0]);
+  assert.deepEqual([lp(3, 12).base, lp(3, 12).reward, lp(3, 12).total], [3, 0, 3]);
+  assert.deepEqual([lp(3, null).base, lp(3, null).reward, lp(3, null).total], [3, 0, 3], "no 30-day mean → today");
+});
+
+test("a reward-only LP row sorts below a plain lending row (ranked on organic yield)", () => {
+  const lend = { ...feedPool({ pool: "lend", apy: 4, apyBase: 4, apyMean30d: 4 }), legs: ["USDC"], ageDays: 1000 };
+  const lp = { ...feedPool({ pool: "lp", project: "uniswap-v3", symbol: "USDC-USDT", apy: 46.71, apyBase: 0, apyReward: 46.71, apyMean30d: 26.01, volumeUsd7d: 5e6 }), legs: ["USDC", "USDT"], ageDays: 1000 };
+  assert.deepEqual(runPipeline([lp, lend], { baseRate: 4 }, maps).windows[1].map((x) => x.pool), ["lend", "lp"]);
+});

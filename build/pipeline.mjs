@@ -97,17 +97,22 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
   // Headline/sort number. Lend & vault APYs are stable, so use the spot organic base.
   // AMM/LP fee-APY is annualized from ~24h volume and swings hard (both up on volume
   // spikes and down as they fade), so for LP we lead with the CONSERVATIVE figure —
-  // min(current spot, 30-day mean) — which never overstates what you'd earn today.
-  // Spot is still shown in the panel; the ▲/▼ flag compares spot vs the 30-day mean.
+  // min(today's organic, 30-day organic mean) — which never overstates what you'd earn today.
+  // Rewards are never counted, for LP too: DefiLlama's 30-day mean is of total APY, so today's
+  // reward share is taken out of it (as for Yield below). Spot total is still shown in the
+  // panel; the ▲/▼ flag and Stability compare total spot vs the total 30-day mean (like for like).
   const spotBase = baseSortKey(pool);
   const isLP = meta.bucket === "LP";
-  const base = isLP ? (mean != null ? Math.min(spot, mean) : spotBase) : spotBase;
-  const reward = isLP ? 0 : Math.max(0, spot - spotBase);
+  const reward = Math.max(0, spot - spotBase);
+  // A mean that is not above today's rewards (rewards started recently) says nothing about
+  // the organic part, so today's organic is used, as for Yield below.
+  const meanOrganic = mean != null && mean - reward > 0 ? mean - reward : null;
+  const base = isLP ? Math.max(0, meanOrganic != null ? Math.min(spotBase, meanOrganic) : spotBase) : spotBase;
   const total = base + reward;
   const { ratio, flag } = divergence(pool, cfg);
   // Yield: the organic 30-day mean against the market base rate. DefiLlama's mean is of total
   // APY, so today's reward share is taken out (rewards are never counted); LP rows already
-  // lead with min(spot, mean) and count no rewards. No usable mean → today's organic base.
+  // lead with the organic min(today, 30-day mean). No usable mean → today's organic base.
   const yieldPct = isLP ? base : mean > 0 && mean - reward > 0 ? mean - reward : spotBase;
   const risk = rateRisk({ coinTier: tier, coinDriver: driver, tvlUsd: pool.tvlUsd, ageDays: pool.ageDays, yieldPct, baseRate: cfg.baseRate, spotPct: pool.apy ?? null, meanPct: mean, protocol: pool.project, protocolLevel: meta.level }, cfg.riskCuts);
 
