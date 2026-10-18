@@ -31,7 +31,7 @@ The tool's judgment lives in a handful of curated files under `build/`:
   overstates today's rate; the live spot is shown in the row's detail panel.
 - **Durability flag** from spot-vs-30d-mean divergence: `▲` spiking (>+20%) · `●` steady ·
   `▼` decaying (<−20%). Steady is trustworthy.
-- **Three risk tiers** shown as stacked windows; filter by **bucket**, **stable type**, and
+- **Three risk levels** (weakest of six factors) shown as stacked windows; filter by **bucket**, **stable type**, and
   **chain**; sort by any column; permissioned (🔒 KYC) rows hidden by default. Rows paginate
   15 at a time with "Load more".
 - Click a row for a detail panel (APY breakdown, durability sentence, risk, size, composition)

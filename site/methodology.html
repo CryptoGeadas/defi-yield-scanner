@@ -101,14 +101,13 @@
       </div>
 
       <h2>Tiers</h2>
-      <p>Pools are grouped into three stacked windows by the risk of the stablecoins involved:</p>
+      <p>Each stablecoin has a tier, by how it is backed:</p>
       <div class="keyrow"><span class="k">Tier 1</span><span>Blue-chip, fiat-backed — USDC, USDT, DAI, and peers.</span></div>
       <div class="keyrow"><span class="k">Tier 2</span><span>Crypto-backed — crvUSD, GHO, LUSD, sUSDS, and similar.</span></div>
       <div class="keyrow"><span class="k">Tier 3</span><span>Synthetic — USDe, USR, and newer designs.</span></div>
-      <p class="muted">A multi-asset pool takes the tier of its <strong>riskiest</strong> leg — a USDC/USDe pool is Tier 3. When levels go live, the tier becomes the <strong>Coin</strong> factor of a pool’s level (see <a href="#levels">Levels</a>).</p>
+      <p class="muted">A multi-asset pool takes the tier of its <strong>riskiest</strong> leg — a USDC/USDe pool is Tier 3. The tier is the <strong>Coin</strong> factor of a pool’s level; the windows on the page are grouped by level (see <a href="#levels">Levels</a>).</p>
 
       <h2 id="levels">Levels</h2>
-      <p class="muted">Being reviewed: levels will replace the tier windows above once the review is done.</p>
       <p>
         A pool’s <strong>level</strong> is how much risk it carries as a whole, not only its coin:
         <strong>Level 1 · Lower risk</strong>, <strong>Level 2 · Medium risk</strong>, <strong>Level 3 · Higher risk</strong>.
@@ -140,7 +139,7 @@
       <p>
         Data refreshes every 6 hours, but a pool’s level doesn’t jump with every refresh. A pool moves
         <strong>down</strong> after two refreshes in a row at a worse level (about 12 hours), and <strong>up</strong> only
-        after seven days in a row at a better level. A change to its coin’s tier moves it at once. Bad news shows fast;
+        after seven days in a row at a better level. A change to its coin’s tier or its protocol’s level moves it at once. Bad news shows fast;
         good news has to hold. Moves are not announced on the page.
         The strip always shows today’s values, so for a short time it can disagree with the pool’s level.
       </p>

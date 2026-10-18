@@ -36,7 +36,7 @@ The coin's class (1 blue-chip · 2 crypto-backed · 3 synthetic), taken from the
 _Avoid_: risk band, grade
 
 **Level**:
-The pool's risk level (1 lower · 2 medium · 3 higher risk): the worst of its **Factor** levels (weakest link). Pure; computed in `build/risk.mjs`. Behind the `levelWindows` switch the three windows are grouped by Level instead of Tier.
+The pool's risk level (1 lower · 2 medium · 3 higher risk): the worst of its **Factor** levels (weakest link). Pure; computed in `build/risk.mjs`. The `levelWindows` switch (on since go-live, #23) groups the three windows by Level instead of Tier.
 _Avoid_: grade, score, rating
 
 **Factor**:

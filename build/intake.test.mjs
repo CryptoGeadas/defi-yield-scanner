@@ -3,7 +3,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { intakePools } from "./intake.mjs";
-import { runPipeline } from "./pipeline.mjs";
+import { runPipeline as run, DEFAULT_CONFIG } from "./pipeline.mjs";
+// Row-value tests read the coin-Tier windows; tests about the switch set levelWindows themselves.
+const runPipeline = (pools, config = {}, maps) => run(pools, { levelWindows: false, ...config }, maps);
 import { buildLink } from "./deeplinks.mjs";
 
 const pool = (o) => ({

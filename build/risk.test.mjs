@@ -39,7 +39,9 @@ test("ties go to the first factor in the fixed order Coin, Size, …", () => {
 });
 
 // ── pipeline: windows by level behind the switch ────────────────────────────
-import { runPipeline } from "./pipeline.mjs";
+import { runPipeline as run, DEFAULT_CONFIG } from "./pipeline.mjs";
+// Row-value tests read the coin-Tier windows; tests about the switch set levelWindows themselves.
+const runPipeline = (pools, config = {}, maps) => run(pools, { levelWindows: false, ...config }, maps);
 
 const maps = {
   protocolMap: { "aave-v3": { bucket: "lend", access: "permissionless", level: 1 }, "morpho-blue": { bucket: "vault", access: "permissionless", level: 1 } },
@@ -61,7 +63,12 @@ test("switch on: a $2M USDC vault lands in window 3, a $500M Aave USDC pool stay
   assert.equal(r.windows[3][0].tier, 1, "the coin tier stays on the row");
 });
 
-test("switch off (default): windows stay by coin tier, rows still carry their level", () => {
+test("the switch is on by default since go-live (#23)", () => {
+  assert.equal(DEFAULT_CONFIG.levelWindows, true);
+  assert.equal(run(pools, { baseRate: 4 }, maps).config.levelWindows, true);
+});
+
+test("switch off: windows stay by coin tier, rows still carry their level", () => {
   const r = runPipeline(pools, { baseRate: 4 }, maps);
   assert.deepEqual(ids(r.windows[1]).sort(), ["aave", "small"]);
   const small = r.windows[1].find((x) => x.pool === "small");

@@ -12,7 +12,7 @@ import { rateRisk, checkCuts, DEFAULT_CUTS } from "./risk.mjs";
 import { applySticky } from "./sticky.mjs";
 
 export const DEFAULT_CONFIG = {
-  levelWindows: false,          // SWITCH: group windows by risk Level (on) or coin Tier (off)
+  levelWindows: true,           // SWITCH: group windows by risk Level (on) or coin Tier (off)
   riskCuts: DEFAULT_CUTS,       // cut lines per risk Factor (risk.mjs)
   sticky: null,                 // { state, now } → shown levels follow the sticky rule (sticky.mjs)
   baseRate: null,               // % APY, set by the build from the feed (base-rate.mjs); none → Yield unknown
