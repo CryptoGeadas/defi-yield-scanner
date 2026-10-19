@@ -9,11 +9,14 @@
 //
 // Kamino: only a complete failure (no vaults at all) counts. Partial failures (some
 // metrics or reserves missing) keep the vault and are logged by kamino-vaults.mjs.
+// Euler: when no chain's labels could be read, every Euler row is hidden (fail closed);
+// a single failed chain is only logged by euler-vaults.mjs.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function venueNotices(venues) {
   const notices = [];
   if (!venues.kamino?.length) notices.push({ id: "kamino-unavailable", text: "Kamino data unavailable at this refresh." });
+  if (venues.euler instanceof Map && venues.euler.size && ![...venues.euler.values()].some(Boolean)) notices.push({ id: "euler-unavailable", text: "Euler data unavailable at this refresh — Euler pools hidden." });
   return notices;
 }
 

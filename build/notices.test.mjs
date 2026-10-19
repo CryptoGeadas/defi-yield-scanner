@@ -14,6 +14,14 @@ test("Kamino returning no vaults → a notice; a normal run → none", () => {
   assert.deepEqual(venueNotices({ kamino: [{ address: "KV" }] }), []);
 });
 
+test("Euler labels failing on every chain → a notice; one chain read → none", () => {
+  const kamino = [{ address: "KV" }];
+  assert.deepEqual(venueNotices({ kamino, euler: new Map([[1, null], [8453, null]]) }), [{ id: "euler-unavailable", text: "Euler data unavailable at this refresh — Euler pools hidden." }]);
+  assert.deepEqual(venueNotices({ kamino, euler: new Map() }), [], "no Euler chain configured → nothing failed");
+  assert.deepEqual(venueNotices({ kamino, euler: new Map([[1, []], [8453, null]]) }), []);
+  assert.deepEqual(venueNotices({ kamino }), [], "no Euler fetch at all (tests only; the build always passes a Map) → no notice");
+});
+
 test("each notice becomes one GitHub Actions warning line", () => {
   assert.deepEqual(actionsWarnings([{ id: "kamino-unavailable", text: "Kamino data unavailable at this refresh." }]),
     ["::warning title=kamino-unavailable::Kamino data unavailable at this refresh."]);

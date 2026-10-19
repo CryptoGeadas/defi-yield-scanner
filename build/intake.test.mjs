@@ -151,13 +151,13 @@ test("a kept lending row carries total deposits as its TVL", () => {
 
 test("a lending pool needs $1M available to withdraw, not only $1M of deposits", () => {
   const maps = {
-    protocolMap: { "euler-v2": { bucket: "lend", access: "permissionless" }, "uniswap-v3": { bucket: "LP", access: "permissionless" } },
+    protocolMap: { "aave-v3": { bucket: "lend", access: "permissionless" }, "uniswap-v3": { bucket: "LP", access: "permissionless" } },
     stableMap: { USDC: { tier: 1, type: "fiat" }, USDT: { tier: 1, type: "fiat" } },
   };
   const feed = [
-    pool({ pool: "drained", project: "euler-v2", tvlUsd: 0, apy: 17.5, apyBase: 17.5, apyMean30d: 17.5 }), // 100% borrowed
-    pool({ pool: "thin", project: "euler-v2", tvlUsd: 0.3e6 }),
-    pool({ pool: "ok", project: "euler-v2", tvlUsd: 1.5e6 }),
+    pool({ pool: "drained", project: "aave-v3", tvlUsd: 0, apy: 17.5, apyBase: 17.5, apyMean30d: 17.5 }), // 100% borrowed
+    pool({ pool: "thin", project: "aave-v3", tvlUsd: 0.3e6 }),
+    pool({ pool: "ok", project: "aave-v3", tvlUsd: 1.5e6 }),
     pool({ pool: "lp", project: "uniswap-v3", symbol: "USDC-USDT", tvlUsd: 2e6, volumeUsd7d: 1e6 }),
   ];
   const lendBorrow = new Map([["drained", 1.46e6], ["thin", 2.6e6], ["ok", 9e6]]);
@@ -259,4 +259,88 @@ test("intake gives every pool its age: since override, Kamino creation date, Def
 test("since.json keys that match no pool are reported", () => {
   const { report } = intakePools([pool({ pool: "a" })], {}, { since: { pools: { a: "2024-01-01", typo: "2024-01-01" }, protocols: { midas: "2024-01-01" } }, now: Date.parse("2026-10-15") });
   assert.deepEqual(report.sinceUnused, ["pools.typo", "protocols.midas"]);
+});
+
+// ── Euler V2 (#12) ──────────────────────────────────────────────────────────
+// Euler vaults are permissionless: only vaults Euler's own labels list as live are shown.
+const USDC = "0xA0b8";
+const eulerFeed = () => [
+  pool({ pool: "live", project: "euler-v2", poolMeta: "EVK Vault eUSDC-22", underlyingTokens: [USDC] }),
+  pool({ pool: "earn", project: "euler-v2", poolMeta: "K3 Capital Earn USDC", underlyingTokens: [USDC] }),
+  pool({ pool: "dep", project: "euler-v2", poolMeta: "EVK Vault eUSDC-58", underlyingTokens: [USDC] }),
+  pool({ pool: "hidden", project: "euler-v2", poolMeta: "EVK Vault eUSDC-9", underlyingTokens: [USDC] }),
+  pool({ pool: "unlisted", project: "euler-v2", poolMeta: "EVK Vault eUSDC-70", underlyingTokens: [USDC] }),
+  pool({ pool: "wrong-asset", project: "euler-v2", poolMeta: "EVK Vault eUSDC-22", underlyingTokens: ["0xdac1"] }),
+  pool({ pool: "base", project: "euler-v2", chain: "Base", poolMeta: "EVK Vault eUSDC-1", underlyingTokens: ["0x8335"] }),
+  pool({ pool: "aave", project: "aave-v3" }),
+];
+const eulerVaults = () => new Map([[1, [
+  { address: "0xLIVE", name: "EVK Vault eUSDC-22", asset: "0xa0b8", product: "K3 Capital Yield Market", status: "live" },
+  { address: "0xEARN", name: "K3 Capital Earn USDC", asset: "0xa0b8", product: null, earn: true, status: "live" },
+  { address: "0xDEP", name: "EVK Vault eUSDC-58", asset: "0xa0b8", product: "Rezerve Markets", status: "deprecated" },
+  { address: "0xHID", name: "EVK Vault eUSDC-9", asset: "0xa0b8", product: "Old Market", status: "hidden" },
+]]]);
+
+test("Euler: only listed, explorable vaults are kept, labelled with their product", () => {
+  const { pools, report } = intakePools(eulerFeed(), { euler: eulerVaults() });
+  const live = byId(pools, "live");
+  assert.equal(live.label, "K3 Capital Yield Market · eUSDC-22");
+  assert.equal(live.exactUrl, "https://app.euler.finance/lend/0xLIVE?network=1");
+  assert.deepEqual(live.legs, ["USDC"]);
+  assert.equal(byId(pools, "earn").label, "K3 Capital Earn USDC");
+  assert.equal(byId(pools, "earn").exactUrl, "https://app.euler.finance/earn/0xEARN?network=1");
+  assert.equal(byId(pools, "dep"), undefined, "deprecated vault dropped");
+  assert.equal(byId(pools, "hidden"), undefined, "notExplorable product dropped");
+  assert.equal(byId(pools, "unlisted"), undefined, "vault in no product dropped");
+  assert.equal(byId(pools, "wrong-asset"), undefined, "a name match on another asset is not the vault");
+  assert.equal(byId(pools, "base"), undefined, "chain with no labels: fail closed");
+  assert.ok(byId(pools, "aave"), "other venues untouched");
+  assert.deepEqual(report.euler, { kept: 2, deprecated: 1, hidden: 1, unlisted: 2, ambiguous: 0, unavailable: 0, unavailableChains: [], otherChains: 1, noMatchChains: [] });
+});
+
+test("Euler: a chain whose labels failed hides its rows and is reported; other chains still show", () => {
+  const v = eulerVaults(); v.set(8453, null);
+  const { pools, report } = intakePools(eulerFeed(), { euler: v });
+  assert.equal(byId(pools, "base"), undefined);
+  assert.ok(byId(pools, "live"));
+  assert.equal(report.euler.unavailable, 1);
+  assert.deepEqual(report.euler.unavailableChains, ["Base"]);
+  assert.equal(report.euler.otherChains, 0);
+});
+
+test("Euler: if the labels fetch failed, every Euler row is hidden and the report says why", () => {
+  const { pools, report } = intakePools(eulerFeed(), {});
+  assert.deepEqual(pools.map((p) => p.pool), ["aave"]);
+  assert.equal(report.euler.unavailable, 7);
+  assert.deepEqual(report.euler.unavailableChains, ["Ethereum", "Base"]);
+});
+
+test("Euler: two listed vaults with the same name and asset are ambiguous and dropped", () => {
+  const v = eulerVaults();
+  v.get(1).push({ address: "0xTWIN", name: "EVK Vault eUSDC-22", asset: "0xa0b8", product: "Other", status: "live" });
+  const { pools } = intakePools(eulerFeed(), { euler: v });
+  assert.equal(byId(pools, "live"), undefined);
+});
+
+test("Euler: a copycat feed pool with a listed vault's name and asset makes both rows untrusted", () => {
+  const feed = [...eulerFeed(), pool({ pool: "copycat", project: "euler-v2", poolMeta: "K3 Capital Earn USDC", underlyingTokens: ["0xA0B8"] })];
+  const { pools, report } = intakePools(feed, { euler: eulerVaults() });
+  assert.equal(byId(pools, "earn"), undefined);
+  assert.equal(byId(pools, "copycat"), undefined);
+  assert.ok(byId(pools, "live"), "other vaults unaffected");
+  assert.equal(report.euler.ambiguous, 2);
+});
+
+test("Euler: labels loaded but no pool matched on a chain is reported", () => {
+  const v = eulerVaults();
+  v.set(8453, [{ address: "0xB", name: "EVK Vault eUSDC-99", asset: "0x8335", product: "X", status: "live" }]);
+  const { report } = intakePools(eulerFeed(), { euler: v });
+  assert.deepEqual(report.euler.noMatchChains, ["Base"]);
+});
+
+test("Euler: the eUSDC-58 denylist entry is now redundant but harmless", () => {
+  const { pools, report } = intakePools(eulerFeed(), { euler: eulerVaults() }, { denylist: { poolIds: ["dep"] } });
+  assert.equal(byId(pools, "dep"), undefined);
+  assert.equal(report.denied, 1);
+  assert.equal(report.euler.deprecated, 0, "denylist runs first");
 });

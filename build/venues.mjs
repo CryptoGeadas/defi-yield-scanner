@@ -5,10 +5,13 @@
 // simply leaves those pools with their default identity. One exception: lendBorrow —
 // build.mjs refuses to overwrite the snapshot when it comes back short, because without
 // it lending TVL would silently mean "net of loans" and ~50 rows would drop off.
+// Euler fails soft too, but intake then hides Euler rows (permissionless vaults are
+// only shown when Euler's own labels list them).
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { buildSources, MORPHO_CHAINID } from "./deeplink-sources.mjs";
 import { fetchKaminoVaults } from "./kamino-vaults.mjs";
+import { fetchEulerVaults } from "./euler-vaults.mjs";
 
 // Yearn registry: `${chainId}|${vaultAddr}` → vault name, one call for all chains.
 async function fetchYearnRegistry(chains) {
@@ -42,15 +45,16 @@ async function fetchLendBorrow() {
   return map;
 }
 
-// → { curve, morpho, yearn, kamino, lendBorrow }. `curve` feeds deep links (deeplinks.mjs);
-// morpho / yearn / kamino / lendBorrow feed intakePools.
+// → { curve, morpho, yearn, kamino, lendBorrow, euler }. `curve` feeds deep links (deeplinks.mjs);
+// morpho / yearn / kamino / lendBorrow / euler feed intakePools.
 export async function fetchVenues({ chains, stableSet, tvlFloor }) {
-  const [sources, yearn, kamino, lendBorrow] = await Promise.all([
+  const [sources, yearn, kamino, lendBorrow, euler] = await Promise.all([
     buildSources(chains),
     fetchYearnRegistry(chains),
     fetchKaminoVaults(stableSet, tvlFloor),
     fetchLendBorrow(),
+    fetchEulerVaults(chains),
   ]);
-  console.log(`  venues: yearn=${yearn.size} vaults, kamino=${kamino.length} vaults, lendBorrow=${lendBorrow.size} pools`);
-  return { curve: sources.curve, morpho: sources.morpho, yearn, kamino, lendBorrow };
+  console.log(`  venues: yearn=${yearn.size} vaults, kamino=${kamino.length} vaults, lendBorrow=${lendBorrow.size} pools, euler=${[...euler.values()].reduce((n, v) => n + (v?.length ?? 0), 0)} labelled vaults on ${[...euler.values()].filter(Boolean).length}/${euler.size} chains`);
+  return { curve: sources.curve, morpho: sources.morpho, yearn, kamino, lendBorrow, euler };
 }

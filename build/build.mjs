@@ -165,6 +165,16 @@ async function main() {
     `  intake: denied ${report.denied} · lending TVL→deposits ${report.lendingTotals} · morpho vaults ${report.morphoVaults} · yearn named ${report.yearnNamed}` +
       ` · kamino −${report.kaminoDropped} isolated markets +${report.kaminoAdded} lending vaults`
   );
+  const eu = report.euler;
+  console.log(`  euler: kept ${eu.kept} · dropped deprecated ${eu.deprecated} · hidden by Euler ${eu.hidden} · not in Euler's labels ${eu.unlisted}` +
+    ` · ambiguous ${eu.ambiguous} · on chains not covered ${eu.otherChains}` +
+    (eu.unavailable ? ` · labels unavailable ${eu.unavailable} (${eu.unavailableChains.join(", ")})` : ""));
+  // Each Euler problem also becomes a GitHub Actions warning in CI (not a page notice).
+  const euWarn = [];
+  if (eu.unavailable) euWarn.push({ id: "euler-labels", text: `euler: no labels for ${eu.unavailableChains.join(", ")} — ${eu.unavailable} Euler pools hidden (fail closed)` });
+  if (eu.noMatchChains.length) euWarn.push({ id: "euler-match", text: `euler: labels loaded but no pool matched on ${eu.noMatchChains.join(", ")} — check DefiLlama poolMeta vs on-chain vault names` });
+  if (eu.ambiguous) euWarn.push({ id: "euler-ambiguous", text: `euler: ${eu.ambiguous} pools share a vault name + asset with another pool — dropped` });
+  for (const line of noticeLog(euWarn, process.env)) console.warn(line);
   if (report.sinceUnused.length) console.warn(`  since.json entries that match no pool (typo or stale?): ${report.sinceUnused.join(", ")}`);
   for (const g of report.morphoGuarded)
     console.warn(

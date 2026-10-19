@@ -69,10 +69,10 @@ The step that turns the raw feed plus **Venue data** into the pools the pipeline
 _Avoid_: preprocessing, enrichment
 
 **Venue data**:
-What a venue's own API knows that DefiLlama doesn't (Morpho vault registry, Yearn vault names, Kamino on-chain vaults). Fetched in `build/venues.mjs`; always allowed to be empty.
+What a venue's own API knows that DefiLlama doesn't (Morpho vault registry, Yearn vault names, Kamino on-chain vaults, Euler's curated labels). Fetched in `build/venues.mjs`; always allowed to be empty.
 
 **Venue correction**:
-One venue's rule inside **Pool intake** for fixing what DefiLlama gets wrong about it. Today: Morpho (share token → underlying **Leg** + V1 or V2 vault, under the **Link guard**), Yearn (vault **Label**), Kamino (replace isolated borrow markets with Lending Vaults).
+One venue's rule inside **Pool intake** for fixing what DefiLlama gets wrong about it. Today: Morpho (share token → underlying **Leg** + V1 or V2 vault, under the **Link guard**), Yearn (vault **Label**), Kamino (replace isolated borrow markets with Lending Vaults), Euler V2 (vaults are permissionless, so keep only vaults Euler's own labels list as live and explorable, matched by chain + vault name + asset; label = product · vault; drop deprecated, hidden, unlisted and unresolvable vaults, and all of a chain's Euler rows when its labels can't be read — fail closed).
 _Avoid_: preprocessor, hack, patch
 
 ## Flagged ambiguities

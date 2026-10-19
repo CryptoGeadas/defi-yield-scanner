@@ -10,7 +10,11 @@
 //            yearn   Map `${chainId}|${vaultAddr}` → vault name
 //            kamino  [{ address, name, symbol, mint, tvl, base, reward, mean30, apy7, available, createdAt }]
 //            lendBorrow  Map DefiLlama pool id → totalSupplyUsd (lending pools only)
+//            euler   Map chainId → [{ address, name, asset, product, earn?, status: live|hidden|deprecated }],
+//                    or null for a chain whose labels failed
 //          Any of these may be missing/empty (a fetch failed) — intake degrades, never throws.
+//          Euler fails CLOSED: a chain without labels hides its Euler rows (counted as
+//          unavailable when it was fetched and failed, or when the whole fetch is missing).
 // curation the hand-kept opinion files: { denylist, poolUrls, since }, plus `now` (ms) for ages.
 //
 // Every returned pool carries its IDENTITY alongside the DefiLlama fields:
@@ -29,6 +33,7 @@
 //   1. drop denylisted feed pools; lending pools take total deposits as TVL
 //      (DefiLlama's feed counts them net of loans; vaults already count deposits)
 //   2. Morpho  — resolve MetaMorpho share tokens to their underlying asset + vault (TVL-guarded)
+//   2b. Euler  — keep only vaults Euler's labels list as live; label + exact URL (fail closed)
 //   3. Yearn   — name same-asset vaults (DefiLlama gives no vault name or address)
 //   4. Kamino  — replace DefiLlama's kamino-lend (isolated borrow markets) with the
 //                curated Lending Vaults read on-chain
@@ -114,6 +119,62 @@ function morphoIdentities(pools, registry, deny) {
   return { ids, drop, guarded };
 }
 
+// ── Euler V2 ────────────────────────────────────────────────────────────────
+// Euler vaults are permissionless: anyone can deploy one. Euler's own labels
+// (euler-xyz/euler-labels, read by euler-vaults.mjs) list each product's live vaults,
+// its deprecated ones, and products the Euler app hides (notExplorable). DefiLlama gives
+// no vault address, only the vault name in poolMeta ("EVK Vault eUSDC-22", or an Earn
+// vault's own name) plus the asset, so match on chain + name + asset. Keep only a single
+// live match; drop deprecated, hidden, unlisted, ambiguous and unverifiable vaults.
+// Names are chosen by deployers, so an unlisted copycat can share a listed vault's name:
+// when two feed pools land on one vault, neither is trusted (both dropped as ambiguous).
+function eulerIdentities(pools, labels) {
+  const ids = new Map(), drop = new Set();
+  const report = { kept: 0, deprecated: 0, hidden: 0, unlisted: 0, ambiguous: 0, unavailable: 0, unavailableChains: [], otherChains: 0, noMatchChains: [] };
+  const byVault = new Map(); // chainId|address → [{ pool, hit, cid }]
+  const seen = new Set(); // chains whose Euler pools had labels
+  for (const p of pools) {
+    if (p.project !== "euler-v2") continue;
+    const cid = CHAIN_ID[p.chain];
+    const vaults = labels ? labels.get(cid) : null;
+    if (vaults === undefined) { drop.add(p); report.otherChains++; continue; } // a chain the Scanner doesn't cover
+    if (!vaults) {
+      drop.add(p);
+      report.unavailable++;
+      if (!report.unavailableChains.includes(p.chain)) report.unavailableChains.push(p.chain);
+      continue;
+    }
+    seen.add(p.chain);
+    const assets = new Set((p.underlyingTokens || []).map(lower));
+    const meta = String(p.poolMeta ?? "").trim();
+    const hits = vaults.filter((v) => v.name === meta && assets.has(lower(v.asset)));
+    const hit = hits.length === 1 ? hits[0] : null;
+    if (hits.length > 1) { drop.add(p); report.ambiguous++; continue; }
+    if (!hit || hit.status !== "live") {
+      drop.add(p);
+      report[hit ? hit.status : "unlisted"]++;
+      continue;
+    }
+    const key = `${cid}|${lower(hit.address)}`;
+    byVault.set(key, [...(byVault.get(key) ?? []), { pool: p, hit, cid }]);
+  }
+  const keptChains = new Set();
+  for (const group of byVault.values()) {
+    if (group.length > 1) { for (const { pool } of group) drop.add(pool); report.ambiguous += group.length; continue; }
+    const { pool, hit, cid } = group[0];
+    report.kept++;
+    keptChains.add(pool.chain);
+    const vault = hit.name.replace(/^EVK Vault /, "");
+    ids.set(pool, {
+      label: hit.earn || !hit.product ? hit.name : `${hit.product} · ${vault}`,
+      exactUrl: `https://app.euler.finance/${hit.earn ? "earn" : "lend"}/${hit.address}?network=${cid}`,
+    });
+  }
+  // labels loaded but nothing matched: the name format probably changed on one side
+  report.noMatchChains = [...seen].filter((c) => !keptChains.has(c));
+  return { ids, drop, report };
+}
+
 // ── Yearn ───────────────────────────────────────────────────────────────────
 // DefiLlama gives Yearn vaults neither a name nor the vault address, so same-asset
 // vaults collide as "USDC" ×N. The vault address is known only where a curated
@@ -168,7 +229,7 @@ function kaminoPool(v) {
 
 export function intakePools(feed, venues = {}, curation = {}) {
   const deny = denyChecker(curation.denylist);
-  const report = { feed: feed.length, denied: 0, lendingTotals: 0, morphoVaults: 0, morphoGuarded: [], yearnNamed: 0, kaminoDropped: 0, kaminoAdded: 0 };
+  const report = { feed: feed.length, denied: 0, euler: null, lendingTotals: 0, morphoVaults: 0, morphoGuarded: [], yearnNamed: 0, kaminoDropped: 0, kaminoAdded: 0 };
 
   // 1. denylist (feed), then lending TVL = total deposits
   let pools = feed.filter((p) => !deny.pool(p));
@@ -188,6 +249,9 @@ export function intakePools(feed, venues = {}, curation = {}) {
   }
   report.morphoVaults = morpho.ids.size;
   report.morphoGuarded = morpho.guarded;
+  const euler = eulerIdentities(pools, venues.euler);
+  if (euler.drop.size) pools = pools.filter((p) => !euler.drop.has(p));
+  report.euler = euler.report;
   const yearn = yearnLabels(pools, venues.yearn, curation.poolUrls);
   report.yearnNamed = yearn.size;
 
@@ -200,7 +264,7 @@ export function intakePools(feed, venues = {}, curation = {}) {
 
   // 5. identity for every feed pool (new objects — the feed is never mutated)
   const out = kept.map((p) => {
-    const id = morpho.ids.get(p);
+    const id = morpho.ids.get(p) ?? euler.ids.get(p);
     return {
       ...p,
       legs: id?.legs ?? parseLegs(p.symbol),

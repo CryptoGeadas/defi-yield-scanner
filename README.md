@@ -56,13 +56,17 @@ Resolved at build in priority order (see [`build/deeplinks.mjs`](build/deeplinks
 - **Denylist:** [`denylist.json`](build/denylist.json) hides deprecated-but-functional venues
   the data can't detect — by pool id, `project|chain|SYMBOL`, or Morpho vault address. Each
   entry has a reason and a 30-day review-by date; the build warns when one is overdue.
+- **Euler V2:** anyone can deploy an Euler vault, so only vaults Euler's own labels list as
+  live are shown (deprecated, hidden and unlisted vaults are dropped; if the labels can't be
+  read, Euler rows are hidden). See [`euler-vaults.mjs`](build/euler-vaults.mjs).
 - **Sanity floor:** the build refuses to overwrite the snapshot if a partial feed keeps <100 pools.
 
 ## Architecture
 
 ```
 GitHub Action (cron */6h + manual dispatch)
-  → GET https://yields.llama.fi/pools  + venue APIs: Morpho, Yearn, Kamino (on-chain), Curve
+  → GET https://yields.llama.fi/pools  + venue APIs: Morpho, Yearn, Kamino (on-chain), Curve,
+    Euler labels (github.com/euler-xyz/euler-labels + on-chain vault names)
                                          (build/venues.mjs — the only I/O)
   → pool intake: denylist + venue corrections + explicit identity per pool
                                          (build/intake.mjs — pure, tested)
