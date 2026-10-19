@@ -150,7 +150,9 @@ https://cryptogeadas.github.io/defi-yield-scanner/.
 - MetaMorpho vault surfacing (share-symbol → underlying asset + exact URL); broadened the
   stable map (staked variants, Maple credit, RWA T-bills → fills the permissioned window).
 - `denylist.json` for deprecated-but-functional venues (pool id / `project|chain|SYMBOL` /
-  Morpho vault address). Ongoing coverage work tracked in [COVERAGE-TODO.md](COVERAGE-TODO.md).
+  Morpho vault address). Every entry has a reason, an added date and a review-by date
+  30 days later; the build warns (log + GitHub Actions warning) on entries past review-by
+  and never un-hides them by itself — a person renews or removes the entry. Ongoing coverage work tracked in [COVERAGE-TODO.md](COVERAGE-TODO.md).
 
 **Deferred to v2:** reward-token quality scoring; per-pool APY-history sparkline (from the
 committed-snapshot history).

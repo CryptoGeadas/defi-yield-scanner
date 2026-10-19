@@ -59,7 +59,8 @@ _Avoid_: smoothing, hysteresis
 How the pool earns: `lend`, `LP` or `vault`, set per protocol in `trusted-protocols.json`.
 
 **Denylist**:
-Pools hidden even though they look active, named by DefiLlama pool id, `project|chain|SYMBOL`, or Morpho vault address.
+Pools hidden even though they look active, named by DefiLlama pool id, `project|chain|SYMBOL`, or Morpho vault address. Each entry records a one-line reason, the date added and a **review-by** date 30 days later (`build/denylist.json`). Past review-by the build lists the entry as a warning but keeps the pool hidden: a person renews the date (+30 days) or removes the entry. Checked in `build/denylist.mjs`.
+_Avoid_: blocklist, ban list
 
 ### Getting from the feed to rankings
 

@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { runPipeline, DEFAULT_CONFIG } from "./pipeline.mjs";
 import { intakePools } from "./intake.mjs";
 import { checkSince } from "./age.mjs";
+import { checkDenylist, denylistLog } from "./denylist.mjs";
 import { baseRate } from "./base-rate.mjs";
 import { checkProtocolLevels } from "./risk.mjs";
 import { fetchVenues } from "./venues.mjs";
@@ -57,8 +58,6 @@ async function loadPoolUrls() {
   return (await readOpinion("pool-urls.json"))?.urls || {};
 }
 
-// Manual denylist for deprecated-but-functional pools the data can't detect.
-// intake.mjs interprets it (pool ids, project|chain|SYMBOL keys, Morpho vaults).
 // Since overrides: known start dates (facts, no expiry) for pools DefiLlama tracked late.
 // Every date is checked here, so a bad entry fails the build at once.
 async function loadSince() {
@@ -69,8 +68,14 @@ async function loadSince() {
   return checkSince({ pools: j?.pools ?? {}, protocols: j?.protocols ?? {} });
 }
 
+// Manual denylist for deprecated-but-functional pools the data can't detect.
+// intake.mjs interprets it (pool ids, project|chain|SYMBOL keys, Morpho vaults).
+// Each entry carries reason/added/reviewBy; a bad entry fails the build at once, and
+// entries past review-by are logged (denylist.mjs) — they stay hidden until a person acts.
 async function loadDenylist() {
-  return (await readOpinion("denylist.json")) || {};
+  const { denylist, expired, undated } = checkDenylist((await readOpinion("denylist.json")) || {});
+  for (const line of denylistLog({ expired, undated }, process.env)) console.log(line);
+  return denylist;
 }
 
 // Map each protocol slug → its official site URL, from DefiLlama's config

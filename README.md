@@ -54,7 +54,8 @@ Resolved at build in priority order (see [`build/deeplinks.mjs`](build/deeplinks
   asset + exact URL so they appear and tier correctly. (See [`docs/COVERAGE-TODO.md`](docs/COVERAGE-TODO.md).)
 - **Liveness filter:** drops dead LP pools (7-day volume < $25k) and zero-yield pools.
 - **Denylist:** [`denylist.json`](build/denylist.json) hides deprecated-but-functional venues
-  the data can't detect — by pool id, `project|chain|SYMBOL`, or Morpho vault address.
+  the data can't detect — by pool id, `project|chain|SYMBOL`, or Morpho vault address. Each
+  entry has a reason and a 30-day review-by date; the build warns when one is overdue.
 - **Sanity floor:** the build refuses to overwrite the snapshot if a partial feed keeps <100 pools.
 
 ## Architecture
