@@ -13,6 +13,7 @@ import { applySticky } from "./sticky.mjs";
 
 export const DEFAULT_CONFIG = {
   levelWindows: true,           // SWITCH: group windows by risk Level (on) or coin Tier (off)
+  flowsCard: false,             // SWITCH: show the "Money flows" card in open rows (#30; on at go-live)
   riskCuts: DEFAULT_CUTS,       // cut lines per risk Factor (risk.mjs)
   sticky: null,                 // { state, now } → shown levels follow the sticky rule (sticky.mjs)
   baseRate: null,               // % APY, set by the build from the feed (base-rate.mjs); none → Yield unknown
@@ -143,6 +144,7 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       label: pool.label ?? pool.symbol,  // row label (identity, from intake)
       exactUrl: pool.exactUrl ?? null,   // venue-verified deposit link (identity, from intake)
       linkGuarded: pool.linkGuarded ?? false, // venue match failed its check → DefiLlama link
+      vault: pool.vault ?? null,         // { chain, address, decimals } when money flows are tracked (intake)
       pool: pool.pool,
       underlyingTokens: pool.underlyingTokens ?? null,
       poolMeta: pool.poolMeta ?? null,

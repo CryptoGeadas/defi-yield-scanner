@@ -95,6 +95,29 @@ test("Morpho link guard: a vault whose TVL is >2x away from DefiLlama's gets no 
   assert.deepEqual(link, { url: "https://defillama.com/yields/pool/low", kind: "defillama" }, "guarded → DefiLlama, not the site");
 });
 
+test("flows: an Ethereum Morpho vault that passes the link guard carries its vault address and asset decimals", () => {
+  const morpho = new Map([
+    ["1|STEAKUSDC|0xa0b8", [{ address: "0xAbC1", assetSymbol: "USDC", assetDecimals: 6, name: "Steakhouse USDC", network: "ethereum", tvl: 9e6 }]],
+    ["1|FAR|0xa0b8", [{ address: "0xFAR", assetSymbol: "USDC", assetDecimals: 6, name: "Far", network: "ethereum", tvl: 90e6 }]],
+    ["1|NODEC|0xa0b8", [{ address: "0xNODEC", assetSymbol: "USDC", name: "No decimals", network: "ethereum", tvl: 5e6 }]],
+    ["8453|BASEUSDC|0xa0b8", [{ address: "0xBASE", assetSymbol: "USDC", assetDecimals: 6, name: "Base vault", network: "base", tvl: 5e6 }]],
+  ]);
+  const feed = [
+    pool({ pool: "ok", project: "morpho-blue", symbol: "STEAKUSDC", tvlUsd: 9e6 }),
+    pool({ pool: "guarded", project: "morpho-blue", symbol: "FAR", tvlUsd: 5e6 }),
+    pool({ pool: "nodec", project: "morpho-blue", symbol: "NODEC", tvlUsd: 5e6 }),
+    pool({ pool: "aave" }),
+    pool({ pool: "base", project: "morpho-blue", chain: "Base", symbol: "BASEUSDC", tvlUsd: 5e6 }),
+  ];
+  const { pools } = intakePools(feed, { morpho });
+  assert.ok(byId(pools, "base").exactUrl, "the Base vault passes the link guard…");
+  assert.equal(byId(pools, "base").vault, null, "…but the flows job reads only Ethereum for now (Base: #32)");
+  assert.deepEqual(byId(pools, "ok").vault, { chain: "ethereum", address: "0xabc1", decimals: 6 });
+  assert.equal(byId(pools, "guarded").vault, null, "failed the link guard → not tracked");
+  assert.equal(byId(pools, "nodec").vault, null, "unknown decimals → not tracked");
+  assert.equal(byId(pools, "aave").vault, null);
+});
+
 test("Yearn vaults are named from the registry via their curated deposit URL", () => {
   const yearn = new Map([["1|0xabc", "Morpho Yearn OG USDC Compounder"]]);
   const feed = [pool({ pool: "y1", project: "yearn-finance" }), pool({ pool: "y2", project: "yearn-finance" })];

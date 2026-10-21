@@ -62,7 +62,7 @@ async function morphoVaults(field, fields, tvlOf) {
   const chainIds = Object.keys(MORPHO_NET).join(",");
   for (let skip = 0, page = 0; page < 60; page++, skip += 500) {
     const j = await morphoGql(
-      `{ ${field}(first:500, skip:${skip}, where:{ chainId_in:[${chainIds}] }) { items { address symbol name chain { id } asset { symbol address } ${fields} } } }`
+      `{ ${field}(first:500, skip:${skip}, where:{ chainId_in:[${chainIds}] }) { items { address symbol name chain { id } asset { symbol address decimals } ${fields} } } }`
     );
     const items = j?.data?.[field]?.items;
     if (!items) throw new Error(`${field}: ${JSON.stringify(j?.errors ?? j).slice(0, 200)}`);
@@ -73,7 +73,7 @@ async function morphoVaults(field, fields, tvlOf) {
 }
 
 async function morphoSource() {
-  // key: `${chainId}|${SYMBOL}|${assetAddr}` -> [{ address, assetSymbol, name, network, tvl }]
+  // key: `${chainId}|${SYMBOL}|${assetAddr}` -> [{ address, assetSymbol, assetDecimals, name, network, tvl }]
   const map = new Map();
   try {
     const [v1, v2] = await Promise.all([
@@ -85,7 +85,7 @@ async function morphoSource() {
       if (!network || !v.symbol || !v.asset?.address) continue;
       const k = `${v.chain.id}|${v.symbol.toUpperCase()}|${v.asset.address.toLowerCase()}`;
       if (!map.has(k)) map.set(k, []);
-      map.get(k).push({ address: v.address, assetSymbol: v.asset.symbol, name: v.name, network, tvl: v.tvl });
+      map.get(k).push({ address: v.address, assetSymbol: v.asset.symbol, assetDecimals: v.asset.decimals, name: v.name, network, tvl: v.tvl });
     }
   } catch (e) {
     console.warn("  morpho source failed:", e.message);

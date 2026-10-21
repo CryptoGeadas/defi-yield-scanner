@@ -8,6 +8,8 @@ import { runPipeline as run, DEFAULT_CONFIG } from "./pipeline.mjs";
 const runPipeline = (pools, config = {}, maps) => run(pools, { levelWindows: false, ...config }, maps);
 import { reviewSheet } from "./review-sheet.mjs";
 import { vaultInfoFrom } from "./kamino-vaults.mjs";
+import { emptyLedger, addFlows } from "./flows.mjs";
+import { makeSlim } from "./slim.mjs";
 
 const NOW = Date.parse("2026-10-16T00:00:00Z");
 const DAY = 86_400_000;
@@ -35,6 +37,36 @@ test("intake → pipeline → sticky: Kamino and since dates reach the Age facto
   assert.deepEqual(Object.keys(r.stickyState).sort(), ["KV", "late"]);
   const r2 = runPipeline(pools, cfg(r.stickyState), maps);
   assert.equal(r2.windows[3][0].pool, "KV");
+});
+
+test("intake → pipeline → snapshot rows: every row has flows; a tracked vault carries its vault and numbers; flows never change levels", () => {
+  const morpho = new Map([
+    ["1|STEAKUSDC|0xa0b8", [{ address: "0xVAULT", assetSymbol: "USDC", assetDecimals: 6, name: "Steakhouse USDC", network: "ethereum", tvl: 500e6 }]],
+    ["1|NEWUSDC|0xa0b8", [{ address: "0xNEW", assetSymbol: "USDC", assetDecimals: 6, name: "New USDC", network: "ethereum", tvl: 500e6 }]],
+  ]);
+  const fm = { ...maps, protocolMap: { ...maps.protocolMap, "morpho-blue": { bucket: "vault", access: "permissionless", level: 1 } } };
+  const feed = [feedPool({ pool: "v", project: "morpho-blue", symbol: "STEAKUSDC" }), feedPool({ pool: "n", project: "morpho-blue", symbol: "NEWUSDC" }), feedPool({ pool: "a" })];
+  const ledger = addFlows(emptyLedger(), {
+    chain: "ethereum", today: "2026-10-21", lastBlock: 1, tracked: [{ address: "0xvault", decimals: 6 }], backfill: true,
+    events: [{ vault: "0xvault", day: "2026-10-20", kind: "out", amount: 7e6 }],
+  });
+  const cfg = { baseRate: 4, levelWindows: true, sticky: { state: {}, now: NOW } };
+  const withVault = runPipeline(intakePools(feed, { morpho }, { now: NOW }).pools, cfg, fm);
+  const rows = [1, 2, 3].flatMap((w) => withVault.windows[w]);
+  const slim = makeSlim({}, {}, { curve: new Map(), morpho: new Map() }, {}, ledger);
+  const snap = Object.fromEntries(rows.map((r) => [r.pool, slim(r)]));
+  assert.equal(Object.keys(snap).length, 3);
+  assert.ok(Object.values(snap).every((s) => ["ok", "collecting", "untracked"].includes(s.flows?.status)), "every snapshot row has flows");
+  assert.deepEqual(snap.v.vault, { chain: "ethereum", address: "0xvault", decimals: 6 }, "the flows job reads this list");
+  assert.deepEqual(snap.v.flows, { status: "ok", in30: 0, out30: 7e6, net7: -7e6, net30: -7e6, maxOut30: 7e6, asOf: "2026-10-21" });
+  assert.equal(snap.n.flows.status, "collecting", "tracked but not in the ledger yet");
+  assert.deepEqual(snap.a.flows, { status: "untracked" });
+  assert.equal(snap.a.vault, null);
+  // same pools without the vault address: the levels are identical, so flows play no part in them
+  const noVault = runPipeline(intakePools(feed, { morpho }, { now: NOW }).pools.map((p) => ({ ...p, vault: null })), cfg, fm);
+  const lv = (r) => Object.fromEntries([1, 2, 3].flatMap((w) => r.windows[w]).map((x) => [x.pool, [x.level, x.levelDriver, JSON.stringify(x.factors)]]));
+  assert.deepEqual(lv(withVault), lv(noVault));
+  assert.equal(withVault.config.flowsCard, false, "the card switch is off by default");
 });
 
 test("Stability counts a reward jump; Yield ignores it", () => {

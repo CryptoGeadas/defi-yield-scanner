@@ -15,8 +15,9 @@ import { baseRate } from "./base-rate.mjs";
 import { checkProtocolLevels } from "./risk.mjs";
 import { fetchVenues } from "./venues.mjs";
 import { venueNotices, noticeLog } from "./notices.mjs";
-import { buildLink } from "./deeplinks.mjs";
 import { vendorLogos } from "./logos.mjs";
+import { emptyLedger } from "./flows.mjs";
+import { makeSlim } from "./slim.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SITE = join(HERE, "..", "site");
@@ -30,6 +31,21 @@ async function loadStickyState() {
   catch (e) { if (e.code === "ENOENT") return {}; throw new Error(`levels-state.json unreadable: ${e.message}`, { cause: e }); }
   if (j === null || typeof j !== "object" || Array.isArray(j)) throw new Error("levels-state.json is not an object");
   return j;
+}
+// Money-flows ledger (flows.mjs), written once a day by the flows job (flows-run.mjs).
+// Read-only here. Missing (the job has not run yet) → empty: tracked vaults read "collecting".
+// Broken → null: tracked vaults read "unavailable", never a made-up state.
+const FLOWS = join(HERE, "state", "flows-ledger.json");
+async function loadFlowsLedger() {
+  try {
+    const j = JSON.parse(await readFile(FLOWS, "utf8"));
+    if (!j || typeof j !== "object" || !j.vaults || typeof j.vaults !== "object") throw new Error("not a flows ledger");
+    return j;
+  } catch (e) {
+    if (e.code === "ENOENT") return emptyLedger();
+    console.warn(`  ⚠ flows-ledger.json unreadable (${e.message}) — tracked vaults show flows unavailable`);
+    return null;
+  }
 }
 const FEED = "https://yields.llama.fi/pools";
 
@@ -96,46 +112,6 @@ async function loadSiteUrls() {
   }
 }
 
-// Trim a pipeline row to what the site actually renders (+ link & detail fields).
-const makeSlim = (names, siteUrls, sources, poolUrls) => (r) => {
-  const { url, kind } = buildLink(r, { siteUrl: siteUrls[r.project], sources, override: poolUrls[r.pool] });
-  return {
-    project: r.project,
-    name: names[r.project] || r.project,
-    symbol: r.label, // row label from intake: venue's vault name, or symbol · market
-    chain: r.chain,
-    bucket: r.bucket,
-    access: r.access,
-    type: r.stableType, // fiat | crypto | yield | rwa | synthetic
-    tier: r.tier, // coin Tier (the Coin factor) — independent of which window the row is in
-    tierDriver: r.tierDriver,
-    level: r.level, // risk Level shown (sticky rule applied, sticky.mjs)
-    levelComputed: r.levelComputed, // this run's level before the sticky rule
-    levelDriver: r.levelDriver,
-    factors: r.factors,
-    base: round(r.base),
-    reward: round(r.reward),
-    total: round(r.total),
-    spot: r.spot == null ? null : round(r.spot),
-    mean30d: r.mean30d == null ? null : round(r.mean30d),
-    divFlag: r.divFlag,
-    tvlUsd: Math.round(r.tvlUsd),
-    legs: r.legs, // true stablecoin legs (classification), independent of display symbol
-    url,
-    linkKind: kind, // 'exact' | 'site' | 'defillama' | null
-    // detail-panel fields (Phase 3)
-    exposure: r.exposure,
-    ilRisk: r.ilRisk,
-    apyReward: r.apyReward == null ? null : round(r.apyReward),
-    volumeUsd1d: r.volumeUsd1d == null ? null : Math.round(r.volumeUsd1d),
-    volumeUsd7d: r.volumeUsd7d == null ? null : Math.round(r.volumeUsd7d),
-    apyPct7D: r.apyPct7D == null ? null : round(r.apyPct7D),
-    apyPct30D: r.apyPct30D == null ? null : round(r.apyPct30D),
-    poolId: r.pool,
-  };
-};
-const round = (n) => Math.round(n * 100) / 100;
-
 async function main() {
   const maps = await loadMaps();
   const [names, siteUrls, denylist, poolUrls, since] = await Promise.all([loadNames(), loadSiteUrls(), loadDenylist(), loadPoolUrls(), loadSince()]);
@@ -192,7 +168,10 @@ async function main() {
   const noLevel = checkProtocolLevels(maps.protocolMap); // throws on a bad level
   if (noLevel.length) console.warn(`  ⚠ trusted-protocols.json: no level for ${noLevel.join(", ")} — Protocol factor unknown (Level 2) for their pools`);
   const stickyPrev = await loadStickyState();
-  const r = runPipeline(pools, { baseRate: rate, sticky: { state: stickyPrev, now: Date.now() }, levelWindows: levelsOn }, maps);
+  // FLOWS_CARD=1 shows the Money flows card for a local build only (like LEVEL_WINDOWS).
+  const flowsOn = process.env.FLOWS_CARD ? process.env.FLOWS_CARD === "1" : DEFAULT_CONFIG.flowsCard;
+  if (process.env.FLOWS_CARD === "1" && !DEFAULT_CONFIG.flowsCard) console.warn("  ⚠ FLOWS_CARD=1: Money flows card on — local check only, do NOT commit site/data/latest.json from this build");
+  const r = runPipeline(pools, { baseRate: rate, sticky: { state: stickyPrev, now: Date.now() }, levelWindows: levelsOn, flowsCard: flowsOn }, maps);
 
   // Age data health over the rows we show: if an age source breaks (renamed field, API
   // change), every pool silently drops to "unknown" (Level 2). Warn loudly above 20%.
@@ -217,7 +196,8 @@ async function main() {
   if (r.stats.kept < MIN_KEPT)
     throw new Error(`sanity floor: only ${r.stats.kept} pools kept (< ${MIN_KEPT}); feed likely partial — refusing to overwrite`);
 
-  const slim = makeSlim(names, siteUrls, venues, poolUrls);
+  const ledger = await loadFlowsLedger();
+  const slim = makeSlim(names, siteUrls, venues, poolUrls, ledger);
 
   const payload = {
     generatedAt: new Date().toISOString(),

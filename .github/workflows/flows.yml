@@ -1,0 +1,45 @@
+name: refresh-flows
+
+# Money flows (#30): once a day, read tracked vaults' deposits and withdrawals from the
+# free SQD Portal into build/state/flows-ledger.json. Separate from refresh-yields so a
+# slow Portal never delays the rankings; the next refresh puts the ledger on the page.
+on:
+  schedule:
+    - cron: "40 4 * * *" # daily, between the 6-hourly refreshes
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh # same group as refresh-yields: the two never push at the same time
+  cancel-in-progress: false
+
+jobs:
+  flows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330 # the first run backfills 30 days on the free, rate-limited Portal
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install build deps
+        run: npm ci
+
+      - name: Read flows from SQD Portal
+        run: node build/flows-run.mjs
+
+      - name: Commit ledger if changed
+        run: |
+          git config user.name "yield-scanner-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add build/state/flows-ledger.json
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "data: refresh flows ledger ($(date -u +%FT%TZ))"
+            git pull --rebase origin main && git push
+          fi

@@ -6,7 +6,7 @@
 //
 // feed     DefiLlama `/pools` data array (not mutated).
 // venues   what build.mjs fetched from each venue's own API (see venues.mjs):
-//            morpho  Map `${chainId}|${SHARE_SYMBOL}|${assetAddr}` → [{ address, assetSymbol, name, network, tvl }]
+//            morpho  Map `${chainId}|${SHARE_SYMBOL}|${assetAddr}` → [{ address, assetSymbol, assetDecimals, name, network, tvl }]
 //            yearn   Map `${chainId}|${vaultAddr}` → vault name
 //            kamino  [{ address, name, symbol, mint, tvl, base, reward, mean30, apy7, available, createdAt }]
 //            lendBorrow  Map DefiLlama pool id → totalSupplyUsd (lending pools only)
@@ -23,6 +23,8 @@
 //   label     the row label a person would recognise on the venue's own app.
 //   exactUrl  a venue-verified deposit URL, or null (deeplinks.mjs then decides).
 //   linkGuarded  true when a venue match failed its check: link to DefiLlama, never the site.
+//   vault     { chain, address, decimals } of a verified vault whose money flows are read
+//             (flows.mjs); null = flows not tracked.
 //   ageDays / ageSource  days live and where that came from (age.mjs); null = unknown.
 //   availableUsd what can be withdrawn now. DefiLlama lending pools: supplied − borrowed
 //             (the /pools figure; tvlUsd becomes total deposits). Kamino vaults: idle cash
@@ -89,6 +91,14 @@ function denyChecker(denylist = {}) {
 export const MORPHO_TVL_TOLERANCE = 2;
 const tvlGap = (a, b) => (a > 0 && b > 0 ? Math.abs(Math.log(a / b)) : Infinity);
 
+// Money flows (flows.mjs) read a vault's Deposit/Withdraw events by address, so only a
+// verified vault on a chain the flows job reads, with known asset decimals, is tracked.
+const FLOWS_NETWORKS = new Set(["ethereum"]);
+const flowsVault = (hit) =>
+  FLOWS_NETWORKS.has(hit.network) && Number.isInteger(hit.assetDecimals) && typeof hit.address === "string"
+    ? { chain: hit.network, address: hit.address.toLowerCase(), decimals: hit.assetDecimals }
+    : null;
+
 function morphoIdentities(pools, registry, deny) {
   const byVault = new Map(); // address → { pool, hit }
   const drop = new Set();
@@ -114,6 +124,7 @@ function morphoIdentities(pools, registry, deny) {
       label: hit.name, // "Steakhouse USDC"
       exactUrl: ok ? `https://app.morpho.org/${hit.network}/vault/${hit.address}` : null,
       linkGuarded: !ok,
+      vault: ok ? flowsVault(hit) : null,
     });
   }
   return { ids, drop, guarded };
@@ -271,6 +282,7 @@ export function intakePools(feed, venues = {}, curation = {}) {
       label: id?.label ?? yearn.get(p) ?? defaultLabel(p),
       exactUrl: id?.exactUrl ?? null,
       linkGuarded: id?.linkGuarded ?? false,
+      vault: id?.vault ?? null,
     };
   });
 

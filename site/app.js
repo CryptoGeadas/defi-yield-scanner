@@ -59,6 +59,25 @@ function riskCardHtml(r) {
     .map((f) => `<div class="l${lvOf(f)}"><div class="rfn"><span>${FACTOR_NAME[f.name]}</span><span class="rlv">Level ${lvOf(f)}</span></div><div class="rfv${f.unknown ? " unk" : ""}">${esc(factorText(f, r))}</div></div>`)
     .join("")}</div></div>`;
 }
+// ── money flows (#30) ─────────────────────────────────────────────────────────
+// Shown only (never part of the Level), behind the build's flowsCard switch.
+const fmtUsd = (n) => (Math.abs(n) < 1e3 ? `$${Math.round(Math.abs(n))}` : fmtTvl(Math.abs(n)));
+const fmtNet = (n) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${fmtUsd(n)}`;
+const netCls = (n) => (n > 0 ? "up" : n < 0 ? "down" : "");
+const fmtDay = (d) => new Date(`${d}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+const flowsOn = () => state.data?.config?.flowsCard === true;
+function flowsCardHtml(r) {
+  const f = r.flows;
+  if (!flowsOn() || f?.status !== "ok") return "";
+  const num = (k, v, cls = "") => `<div><span class="fl-k">${k}</span><b class="${cls}">${v}</b></div>`;
+  return `<div class="dcard wide flows-card">
+    <div class="dk">Money flows</div>
+    <div class="flows-net">${num("Net, 7 days", fmtNet(f.net7), netCls(f.net7))}${num("Net, 30 days", fmtNet(f.net30), netCls(f.net30))}</div>
+    <div class="flows-sub">${num("In, 30 days", fmtUsd(f.in30))}${num("Out, 30 days", fmtUsd(f.out30))}${num("Biggest exit, 30 days", fmtUsd(f.maxOut30))}</div>
+    <div class="dsub">Last 30 days, to ${esc(fmtDay(f.asOf))}. Deposits and withdrawals read from the vault contract. Flows do not change the risk level.</div>
+  </div>`;
+}
+
 // Empty level window: name the filters that hide everything, and offer to clear them.
 function emptyLevelHtml(level) {
   const parts = [];
@@ -277,6 +296,7 @@ function detailHtml(r, tier) {
       </div>
       ${composition}
       ${byLevel() ? riskCardHtml(r) : ""}
+      ${flowsCardHtml(r)}
     </div>
     <div class="dactions">${actions}</div>
   </div>`;
