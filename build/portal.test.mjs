@@ -156,3 +156,30 @@ test("finalized head and block-at-time read their numbers, retry when busy, and 
   await assert.rejects(finalizedHead("x", { fetchImpl: fakePortal([{ body: {} }]).fetchImpl }), (e) => e.code === "bad_head");
   await assert.rejects(blockAt("x", 1, { fetchImpl: fakePortal([{ body: {} }]).fetchImpl }), (e) => e.code === "bad_block");
 });
+
+test("dropped connections that never recover end with network_error; every request carries a timeout signal", async () => {
+  let n = 0;
+  const signals = [];
+  const down = async (url, init) => { n++; signals.push(init.signal instanceof AbortSignal); throw new TypeError("fetch failed"); };
+  await assert.rejects(read(down, { maxRetries: 2 }), (e) => e.code === "network_error" && e.status === 0);
+  assert.equal(n, 3);
+  assert.ok(signals.every(Boolean));
+  let m = 0;
+  const slow = async () => (++m === 1 ? Promise.reject(new DOMException("timed out", "TimeoutError")) : new Response(JSON.stringify(block(200, DAY1)) + "\n"));
+  assert.equal((await read(slow)).lastBlock, 200, "a timeout is retried");
+});
+
+test("a block past the range end or with a bad timestamp is an error", async () => {
+  await assert.rejects(read(fakePortal([{ lines: [block(250, DAY1)] }]).fetchImpl), (e) => e.code === "bad_block");
+  await assert.rejects(read(fakePortal([{ lines: [block(150, "x")] }]).fetchImpl), (e) => e.code === "bad_block");
+});
+
+test("a time limit stops before the next batch and returns what was read", async () => {
+  const { fetchImpl, calls } = fakePortal([{ lines: [block(150, DAY1, [log(DEPOSIT, 1_000_000n)])] }, { lines: [block(200, DAY2)] }]);
+  const r = await read(fetchImpl, { deadline: Date.now() - 1, onBatch: () => {} });
+  assert.equal(calls.length, 0, "already past the limit: nothing more is asked");
+  assert.equal(r.lastBlock, 99);
+  let t = 0;
+  const r2 = await read(fakePortal([{ lines: [block(150, DAY1, [log(DEPOSIT, 1_000_000n)])] }, { lines: [block(200, DAY2)] }]).fetchImpl, { deadline: Date.now() + 60_000, onBatch: () => { t++; } });
+  assert.equal(r2.lastBlock, 200);
+});

@@ -106,6 +106,7 @@ function flowsFootHtml(r, credit = false) {
 function flowsCardHtml(r) {
   const f = r.flows;
   if (!flowsOn()) return "";
+  if (f && !["untracked", "collecting", "partial", "full", "unavailable"].includes(f.status)) console.warn("flows: unknown status", f.status);
   if (f?.status === "untracked" && !NOT_TRACKED[f.reason]) console.warn("flows: unknown not-tracked reason", f.reason); // hidden, never a wrong sentence
   if (f?.status === "untracked")
     return NOT_TRACKED[f.reason] ? `<div class="dcard wide flows-card"><div class="dhead"><span class="dk">Money flows</span></div><div class="dline fl-muted">Not tracked: ${esc(NOT_TRACKED[f.reason])}.</div>${flowsFootHtml(r)}</div>` : "";

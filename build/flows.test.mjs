@@ -2,7 +2,10 @@
 // Run: npm test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { emptyLedger, addFlows, flowsSummary, rowFlows, ledgerVaults, shiftDay, untrackedReason, UNTRACKED_REASONS } from "./flows.mjs";
+import { emptyLedger, addFlows, flowsSummary, rowFlows as rowFlowsAt, ledgerVaults, shiftDay, untrackedReason, UNTRACKED_REASONS, flowsCoverage } from "./flows.mjs";
+// a fixed clock: these tests must pass on any day (freshness compares dates with "now")
+const TEST_NOW = Date.parse("2026-10-22T12:00:00Z");
+const rowFlows = (row, ledger, now = TEST_NOW) => rowFlowsAt(row, ledger, now);
 
 const A = "0x00000000000000000000000000000000000000aa";
 const B = "0x00000000000000000000000000000000000000bb";
@@ -269,4 +272,35 @@ test("every untracked reason code has words on the page", async () => {
   const app = await readFile(new URL("../site/app.js", import.meta.url), "utf8");
   const block = app.slice(app.indexOf("const NOT_TRACKED = {"), app.indexOf("};", app.indexOf("const NOT_TRACKED = {")));
   for (const code of UNTRACKED_REASONS) assert.ok(block.includes(`  ${code}: "`), code);
+});
+
+test("a damaged as-of date (the chain's or the old shared one) gives 'unavailable'", () => {
+  for (const bad of ["2026-9-22", "x", 123]) {
+    const l = backfill([]); l.chains.ethereum.asOf = bad;
+    assert.deepEqual(rowFlows(row(A), l), { status: "unavailable" }, String(bad));
+    const old = backfill([]); delete old.chains.ethereum.asOf; old.asOf = bad;
+    assert.deepEqual(rowFlows(row(A), old), { status: "unavailable" }, "shared " + String(bad));
+  }
+});
+
+test("build coverage: a venue with Ethereum rows but no tracked vault is warned about", () => {
+  const rows = [{ project: "morpho-blue", chain: "Ethereum", vault: { chain: "ethereum" } }, { project: "yearn-finance", chain: "Ethereum", vault: null }, { project: "euler-v2", chain: "Base", vault: null }];
+  const c = flowsCoverage(rows);
+  assert.equal(c.line, "flows: tracking 1 vaults (morpho-blue 1)");
+  assert.deepEqual(c.warnings, ["flows: no yearn-finance vault tracked on Ethereum — check its addresses / decimals / version data"]);
+});
+
+test("damaged records never show $0 or crash: null day values, a null day, missing days, a null vault, no chain day", () => {
+  const cases = [
+    (l) => { l.vaults[`ethereum:${A}`].days["2026-10-21"] = { in: null, out: null, maxOut: null }; },
+    (l) => { l.vaults[`ethereum:${A}`].days["2026-10-21"] = null; },
+    (l) => { delete l.vaults[`ethereum:${A}`].days; },
+    (l) => { l.vaults[`ethereum:${A}`] = 7; },
+    (l) => { delete l.chains.ethereum.asOf; l.asOf = null; },
+  ];
+  for (const [i, damage] of cases.entries()) {
+    const l = backfill([ev("2026-10-21", "in", 5)]);
+    damage(l);
+    assert.deepEqual(rowFlows(row(A), l), { status: "unavailable" }, "case " + i);
+  }
 });

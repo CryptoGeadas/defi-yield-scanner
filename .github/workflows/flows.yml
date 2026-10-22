@@ -33,8 +33,8 @@ jobs:
         run: node build/flows-run.mjs
 
       - name: Commit ledger if changed
-        # also after a failed or timed-out read: the job saves what each chain read before
-        # failing, and the next run continues from there
+        # also after a failed read: the job saves after each chain (including what a failing
+        # chain read) and stops reading at 300 min, before this timeout, to save its progress
         if: always()
         run: |
           git config user.name "yield-scanner-bot"

@@ -17,6 +17,7 @@ import { fetchVenues } from "./venues.mjs";
 import { venueNotices, noticeLog } from "./notices.mjs";
 import { vendorLogos } from "./logos.mjs";
 import { loadLedgerForBuild } from "./flows-file.mjs";
+import { flowsCoverage } from "./flows.mjs";
 import { makeSlim } from "./slim.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -174,11 +175,9 @@ async function main() {
   }
   // Money flows coverage: vaults tracked per protocol. A venue whose decimals, version or
   // address check broke drops to 0 without failing anything, so say it loudly.
-  const tracked = {};
-  for (const x of shown) if (x.vault) tracked[x.project] = (tracked[x.project] || 0) + 1;
-  console.log(`  flows: tracking ${Object.values(tracked).reduce((a, b) => a + b, 0)} vaults (${Object.entries(tracked).map(([p, n]) => `${p} ${n}`).join(" · ") || "none"})`);
-  for (const p of ["morpho-blue", "yearn-finance", "euler-v2"])
-    if (shown.some((x) => x.project === p && x.chain === "Ethereum") && !tracked[p]) console.warn(`  ⚠ flows: no ${p} vault tracked on Ethereum — check its addresses / decimals / version data`);
+  const cov = flowsCoverage(shown);
+  console.log(`  ${cov.line}`);
+  for (const w of cov.warnings) console.warn(`  ⚠ ${w}`);
   const yieldUnknown = shown.filter((x) => x.factors.find((f) => f.name === "yield")?.unknown).length;
   const yieldMsg = `yield unknown for ${yieldUnknown}/${shown.length} shown pools`;
   if (yieldUnknown > shown.length * 0.2) console.warn(`  ⚠ ${yieldMsg} — check DefiLlama apyMean30d / Kamino apy30d`);
@@ -191,7 +190,7 @@ async function main() {
     throw new Error(`sanity floor: only ${r.stats.kept} pools kept (< ${MIN_KEPT}); feed likely partial — refusing to overwrite`);
 
   const ledger = await loadLedgerForBuild(FLOWS);
-  const slim = makeSlim(names, siteUrls, venues, poolUrls, ledger);
+  const slim = makeSlim(names, siteUrls, venues, poolUrls, ledger, Date.now());
 
   const payload = {
     generatedAt: new Date().toISOString(),

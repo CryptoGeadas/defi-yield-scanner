@@ -3,7 +3,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { runFlows } from "./flows-job.mjs";
-import { emptyLedger, addFlows, rowFlows, flowsSummary } from "./flows.mjs";
+import { emptyLedger, addFlows, rowFlows as rowFlowsAt, flowsSummary } from "./flows.mjs";
+// a fixed clock: these tests must pass on any day (freshness compares dates with "now")
+const TEST_NOW = Date.parse("2026-10-22T12:00:00Z");
+const rowFlows = (row, ledger, now = TEST_NOW) => rowFlowsAt(row, ledger, now);
 
 const E = "0x00000000000000000000000000000000000000e1", B = "0x00000000000000000000000000000000000000b1";
 const NOW = Date.parse("2026-10-22T04:40:00Z");
@@ -171,4 +174,69 @@ test("a chain that fails keeps its last successful update time, and turns stale 
   assert.equal(rowFlows(rows[0], r.ledger, NOW + 37 * 3_600_000).stale, true);
   assert.deepEqual(r.reasons, { ethereum: "ethereum-mainnet overloaded" });
   assert.deepEqual(r.ownErrors, [], "a Portal error, not ours");
+});
+
+test("a vault out of the snapshot is still read, but dropped once it has been out for 30 days", async () => {
+  const l = ledger0();
+  l.vaults[`ethereum:${E}`].lastSeen = "2026-09-21"; // 31 days before NOW
+  l.vaults[`base:${B}`].lastSeen = "2026-10-10";
+  const portal = fakePortal();
+  const r = await runFlows({ ledger: l, rows: [{ vault: null }], datasets, portal, now: NOW, log: quiet });
+  assert.equal(r.ledger.vaults[`ethereum:${E}`], undefined, "out for 31 days: dropped, no longer read");
+  assert.ok(!portal.calls.some((c) => c.dataset === "ethereum-mainnet"), "nothing left to read on ethereum");
+  assert.ok(r.ledger.vaults[`base:${B}`], "out for 12 days: kept and still read");
+  const back = await runFlows({ ledger: ledger0(), rows, datasets, portal: fakePortal(), now: NOW, log: quiet });
+  assert.equal(back.ledger.vaults[`ethereum:${E}`].lastSeen, "2026-10-21", "a vault in the snapshot gets lastSeen on a successful read");
+});
+
+test("a chain whose first read keeps failing records when it was first tried, and only once", async () => {
+  const fail = { ...fakePortal(), finalizedHead: async () => { throw new Error("dataset unknown"); } };
+  const r1 = await runFlows({ ledger: emptyLedger(), rows, datasets, portal: fail, now: NOW, log: quiet });
+  assert.deepEqual(r1.ledger.chains.ethereum, { firstTriedAt: "2026-10-22T04:40:00.000Z" });
+  const r2 = await runFlows({ ledger: r1.ledger, rows, datasets, portal: fail, now: NOW + 86_400_000, log: quiet });
+  assert.equal(r2.ledger.chains.ethereum.firstTriedAt, "2026-10-22T04:40:00.000Z");
+});
+
+test("our own progress-line error never fails a read", async () => {
+  let n = 0;
+  const log = { log(m) { if (/%/.test(m)) throw new Error("boom"); }, warn() {}, error() { n++; } };
+  const portal = { ...fakePortal(), fetchVaultFlows: async ({ onBatch, toBlock }) => { for (let i = 0; i < 25; i++) onBatch({ lastBlock: 1001 + i, events: 0, bytes: 1 }); return { events: [], lastBlock: toBlock, lastTimestamp: Date.parse("2026-10-22T04:25:00Z") / 1000, bytes: 1 }; } };
+  const r = await runFlows({ ledger: ledger0(), rows, datasets: { ethereum: "ethereum-mainnet" }, portal, now: NOW, log });
+  assert.deepEqual(r.failed, []);
+  assert.equal(n, 1, "logged once as an error");
+});
+
+test("the Portal returning no blocks, or stopping before the head, warns and never counts as an update", async () => {
+  const warns = [];
+  const log = { ...quiet, warn: (m) => warns.push(m) };
+  const none = { ...fakePortal(), fetchVaultFlows: async ({ fromBlock }) => ({ events: [], lastBlock: fromBlock - 1, lastTimestamp: null, bytes: 0 }) };
+  const r1 = await runFlows({ ledger: ledger0(), rows, datasets: { ethereum: "ethereum-mainnet" }, portal: none, now: NOW, log });
+  assert.match(warns.join("\n"), /returned no blocks/);
+  assert.equal(r1.ledger.chains.ethereum.lastBlock, 1000);
+  const short = { ...fakePortal(), fetchVaultFlows: async ({ toBlock }) => ({ events: [], lastBlock: toBlock - 50, lastTimestamp: Date.parse("2026-10-22T04:00:00Z") / 1000, bytes: 1 }) };
+  const r2 = await runFlows({ ledger: ledger0(), rows, datasets: { ethereum: "ethereum-mainnet" }, portal: short, now: NOW, log });
+  assert.match(warns.join("\n"), /stopped at block 1050/);
+  assert.equal(r2.ledger.chains.ethereum.lastBlock, 1050, "what was read is kept");
+  assert.equal(r2.ledger.chains.ethereum.updatedAt, undefined, "a short read is not a successful update");
+});
+
+test("a failing block-at-time call is a Portal failure (warning), not ours; a first batch that fails saves nothing", async () => {
+  const l = addFlows(emptyLedger(), { chain: "ethereum", today: "2026-10-20", lastBlock: 1000, tracked: [{ address: E, decimals: 6 }], backfill: true, events: [] });
+  const r = await runFlows({ ledger: l, rows, datasets, portal: { ...fakePortal(), blockAt: async () => { throw new Error("busy"); } }, now: NOW, log: quiet });
+  assert.deepEqual(r.failed, ["base"]);
+  assert.deepEqual(r.ownErrors, []);
+  const first = { ...fakePortal(), fetchVaultFlows: async () => { throw Object.assign(new Error("busy"), { partial: { events: [], lastBlock: 1000, lastTimestamp: null, bytes: 0 } }); } };
+  const r2 = await runFlows({ ledger: ledger0(), rows, datasets: { ethereum: "ethereum-mainnet" }, portal: first, now: NOW, log: quiet });
+  assert.equal(r2.ledger.chains.ethereum.lastBlock, 1000);
+});
+
+test("a read past the time limit stops cleanly and saves what it read; no tracked vaults is a warning", async () => {
+  let deadline;
+  const portal = { ...fakePortal(), fetchVaultFlows: async (o) => { deadline = o.deadline; return { events: [], lastBlock: o.fromBlock + 10, lastTimestamp: Date.parse("2026-10-22T04:00:00Z") / 1000, bytes: 1 }; } };
+  const r = await runFlows({ ledger: ledger0(), rows, datasets: { ethereum: "ethereum-mainnet" }, portal, now: NOW, log: quiet, readLimitMs: 1000 });
+  assert.ok(deadline > Date.now() - 5000 && deadline < Date.now() + 5000, "the limit is passed to the Portal client");
+  assert.equal(r.ledger.chains.ethereum.lastBlock, 1011, "what was read is saved");
+  const warns = [];
+  await runFlows({ ledger: emptyLedger(), rows: [{ vault: null }], datasets, portal: fakePortal(), now: NOW, log: { ...quiet, warn: (m) => warns.push(m) } });
+  assert.match(warns[0], /no tracked vaults/);
 });

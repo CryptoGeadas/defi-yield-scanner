@@ -4,8 +4,14 @@ import { buildLink } from "./deeplinks.mjs";
 import { rowFlows } from "./flows.mjs";
 
 const round = (n) => Math.round(n * 100) / 100;
+// one damaged ledger record must never stop the whole refresh: that row reads "unavailable"
+const safeFlows = (r, ledger, now) => {
+  try { return rowFlows(r, ledger, now); }
+  catch (e) { console.warn(`  ⚠ flows: record for ${r.pool} unreadable (${e.message}) — shown as unavailable`); return { status: "unavailable" }; }
+};
 
-export const makeSlim = (names, siteUrls, sources, poolUrls, ledger) => (r) => {
+// `now`: the clock freshness is judged by (the build passes Date.now(); tests a fixed time)
+export const makeSlim = (names, siteUrls, sources, poolUrls, ledger, now = Date.now()) => (r) => {
   const { url, kind } = buildLink(r, { siteUrl: siteUrls[r.project], sources, override: poolUrls[r.pool] });
   return {
     project: r.project,
@@ -41,6 +47,6 @@ export const makeSlim = (names, siteUrls, sources, poolUrls, ledger) => (r) => {
     apyPct30D: r.apyPct30D == null ? null : round(r.apyPct30D),
     poolId: r.pool,
     vault: r.vault ?? null, // { chain, address, decimals } when flows are tracked — the flows job reads this list
-    flows: rowFlows(r, ledger), // money flows (#30): shown only, never part of Level or any Factor
+    flows: safeFlows(r, ledger, now), // money flows (#30): shown only, never part of Level or any Factor
   };
 };

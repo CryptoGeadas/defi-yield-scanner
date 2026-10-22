@@ -115,6 +115,8 @@ async function fetchChain(cid) {
   try {
     const { res: r } = await rpcBatch([good, ...RPCS[cid].filter((u) => u !== good)], assets.map((to, id) => ({ jsonrpc: "2.0", id, method: "eth_call", params: [{ to, data: DECIMALS }, "latest"] })));
     dec = new Map(assets.map((a, i) => [a, decodeUint8(r.get(i))]));
+    const unread = assets.filter((a) => dec.get(a) == null);
+    if (unread.length) console.warn(`  euler: chain ${cid}: decimals unreadable for ${unread.length}/${assets.length} assets — their vaults' flows not tracked`);
   } catch (e) { console.warn(`  euler: chain ${cid}: asset decimals unreadable (${e.message}) — Euler flows not tracked there`); }
   return out.map((v) => ({ ...v, decimals: dec.get(v.asset) ?? null }));
 }

@@ -36,7 +36,9 @@ export const ledgerVaults = (ledger, chain) =>
     .filter(([k, v]) => k.startsWith(`${chain}:`) && Number.isInteger(v.decimals))
     .map(([k, v]) => ({ address: k.slice(chain.length + 1), decimals: v.decimals }));
 
-export function addFlows(ledger, { chain, events, lastBlock, today, tracked = [], backfill = false, newFrom = null, updatedAt = null }) {
+// `seen`: addresses in this run's snapshot; each gets lastSeen = today, so the job can drop a
+// vault that has been out of the Scanner for 30 days (flows-job.mjs).
+export function addFlows(ledger, { chain, events, lastBlock, today, tracked = [], backfill = false, newFrom = null, updatedAt = null, seen = [] }) {
   const next = structuredClone(ledger);
   // a backfill's vaults have data from the day it started reading (a "YYYY-MM-DD"; true =
   // the full 30 days), even when the run stopped short of today
@@ -45,6 +47,7 @@ export function addFlows(ledger, { chain, events, lastBlock, today, tracked = []
   const firstDay = typeof backfill === "string" ? backfill : backfill ? shiftDay(today, -(KEEP_DAYS - 1)) : later(newFrom, shiftDay(today, 1));
   const vaultOf = (address) => (next.vaults[keyOf(chain, address)] ??= { firstDay, days: {} });
   for (const t of tracked) vaultOf(t.address).decimals = t.decimals;
+  for (const a of seen) vaultOf(a).lastSeen = today;
   const touched = new Set();
   for (const e of events) {
     const d = (vaultOf(e.vault).days[e.day] ??= { in: 0, out: 0, maxOut: 0 });
@@ -78,8 +81,11 @@ export function flowsSummary(ledger, chain, address) {
   const window30 = shiftDay(asOf, -(KEEP_DAYS - 1));
   const from30 = v.firstDay && v.firstDay > window30 ? v.firstDay : window30, from7 = shiftDay(asOf, -6);
   const s = { in30: 0, out30: 0, net7: 0, net30: 0, maxOut30: 0 };
+  if (!v.days || typeof v.days !== "object") return null; // damaged record: no numbers
+  const num = (x) => typeof x === "number" && Number.isFinite(x);
   for (const [day, d] of Object.entries(v.days)) {
     if (day < from30 || day > asOf) continue;
+    if (!d || !num(d.in) || !num(d.out) || !num(d.maxOut)) return null; // a damaged day is never a $0 day
     s.in30 += d.in;
     s.out30 += d.out;
     s.maxOut30 = Math.max(s.maxOut30, d.maxOut);
@@ -144,7 +150,8 @@ export function rowFlows(row, ledger, now = Date.now()) {
   if (!ledger) return { status: "unavailable" };
   const v = ledger.vaults?.[keyOf(row.vault.chain, row.vault.address)];
   const asOf = asOfFor(ledger, row.vault.chain);
-  if (!v || !asOf) return { status: "collecting", since: null }; // the job has not read it yet
+  if (!v) return { status: "collecting", since: null }; // the job has not read it yet
+  if (typeof v !== "object" || !asOf) return { status: "unavailable" }; // a stored vault always has a chain day
   // a ledger entry without a well-formed first day or as-of date: no numbers, no guessed state
   if (!DAY.test(String(v.firstDay)) || !DAY.test(String(asOf))) return { status: "unavailable" };
   const covered = daysFrom(v.firstDay, asOf);
@@ -156,4 +163,17 @@ export function rowFlows(row, ledger, now = Date.now()) {
   const s = flowsSummary(ledger, row.vault.chain, row.vault.address);
   if (!s) return { status: "unavailable" };
   return covered >= KEEP_DAYS ? { status: "full", ...s, ...fresh } : { status: "partial", since: v.firstDay, ...s, ...fresh };
+}
+
+// Build-log coverage: vaults tracked per venue, and a warning when a venue that has Ethereum
+// rows tracks none (its registry, decimals or version data broke without failing anything).
+export function flowsCoverage(rows) {
+  const tracked = {};
+  for (const x of rows) if (x.vault) tracked[x.project] = (tracked[x.project] || 0) + 1;
+  const total = Object.values(tracked).reduce((a, b) => a + b, 0);
+  const line = `flows: tracking ${total} vaults (${Object.entries(tracked).map(([p, n]) => `${p} ${n}`).join(" · ") || "none"})`;
+  const warnings = ["morpho-blue", "yearn-finance", "euler-v2"]
+    .filter((p) => rows.some((x) => x.project === p && x.chain === "Ethereum") && !tracked[p])
+    .map((p) => `flows: no ${p} vault tracked on Ethereum — check its addresses / decimals / version data`);
+  return { line, warnings };
 }

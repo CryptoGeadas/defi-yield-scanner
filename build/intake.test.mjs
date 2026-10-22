@@ -458,3 +458,14 @@ test("flows: intake records why a vault-venue row is not tracked", () => {
   const v = eulerVaults(); v.get(1)[0].decimals = null;
   assert.equal(byId(intakePools(eulerFeed(), { euler: v }).pools, "live").flowsBlock, "unverified", "Euler decimals unreadable");
 });
+
+test("flows: with the Yearn registry down a Yearn row is 'unverified'; with the Morpho registry down share-token rows never reach the page", () => {
+  for (const yearn of [undefined, new Map()]) {
+    const { pools } = intakePools([pool({ pool: "y", project: "yearn-finance" })], { yearn }, { poolUrls: { y: "https://yearn.fi/v3/1/0xA5" } });
+    assert.equal(byId(pools, "y").flowsBlock, "unverified");
+  }
+  const { pools } = intakePools([pool({ pool: "m", project: "morpho-blue", symbol: "STEAKUSDC" })], { morpho: new Map() });
+  const maps = { protocolMap: { "morpho-blue": { bucket: "lend", access: "permissionless", level: 1 } }, stableMap: { USDC: { tier: 1, type: "fiat" } } };
+  const r = runPipeline(pools, { baseRate: 4 }, maps);
+  assert.equal([1, 2, 3].flatMap((w) => r.windows[w]).length, 0, "a share token is not a stablecoin: the row is dropped, so no false 'lending market' is shown");
+});

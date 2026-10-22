@@ -11,7 +11,8 @@
 //     stops at once. Errors are matched on error.code, never on the message (SQD rewords it).
 //   • a failure part-way through throws with error.partial = what was read before it.
 //
-//   fetchVaultFlows({ dataset, vaults: [{ address, decimals }], fromBlock, toBlock, fetchImpl?, sleep?, maxRetries? = 30, onBatch?({ lastBlock, events, bytes }) })
+//   fetchVaultFlows({ dataset, vaults: [{ address, decimals }], fromBlock, toBlock, fetchImpl?, sleep?, maxRetries? = 30, onBatch?({ lastBlock, events, bytes }), deadline? })
+//     deadline (ms): stop before the next batch once past it and return what was read.
 //     → { events: [{ vault, day: "YYYY-MM-DD", kind: "in" | "out", amount }], lastBlock, lastTimestamp, bytes }
 //     An empty 200, a block number out of order, or malformed log data is an error, not
 //     the end of the data.
@@ -54,7 +55,7 @@ async function call(url, init, { fetchImpl, sleep, maxRetries }) {
     await sleep(1000 * Math.min(MAX_WAIT_S, Number.isFinite(wait) && wait > 0 ? wait : DEFAULT_WAIT_S));
   }
 }
-const opts = (o) => ({ fetchImpl: o.fetchImpl ?? fetch, sleep: o.sleep ?? realSleep, maxRetries: o.maxRetries ?? 30, onBatch: o.onBatch });
+const opts = (o) => ({ fetchImpl: o.fetchImpl ?? fetch, sleep: o.sleep ?? realSleep, maxRetries: o.maxRetries ?? 30, onBatch: o.onBatch, deadline: o.deadline });
 
 export async function finalizedHead(dataset, o = {}) {
   const res = await call(`${PORTAL}/${dataset}/finalized-head`, {}, opts(o));
@@ -79,6 +80,7 @@ export async function fetchVaultFlows({ dataset, vaults, fromBlock, toBlock, ...
   let bytes = 0, lastBlock = fromBlock - 1, lastTimestamp = null, from = fromBlock;
   try {
     while (from <= toBlock) {
+      if (o.deadline && Date.now() > o.deadline) break; // time limit: return what was read; the caller saves it
       const res = await call(`${PORTAL}/${dataset}/finalized-stream`, {
         method: "POST",
         headers: { "content-type": "application/json" },

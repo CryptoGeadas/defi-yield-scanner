@@ -53,7 +53,14 @@ export async function runFlowsFile({ snapshotPath, ledgerPath, datasets = DATASE
   // GitHub reads "::warning::" from standard output and shows it on the run page; the run stays green
   for (const c of r.failed) log.log(`::warning::flows not updated for ${c}: ${r.reasons[c]}`);
   // …but a chain that has not updated for 72 h is an outage, not a bad day: fail, so GitHub emails
-  const late = Object.keys(datasets).filter((c) => freshness(r.ledger.chains?.[c], r.ledger.asOf, now).ageMs > LATE_MS);
+  // each chain by its own dates only (never another chain's); a chain that never read anything
+  // ages from when it was first tried
+  const ageOf = (c) => {
+    const info = r.ledger.chains?.[c];
+    const a = freshness(info, null, now).ageMs;
+    return Number.isFinite(a) ? a : now - Date.parse(info?.firstTriedAt ?? "");
+  };
+  const late = Object.keys(datasets).filter((c) => ageOf(c) > LATE_MS);
   if (late.length) throw new Error(`flows have not updated for over 72 h on ${late.join(", ")} — check the SQD Portal`);
   return 0;
 }

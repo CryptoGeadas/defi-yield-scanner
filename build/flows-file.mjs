@@ -6,7 +6,7 @@ import { readFile } from "node:fs/promises";
 export async function loadLedgerForBuild(path, log = console) {
   try {
     const j = JSON.parse(await readFile(path, "utf8"));
-    if (!j || typeof j !== "object" || !j.vaults || typeof j.vaults !== "object") throw new Error("not a flows ledger");
+    if (!j || typeof j !== "object" || Array.isArray(j) || !j.vaults || typeof j.vaults !== "object" || Array.isArray(j.vaults)) throw new Error("not a flows ledger");
     return j;
   } catch (e) {
     log.warn(`  ⚠ flows-ledger.json ${e.code === "ENOENT" ? "missing" : `unreadable (${e.message})`} — tracked vaults show flows unavailable`);

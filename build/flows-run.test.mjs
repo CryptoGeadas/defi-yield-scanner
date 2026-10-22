@@ -84,3 +84,12 @@ test("no update for over 72 h fails the run so GitHub emails; a quiet day with n
   const fourDays = Date.parse("2026-10-25T00:00:01Z"); // 72 h after 20 Oct ended
   await assert.rejects(runFlowsFile({ ...f, datasets, now: fourDays, log: quiet(), portal: quietDay }), /not updated for over 72 h on ethereum/);
 });
+
+test("a chain that never read anything turns the run red 72 h after it was first tried", async () => {
+  const f = await files();
+  const l = JSON.parse(f.ledgerText);
+  await writeFile(f.ledgerPath, JSON.stringify({ asOf: "2026-10-22", chains: { ethereum: { firstTriedAt: "2026-10-22T04:40:00.000Z" } }, vaults: {} }));
+  const down = { finalizedHead: async () => { throw new Error("dataset unknown"); }, blockAt: async () => 900, fetchVaultFlows: async () => ({}) };
+  assert.equal(await runFlowsFile({ ...f, datasets, now: NOW + 71 * 3_600_000, log: quiet(), portal: down }), 0, "71 h: still a warning");
+  await assert.rejects(runFlowsFile({ ...f, datasets, now: NOW + 73 * 3_600_000, log: quiet(), portal: down }), /over 72 h on ethereum/, "73 h: red, even though the ledger-wide asOf looks recent");
+});

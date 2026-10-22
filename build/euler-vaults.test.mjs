@@ -120,3 +120,11 @@ test("fetchEulerVaults: asset decimals go to the RPC that already answered; one 
   assert.deepEqual(v.map((x) => [x.address, x.asset === asset2 ? "dac1" : "a0b8", x.decimals]), [["0xa", "a0b8", 6], ["0xe", "dac1", null]]);
   assert.equal(calls.filter((u) => u === "https://ethereum-rpc.publicnode.com").length, 2, "the failing RPC is not tried again for decimals");
 });
+
+test("fetchEulerVaults: unreadable decimals for some assets are logged", async (t) => {
+  t.after(() => mock.restoreAll());
+  const warns = mock.method(console, "warn", () => {});
+  stub({ rpc: { ...rpc, "0xe": [enc("K3 Earn USDT"), addr("0xdac1")] } });
+  await fetchEulerVaults(["Ethereum"]);
+  assert.ok(warns.mock.calls.some((c) => /decimals unreadable for 1\/2 assets/.test(c.arguments[0])));
+});

@@ -29,7 +29,8 @@ async function fetchYearnRegistry(chains) {
   const ids = chains.map((c) => MORPHO_CHAINID[c]).filter(Boolean).sort((a, b) => a - b);
   const map = new Map();
   try {
-    const r = await fetch(`https://ydaemon.yearn.fi/vaults/all?chainIDs=${ids.join(",")}&limit=5000`);
+    const r = await fetch(`https://ydaemon.yearn.fi/vaults/all?chainIDs=${ids.join(",")}&limit=5000`, { signal: AbortSignal.timeout(60_000) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
     for (const v of (await r.json()) || []) {
       if (v?.address && v?.name)
         map.set(`${v.chainID}|${v.address.toLowerCase()}`, yearnEntry(v));

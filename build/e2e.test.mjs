@@ -53,7 +53,7 @@ test("intake → pipeline → snapshot rows: every row has flows; a tracked vaul
   const cfg = { baseRate: 4, levelWindows: true, sticky: { state: {}, now: NOW } };
   const withVault = runPipeline(intakePools(feed, { morpho }, { now: NOW }).pools, cfg, fm);
   const rows = [1, 2, 3].flatMap((w) => withVault.windows[w]);
-  const slim = makeSlim({}, {}, { curve: new Map(), morpho: new Map() }, {}, ledger);
+  const slim = makeSlim({}, {}, { curve: new Map(), morpho: new Map() }, {}, ledger, NOW);
   const snap = Object.fromEntries(rows.map((r) => [r.pool, slim(r)]));
   assert.equal(Object.keys(snap).length, 3);
   assert.ok(Object.values(snap).every((s) => ["full", "partial", "collecting", "untracked"].includes(s.flows?.status)), "every snapshot row has flows");

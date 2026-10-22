@@ -21,7 +21,10 @@ import { addFlows, ledgerVaults, shiftDay, KEEP_DAYS } from "./flows.mjs";
 const DAY_MS = 86_400_000;
 const utcDay = (ms) => new Date(ms).toISOString().slice(0, 10);
 
-export async function runFlows({ ledger, rows, datasets, portal, now = Date.now(), log = console, onChainDone = async () => {} }) {
+// readLimitMs: stop reading cleanly before the workflow's 330-minute timeout kills the job, so
+// what was read is saved and the next run continues (a long backfill finishes over several days)
+export async function runFlows({ ledger, rows, datasets, portal, now = Date.now(), log = console, onChainDone = async () => {}, readLimitMs = 300 * 60_000 }) {
+  const jobStart = Date.now();
   const startOfToday = Date.parse(utcDay(now) + "T00:00:00Z");
   const failed = [], ownErrors = [], reasons = {};
   let bytes = 0;
@@ -33,11 +36,23 @@ export async function runFlows({ ledger, rows, datasets, portal, now = Date.now(
     const t0 = Date.now();
     try {
       const inSnapshot = rows.filter((r) => r.vault?.chain === chain).map((r) => r.vault);
+      const inSnap = new Set(inSnapshot.map((v) => v.address.toLowerCase()));
+      // A vault out of the snapshot is still read (no gap if it comes back), but not forever:
+      // once it has been out for 30 days it is dropped from the ledger and no longer read.
+      const cutoff = shiftDay(utcDay(now), -KEEP_DAYS);
+      const gone = ledgerVaults(ledger, chain).filter((k) => {
+        const v = ledger.vaults[`${chain}:${k.address}`];
+        return !inSnap.has(k.address) && typeof v.lastSeen === "string" && v.lastSeen < cutoff; // no lastSeen yet (older ledger): keep
+      });
+      if (gone.length) {
+        ledger = { ...ledger, vaults: Object.fromEntries(Object.entries(ledger.vaults).filter(([key]) => !gone.some((g) => key === `${chain}:${g.address}`))) };
+        log.log(`  ${chain}: dropped ${gone.length} vaults out of the Scanner for 30+ days`);
+      }
       const known = ledgerVaults(ledger, chain);
       const vaults = [...new Map([...known, ...inSnapshot].map((v) => [v.address.toLowerCase(), { address: v.address.toLowerCase(), decimals: v.decimals }])).values()];
       const missing = known.filter((k) => !inSnapshot.some((s) => s.address.toLowerCase() === k.address));
-      if (missing.length) log.log(`  ${chain}: ${missing.length} vaults not in this snapshot are still read so their record has no gap`);
-      if (!vaults.length) { log.log(`  ${chain}: no tracked vaults`); continue; }
+      if (missing.length) (missing.length === known.length && known.length ? log.warn : log.log)(`  ${chain}: ${missing.length} vaults not in this snapshot are still read so their record has no gap`);
+      if (!vaults.length) { log.warn(`  ⚠ ${chain}: no tracked vaults — check that the snapshot carries vault fields`); continue; }
 
       const last = ledger.chains?.[chain]?.lastBlock;
       const backfill = !Number.isInteger(last);
@@ -61,18 +76,21 @@ export async function runFlows({ ledger, rows, datasets, portal, now = Date.now(
         // a backfill marks its vaults from the day it started, so one that stops short shows
         // only the days it read ("partial since …"), never 30 days padded with $0
         const from = backfill ? utcDay(startOfToday - KEEP_DAYS * DAY_MS) : false;
-        ledger = addFlows(ledger, { chain, events: r.events, lastBlock: r.lastBlock, today, tracked: vaults, backfill: from, newFrom, updatedAt: complete ? new Date(now).toISOString() : null });
+        ledger = addFlows(ledger, { chain, events: r.events, lastBlock: r.lastBlock, today, tracked: vaults, backfill: from, newFrom, updatedAt: complete ? new Date(now).toISOString() : null, seen: [...inSnap] });
         return true;
       };
       // a progress line every 25 batches, so a long first backfill shows where it is
       let batches = 0;
       const onBatch = (p) => {
         if (++batches % 25) return;
-        const done = Math.round((100 * (p.lastBlock - fromBlock + 1)) / (head - fromBlock + 1));
-        log.log(`    ${chain}: ${done}% · block ${p.lastBlock} · ${p.events} events · ${(p.bytes / 1e6).toFixed(1)} MB · ${Math.round((Date.now() - t0) / 60_000)} min`);
+        // our own progress line must never fail a read (it would be blamed on the Portal)
+        try {
+          const done = Math.round((100 * (p.lastBlock - fromBlock + 1)) / (head - fromBlock + 1));
+          log.log(`    ${chain}: ${done}% · block ${p.lastBlock} · ${p.events} events · ${(p.bytes / 1e6).toFixed(1)} MB · ${Math.round((Date.now() - t0) / 60_000)} min`);
+        } catch (e) { log.error(`  ${chain}: progress line failed — ${e.message}`); }
       };
       let r;
-      try { r = await fromPortal(() => portal.fetchVaultFlows({ dataset, vaults, fromBlock, toBlock: head, onBatch })); }
+      try { r = await fromPortal(() => portal.fetchVaultFlows({ dataset, vaults, fromBlock, toBlock: head, onBatch, deadline: jobStart + readLimitMs })); }
       catch (e) {
         // keep what was read before the failure, so the next run continues from there
         if (e.partial && merge(e.partial, false)) {
@@ -90,6 +108,9 @@ export async function runFlows({ ledger, rows, datasets, portal, now = Date.now(
       if (!e.fromPortal) ownErrors.push(chain);
       reasons[chain] = e.message;
       log.error(`  ${chain}: FAILED — ${e.message}`);
+      // a chain that has never read anything has no date to age from: record when it was
+      // first tried, so the 72 h "late" rule (flows-run.mjs) can still turn the run red
+      if (!ledger.chains?.[chain]) ledger = { ...ledger, chains: { ...ledger.chains, [chain]: { firstTriedAt: new Date(now).toISOString() } } };
     }
     await onChainDone(ledger);
   }
