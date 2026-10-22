@@ -91,18 +91,31 @@ const NOT_TRACKED = {
   unverified: "this vault could not be confirmed for money flows",
   version: "this older vault version does not report deposits in the standard way",
 };
+// Where readers check the numbers: the vault contract on the block explorer (tracked vaults
+// are on Ethereum only) and the methodology's "Money flows" section.
+const EXPLORER = { ethereum: "https://etherscan.io/address/" };
+// The data credit (SQD's own light logo, unaltered, per its brand page) sits bottom-right only
+// on cards that show SQD data: numbers, or "collecting since <date>". Not tracked, unavailable
+// and "collecting from the next daily update" cards show nothing from SQD, so no credit.
+const SQD_CREDIT = `<a class="fl-credit" href="https://sqd.dev" target="_blank" rel="noopener">Data from <img src="./assets/logos/sqd-light.svg" alt="SQD" width="38" height="16"></a>`;
+function flowsFootHtml(r, credit = false) {
+  const v = r.vault, base = EXPLORER[v?.chain];
+  const contract = base && /^0x[0-9a-f]{40}$/i.test(v.address) ?`<a href="${esc(base + v.address)}" target="_blank" rel="noopener">Check the vault contract ↗</a>` : "";
+  return `<div class="flows-foot"><span class="fl-links">${contract}<a href="./methodology.html#flows">How money flows work</a></span>${credit ? SQD_CREDIT : ""}</div>`;
+}
 function flowsCardHtml(r) {
   const f = r.flows;
   if (!flowsOn()) return "";
   if (f?.status === "untracked" && !NOT_TRACKED[f.reason]) console.warn("flows: unknown not-tracked reason", f.reason); // hidden, never a wrong sentence
   if (f?.status === "untracked")
-    return NOT_TRACKED[f.reason] ? `<div class="dcard wide flows-card"><div class="dhead"><span class="dk">Money flows</span></div><div class="dline fl-muted">Not tracked: ${esc(NOT_TRACKED[f.reason])}.</div></div>` : "";
+    return NOT_TRACKED[f.reason] ? `<div class="dcard wide flows-card"><div class="dhead"><span class="dk">Money flows</span></div><div class="dline fl-muted">Not tracked: ${esc(NOT_TRACKED[f.reason])}.</div>${flowsFootHtml(r)}</div>` : "";
   if (!["collecting", "partial", "full", "unavailable"].includes(f?.status)) return "";
   const stale = f.status !== "unavailable" && flowsStale(f);
   const head = `<div class="dhead"><span class="dk">Money flows</span>${stale && f.asOf ? `<span class="dword">As of ${esc(fmtDay(f.asOf))}</span>` : ""}</div>`;
-  const card = (body) => `<div class="dcard wide flows-card${stale ? " is-stale" : ""}">${head}${body}</div>`;
-  if (f.status === "unavailable" || (f.status === "partial" && !f.since) || (f.status !== "collecting" && !f.asOf)) // never "since Invalid Date"
-    return card(`<div class="dline">Flows unavailable right now.</div>`);
+  const unavailable = f.status === "unavailable" || (f.status === "partial" && !f.since) || (f.status !== "collecting" && !f.asOf); // never "since Invalid Date"
+  const showsData = !unavailable && (f.status !== "collecting" || !!f.since);
+  const card = (body) => `<div class="dcard wide flows-card${stale ? " is-stale" : ""}">${head}${body}${flowsFootHtml(r, showsData)}</div>`;
+  if (unavailable) return card(`<div class="dline">Flows unavailable right now.</div>`);
   const notRun = !stale ? "" : typeof f.updatedAt === "string" ? ` Not updated since ${esc(fmtDay(f.updatedAt.slice(0, 10)))}.` : " The daily update is late.";
   if (f.status === "collecting")
     return card(`<div class="dline">${f.since ? `Collecting since ${esc(fmtDay(f.since))}.` : "Collecting from the next daily update."} Numbers show after 7 days.${notRun}</div>`);

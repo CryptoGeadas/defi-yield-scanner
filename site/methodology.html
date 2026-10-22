@@ -221,6 +221,26 @@
         toggle, always marked <span class="lock">🔒 KYC</span>. They’re shown for completeness, not linked.
       </p>
 
+      <h2 id="flows">Money flows</h2>
+      <p>
+        Open a vault’s row to see how much money went <strong>in</strong> and <strong>out</strong> of it:
+        the net over the last 7 and 30 days, and the biggest single exit. It shows whether people are
+        adding to a vault or leaving it — a large outflow is easy to miss when you only look at its size.
+      </p>
+      <p>
+        The numbers are the vault’s own deposits and withdrawals, read once a day from the vault contract
+        on Ethereum through <a href="https://sqd.dev" target="_blank" rel="noopener">SQD</a>’s public data service.
+        Amounts are in the vault’s stablecoin, read as dollars. Each tracked vault’s card links to its contract on Etherscan
+        so you can check them yourself.
+      </p>
+      <p><strong>Money flows are shown only. They never change a pool’s risk level.</strong></p>
+      <div class="keyrow"><span class="k">Collecting since …</span><span>The vault was added recently. Numbers show once it has 7 full days. A vault not read yet says “collecting from the next daily update”.</span></div>
+      <div class="keyrow"><span class="k">Since …</span><span>The vault has between 7 and 29 days of history, so the numbers cover the days since that date, not 30 days.</span></div>
+      <div class="keyrow"><span class="k">As of …</span><span>The last update is over 36 hours old, or its data ends more than 2 days ago. The numbers are dimmed and run to that date.</span></div>
+      <div class="keyrow"><span class="k">Unavailable</span><span>The flows data could not be read for this update, or this vault’s record was damaged. No numbers are shown rather than guessed ones.</span></div>
+      <div class="keyrow"><span class="k">Not tracked</span><span>Flows are read only for single-coin vaults on Ethereum (Morpho, Yearn, Euler). The card says why a pool is not one of them: a DEX pool, a lending market, a protocol whose flows are not read, another chain, a coin not worth $1, an older vault version, or a vault that could not be confirmed.</span></div>
+      <p class="muted">A day with no deposits or withdrawals shows a real $0. Missing days are never counted as $0.</p>
+
       <h2>Data & freshness</h2>
       <p>
         Pool data comes from <a href="https://defillama.com/yields">DefiLlama</a>. A scheduled job refreshes
