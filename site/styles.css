@@ -172,6 +172,9 @@
 .flows-net b { font: 500 22px var(--font-mono); font-variant-numeric: tabular-nums; color: var(--fg); }
 .flows-sub b { font: 500 14px var(--font-mono); font-variant-numeric: tabular-nums; color: var(--fg); }
 .flows-net b.up { color: var(--up); } .flows-net b.down { color: var(--down); }
+.flows-card .dhead { margin-bottom: 6px; }
+.flows-card.is-stale .dword { color: var(--warn); }
+.flows-card.is-stale .flows-net, .flows-card.is-stale .flows-sub { opacity: 0.55; } /* old numbers: still readable, clearly not current */
 .dactions { display: flex; gap: 10px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
 .dnote { font-size: 13px; color: var(--muted); }
 

@@ -201,3 +201,38 @@ test("a first day or as-of date in the wrong shape, or missing on a stored vault
     assert.deepEqual(rowFlows(row(A), l), { status: "unavailable" }, String(bad));
   }
 });
+
+test("each chain stores when it last updated; a row is stale once that is more than 36 hours old (exactly 36 h is not)", () => {
+  const l = addFlows(emptyLedger(), { chain: "ethereum", today: "2026-10-21", lastBlock: 1, tracked: tA, backfill: true, events: [], updatedAt: "2026-10-22T05:00:00.000Z" });
+  assert.equal(l.chains.ethereum.updatedAt, "2026-10-22T05:00:00.000Z");
+  const at = (iso) => rowFlows(row(A), l, Date.parse(iso));
+  assert.equal(at("2026-10-23T16:00:00Z").stale, undefined, "35 h: a late schedule is not stale");
+  assert.equal(at("2026-10-23T17:00:00Z").stale, undefined, "exactly 36 h: not yet");
+  assert.equal(at("2026-10-23T17:00:00.001Z").stale, true, "just over 36 h");
+  assert.equal(at("2026-10-23T18:00:00Z").updatedAt, "2026-10-22T05:00:00.000Z");
+  assert.equal(at("2026-10-23T18:00:00Z").asOf, "2026-10-21", "the summary's as-of is the last complete day read");
+});
+
+test("staleness also follows the data's own day: a ledger with no update time, or a chain that keeps reading only part of the way", () => {
+  const old = backfill([]); // asOf 21 Oct, no updatedAt
+  assert.equal(rowFlows(row(A), old, Date.parse("2026-10-23T23:00:00Z")).stale, undefined, "47 h after 21 Oct ended");
+  assert.equal(rowFlows(row(A), old, Date.parse("2026-10-24T01:00:00Z")).stale, true, "49 h after 21 Oct ended");
+  const creeping = addFlows(emptyLedger(), { chain: "ethereum", today: "2026-10-03", lastBlock: 1, tracked: tA, backfill: true, events: [], updatedAt: "2026-10-28T05:00:00.000Z" });
+  assert.equal(rowFlows(row(A), creeping, Date.parse("2026-10-28T06:00:00Z")).stale, true, "updated an hour ago, but the data ends on 3 Oct");
+});
+
+test("a damaged update time is stale, never fresh; collecting and partial rows carry staleness too", () => {
+  for (const bad of ["garbage", 123, ""]) {
+    const l = backfill([]); l.chains.ethereum.updatedAt = bad;
+    const f = rowFlows(row(A), l, Date.parse("2026-10-22T06:00:00Z"));
+    assert.equal(f.stale, true, String(bad));
+    assert.equal(f.updatedAt, undefined, "no date shown from a damaged value");
+  }
+  const late = Date.parse("2026-11-10T00:00:00Z");
+  const collecting = until(seenOn("2026-10-23"), "2026-10-25");
+  assert.equal(rowFlows(row(B), collecting, late).status, "collecting");
+  assert.equal(rowFlows(row(B), collecting, late).stale, true);
+  const partial = until(seenOn("2026-10-23"), "2026-11-01");
+  assert.equal(rowFlows(row(B), partial, late).status, "partial");
+  assert.equal(rowFlows(row(B), partial, late).stale, true);
+});

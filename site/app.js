@@ -69,19 +69,35 @@ const flowsOn = () => state.data?.config?.flowsCard === true;
 // Coverage (flows.mjs): "collecting" shows no numbers; "partial" names its since date on
 // every number that covers it; "full" is the last 30 days. Missing days never read as $0.
 const SOURCE = "Deposits and withdrawals read from the vault contract. Flows do not change the risk level.";
+// Freshness: the same rule as the build (flows.mjs freshness), run again with the viewer's
+// clock, so numbers never look current just because the snapshot stopped publishing: stale
+// when the build said so, or the last update is over 36 h old, or the data's own day ended
+// over 48 h ago. A stale row names its "As of" day in the header and dims its numbers.
+// A ledger that could not be read is "unavailable".
+const HOUR = 3_600_000;
+function flowsStale(f) {
+  if (f.stale === true) return true;
+  const at = typeof f.updatedAt === "string" ? Date.parse(f.updatedAt) : NaN;
+  const dataEnd = typeof f.asOf === "string" ? Date.parse(`${f.asOf}T00:00:00Z`) + 24 * HOUR : NaN;
+  return (Number.isFinite(at) && Date.now() - at > 36 * HOUR) || (Number.isFinite(dataEnd) && Date.now() - dataEnd > 48 * HOUR);
+}
 function flowsCardHtml(r) {
   const f = r.flows;
-  if (!flowsOn() || !["collecting", "partial", "full"].includes(f?.status)) return "";
-  if ((f.status === "partial" && !f.since) || (f.status !== "collecting" && !f.asOf)) return ""; // never "since Invalid Date"
-  const card = (body) => `<div class="dcard wide flows-card"><div class="dk">Money flows</div>${body}</div>`;
+  if (!flowsOn() || !["collecting", "partial", "full", "unavailable"].includes(f?.status)) return "";
+  const stale = f.status !== "unavailable" && flowsStale(f);
+  const head = `<div class="dhead"><span class="dk">Money flows</span>${stale && f.asOf ? `<span class="dword">As of ${esc(fmtDay(f.asOf))}</span>` : ""}</div>`;
+  const card = (body) => `<div class="dcard wide flows-card${stale ? " is-stale" : ""}">${head}${body}</div>`;
+  if (f.status === "unavailable" || (f.status === "partial" && !f.since) || (f.status !== "collecting" && !f.asOf)) // never "since Invalid Date"
+    return card(`<div class="dline">Flows unavailable right now.</div>`);
+  const notRun = !stale ? "" : typeof f.updatedAt === "string" ? ` Not updated since ${esc(fmtDay(f.updatedAt.slice(0, 10)))}.` : " The daily update is late.";
   if (f.status === "collecting")
-    return card(`<div class="dline">${f.since ? `Collecting since ${esc(fmtDay(f.since))}.` : "Collecting from the next daily update."} Numbers show after 7 days.</div>`);
+    return card(`<div class="dline">${f.since ? `Collecting since ${esc(fmtDay(f.since))}.` : "Collecting from the next daily update."} Numbers show after 7 days.${notRun}</div>`);
   const period = f.status === "partial" ? `since ${esc(fmtDay(f.since))}` : "30 days";
   const num = (k, v, cls = "") => `<div><span class="fl-k">${k}</span><b class="${cls}">${v}</b></div>`;
   return card(`
     <div class="flows-net">${num("Net, 7 days", fmtNet(f.net7), netCls(f.net7))}${num(`Net, ${period}`, fmtNet(f.net30), netCls(f.net30))}</div>
     <div class="flows-sub">${num(`In, ${period}`, fmtUsd(f.in30))}${num(`Out, ${period}`, fmtUsd(f.out30))}${num(`Biggest exit, ${period}`, fmtUsd(f.maxOut30))}</div>
-    <div class="dsub">${f.status === "partial" ? `Since ${esc(fmtDay(f.since))}` : "Last 30 days"}, to ${esc(fmtDay(f.asOf))}. ${SOURCE}</div>`);
+    <div class="dsub">${f.status === "partial" ? `Since ${esc(fmtDay(f.since))}` : "Last 30 days"}, to ${esc(fmtDay(f.asOf))}.${notRun} ${SOURCE}</div>`);
 }
 
 // Empty level window: name the filters that hide everything, and offer to clear them.

@@ -16,7 +16,7 @@ import { checkProtocolLevels } from "./risk.mjs";
 import { fetchVenues } from "./venues.mjs";
 import { venueNotices, noticeLog } from "./notices.mjs";
 import { vendorLogos } from "./logos.mjs";
-import { emptyLedger } from "./flows.mjs";
+import { loadLedgerForBuild } from "./flows-file.mjs";
 import { makeSlim } from "./slim.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -33,20 +33,7 @@ async function loadStickyState() {
   return j;
 }
 // Money-flows ledger (flows.mjs), written once a day by the flows job (flows-run.mjs).
-// Read-only here. Missing (the job has not run yet) → empty: tracked vaults read "collecting".
-// Broken → null: tracked vaults read "unavailable", never a made-up state.
 const FLOWS = join(HERE, "state", "flows-ledger.json");
-async function loadFlowsLedger() {
-  try {
-    const j = JSON.parse(await readFile(FLOWS, "utf8"));
-    if (!j || typeof j !== "object" || !j.vaults || typeof j.vaults !== "object") throw new Error("not a flows ledger");
-    return j;
-  } catch (e) {
-    if (e.code === "ENOENT") return emptyLedger();
-    console.warn(`  ⚠ flows-ledger.json unreadable (${e.message}) — tracked vaults show flows unavailable`);
-    return null;
-  }
-}
 const FEED = "https://yields.llama.fi/pools";
 
 const strip = (o) => Object.fromEntries(Object.entries(o).filter(([k]) => !k.startsWith("_")));
@@ -203,7 +190,7 @@ async function main() {
   if (r.stats.kept < MIN_KEPT)
     throw new Error(`sanity floor: only ${r.stats.kept} pools kept (< ${MIN_KEPT}); feed likely partial — refusing to overwrite`);
 
-  const ledger = await loadFlowsLedger();
+  const ledger = await loadLedgerForBuild(FLOWS);
   const slim = makeSlim(names, siteUrls, venues, poolUrls, ledger);
 
   const payload = {

@@ -36,7 +36,7 @@ export const ledgerVaults = (ledger, chain) =>
     .filter(([k, v]) => k.startsWith(`${chain}:`) && Number.isInteger(v.decimals))
     .map(([k, v]) => ({ address: k.slice(chain.length + 1), decimals: v.decimals }));
 
-export function addFlows(ledger, { chain, events, lastBlock, today, tracked = [], backfill = false, newFrom = null }) {
+export function addFlows(ledger, { chain, events, lastBlock, today, tracked = [], backfill = false, newFrom = null, updatedAt = null }) {
   const next = structuredClone(ledger);
   // a backfill's vaults have data from the day it started reading (a "YYYY-MM-DD"; true =
   // the full 30 days), even when the run stopped short of today
@@ -60,7 +60,8 @@ export function addFlows(ledger, { chain, events, lastBlock, today, tracked = []
   const oldest = shiftDay(today, -(KEEP_DAYS - 1));
   for (const [k, v] of Object.entries(next.vaults))
     if (k.startsWith(`${chain}:`)) for (const day of Object.keys(v.days)) if (day < oldest) delete v.days[day];
-  next.chains[chain] = { ...next.chains[chain], lastBlock, asOf: today };
+  // updatedAt: when this chain last read new data (the job passes the run time)
+  next.chains[chain] = { ...next.chains[chain], lastBlock, asOf: today, ...(updatedAt ? { updatedAt } : {}) };
   next.asOf = today; // latest run of any chain; each chain's own day is chains[chain].asOf
   return next;
 }
@@ -95,7 +96,31 @@ export const MIN_DAYS = 7; // under this: "collecting", no numbers
 const DAY = /^\d{4}-\d{2}-\d{2}$/;
 const daysFrom = (first, last) => Math.round((Date.parse(`${last}T00:00:00Z`) - Date.parse(`${first}T00:00:00Z`)) / DAY_MS) + 1;
 
-export function rowFlows(row, ledger) {
+// Freshness. Numbers are STALE (shown dimmed, with their "As of" day) when either
+//   • the chain's last successful update (updatedAt) is over 36 h old — like the site's own
+//     stale dot: the daily run is scheduled for 04:40 UTC but GitHub can start it hours late;
+//   • or the data's own last day (asOf) ended over 48 h ago — this also covers ledgers with no
+//     updatedAt and a chain that keeps reading only part of the way;
+//   • or updatedAt is there but damaged (it cannot prove the numbers are current).
+// The page runs the same rule with the viewer's clock (a snapshot that stops publishing).
+// LATE: the flows job fails (red, so GitHub emails) once a chain has not updated for 72 h.
+export const STALE_MS = 36 * 3_600_000;
+export const DATA_STALE_MS = 48 * 3_600_000;
+export const LATE_MS = 72 * 3_600_000;
+const endOfDay = (day) => Date.parse(`${day}T00:00:00Z`) + DAY_MS;
+
+// → { stale, updatedAt (valid ISO or null), ageMs (since the last good update, or the end of
+//     the data's last day when updatedAt is unknown; NaN if neither is usable) }
+export function freshness(chainInfo, fallbackAsOf, now) {
+  const raw = chainInfo?.updatedAt, asOf = chainInfo?.asOf ?? fallbackAsOf;
+  const at = typeof raw === "string" ? Date.parse(raw) : NaN;
+  const dataEnd = typeof asOf === "string" && DAY.test(asOf) ? endOfDay(asOf) : NaN;
+  const damaged = raw != null && !Number.isFinite(at);
+  const stale = damaged || (Number.isFinite(at) && now - at > STALE_MS) || (Number.isFinite(dataEnd) && now - dataEnd > DATA_STALE_MS);
+  return { stale, updatedAt: Number.isFinite(at) ? raw : null, ageMs: Number.isFinite(at) ? now - at : now - dataEnd };
+}
+
+export function rowFlows(row, ledger, now = Date.now()) {
   if (!row.vault) return { status: "untracked" };
   if (!ledger) return { status: "unavailable" };
   const v = ledger.vaults?.[keyOf(row.vault.chain, row.vault.address)];
@@ -105,8 +130,11 @@ export function rowFlows(row, ledger) {
   if (!DAY.test(String(v.firstDay)) || !DAY.test(String(asOf))) return { status: "unavailable" };
   const covered = daysFrom(v.firstDay, asOf);
   if (!Number.isFinite(covered)) return { status: "unavailable" }; // a damaged date: no numbers, never a guessed state
-  if (covered < MIN_DAYS) return { status: "collecting", since: v.firstDay };
+  // stale only when true; updatedAt whenever known (the page re-checks with its own clock)
+  const fr = freshness(ledger.chains?.[row.vault.chain], ledger.asOf, now);
+  const fresh = { ...(fr.stale ? { stale: true } : {}), ...(fr.updatedAt ? { updatedAt: fr.updatedAt } : {}) };
+  if (covered < MIN_DAYS) return { status: "collecting", since: v.firstDay, ...fresh };
   const s = flowsSummary(ledger, row.vault.chain, row.vault.address);
   if (!s) return { status: "unavailable" };
-  return covered >= KEEP_DAYS ? { status: "full", ...s } : { status: "partial", since: v.firstDay, ...s };
+  return covered >= KEEP_DAYS ? { status: "full", ...s, ...fresh } : { status: "partial", since: v.firstDay, ...s, ...fresh };
 }

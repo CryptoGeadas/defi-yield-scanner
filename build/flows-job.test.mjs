@@ -49,6 +49,7 @@ test("each chain is read from its own last block + 1 to its own head, and keeps 
   assert.deepEqual(r.failed, []);
   assert.equal(r.bytes, 200);
   assert.equal(r.ledger.chains.base.asOf, "2026-10-21", "the day before the last block's day");
+  assert.equal(r.ledger.chains.base.updatedAt, "2026-10-22T04:40:00.000Z", "the run time: the last successful update");
 });
 
 test("a failure on one chain does not stop or reset the other", async () => {
@@ -58,6 +59,7 @@ test("a failure on one chain does not stop or reset the other", async () => {
   assert.deepEqual(r.failed, ["ethereum"]);
   assert.equal(r.ledger.chains.ethereum.lastBlock, 1000, "ethereum stays where it was, to be read again tomorrow");
   assert.equal(r.ledger.chains.ethereum.asOf, "2026-10-20", "and keeps its own day");
+  assert.equal(r.ledger.chains.ethereum.updatedAt, undefined, "a failed chain keeps its last successful update time");
   assert.equal(r.ledger.chains.base.lastBlock, 5400, "base still ran");
   assert.equal(flowsSummary(r.ledger, "base", B).out30, 7);
 });
@@ -141,7 +143,7 @@ test("a new vault on a chain already followed gets no backfill: read from the ch
   const r = await runFlows({ ledger: ledger0(), rows: [...rows, { vault: { chain: "ethereum", address: N, decimals: 6 } }], datasets, portal, now: NOW, log: quiet });
   assert.equal(portal.calls.find((c) => c.dataset === "ethereum-mainnet").fromBlock, 1001, "not 30 days back");
   assert.equal(r.ledger.vaults[`ethereum:${N}`].firstDay, "2026-10-22");
-  assert.deepEqual(rowFlows({ vault: { chain: "ethereum", address: N, decimals: 6 } }, r.ledger), { status: "collecting", since: "2026-10-22" });
+  assert.deepEqual(rowFlows({ vault: { chain: "ethereum", address: N, decimals: 6 } }, r.ledger, NOW), { status: "collecting", since: "2026-10-22", updatedAt: "2026-10-22T04:40:00.000Z" });
 });
 
 test("a vault dropped from the snapshot and back keeps its first day and days through the job", async () => {
@@ -159,4 +161,14 @@ test("a second run on the same day: a vault new in it starts the day after, sinc
   const portal = { ...fakePortal({ heads: { "ethereum-mainnet": 1200, "base-mainnet": 5500 } }), fetchVaultFlows: async ({ toBlock }) => ({ events: [], lastBlock: toBlock, lastTimestamp: noon, bytes: 1 }) };
   const r = await runFlows({ ledger: first.ledger, rows: [...rows, { vault: { chain: "ethereum", address: N, decimals: 6 } }], datasets, portal, now: NOW, log: quiet });
   assert.equal(r.ledger.vaults[`ethereum:${N}`].firstDay, "2026-10-23", "22 Oct was read only from 04:25 for it");
+});
+
+test("a chain that fails keeps its last successful update time, and turns stale over the days", async () => {
+  const l = ledger0();
+  l.chains.ethereum.updatedAt = "2026-10-21T04:40:00.000Z";
+  const r = await runFlows({ ledger: l, rows, datasets, portal: fakePortal({ fail: { "ethereum-mainnet": "total" } }), now: NOW, log: quiet });
+  assert.equal(r.ledger.chains.ethereum.updatedAt, "2026-10-21T04:40:00.000Z");
+  assert.equal(rowFlows(rows[0], r.ledger, NOW + 37 * 3_600_000).stale, true);
+  assert.deepEqual(r.reasons, { ethereum: "ethereum-mainnet overloaded" });
+  assert.deepEqual(r.ownErrors, [], "a Portal error, not ours");
 });
