@@ -56,10 +56,10 @@ test("intake → pipeline → snapshot rows: every row has flows; a tracked vaul
   const slim = makeSlim({}, {}, { curve: new Map(), morpho: new Map() }, {}, ledger);
   const snap = Object.fromEntries(rows.map((r) => [r.pool, slim(r)]));
   assert.equal(Object.keys(snap).length, 3);
-  assert.ok(Object.values(snap).every((s) => ["ok", "collecting", "untracked"].includes(s.flows?.status)), "every snapshot row has flows");
+  assert.ok(Object.values(snap).every((s) => ["full", "partial", "collecting", "untracked"].includes(s.flows?.status)), "every snapshot row has flows");
   assert.deepEqual(snap.v.vault, { chain: "ethereum", address: "0xfa017", decimals: 6 }, "the flows job reads this list");
-  assert.deepEqual(snap.v.flows, { status: "ok", in30: 0, out30: 7e6, net7: -7e6, net30: -7e6, maxOut30: 7e6, asOf: "2026-10-21" });
-  assert.equal(snap.n.flows.status, "collecting", "tracked but not in the ledger yet");
+  assert.deepEqual(snap.v.flows, { status: "full", in30: 0, out30: 7e6, net7: -7e6, net30: -7e6, maxOut30: 7e6, asOf: "2026-10-21" });
+  assert.deepEqual(snap.n.flows, { status: "collecting", since: null }, "tracked but not in the ledger yet: no date");
   assert.deepEqual(snap.a.flows, { status: "untracked" });
   assert.equal(snap.a.vault, null);
   // same pools without the vault address: the levels are identical, so flows play no part in them

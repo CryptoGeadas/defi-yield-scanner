@@ -44,13 +44,18 @@ export async function runFlows({ ledger, rows, datasets, portal, now = Date.now(
       const fromBlock = backfill ? await portal.blockAt(dataset, (startOfToday - KEEP_DAYS * DAY_MS) / 1000) : last + 1;
       if (fromBlock > head) { log.warn(`  ⚠ ${chain}: no new finalized blocks since ${last} — numbers stay as of ${ledger.chains?.[chain]?.asOf ?? ledger.asOf}`); continue; }
 
+      // A vault new to the ledger is read only from fromBlock, which sits inside the day after
+      // the chain's last complete day: its first full day is the one after that. (Matters when
+      // the job runs twice in a day: the second run starts mid-day.)
+      const prevAsOf = ledger.chains?.[chain]?.asOf ?? ledger.asOf;
+      const newFrom = !backfill && prevAsOf ? shiftDay(prevAsOf, 2) : null;
       const merge = (r) => {
         if (r.lastBlock < fromBlock || r.lastTimestamp == null) return false;
         const today = shiftDay(utcDay(r.lastTimestamp * 1000), -1);
-        // a backfill marks its vaults from the day it started, so one that stops short is
-        // "collecting" until the window really holds 30 days, never padded with $0 days
+        // a backfill marks its vaults from the day it started, so one that stops short shows
+        // only the days it read ("partial since …"), never 30 days padded with $0
         const from = backfill ? utcDay(startOfToday - KEEP_DAYS * DAY_MS) : false;
-        ledger = addFlows(ledger, { chain, events: r.events, lastBlock: r.lastBlock, today, tracked: vaults, backfill: from });
+        ledger = addFlows(ledger, { chain, events: r.events, lastBlock: r.lastBlock, today, tracked: vaults, backfill: from, newFrom });
         return true;
       };
       // a progress line every 25 batches, so a long first backfill shows where it is

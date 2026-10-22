@@ -14,9 +14,9 @@
 //     the backfill's first day (`backfill` = that "YYYY-MM-DD", or true for the full 30 days);
 //     one first seen later has complete days only from tomorrow (`firstDay`).
 //   flowsSummary(ledger, chain, address) → { in30, out30, net7, net30, maxOut30, asOf } | null
-//   rowFlows(row, ledger) → { status: "untracked" | "unavailable" | "collecting" | "ok", ... }
-//     ledger null = it could not be read. Numbers show only once a vault has 30 full days
-//     (shorter coverage reads "collecting", never a 30-day $0).
+//   rowFlows(row, ledger) → { status: "untracked" | "unavailable" | "collecting" | "partial" | "full", since?, ...summary }
+//     ledger null = it could not be read. Under 7 full days: "collecting" (no numbers);
+//     7–29: "partial", numbers since `since`; 30+: "full". Missing days are never $0.
 //
 // Ledger: { asOf: "YYYY-MM-DD" | null, chains: { ethereum: { lastBlock, asOf } },
 //           vaults: { "ethereum:0x…": { decimals, firstDay, days: { "YYYY-MM-DD": { in, out, maxOut } } } } }
@@ -36,11 +36,13 @@ export const ledgerVaults = (ledger, chain) =>
     .filter(([k, v]) => k.startsWith(`${chain}:`) && Number.isInteger(v.decimals))
     .map(([k, v]) => ({ address: k.slice(chain.length + 1), decimals: v.decimals }));
 
-export function addFlows(ledger, { chain, events, lastBlock, today, tracked = [], backfill = false }) {
+export function addFlows(ledger, { chain, events, lastBlock, today, tracked = [], backfill = false, newFrom = null }) {
   const next = structuredClone(ledger);
   // a backfill's vaults have data from the day it started reading (a "YYYY-MM-DD"; true =
   // the full 30 days), even when the run stopped short of today
-  const firstDay = typeof backfill === "string" ? backfill : backfill ? shiftDay(today, -(KEEP_DAYS - 1)) : shiftDay(today, 1);
+  // `newFrom`: the first day this run read in full (from the job); never earlier than tomorrow
+  const later = (a, b) => (a && a > b ? a : b);
+  const firstDay = typeof backfill === "string" ? backfill : backfill ? shiftDay(today, -(KEEP_DAYS - 1)) : later(newFrom, shiftDay(today, 1));
   const vaultOf = (address) => (next.vaults[keyOf(chain, address)] ??= { firstDay, days: {} });
   for (const t of tracked) vaultOf(t.address).decimals = t.decimals;
   const touched = new Set();
@@ -70,7 +72,10 @@ export function flowsSummary(ledger, chain, address) {
   const v = ledger?.vaults?.[keyOf(chain, address)];
   const asOf = asOfFor(ledger, chain);
   if (!v || !asOf) return null;
-  const from30 = shiftDay(asOf, -(KEEP_DAYS - 1)), from7 = shiftDay(asOf, -6);
+  // the window starts at the vault's first full day when that is later: a half day read
+  // before the vault was first seen is never counted
+  const window30 = shiftDay(asOf, -(KEEP_DAYS - 1));
+  const from30 = v.firstDay && v.firstDay > window30 ? v.firstDay : window30, from7 = shiftDay(asOf, -6);
   const s = { in30: 0, out30: 0, net7: 0, net30: 0, maxOut30: 0 };
   for (const [day, d] of Object.entries(v.days)) {
     if (day < from30 || day > asOf) continue;
@@ -85,13 +90,23 @@ export function flowsSummary(ledger, chain, address) {
   return { ...s, asOf };
 }
 
+// Coverage: how many full days the ledger holds for a vault decides what is shown.
+export const MIN_DAYS = 7; // under this: "collecting", no numbers
+const DAY = /^\d{4}-\d{2}-\d{2}$/;
+const daysFrom = (first, last) => Math.round((Date.parse(`${last}T00:00:00Z`) - Date.parse(`${first}T00:00:00Z`)) / DAY_MS) + 1;
+
 export function rowFlows(row, ledger) {
   if (!row.vault) return { status: "untracked" };
   if (!ledger) return { status: "unavailable" };
   const v = ledger.vaults?.[keyOf(row.vault.chain, row.vault.address)];
   const asOf = asOfFor(ledger, row.vault.chain);
-  const full = v && asOf && v.firstDay && v.firstDay <= shiftDay(asOf, -(KEEP_DAYS - 1));
-  const s = full ? flowsSummary(ledger, row.vault.chain, row.vault.address) : null;
-  if (full && !s) return { status: "unavailable" };
-  return s ? { status: "ok", ...s } : { status: "collecting" };
+  if (!v || !asOf) return { status: "collecting", since: null }; // the job has not read it yet
+  // a ledger entry without a well-formed first day or as-of date: no numbers, no guessed state
+  if (!DAY.test(String(v.firstDay)) || !DAY.test(String(asOf))) return { status: "unavailable" };
+  const covered = daysFrom(v.firstDay, asOf);
+  if (!Number.isFinite(covered)) return { status: "unavailable" }; // a damaged date: no numbers, never a guessed state
+  if (covered < MIN_DAYS) return { status: "collecting", since: v.firstDay };
+  const s = flowsSummary(ledger, row.vault.chain, row.vault.address);
+  if (!s) return { status: "unavailable" };
+  return covered >= KEEP_DAYS ? { status: "full", ...s } : { status: "partial", since: v.firstDay, ...s };
 }

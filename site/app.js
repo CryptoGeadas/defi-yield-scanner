@@ -66,16 +66,22 @@ const fmtNet = (n) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${fmtUsd(n)}`;
 const netCls = (n) => (n > 0 ? "up" : n < 0 ? "down" : "");
 const fmtDay = (d) => new Date(`${d}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
 const flowsOn = () => state.data?.config?.flowsCard === true;
+// Coverage (flows.mjs): "collecting" shows no numbers; "partial" names its since date on
+// every number that covers it; "full" is the last 30 days. Missing days never read as $0.
+const SOURCE = "Deposits and withdrawals read from the vault contract. Flows do not change the risk level.";
 function flowsCardHtml(r) {
   const f = r.flows;
-  if (!flowsOn() || f?.status !== "ok") return "";
+  if (!flowsOn() || !["collecting", "partial", "full"].includes(f?.status)) return "";
+  if ((f.status === "partial" && !f.since) || (f.status !== "collecting" && !f.asOf)) return ""; // never "since Invalid Date"
+  const card = (body) => `<div class="dcard wide flows-card"><div class="dk">Money flows</div>${body}</div>`;
+  if (f.status === "collecting")
+    return card(`<div class="dline">${f.since ? `Collecting since ${esc(fmtDay(f.since))}.` : "Collecting from the next daily update."} Numbers show after 7 days.</div>`);
+  const period = f.status === "partial" ? `since ${esc(fmtDay(f.since))}` : "30 days";
   const num = (k, v, cls = "") => `<div><span class="fl-k">${k}</span><b class="${cls}">${v}</b></div>`;
-  return `<div class="dcard wide flows-card">
-    <div class="dk">Money flows</div>
-    <div class="flows-net">${num("Net, 7 days", fmtNet(f.net7), netCls(f.net7))}${num("Net, 30 days", fmtNet(f.net30), netCls(f.net30))}</div>
-    <div class="flows-sub">${num("In, 30 days", fmtUsd(f.in30))}${num("Out, 30 days", fmtUsd(f.out30))}${num("Biggest exit, 30 days", fmtUsd(f.maxOut30))}</div>
-    <div class="dsub">Last 30 days, to ${esc(fmtDay(f.asOf))}. Deposits and withdrawals read from the vault contract. Flows do not change the risk level.</div>
-  </div>`;
+  return card(`
+    <div class="flows-net">${num("Net, 7 days", fmtNet(f.net7), netCls(f.net7))}${num(`Net, ${period}`, fmtNet(f.net30), netCls(f.net30))}</div>
+    <div class="flows-sub">${num(`In, ${period}`, fmtUsd(f.in30))}${num(`Out, ${period}`, fmtUsd(f.out30))}${num(`Biggest exit, ${period}`, fmtUsd(f.maxOut30))}</div>
+    <div class="dsub">${f.status === "partial" ? `Since ${esc(fmtDay(f.since))}` : "Last 30 days"}, to ${esc(fmtDay(f.asOf))}. ${SOURCE}</div>`);
 }
 
 // Empty level window: name the filters that hide everything, and offer to clear them.
