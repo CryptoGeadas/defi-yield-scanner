@@ -14,7 +14,7 @@ import { DOLLAR_TYPES } from "./flows.mjs";
 
 export const DEFAULT_CONFIG = {
   levelWindows: true,           // SWITCH: group windows by risk Level (on) or coin Tier (off)
-  flowsCard: false,             // SWITCH: show the "Money flows" card in open rows (#30; on at go-live)
+  flowsCard: true,              // SWITCH: show the "Money flows" card in open rows (#30; on since go-live, #38)
   riskCuts: DEFAULT_CUTS,       // cut lines per risk Factor (risk.mjs)
   sticky: null,                 // { state, now } → shown levels follow the sticky rule (sticky.mjs)
   baseRate: null,               // % APY, set by the build from the feed (base-rate.mjs); none → Yield unknown

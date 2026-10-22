@@ -67,7 +67,7 @@ test("intake → pipeline → snapshot rows: every row has flows; a tracked vaul
   const noVault = runPipeline(intakePools(feed, { morpho }, { now: NOW }).pools.map((p) => ({ ...p, vault: null })), cfg, fm);
   const lv = (r) => Object.fromEntries([1, 2, 3].flatMap((w) => r.windows[w]).map((x) => [x.pool, [x.level, x.levelDriver, JSON.stringify(x.factors)]]));
   assert.deepEqual(lv(withVault), lv(noVault));
-  assert.equal(withVault.config.flowsCard, false, "the card switch is off by default");
+  assert.equal(withVault.config.flowsCard, true, "the card is on since go-live (#38)");
 });
 
 test("Stability counts a reward jump; Yield ignores it", () => {
