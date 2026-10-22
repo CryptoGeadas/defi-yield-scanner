@@ -1,7 +1,7 @@
 // Tests for the pure parts of the Euler labels fetcher. Run: npm test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { labelEntries, decodeString, decodeAddress } from "./euler-vaults.mjs";
+import { labelEntries, decodeString, decodeAddress, decodeUint8 } from "./euler-vaults.mjs";
 
 test("labels → one entry per vault with its product and status", () => {
   const products = {
@@ -58,18 +58,24 @@ function stub({ products = { p: { name: "P", vaults: ["0xa", "0xb"] } }, earn = 
     if (url.endsWith("/earn-vaults.json")) return earnFail ? json(null, 404) : json(earn);
     if (rpcFail.has(url)) return json({ error: "rate limited" }, 200);
     const body = JSON.parse(init.body);
-    return json(body.map((c) => ({ id: c.id, result: rpc[c.params[0].to]?.[c.params[0].data === "0x06fdde03" ? 0 : 1] })));
+    return json(body.map((c) => ({ id: c.id, result: rpc[c.params[0].to]?.[{ "0x06fdde03": 0, "0x38d52e0f": 1, "0x313ce567": 2 }[c.params[0].data]] })));
   });
   return calls;
 }
-const rpc = { "0xa": [enc("EVK Vault eUSDC-1"), addr("0xa0b8")], "0xe": [enc("K3 Earn USDC"), addr("0xa0b8")] };
+const rpc = { "0xa": [enc("EVK Vault eUSDC-1"), addr("0xa0b8")], "0xe": [enc("K3 Earn USDC"), addr("0xa0b8")], [addr("0xa0b8").replace("0x" + "0".repeat(24), "0x")]: [null, null, "0x" + "6".padStart(64, "0")] };
 
 test("fetchEulerVaults: readable vaults are returned with name and asset; unreadable ones are left out", async (t) => {
   t.after(() => mock.restoreAll());
   stub({ rpc });
   const m = await fetchEulerVaults(["Ethereum"]);
   const v = m.get(1);
-  assert.deepEqual(v.map((x) => [x.address, x.name, x.asset, x.earn]), [["0xa", "EVK Vault eUSDC-1", "0x" + "0".repeat(36) + "a0b8", false], ["0xe", "K3 Earn USDC", "0x" + "0".repeat(36) + "a0b8", true]]);
+  assert.deepEqual(v.map((x) => [x.address, x.name, x.asset, x.earn, x.decimals]), [["0xa", "EVK Vault eUSDC-1", "0x" + "0".repeat(36) + "a0b8", false, 6], ["0xe", "K3 Earn USDC", "0x" + "0".repeat(36) + "a0b8", true, 6]]);
+});
+
+test("fetchEulerVaults: unreadable asset decimals keep the vaults, with decimals null (flows not tracked)", async (t) => {
+  t.after(() => mock.restoreAll());
+  stub({ rpc: { "0xa": rpc["0xa"] } });
+  assert.deepEqual((await fetchEulerVaults(["Ethereum"])).get(1).map((x) => [x.address, x.decimals]), [["0xa", null]]);
 });
 
 test("fetchEulerVaults: products.json failing, or no vault readable, makes the chain null (fail closed)", async (t) => {
@@ -95,4 +101,22 @@ test("fetchEulerVaults: an RPC answering only errors is skipped for the next one
   assert.deepEqual([...m.keys()], [1]);
   assert.equal(calls.filter((u) => u === "https://ethereum-rpc.publicnode.com").length, 2, "tried twice");
   assert.ok(calls.includes("https://rpc.mevblocker.io"));
+});
+
+test("decodeUint8 reads an ERC-20 decimals() answer; anything else is null", () => {
+  assert.equal(decodeUint8("0x" + "6".padStart(64, "0")), 6);
+  assert.equal(decodeUint8("0x" + "12".padStart(64, "0")), 18);
+  assert.equal(decodeUint8("0x"), null);
+  assert.equal(decodeUint8(undefined), null);
+  assert.equal(decodeUint8("0x" + "100".padStart(64, "0")), null, "over 255 is not a uint8");
+});
+
+test("fetchEulerVaults: asset decimals go to the RPC that already answered; one unreadable asset leaves only its vaults untracked", async (t) => {
+  t.after(() => mock.restoreAll());
+  const asset2 = "0x" + "0".repeat(36) + "dac1";
+  const r = { ...rpc, "0xe": [enc("K3 Earn USDT"), addr("0xdac1")] }; // 0xa0b8 answers decimals, 0xdac1 does not
+  const calls = stub({ rpc: r, rpcFail: new Set(["https://ethereum-rpc.publicnode.com"]) });
+  const v = (await fetchEulerVaults(["Ethereum"])).get(1);
+  assert.deepEqual(v.map((x) => [x.address, x.asset === asset2 ? "dac1" : "a0b8", x.decimals]), [["0xa", "a0b8", 6], ["0xe", "dac1", null]]);
+  assert.equal(calls.filter((u) => u === "https://ethereum-rpc.publicnode.com").length, 2, "the failing RPC is not tried again for decimals");
 });

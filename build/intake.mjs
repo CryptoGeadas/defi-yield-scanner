@@ -7,10 +7,10 @@
 // feed     DefiLlama `/pools` data array (not mutated).
 // venues   what build.mjs fetched from each venue's own API (see venues.mjs):
 //            morpho  Map `${chainId}|${SHARE_SYMBOL}|${assetAddr}` → [{ address, assetSymbol, assetDecimals, name, network, tvl }]
-//            yearn   Map `${chainId}|${vaultAddr}` → vault name
+//            yearn   Map `${chainId}|${vaultAddr}` → { name, decimals, v3, asset, tvl } (or a bare name)
 //            kamino  [{ address, name, symbol, mint, tvl, base, reward, mean30, apy7, available, createdAt }]
 //            lendBorrow  Map DefiLlama pool id → totalSupplyUsd (lending pools only)
-//            euler   Map chainId → [{ address, name, asset, product, earn?, status: live|hidden|deprecated }],
+//            euler   Map chainId → [{ address, name, asset, decimals?, product, earn?, status: live|hidden|deprecated }],
 //                    or null for a chain whose labels failed
 //          Any of these may be missing/empty (a fetch failed) — intake degrades, never throws.
 //          Euler fails CLOSED: a chain without labels hides its Euler rows (counted as
@@ -91,13 +91,18 @@ function denyChecker(denylist = {}) {
 export const MORPHO_TVL_TOLERANCE = 2;
 const tvlGap = (a, b) => (a > 0 && b > 0 ? Math.abs(Math.log(a / b)) : Infinity);
 
-// Money flows (flows.mjs) read a vault's Deposit/Withdraw events by address, so only a
-// verified vault on a chain the flows job reads, with known asset decimals, is tracked.
+// Money flows (flows.mjs) read a vault's ERC-4626 Deposit/Withdraw events by address, so
+// only a verified ERC-4626 vault on a chain the flows job reads, with known asset decimals,
+// is tracked. Step 5 also requires one stablecoin leg (so amounts read as dollars).
+// Ethereum only: Base was measured at ~12 MB of events a day (2026-10-22), far over the
+// free Portal budget, so Base vaults are "not tracked" (#32).
 const FLOWS_NETWORKS = new Set(["ethereum"]);
-const flowsVault = (hit) =>
-  FLOWS_NETWORKS.has(hit.network) && Number.isInteger(hit.assetDecimals) && typeof hit.address === "string"
-    ? { chain: hit.network, address: hit.address.toLowerCase(), decimals: hit.assetDecimals }
+const flowsVault = (chain, address, decimals) => {
+  const network = String(chain ?? "").toLowerCase();
+  return FLOWS_NETWORKS.has(network) && Number.isInteger(decimals) && typeof address === "string" && /^0x[0-9a-f]+$/i.test(address)
+    ? { chain: network, address: address.toLowerCase(), decimals }
     : null;
+};
 
 function morphoIdentities(pools, registry, deny) {
   const byVault = new Map(); // address → { pool, hit }
@@ -124,7 +129,7 @@ function morphoIdentities(pools, registry, deny) {
       label: hit.name, // "Steakhouse USDC"
       exactUrl: ok ? `https://app.morpho.org/${hit.network}/vault/${hit.address}` : null,
       linkGuarded: !ok,
-      vault: ok ? flowsVault(hit) : null,
+      vault: ok ? flowsVault(hit.network, hit.address, hit.assetDecimals) : null,
     });
   }
   return { ids, drop, guarded };
@@ -179,6 +184,7 @@ function eulerIdentities(pools, labels) {
     ids.set(pool, {
       label: hit.earn || !hit.product ? hit.name : `${hit.product} · ${vault}`,
       exactUrl: `https://app.euler.finance/${hit.earn ? "earn" : "lend"}/${hit.address}?network=${cid}`,
+      vault: flowsVault(pool.chain, hit.address, hit.decimals), // EVK and Earn vaults are ERC-4626
     });
   }
   // labels loaded but nothing matched: the name format probably changed on one side
@@ -190,18 +196,29 @@ function eulerIdentities(pools, labels) {
 // DefiLlama gives Yearn vaults neither a name nor the vault address, so same-asset
 // vaults collide as "USDC" ×N. The vault address is known only where a curated
 // deposit URL (pool-urls.json) points at it: yearn.fi/v3/<chainId>/<address> or
-// yearn.fi/vaults/<chainId>/<address>. Name those from the Yearn registry.
+// yearn.fi/vaults/<chainId>/<address>. Name those from the Yearn registry. Registry
+// entries are { name, decimals, v3, asset, tvl } (a bare name string is accepted too). Only v3 vaults
+// are ERC-4626, so only they get a flows vault; v2 vaults emit other events.
+// → Map(pool → { name, vault })
 const YEARN_URL = /yearn\.fi\/(?:v3|vaults)\/(\d+)\/(0x[0-9a-fA-F]+)/;
-function yearnLabels(pools, registry, poolUrls = {}) {
-  const labels = new Map();
-  if (!registry?.size) return labels;
+function yearnIdentities(pools, registry, poolUrls = {}) {
+  const ids = new Map();
+  if (!registry?.size) return ids;
   for (const p of pools) {
     if (p.project !== "yearn-finance") continue;
     const m = String(poolUrls[p.pool] || "").match(YEARN_URL);
-    const name = m && registry.get(`${m[1]}|${lower(m[2])}`);
-    if (name) labels.set(p, name);
+    const hit = m && registry.get(`${m[1]}|${lower(m[2])}`);
+    if (!hit) continue;
+    const v = typeof hit === "string" ? { name: hit } : hit;
+    // Flows need the URL's vault to BE this pool's vault (a hand-curated URL could point at
+    // another vault): same chain, same asset, and TVL within the Morpho link-guard tolerance.
+    const sameChain = Number(m[1]) === CHAIN_ID[p.chain];
+    const sameAsset = !!v.asset && (p.underlyingTokens || []).map(lower).includes(v.asset);
+    const sameSize = tvlGap(v.tvl, p.tvlUsd) <= Math.log(MORPHO_TVL_TOLERANCE);
+    const verified = v.v3 === true && sameChain && sameAsset && sameSize;
+    if (v.name) ids.set(p, { name: v.name, vault: verified ? flowsVault(p.chain, m[2], v.decimals) : null });
   }
-  return labels;
+  return ids;
 }
 
 // ── Kamino ──────────────────────────────────────────────────────────────────
@@ -263,7 +280,7 @@ export function intakePools(feed, venues = {}, curation = {}) {
   const euler = eulerIdentities(pools, venues.euler);
   if (euler.drop.size) pools = pools.filter((p) => !euler.drop.has(p));
   report.euler = euler.report;
-  const yearn = yearnLabels(pools, venues.yearn, curation.poolUrls);
+  const yearn = yearnIdentities(pools, venues.yearn, curation.poolUrls);
   report.yearnNamed = yearn.size;
 
   // 4. Kamino: DefiLlama's kamino-lend are isolated borrow markets, not the passive
@@ -276,13 +293,15 @@ export function intakePools(feed, venues = {}, curation = {}) {
   // 5. identity for every feed pool (new objects — the feed is never mutated)
   const out = kept.map((p) => {
     const id = morpho.ids.get(p) ?? euler.ids.get(p);
+    const legs = id?.legs ?? parseLegs(p.symbol);
     return {
       ...p,
-      legs: id?.legs ?? parseLegs(p.symbol),
-      label: id?.label ?? yearn.get(p) ?? defaultLabel(p),
+      legs,
+      label: id?.label ?? yearn.get(p)?.name ?? defaultLabel(p),
       exactUrl: id?.exactUrl ?? null,
       linkGuarded: id?.linkGuarded ?? false,
-      vault: id?.vault ?? null,
+      // flows only for a single-stablecoin vault: its amounts then read as dollars
+      vault: legs.length === 1 ? (id?.vault ?? yearn.get(p)?.vault ?? null) : null,
     };
   });
 

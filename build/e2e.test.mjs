@@ -41,14 +41,14 @@ test("intake → pipeline → sticky: Kamino and since dates reach the Age facto
 
 test("intake → pipeline → snapshot rows: every row has flows; a tracked vault carries its vault and numbers; flows never change levels", () => {
   const morpho = new Map([
-    ["1|STEAKUSDC|0xa0b8", [{ address: "0xVAULT", assetSymbol: "USDC", assetDecimals: 6, name: "Steakhouse USDC", network: "ethereum", tvl: 500e6 }]],
-    ["1|NEWUSDC|0xa0b8", [{ address: "0xNEW", assetSymbol: "USDC", assetDecimals: 6, name: "New USDC", network: "ethereum", tvl: 500e6 }]],
+    ["1|STEAKUSDC|0xa0b8", [{ address: "0xFA017", assetSymbol: "USDC", assetDecimals: 6, name: "Steakhouse USDC", network: "ethereum", tvl: 500e6 }]],
+    ["1|NEWUSDC|0xa0b8", [{ address: "0xAE1", assetSymbol: "USDC", assetDecimals: 6, name: "New USDC", network: "ethereum", tvl: 500e6 }]],
   ]);
   const fm = { ...maps, protocolMap: { ...maps.protocolMap, "morpho-blue": { bucket: "vault", access: "permissionless", level: 1 } } };
   const feed = [feedPool({ pool: "v", project: "morpho-blue", symbol: "STEAKUSDC" }), feedPool({ pool: "n", project: "morpho-blue", symbol: "NEWUSDC" }), feedPool({ pool: "a" })];
   const ledger = addFlows(emptyLedger(), {
-    chain: "ethereum", today: "2026-10-21", lastBlock: 1, tracked: [{ address: "0xvault", decimals: 6 }], backfill: true,
-    events: [{ vault: "0xvault", day: "2026-10-20", kind: "out", amount: 7e6 }],
+    chain: "ethereum", today: "2026-10-21", lastBlock: 1, tracked: [{ address: "0xfa017", decimals: 6 }], backfill: true,
+    events: [{ vault: "0xfa017", day: "2026-10-20", kind: "out", amount: 7e6 }],
   });
   const cfg = { baseRate: 4, levelWindows: true, sticky: { state: {}, now: NOW } };
   const withVault = runPipeline(intakePools(feed, { morpho }, { now: NOW }).pools, cfg, fm);
@@ -57,7 +57,7 @@ test("intake → pipeline → snapshot rows: every row has flows; a tracked vaul
   const snap = Object.fromEntries(rows.map((r) => [r.pool, slim(r)]));
   assert.equal(Object.keys(snap).length, 3);
   assert.ok(Object.values(snap).every((s) => ["ok", "collecting", "untracked"].includes(s.flows?.status)), "every snapshot row has flows");
-  assert.deepEqual(snap.v.vault, { chain: "ethereum", address: "0xvault", decimals: 6 }, "the flows job reads this list");
+  assert.deepEqual(snap.v.vault, { chain: "ethereum", address: "0xfa017", decimals: 6 }, "the flows job reads this list");
   assert.deepEqual(snap.v.flows, { status: "ok", in30: 0, out30: 7e6, net7: -7e6, net30: -7e6, maxOut30: 7e6, asOf: "2026-10-21" });
   assert.equal(snap.n.flows.status, "collecting", "tracked but not in the ledger yet");
   assert.deepEqual(snap.a.flows, { status: "untracked" });
@@ -160,4 +160,13 @@ test("a reward-only LP row sorts below a plain lending row (ranked on organic yi
   const lend = { ...feedPool({ pool: "lend", apy: 4, apyBase: 4, apyMean30d: 4 }), legs: ["USDC"], ageDays: 1000 };
   const lp = { ...feedPool({ pool: "lp", project: "uniswap-v3", symbol: "USDC-USDT", apy: 46.71, apyBase: 0, apyReward: 46.71, apyMean30d: 26.01, volumeUsd7d: 5e6 }), legs: ["USDC", "USDT"], ageDays: 1000 };
   assert.deepEqual(runPipeline([lp, lend], { baseRate: 4 }, maps).windows[1].map((x) => x.pool), ["lend", "lp"]);
+});
+
+test("flows are tracked only for coins that stay at $1: a yield-bearing vault (sUSDe) is not tracked", () => {
+  const morpho = new Map([["1|YSUSDE|0xa0b8", [{ address: "0xE5DE", assetSymbol: "sUSDe", assetDecimals: 18, name: "sUSDe vault", network: "ethereum", tvl: 500e6 }]]]);
+  const fm = { protocolMap: { ...maps.protocolMap, "morpho-blue": { bucket: "vault", access: "permissionless", level: 1 } }, stableMap: { ...maps.stableMap, SUSDE: { tier: 3, type: "yield" } } };
+  const r = runPipeline(intakePools([feedPool({ pool: "s", project: "morpho-blue", symbol: "YSUSDE" })], { morpho }, { now: NOW }).pools, { baseRate: 4 }, fm);
+  const row = [1, 2, 3].flatMap((w) => r.windows[w]).find((x) => x.pool === "s");
+  assert.deepEqual(row.legs, ["SUSDE"]);
+  assert.equal(row.vault, null, "1 sUSDe ≈ $1.19: its amounts are not dollars");
 });

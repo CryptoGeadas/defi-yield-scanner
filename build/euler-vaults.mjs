@@ -6,7 +6,8 @@
 // read on-chain (batched eth_call, public RPCs that accept batches of 100; each RPC
 // is tried twice before the next one).
 //
-//   fetchEulerVaults(chains) → Map chainId → [{ address, name, asset, product, earn, status }] | null
+//   fetchEulerVaults(chains) → Map chainId → [{ address, name, asset, decimals, product, earn, status }] | null
+//   (decimals = the asset's decimals() for money flows; null when unreadable)
 //
 // A chain whose labels or RPC fail maps to null; intake.mjs then hides that
 // chain's Euler rows (fail closed: an unverifiable permissionless vault is not shown).
@@ -19,7 +20,7 @@ const RPCS = {
   8453: ["https://base-rpc.publicnode.com", "https://mainnet.base.org"],
   42161: ["https://arbitrum-one-rpc.publicnode.com", "https://arb1.arbitrum.io/rpc"],
 };
-const NAME = "0x06fdde03", ASSET = "0x38d52e0f"; // name(), asset()
+const NAME = "0x06fdde03", ASSET = "0x38d52e0f", DECIMALS = "0x313ce567"; // name(), asset(), decimals()
 const BATCH = 100, TRIES = 2;
 
 // products + earn list → [{ address (lower), product, earn, status }]; deprecated wins.
@@ -56,6 +57,12 @@ export function decodeString(hex) {
   if (!Number.isFinite(len) || hex.length < 130 + len * 2) return null;
   return Buffer.from(hex.slice(130, 130 + len * 2), "hex").toString("utf8");
 }
+// a uint8 return (ERC-20 decimals): a 32-byte word holding 0–255, else null
+export function decodeUint8(hex) {
+  if (typeof hex !== "string" || !/^0x[0-9a-fA-F]{64}$/.test(hex)) return null;
+  const n = parseInt(hex.slice(2), 16);
+  return Number.isInteger(n) && n <= 255 ? n : null;
+}
 export function decodeAddress(hex) {
   return typeof hex === "string" && hex.length === 66 ? "0x" + hex.slice(26).toLowerCase() : null;
 }
@@ -66,6 +73,7 @@ async function getJson(url, init) {
   return r.json();
 }
 
+// → { res: Map id → result, url: the RPC that answered (try it first next time) }
 async function rpcBatch(urls, calls) {
   let last;
   for (const url of urls.flatMap((u) => Array(TRIES).fill(u))) {
@@ -77,7 +85,7 @@ async function rpcBatch(urls, calls) {
         if (!res.some((x) => x?.result)) throw new Error(`every call failed: ${JSON.stringify(res[0]?.error ?? res[0]).slice(0, 120)}`);
         out.push(...res);
       }
-      return new Map(out.map((x) => [x.id, x.result]));
+      return { res: new Map(out.map((x) => [x.id, x.result])), url };
     } catch (e) { last = e; }
   }
   throw last;
@@ -90,7 +98,7 @@ async function fetchChain(cid) {
   ]);
   const entries = labelEntries(products, earn);
   const calls = entries.flatMap((v, i) => [NAME, ASSET].map((data, k) => ({ jsonrpc: "2.0", id: i * 2 + k, method: "eth_call", params: [{ to: v.address, data }, "latest"] })));
-  const res = await rpcBatch(RPCS[cid], calls);
+  const { res, url: good } = await rpcBatch(RPCS[cid], calls);
   const out = [];
   let unread = 0;
   entries.forEach((v, i) => {
@@ -100,7 +108,15 @@ async function fetchChain(cid) {
   });
   if (!out.length) throw new Error(`no vault could be read on-chain (${entries.length} listed)`);
   if (unread) console.warn(`  euler: chain ${cid}: ${unread}/${entries.length} listed vaults unreadable on-chain — hidden`);
-  return out;
+  // the asset's decimals, for money flows (flows.mjs). Unreadable → null: the vault is
+  // still shown, its flows are just not tracked.
+  const assets = [...new Set(out.map((v) => v.asset))];
+  let dec = new Map();
+  try {
+    const { res: r } = await rpcBatch([good, ...RPCS[cid].filter((u) => u !== good)], assets.map((to, id) => ({ jsonrpc: "2.0", id, method: "eth_call", params: [{ to, data: DECIMALS }, "latest"] })));
+    dec = new Map(assets.map((a, i) => [a, decodeUint8(r.get(i))]));
+  } catch (e) { console.warn(`  euler: chain ${cid}: asset decimals unreadable (${e.message}) — Euler flows not tracked there`); }
+  return out.map((v) => ({ ...v, decimals: dec.get(v.asset) ?? null }));
 }
 
 export async function fetchEulerVaults(chains) {

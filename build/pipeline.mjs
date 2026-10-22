@@ -29,6 +29,8 @@ export const DEFAULT_CONFIG = {
 };
 
 const norm = (s) => String(s ?? "").trim().toUpperCase();
+// stable types whose token amount reads as dollars (money flows); "yield" and "rwa" don't
+const DOLLAR_TYPES = new Set(["fiat", "crypto", "synthetic"]);
 
 // tier = riskiest (max) leg; null if any leg is unmapped. driver = the leg that set
 // it; driverType = that leg's stable type (fiat|crypto|yield|rwa|synthetic).
@@ -144,7 +146,9 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       label: pool.label ?? pool.symbol,  // row label (identity, from intake)
       exactUrl: pool.exactUrl ?? null,   // venue-verified deposit link (identity, from intake)
       linkGuarded: pool.linkGuarded ?? false, // venue match failed its check → DefiLlama link
-      vault: pool.vault ?? null,         // { chain, address, decimals } when money flows are tracked (intake)
+      // { chain, address, decimals } when money flows are tracked (intake), and only for a coin
+      // that stays at $1: a yield-bearing or RWA token's amounts are not dollars (sUSDe ≈ $1.19)
+      vault: pool.vault && DOLLAR_TYPES.has(driverType) ? pool.vault : null,
       pool: pool.pool,
       underlyingTokens: pool.underlyingTokens ?? null,
       poolMeta: pool.poolMeta ?? null,

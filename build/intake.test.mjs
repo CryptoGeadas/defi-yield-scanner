@@ -100,7 +100,7 @@ test("flows: an Ethereum Morpho vault that passes the link guard carries its vau
     ["1|STEAKUSDC|0xa0b8", [{ address: "0xAbC1", assetSymbol: "USDC", assetDecimals: 6, name: "Steakhouse USDC", network: "ethereum", tvl: 9e6 }]],
     ["1|FAR|0xa0b8", [{ address: "0xFAR", assetSymbol: "USDC", assetDecimals: 6, name: "Far", network: "ethereum", tvl: 90e6 }]],
     ["1|NODEC|0xa0b8", [{ address: "0xNODEC", assetSymbol: "USDC", name: "No decimals", network: "ethereum", tvl: 5e6 }]],
-    ["8453|BASEUSDC|0xa0b8", [{ address: "0xBASE", assetSymbol: "USDC", assetDecimals: 6, name: "Base vault", network: "base", tvl: 5e6 }]],
+    ["8453|BASEUSDC|0xa0b8", [{ address: "0xBA5E", assetSymbol: "USDC", assetDecimals: 6, name: "Base vault", network: "base", tvl: 5e6 }]],
   ]);
   const feed = [
     pool({ pool: "ok", project: "morpho-blue", symbol: "STEAKUSDC", tvlUsd: 9e6 }),
@@ -111,7 +111,7 @@ test("flows: an Ethereum Morpho vault that passes the link guard carries its vau
   ];
   const { pools } = intakePools(feed, { morpho });
   assert.ok(byId(pools, "base").exactUrl, "the Base vault passes the link guard…");
-  assert.equal(byId(pools, "base").vault, null, "…but the flows job reads only Ethereum for now (Base: #32)");
+  assert.equal(byId(pools, "base").vault, null, "…but only Ethereum vaults are tracked (Base is far over the data budget)");
   assert.deepEqual(byId(pools, "ok").vault, { chain: "ethereum", address: "0xabc1", decimals: 6 });
   assert.equal(byId(pools, "guarded").vault, null, "failed the link guard → not tracked");
   assert.equal(byId(pools, "nodec").vault, null, "unknown decimals → not tracked");
@@ -126,6 +126,40 @@ test("Yearn vaults are named from the registry via their curated deposit URL", (
   assert.equal(byId(pools, "y2").label, "USDC", "no curated URL → default label");
   assert.deepEqual(byId(pools, "y1").legs, ["USDC"]);
   assert.equal(report.yearnNamed, 1);
+});
+
+test("flows: Yearn v3 vaults with a curated URL that hold one stablecoin carry their vault; v2 and LP vaults do not", () => {
+  const same = { asset: "0xa0b8", tvl: 5e6 }; // the pool fixture's asset and TVL
+  const yearn = new Map([
+    ["1|0xa3", { name: "USDC Compounder", decimals: 6, v3: true, ...same }],
+    ["8453|0xb3", { name: "Base USDC Compounder", decimals: 6, v3: true, ...same }],
+    ["1|0xa2", { name: "Old yVault", decimals: 6, v3: false, ...same }],
+    ["1|0xaf", { name: "DOLA-sUSDS LP", decimals: 18, v3: true, ...same }],
+    ["1|0xa4", { name: "Other asset", decimals: 6, v3: true, asset: "0xdac1", tvl: 5e6 }],
+    ["1|0xa5", { name: "Other size", decimals: 6, v3: true, asset: "0xa0b8", tvl: 50e6 }],
+  ]);
+  const feed = [
+    pool({ pool: "v3", project: "yearn-finance" }),
+    pool({ pool: "b3", project: "yearn-finance", chain: "Base" }),
+    pool({ pool: "v2", project: "yearn-finance" }),
+    pool({ pool: "lp", project: "yearn-finance", symbol: "DOLA-SUSDS" }),
+    pool({ pool: "nourl", project: "yearn-finance" }),
+    pool({ pool: "a4", project: "yearn-finance" }),
+    pool({ pool: "a5", project: "yearn-finance" }),
+  ];
+  const poolUrls = { v3: "https://yearn.fi/v3/1/0xA3", b3: "https://yearn.fi/v3/8453/0xB3", v2: "https://yearn.fi/vaults/1/0xA2", lp: "https://yearn.fi/v3/1/0xAF", a4: "https://yearn.fi/v3/1/0xA4", a5: "https://yearn.fi/v3/1/0xA5" };
+  const { pools } = intakePools(feed, { yearn }, { poolUrls });
+  assert.deepEqual(byId(pools, "v3").vault, { chain: "ethereum", address: "0xa3", decimals: 6 });
+  assert.equal(byId(pools, "v3").label, "USDC Compounder");
+  assert.equal(byId(pools, "b3").vault, null, "Base: not tracked");
+  assert.equal(byId(pools, "v2").vault, null, "v2 vaults do not emit the standard Deposit/Withdraw events");
+  assert.equal(byId(pools, "v2").label, "Old yVault", "still named");
+  assert.equal(byId(pools, "lp").vault, null, "two legs: amounts would not be dollars");
+  assert.equal(byId(pools, "nourl").vault, null, "no curated URL: no address");
+  assert.equal(byId(pools, "a4").vault, null, "the URL's vault holds another asset: not this pool's vault");
+  assert.equal(byId(pools, "a5").vault, null, "the URL's vault is 10x the pool's TVL: not this pool's vault");
+  const typo = intakePools([pool({ pool: "t", project: "yearn-finance" })], { yearn: new Map([["8453|0xa3", { name: "X", decimals: 6, v3: true, ...same }]]) }, { poolUrls: { t: "https://yearn.fi/v3/8453/0xA3" } }).pools;
+  assert.equal(byId(typo, "t").vault, null, "a URL on another chain than the pool: not tracked");
 });
 
 test("Kamino isolated markets are replaced by the on-chain lending vaults", () => {
@@ -321,6 +355,14 @@ test("Euler: only listed, explorable vaults are kept, labelled with their produc
   assert.deepEqual(report.euler, { kept: 2, deprecated: 1, hidden: 1, unlisted: 2, ambiguous: 0, unavailable: 0, unavailableChains: [], otherChains: 1, noMatchChains: [] });
 });
 
+test("flows: a live Euler vault carries its vault address and its asset's decimals; unknown decimals are not tracked", () => {
+  const v = eulerVaults();
+  Object.assign(v.get(1)[0], { address: "0xA1", decimals: 6 }); // the live vault; 0xEARN has no decimals read
+  const { pools } = intakePools(eulerFeed(), { euler: v });
+  assert.deepEqual(byId(pools, "live").vault, { chain: "ethereum", address: "0xa1", decimals: 6 });
+  assert.equal(byId(pools, "earn").vault, null);
+});
+
 test("Euler: a chain whose labels failed hides its rows and is reported; other chains still show", () => {
   const v = eulerVaults(); v.set(8453, null);
   const { pools, report } = intakePools(eulerFeed(), { euler: v });
@@ -366,4 +408,21 @@ test("Euler: the eUSDC-58 denylist entry is now redundant but harmless", () => {
   assert.equal(byId(pools, "dep"), undefined);
   assert.equal(report.denied, 1);
   assert.equal(report.euler.deprecated, 0, "denylist runs first");
+});
+
+test("flows: Yearn registry entries that are a bare name, have no decimals, or a non-boolean v3 are not tracked", () => {
+  const yearn = new Map([["1|0xa1", "Bare name"], ["1|0xa2", { name: "No dec", decimals: null, v3: true, asset: "0xa0b8", tvl: 5e6 }], ["1|0xa3", { name: "String v3", decimals: 6, v3: "true", asset: "0xa0b8", tvl: 5e6 }]]);
+  const feed = ["a1", "a2", "a3"].map((id) => pool({ pool: id, project: "yearn-finance" }));
+  const poolUrls = { a1: "https://yearn.fi/v3/1/0xA1", a2: "https://yearn.fi/v3/1/0xA2", a3: "https://yearn.fi/v3/1/0xA3" };
+  const { pools } = intakePools(feed, { yearn }, { poolUrls });
+  assert.equal(byId(pools, "a1").label, "Bare name");
+  for (const id of ["a1", "a2", "a3"]) assert.equal(byId(pools, id).vault, null, id);
+});
+
+test("flows: a Base Euler vault and a vault with a non-hex address are not tracked", () => {
+  const v = eulerVaults();
+  v.set(8453, [{ address: "0xb1", name: "EVK Vault eUSDC-1", asset: "0x8335", decimals: 6, product: "P", status: "live" }]);
+  assert.equal(byId(intakePools(eulerFeed(), { euler: v }).pools, "base").vault, null);
+  const morpho = new Map([["1|STEAKUSDC|0xa0b8", [{ address: "0xNOTHEX", assetSymbol: "USDC", assetDecimals: 6, name: "S", network: "ethereum", tvl: 5e6 }]]]);
+  assert.equal(byId(intakePools([pool({ pool: "m", project: "morpho-blue", symbol: "STEAKUSDC" })], { morpho }).pools, "m").vault, null);
 });

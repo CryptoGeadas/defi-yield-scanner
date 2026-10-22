@@ -109,3 +109,28 @@ test("amounts are kept to the cent", () => {
   const l = backfill([ev("2026-10-21", "in", 1.234567), ev("2026-10-21", "in", 0.001)]);
   assert.equal(l.vaults[`ethereum:${A}`].days["2026-10-21"].in, 1.24);
 });
+
+test("a ledger from before per-chain days (no chains[chain].asOf) still reads with the shared day", () => {
+  const l = { asOf: "2026-10-21", chains: { ethereum: { lastBlock: 500 } }, vaults: { [`ethereum:${A}`]: { decimals: 6, firstDay: "2026-09-22", days: { "2026-10-21": { in: 5, out: 0, maxOut: 0 } } } } };
+  assert.equal(flowsSummary(l, "ethereum", A).asOf, "2026-10-21");
+  assert.equal(flowsSummary(l, "ethereum", A).in30, 5);
+  assert.equal(rowFlows(row(A), l).status, "ok");
+});
+
+test("each chain's own day sets its window and its 30-day check, not the latest run of another chain", () => {
+  let l = addFlows(emptyLedger(), { chain: "ethereum", today: "2026-10-20", lastBlock: 1, tracked: tA, backfill: true, events: [ev("2026-10-21", "in", 9)] });
+  l = addFlows(l, { chain: "base", today: "2026-10-21", lastBlock: 1, tracked: [{ address: B, decimals: 6 }], backfill: true, events: [] });
+  assert.equal(l.asOf, "2026-10-21");
+  assert.equal(flowsSummary(l, "ethereum", A).asOf, "2026-10-20");
+  assert.equal(flowsSummary(l, "ethereum", A).in30, 0, "21 Oct is not complete on ethereum yet");
+  l.vaults[`ethereum:${A}`].firstDay = "2026-09-21"; // = ethereum's day − 29: full there, not with base's day
+  assert.equal(rowFlows(row(A), l).status, "ok");
+});
+
+test("a run on one chain only drops old days of its own vaults", () => {
+  const behind = addFlows(emptyLedger(), { chain: "ethereum", today: "2026-10-01", lastBlock: 1, tracked: tA, backfill: true, events: [ev("2026-09-05", "in", 1)] });
+  const l = addFlows(behind, { chain: "base", today: "2026-10-21", lastBlock: 1, tracked: [], backfill: true, events: [] });
+  assert.ok(l.vaults[`ethereum:${A}`].days["2026-09-05"], "base's run leaves ethereum's days alone");
+  const l2 = addFlows(behind, { chain: "ethereum", today: "2026-10-21", lastBlock: 2, tracked: [], events: [] });
+  assert.equal(l2.vaults[`ethereum:${A}`].days["2026-09-05"], undefined, "ethereum's own run drops them");
+});

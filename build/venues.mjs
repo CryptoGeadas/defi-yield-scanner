@@ -13,14 +13,26 @@ import { buildSources, MORPHO_CHAINID } from "./deeplink-sources.mjs";
 import { fetchKaminoVaults } from "./kamino-vaults.mjs";
 import { fetchEulerVaults } from "./euler-vaults.mjs";
 
-// Yearn registry: `${chainId}|${vaultAddr}` → vault name, one call for all chains.
+// One ydaemon vault → registry entry: { name, decimals (of the underlying token, not the
+// share), v3 (version 3.x = ERC-4626, the only kind money flows can read) }.
+// asset + tvl let intake check that a curated URL's vault is really the pool's vault.
+export const yearnEntry = (v) => ({
+  name: v.name,
+  decimals: Number.isInteger(v.token?.decimals) ? v.token.decimals : null,
+  v3: /^3\./.test(String(v.version ?? "")),
+  asset: typeof v.token?.address === "string" ? v.token.address.toLowerCase() : null,
+  tvl: Number.isFinite(v.tvl?.tvl) ? v.tvl.tvl : null,
+});
+
+// Yearn registry: `${chainId}|${vaultAddr}` → yearnEntry, one call for all chains.
 async function fetchYearnRegistry(chains) {
   const ids = chains.map((c) => MORPHO_CHAINID[c]).filter(Boolean).sort((a, b) => a - b);
   const map = new Map();
   try {
     const r = await fetch(`https://ydaemon.yearn.fi/vaults/all?chainIDs=${ids.join(",")}&limit=5000`);
     for (const v of (await r.json()) || []) {
-      if (v?.address && v?.name) map.set(`${v.chainID}|${v.address.toLowerCase()}`, v.name);
+      if (v?.address && v?.name)
+        map.set(`${v.chainID}|${v.address.toLowerCase()}`, yearnEntry(v));
     }
   } catch (e) {
     console.warn("  yearn registry failed:", e.message);

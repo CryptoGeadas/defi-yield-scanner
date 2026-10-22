@@ -185,6 +185,13 @@ async function main() {
     if (share > 0.1) throw new Error(`levels-state.json: ${r.stickyInvalid} entries invalid (${Math.round(share * 100)}%) — refusing to reset that many pools`);
     console.warn(`  ⚠ levels-state.json: ${r.stickyInvalid} invalid entries started fresh`);
   }
+  // Money flows coverage: vaults tracked per protocol. A venue whose decimals, version or
+  // address check broke drops to 0 without failing anything, so say it loudly.
+  const tracked = {};
+  for (const x of shown) if (x.vault) tracked[x.project] = (tracked[x.project] || 0) + 1;
+  console.log(`  flows: tracking ${Object.values(tracked).reduce((a, b) => a + b, 0)} vaults (${Object.entries(tracked).map(([p, n]) => `${p} ${n}`).join(" · ") || "none"})`);
+  for (const p of ["morpho-blue", "yearn-finance", "euler-v2"])
+    if (shown.some((x) => x.project === p && x.chain === "Ethereum") && !tracked[p]) console.warn(`  ⚠ flows: no ${p} vault tracked on Ethereum — check its addresses / decimals / version data`);
   const yieldUnknown = shown.filter((x) => x.factors.find((f) => f.name === "yield")?.unknown).length;
   const yieldMsg = `yield unknown for ${yieldUnknown}/${shown.length} shown pools`;
   if (yieldUnknown > shown.length * 0.2) console.warn(`  ⚠ ${yieldMsg} — check DefiLlama apyMean30d / Kamino apy30d`);
