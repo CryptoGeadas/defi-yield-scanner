@@ -2,7 +2,7 @@
 // Run: npm test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { emptyLedger, addFlows, flowsSummary, rowFlows, ledgerVaults, shiftDay } from "./flows.mjs";
+import { emptyLedger, addFlows, flowsSummary, rowFlows, ledgerVaults, shiftDay, untrackedReason, UNTRACKED_REASONS } from "./flows.mjs";
 
 const A = "0x00000000000000000000000000000000000000aa";
 const B = "0x00000000000000000000000000000000000000bb";
@@ -76,7 +76,7 @@ test("events after the last complete day are kept for later runs but not counted
 
 test("rowFlows: untracked, unreadable ledger, not in the ledger yet, and a vault with its 30 days", () => {
   const l = backfill([ev("2026-10-21", "in", 5)]);
-  assert.deepEqual(rowFlows({ vault: null }, l), { status: "untracked" });
+  assert.deepEqual(rowFlows({ vault: null, project: "aave-v3", stableType: "fiat" }, l), { status: "untracked", reason: "lending" });
   assert.deepEqual(rowFlows(row(A), null), { status: "unavailable" });
   assert.deepEqual(rowFlows(row(B), l), { status: "collecting", since: null });
   assert.deepEqual(rowFlows(row(A.toUpperCase()), l), { status: "full", in30: 5, out30: 0, net7: 5, net30: 5, maxOut30: 0, asOf: "2026-10-21" });
@@ -235,4 +235,38 @@ test("a damaged update time is stale, never fresh; collecting and partial rows c
   const partial = until(seenOn("2026-10-23"), "2026-11-01");
   assert.equal(rowFlows(row(B), partial, late).status, "partial");
   assert.equal(rowFlows(row(B), partial, late).stale, true);
+});
+
+test("an untracked row says why: intake's reason for vault venues; DEX pool, plain lending market or protocol for the rest", () => {
+  const r = (o) => untrackedReason({ project: "aave-v3", bucket: "lend", chain: "Ethereum", legs: ["USDC"], stableType: "fiat", flowsBlock: null, ...o });
+  for (const b of ["chain", "coin", "unverified", "version", "lending"]) assert.equal(r({ project: "morpho-blue", flowsBlock: b }), b, "intake knows: " + b);
+  assert.equal(r({ project: "uniswap-v3", bucket: "LP", chain: "Base", legs: ["USDC", "USDT"] }), "dex", "a DEX pool on any chain");
+  assert.equal(r({}), "lending");
+  assert.equal(r({ chain: "Base" }), "lending", "a lending market on Base is still a lending market");
+  assert.equal(r({ legs: ["SGHO"], stableType: "yield", label: "SGHO" }), "protocol", "Aave's sGHO savings token is not a lending market");
+  assert.equal(r({ label: "USDC · Umbrella", poolMeta: "Umbrella" }), "protocol", "Aave Umbrella staking is not a lending market");
+  assert.equal(r({ project: "blackrock-buidl", stableType: "rwa" }), "protocol", "a fund token is not called a lending market");
+  assert.equal(r({ project: "kamino-lend", chain: "Solana" }), "protocol");
+  assert.equal(r({ project: "spark-savings", bucket: "vault" }), "protocol");
+  assert.equal(r({ flowsBlock: "made-up" }), "lending", "an unknown code from intake is ignored, never shown");
+});
+
+test("every protocol in trusted-protocols.json gets an intended reason when it has no vault", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const protocols = JSON.parse(await readFile(new URL("./trusted-protocols.json", import.meta.url), "utf8"));
+  const lending = ["aave-v3", "aave-v4", "compound-v3", "compound-v2", "sparklend", "marginfi", "jupiter-lend", "save"];
+  const vaultVenues = ["morpho-blue", "yearn-finance", "euler-v2"]; // reasons come from intake (flowsBlock)
+  for (const [slug, p] of Object.entries(protocols)) {
+    if (slug.startsWith("_")) continue;
+    const got = untrackedReason({ project: slug, bucket: p.bucket, chain: "Ethereum", legs: ["USDC"], stableType: "fiat", flowsBlock: vaultVenues.includes(slug) ? "unverified" : null });
+    const want = p.bucket === "LP" ? "dex" : lending.includes(slug) ? "lending" : vaultVenues.includes(slug) ? "unverified" : "protocol";
+    assert.equal(got, want, slug + " — add it to the right list in flows.mjs on purpose");
+  }
+});
+
+test("every untracked reason code has words on the page", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const app = await readFile(new URL("../site/app.js", import.meta.url), "utf8");
+  const block = app.slice(app.indexOf("const NOT_TRACKED = {"), app.indexOf("};", app.indexOf("const NOT_TRACKED = {")));
+  for (const code of UNTRACKED_REASONS) assert.ok(block.includes(`  ${code}: "`), code);
 });

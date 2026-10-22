@@ -8,7 +8,7 @@ import { runPipeline as run, DEFAULT_CONFIG } from "./pipeline.mjs";
 const runPipeline = (pools, config = {}, maps) => run(pools, { levelWindows: false, ...config }, maps);
 import { reviewSheet } from "./review-sheet.mjs";
 import { vaultInfoFrom } from "./kamino-vaults.mjs";
-import { emptyLedger, addFlows } from "./flows.mjs";
+import { emptyLedger, addFlows, UNTRACKED_REASONS } from "./flows.mjs";
 import { makeSlim } from "./slim.mjs";
 
 const NOW = Date.parse("2026-10-16T00:00:00Z");
@@ -57,10 +57,11 @@ test("intake → pipeline → snapshot rows: every row has flows; a tracked vaul
   const snap = Object.fromEntries(rows.map((r) => [r.pool, slim(r)]));
   assert.equal(Object.keys(snap).length, 3);
   assert.ok(Object.values(snap).every((s) => ["full", "partial", "collecting", "untracked"].includes(s.flows?.status)), "every snapshot row has flows");
+  for (const s of Object.values(snap)) if (s.flows.status === "untracked") assert.ok(UNTRACKED_REASONS.includes(s.flows.reason), "every untracked row says why");
   assert.deepEqual(snap.v.vault, { chain: "ethereum", address: "0xfa017", decimals: 6 }, "the flows job reads this list");
   assert.deepEqual(snap.v.flows, { status: "full", in30: 0, out30: 7e6, net7: -7e6, net30: -7e6, maxOut30: 7e6, asOf: "2026-10-21" });
   assert.deepEqual(snap.n.flows, { status: "collecting", since: null }, "tracked but not in the ledger yet: no date");
-  assert.deepEqual(snap.a.flows, { status: "untracked" });
+  assert.deepEqual(snap.a.flows, { status: "untracked", reason: "lending" }, "an Aave market");
   assert.equal(snap.a.vault, null);
   // same pools without the vault address: the levels are identical, so flows play no part in them
   const noVault = runPipeline(intakePools(feed, { morpho }, { now: NOW }).pools.map((p) => ({ ...p, vault: null })), cfg, fm);
@@ -169,4 +170,5 @@ test("flows are tracked only for coins that stay at $1: a yield-bearing vault (s
   const row = [1, 2, 3].flatMap((w) => r.windows[w]).find((x) => x.pool === "s");
   assert.deepEqual(row.legs, ["SUSDE"]);
   assert.equal(row.vault, null, "1 sUSDe ≈ $1.19: its amounts are not dollars");
+  assert.equal(row.flowsBlock, "coin", "and that is the reason shown");
 });

@@ -81,9 +81,23 @@ function flowsStale(f) {
   const dataEnd = typeof f.asOf === "string" ? Date.parse(`${f.asOf}T00:00:00Z`) + 24 * HOUR : NaN;
   return (Number.isFinite(at) && Date.now() - at > 36 * HOUR) || (Number.isFinite(dataEnd) && Date.now() - dataEnd > 48 * HOUR);
 }
+// Why a pool has no flows (flows.mjs untrackedReason), in plain words.
+const NOT_TRACKED = {
+  dex: "this is a DEX pool",
+  lending: "this is a lending market, not a vault",
+  protocol: "money flows are not read for this protocol",
+  chain: "only vaults on Ethereum are tracked",
+  coin: "it does not hold a single coin worth $1, so amounts would not be dollars",
+  unverified: "this vault could not be confirmed for money flows",
+  version: "this older vault version does not report deposits in the standard way",
+};
 function flowsCardHtml(r) {
   const f = r.flows;
-  if (!flowsOn() || !["collecting", "partial", "full", "unavailable"].includes(f?.status)) return "";
+  if (!flowsOn()) return "";
+  if (f?.status === "untracked" && !NOT_TRACKED[f.reason]) console.warn("flows: unknown not-tracked reason", f.reason); // hidden, never a wrong sentence
+  if (f?.status === "untracked")
+    return NOT_TRACKED[f.reason] ? `<div class="dcard wide flows-card"><div class="dhead"><span class="dk">Money flows</span></div><div class="dline fl-muted">Not tracked: ${esc(NOT_TRACKED[f.reason])}.</div></div>` : "";
+  if (!["collecting", "partial", "full", "unavailable"].includes(f?.status)) return "";
   const stale = f.status !== "unavailable" && flowsStale(f);
   const head = `<div class="dhead"><span class="dk">Money flows</span>${stale && f.asOf ? `<span class="dword">As of ${esc(fmtDay(f.asOf))}</span>` : ""}</div>`;
   const card = (body) => `<div class="dcard wide flows-card${stale ? " is-stale" : ""}">${head}${body}</div>`;

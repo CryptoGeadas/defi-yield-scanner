@@ -25,6 +25,8 @@
 //   linkGuarded  true when a venue match failed its check: link to DefiLlama, never the site.
 //   vault     { chain, address, decimals } of a verified vault whose money flows are read
 //             (flows.mjs); null = flows not tracked.
+//   flowsBlock  for a Morpho / Euler / Yearn row with no vault: why ("unverified", "chain",
+//             "version", "coin", "lending" for a Morpho market); null for other venues.
 //   ageDays / ageSource  days live and where that came from (age.mjs); null = unknown.
 //   availableUsd what can be withdrawn now. DefiLlama lending pools: supplied − borrowed
 //             (the /pools figure; tvlUsd becomes total deposits). Kamino vaults: idle cash
@@ -97,11 +99,15 @@ const tvlGap = (a, b) => (a > 0 && b > 0 ? Math.abs(Math.log(a / b)) : Infinity)
 // Ethereum only: Base was measured at ~12 MB of events a day (2026-10-22), far over the
 // free Portal budget, so Base vaults are "not tracked" (#32).
 const FLOWS_NETWORKS = new Set(["ethereum"]);
-const flowsVault = (chain, address, decimals) => {
+// Intake is the one place that knows WHY a vault is not tracked, so it records it:
+// → { vault } or { block } with block = "unverified" (address or asset decimals unknown) or
+// "chain" (a verified vault on a chain the flows job does not read). Checked in that order,
+// so "only vaults on Ethereum" is said only of a vault that would be tracked there.
+const flowsTrack = (chain, address, decimals) => {
   const network = String(chain ?? "").toLowerCase();
-  return FLOWS_NETWORKS.has(network) && Number.isInteger(decimals) && typeof address === "string" && /^0x[0-9a-f]+$/i.test(address)
-    ? { chain: network, address: address.toLowerCase(), decimals }
-    : null;
+  if (!Number.isInteger(decimals) || typeof address !== "string" || !/^0x[0-9a-f]+$/i.test(address)) return { block: "unverified" };
+  if (!FLOWS_NETWORKS.has(network)) return { block: "chain" };
+  return { vault: { chain: network, address: address.toLowerCase(), decimals } };
 };
 
 function morphoIdentities(pools, registry, deny) {
@@ -129,7 +135,7 @@ function morphoIdentities(pools, registry, deny) {
       label: hit.name, // "Steakhouse USDC"
       exactUrl: ok ? `https://app.morpho.org/${hit.network}/vault/${hit.address}` : null,
       linkGuarded: !ok,
-      vault: ok ? flowsVault(hit.network, hit.address, hit.assetDecimals) : null,
+      flows: ok ? flowsTrack(hit.network, hit.address, hit.assetDecimals) : { block: "unverified" }, // guard failed: not this vault for sure
     });
   }
   return { ids, drop, guarded };
@@ -184,7 +190,7 @@ function eulerIdentities(pools, labels) {
     ids.set(pool, {
       label: hit.earn || !hit.product ? hit.name : `${hit.product} · ${vault}`,
       exactUrl: `https://app.euler.finance/${hit.earn ? "earn" : "lend"}/${hit.address}?network=${cid}`,
-      vault: flowsVault(pool.chain, hit.address, hit.decimals), // EVK and Earn vaults are ERC-4626
+      flows: flowsTrack(pool.chain, hit.address, hit.decimals), // EVK and Earn vaults are ERC-4626
     });
   }
   // labels loaded but nothing matched: the name format probably changed on one side
@@ -215,8 +221,10 @@ function yearnIdentities(pools, registry, poolUrls = {}) {
     const sameChain = Number(m[1]) === CHAIN_ID[p.chain];
     const sameAsset = !!v.asset && (p.underlyingTokens || []).map(lower).includes(v.asset);
     const sameSize = tvlGap(v.tvl, p.tvlUsd) <= Math.log(MORPHO_TVL_TOLERANCE);
-    const verified = v.v3 === true && sameChain && sameAsset && sameSize;
-    if (v.name) ids.set(p, { name: v.name, vault: verified ? flowsVault(p.chain, m[2], v.decimals) : null });
+    const flows = !(sameChain && sameAsset && sameSize) ? { block: "unverified" }
+      : v.v3 !== true ? { block: "version" } // an older vault version: no standard Deposit/Withdraw events
+      : flowsTrack(p.chain, m[2], v.decimals);
+    if (v.name) ids.set(p, { name: v.name, flows });
   }
   return ids;
 }
@@ -294,14 +302,19 @@ export function intakePools(feed, venues = {}, curation = {}) {
   const out = kept.map((p) => {
     const id = morpho.ids.get(p) ?? euler.ids.get(p);
     const legs = id?.legs ?? parseLegs(p.symbol);
+    // flows: the vault, or why not. A morpho-blue row with no vault identity is a market,
+    // not a vault; a Yearn row with no registry match has no known address. Only a vault
+    // holding one coin reads as dollars (the pipeline also checks that coin stays at $1).
+    let flows = id?.flows ?? yearn.get(p)?.flows ?? (p.project === "morpho-blue" ? { block: "lending" } : p.project === "yearn-finance" ? { block: "unverified" } : null);
+    if (flows && legs.length !== 1) flows = { block: "coin" };
     return {
       ...p,
       legs,
       label: id?.label ?? yearn.get(p)?.name ?? defaultLabel(p),
       exactUrl: id?.exactUrl ?? null,
       linkGuarded: id?.linkGuarded ?? false,
-      // flows only for a single-stablecoin vault: its amounts then read as dollars
-      vault: legs.length === 1 ? (id?.vault ?? yearn.get(p)?.vault ?? null) : null,
+      vault: flows?.vault ?? null,
+      flowsBlock: flows?.block ?? null, // why a vault-venue row is not tracked (flows.mjs untrackedReason)
     };
   });
 

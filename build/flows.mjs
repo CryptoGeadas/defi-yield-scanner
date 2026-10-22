@@ -120,8 +120,27 @@ export function freshness(chainInfo, fallbackAsOf, now) {
   return { stale, updatedAt: Number.isFinite(at) ? raw : null, ageMs: Number.isFinite(at) ? now - at : now - dataEnd };
 }
 
+// Why a row has no flows, in the reader's terms (the page turns the code into words).
+// Every sentence must be TRUE for its row, so nothing is guessed:
+//   • a Morpho / Euler / Yearn row carries the real reason from intake (row.flowsBlock);
+//   • any other row: a DEX pool, a plain lending market (only a $1 coin, never a savings
+//     token like sGHO or Aave's Umbrella staking), or else "not read for this protocol".
+// lending markets (pools you lend into), as opposed to the vaults and fund tokens that share
+// the "lend" bucket in trusted-protocols.json; a test checks every protocol there is classified
+export const LENDING_MARKETS = new Set(["aave-v3", "aave-v4", "compound-v3", "compound-v2", "sparklend", "marginfi", "jupiter-lend", "save"]);
+// stable types whose token amount reads as dollars; pipeline.mjs uses this same set to decide
+// which vaults are tracked, so the two can never disagree
+export const DOLLAR_TYPES = new Set(["fiat", "crypto", "synthetic"]);
+export const UNTRACKED_REASONS = ["dex", "lending", "protocol", "chain", "coin", "unverified", "version"];
+export function untrackedReason(row) {
+  if (UNTRACKED_REASONS.includes(row.flowsBlock)) return row.flowsBlock;
+  if (row.bucket === "LP") return "dex";
+  const plainMarket = LENDING_MARKETS.has(row.project) && DOLLAR_TYPES.has(row.stableType) && !/umbrella/i.test(`${row.label ?? ""} ${row.poolMeta ?? ""}`);
+  return plainMarket ? "lending" : "protocol";
+}
+
 export function rowFlows(row, ledger, now = Date.now()) {
-  if (!row.vault) return { status: "untracked" };
+  if (!row.vault) return { status: "untracked", reason: untrackedReason(row) };
   if (!ledger) return { status: "unavailable" };
   const v = ledger.vaults?.[keyOf(row.vault.chain, row.vault.address)];
   const asOf = asOfFor(ledger, row.vault.chain);

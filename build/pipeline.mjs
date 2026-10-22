@@ -10,6 +10,7 @@
 
 import { rateRisk, checkCuts, DEFAULT_CUTS } from "./risk.mjs";
 import { applySticky } from "./sticky.mjs";
+import { DOLLAR_TYPES } from "./flows.mjs";
 
 export const DEFAULT_CONFIG = {
   levelWindows: true,           // SWITCH: group windows by risk Level (on) or coin Tier (off)
@@ -29,8 +30,8 @@ export const DEFAULT_CONFIG = {
 };
 
 const norm = (s) => String(s ?? "").trim().toUpperCase();
-// stable types whose token amount reads as dollars (money flows); "yield" and "rwa" don't
-const DOLLAR_TYPES = new Set(["fiat", "crypto", "synthetic"]);
+// stable types whose token amount reads as dollars (money flows): DOLLAR_TYPES from
+// flows.mjs, one set shared with the untracked-reason rule so the two can never disagree
 
 // tier = riskiest (max) leg; null if any leg is unmapped. driver = the leg that set
 // it; driverType = that leg's stable type (fiat|crypto|yield|rwa|synthetic).
@@ -149,6 +150,9 @@ function evaluate(pool, cfg, protocolMap, stableMap) {
       // { chain, address, decimals } when money flows are tracked (intake), and only for a coin
       // that stays at $1: a yield-bearing or RWA token's amounts are not dollars (sUSDe ≈ $1.19)
       vault: pool.vault && DOLLAR_TYPES.has(driverType) ? pool.vault : null,
+      // why a vault-venue row has no vault (intake); a coin not at $1 wins over any other reason,
+      // since it would stay untracked on any chain
+      flowsBlock: (pool.vault || pool.flowsBlock) && !DOLLAR_TYPES.has(driverType) ? "coin" : (pool.flowsBlock ?? null),
       pool: pool.pool,
       underlyingTokens: pool.underlyingTokens ?? null,
       poolMeta: pool.poolMeta ?? null,

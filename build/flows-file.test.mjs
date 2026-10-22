@@ -28,8 +28,8 @@ test("a missing, broken or wrong-shaped ledger gives null with a warning, never 
 test("with no ledger, every tracked row's flows is 'unavailable'; untracked rows still say untracked", async () => {
   const ledger = await loadLedgerForBuild(join(dir, "missing.json"), quiet());
   const slim = makeSlim({}, {}, { curve: new Map(), morpho: new Map() }, {}, ledger);
-  const base = { project: "morpho-blue", chain: "Ethereum", label: "V", legs: ["USDC"], base: 4, reward: 0, total: 4, tvlUsd: 1e6, pool: "p" };
+  const base = { project: "morpho-blue", chain: "Ethereum", label: "V", legs: ["USDC"], stableType: "fiat", base: 4, reward: 0, total: 4, tvlUsd: 1e6, pool: "p" };
   assert.deepEqual(slim({ ...base, vault: { chain: "ethereum", address: "0xaa", decimals: 6 } }).flows, { status: "unavailable" });
-  assert.deepEqual(slim({ ...base, vault: null }).flows, { status: "untracked" });
+  assert.deepEqual(slim({ ...base, vault: null, flowsBlock: "unverified" }).flows, { status: "untracked", reason: "unverified" });
   assert.deepEqual(rowFlows({ vault: { chain: "ethereum", address: "0xaa", decimals: 6 } }, null), { status: "unavailable" });
 });

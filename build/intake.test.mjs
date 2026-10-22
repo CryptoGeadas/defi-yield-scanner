@@ -426,3 +426,35 @@ test("flows: a Base Euler vault and a vault with a non-hex address are not track
   const morpho = new Map([["1|STEAKUSDC|0xa0b8", [{ address: "0xNOTHEX", assetSymbol: "USDC", assetDecimals: 6, name: "S", network: "ethereum", tvl: 5e6 }]]]);
   assert.equal(byId(intakePools([pool({ pool: "m", project: "morpho-blue", symbol: "STEAKUSDC" })], { morpho }).pools, "m").vault, null);
 });
+
+test("flows: intake records why a vault-venue row is not tracked", () => {
+  const morpho = new Map([
+    ["1|GUARD|0xa0b8", [{ address: "0xA1", assetSymbol: "USDC", assetDecimals: 6, name: "Guard fail", network: "ethereum", tvl: 90e6 }]],
+    ["1|NODEC|0xa0b8", [{ address: "0xA2", assetSymbol: "USDC", name: "No decimals", network: "ethereum", tvl: 5e6 }]],
+    ["8453|BASEV|0xa0b8", [{ address: "0xA3", assetSymbol: "USDC", assetDecimals: 6, name: "Base vault", network: "base", tvl: 5e6 }]],
+  ]);
+  const yearn = new Map([["1|0xa4", { name: "Old yVault", decimals: 6, v3: false, asset: "0xa0b8", tvl: 5e6 }], ["1|0xa5", { name: "LP vault", decimals: 18, v3: true, asset: "0xa0b8", tvl: 5e6 }]]);
+  const feed = [
+    pool({ pool: "market", project: "morpho-blue", symbol: "USDE" }), // a Morpho market: no vault identity
+    pool({ pool: "guard", project: "morpho-blue", symbol: "GUARD" }),
+    pool({ pool: "nodec", project: "morpho-blue", symbol: "NODEC" }),
+    pool({ pool: "base", project: "morpho-blue", chain: "Base", symbol: "BASEV" }),
+    pool({ pool: "v2", project: "yearn-finance" }),
+    pool({ pool: "lp", project: "yearn-finance", symbol: "DOLA-SUSDS" }),
+    pool({ pool: "nourl", project: "yearn-finance" }),
+    pool({ pool: "aave" }),
+  ];
+  const poolUrls = { v2: "https://yearn.fi/vaults/1/0xA4", lp: "https://yearn.fi/v3/1/0xA5" };
+  const { pools } = intakePools(feed, { morpho, yearn }, { poolUrls });
+  const block = (id) => byId(pools, id).flowsBlock;
+  assert.equal(block("market"), "lending", "a Morpho market is a lending market");
+  assert.equal(block("guard"), "unverified", "failed the link guard");
+  assert.equal(block("nodec"), "unverified", "asset decimals unknown");
+  assert.equal(block("base"), "chain", "a verified vault, only not on Ethereum");
+  assert.equal(block("v2"), "version", "an older Yearn version");
+  assert.equal(block("lp"), "coin", "holds two coins");
+  assert.equal(block("nourl"), "unverified", "no known address");
+  assert.equal(block("aave"), null, "not a vault venue: flows.mjs explains it");
+  const v = eulerVaults(); v.get(1)[0].decimals = null;
+  assert.equal(byId(intakePools(eulerFeed(), { euler: v }).pools, "live").flowsBlock, "unverified", "Euler decimals unreadable");
+});
