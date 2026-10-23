@@ -241,6 +241,33 @@
       <div class="keyrow"><span class="k">Not tracked</span><span>Flows are read only for single-coin vaults on Ethereum (Morpho, Yearn, Euler). The card says why a pool is not one of them: a DEX pool, a lending market, a protocol whose flows are not read, another chain, a coin not worth $1, an older vault version, or a vault that could not be confirmed.</span></div>
       <p class="muted">A day with no deposits or withdrawals shows a real $0. Missing days are never counted as $0.</p>
 
+      <h2 id="deposits">How deposits work</h2>
+      <p>
+        Some rows have a <strong>Deposit</strong> button. It opens a panel where you put your stablecoins into
+        that vault without leaving the page. You connect your own browser wallet (MetaMask, Rabby or similar)
+        and sign every step in it. The route and the transaction come from
+        <a href="https://li.fi" target="_blank" rel="noopener">LI.FI</a>, a service that finds the way from your
+        coin to the vault and builds the transaction for you to sign.
+      </p>
+      <p>
+        <strong>This site never holds your money, your keys or your data.</strong> Your funds go from your wallet
+        to the vault through LI.FI’s contract, and the vault’s shares come back to your wallet. The site takes
+        no fee. LI.FI charges its own fee (0.25% today), and the network charges gas; the quote shows both before
+        you sign. This is not financial advice: the risk level on the row stays the same, and the panel is the
+        same for every level.
+      </p>
+      <p>
+        Before anything is signed, the panel checks LI.FI’s answer against the deposit you asked for: the chain,
+        the coin, the amount, your address, the vault’s token at the end and LI.FI’s own contract. If any of it
+        doesn’t match, nothing is signed. When your allowance is too low, you first approve exactly the amount
+        you deposit, never more.
+      </p>
+      <div class="keyrow"><span class="k">Which rows</span><span>A row gets a button when the Scanner can match it to a vault LI.FI can deposit into: by the vault’s contract address (Morpho, Yearn and similar), or, for Aave’s Core markets and Spark Savings, when exactly one LI.FI vault fits the chain, the coin and the pool’s size.</span></div>
+      <div class="keyrow"><span class="k">No button</span><span>Pools on Solana, DEX pools (LP), KYC products, vaults LI.FI doesn’t list or can’t deposit into today, and any match the Scanner isn’t sure of. A wrong match would send money to the wrong vault, so when in doubt there is no button. Use the row’s venue link instead.</span></div>
+      <div class="keyrow"><span class="k">Another chain</span><span>You can pay with the same coin from another chain. LI.FI bridges it to the vault’s chain, then deposits. The panel shows the time LI.FI expects and follows the transfer until it is done.</span></div>
+      <div class="keyrow"><span class="k">If a bridge stops halfway</span><span>Rarely, the bridge works but the deposit on the other side does not. Then you hold the coin (or another token) in your wallet on the vault’s chain, not vault shares, or the transfer is refunded to the chain you paid from. The panel says which, with links to the transactions and to LI.FI’s tracker. Nothing is lost; you can deposit again from there.</span></div>
+      <div class="keyrow"><span class="k">Withdrawals</span><span>Not in the panel yet. Withdraw on the vault’s own app, through the row’s venue link.</span></div>
+
       <h2>Data & freshness</h2>
       <p>
         Pool data comes from <a href="https://defillama.com/yields">DefiLlama</a>. A scheduled job refreshes
