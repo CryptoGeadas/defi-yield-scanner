@@ -5,7 +5,7 @@
 // Per-pool state lives here, not in the DOM: app.js re-renders the rows on every sort or
 // filter, and a deposit that is running must survive that.
 
-import { discoverWallets, safeIcon, callBalanceOf, callAllowance, callApprove, needsApproval, mustResetFirst, sameChain, buildDepositTx, explorerTx, shortAddr, isRejection, readChain, waitForReceipt, readStatus, resolvePayTokens, CHAIN_NAME, PAY_CHAINS } from "./wallet.js";
+import { discoverWallets, safeIcon, callBalanceOf, callAllowance, callApprove, needsApproval, mustResetFirst, sameChain, buildDepositTx, explorerTx, shortAddr, isRejection, readChain, waitForReceipt, readStatus, resolvePayTokens, CHAIN_NAME, PAY_CHAINS, explorerAddress, addChainParams } from "./wallet.js";
 
 const QUOTE = "https://li.quest/v1/quote";
 const INTEGRATOR = "defi-yield-scanner"; // shows up in LI.FI's analytics; no fee is charged
@@ -14,6 +14,9 @@ const DEBOUNCE_MS = 600;
 const STATUS = "https://li.quest/v1/status";
 const STATUS_EVERY_MS = 10_000, STATUS_MAX_MS = 30 * 60_000; // bridges take seconds to tens of minutes
 const TIMEOUT_MS = 20_000; // LI.FI can take 15 s+ on a cold route; past this, say so instead of waiting forever
+const QUOTE_OLD_MS = 60_000; // past this the quote is marked old; it is never refreshed by itself
+const INSTALL = '<a href="https://metamask.io/download/" target="_blank" rel="noopener">MetaMask</a> or <a href="https://rabby.io/" target="_blank" rel="noopener">Rabby</a>';
+const DISCLAIMER = 'Not financial advice. You sign in your own wallet. Funds go straight to the vault through LI.FI; this site never holds them. <a href="./methodology.html#deposits">How deposits work</a>';
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
@@ -95,6 +98,32 @@ export function timeText(secs) {
   if (secs == null || !Number.isFinite(n) || n < 0) return "time unknown";
   return n < 60 ? "under a minute" : `about ${Math.round(n / 60)} min`;
 }
+// LI.FI's quote → the facts the panel shows, in plain words. Tool names (OKX, Across,
+// Composer) are not shown: the route is described by what happens.
+// → { minimum, symbol, feeUsd, feePct (LI.FI's own fee), otherFeeUsd (bridge/DEX fees in the
+// route), onTopUsd (fees paid on top of the amount), gasUsd, time, route }; a number is null
+// when LI.FI gave none (shown as unknown, never $0).
+export function quoteFacts(raw, { payChainId, vaultChainId }) {
+  const est = raw?.estimate ?? {}, to = raw?.action?.toToken ?? {};
+  const num = (v) => (v == null || v === "" ? NaN : Number(v)); // "" is no value, not 0
+  const usd = (xs) => (xs.length ? (((v) => (Number.isFinite(v) ? v : null))(xs.reduce((t, x) => t + num(x?.amountUSD), 0))) : null);
+  const all = Array.isArray(est.feeCosts) ? est.feeCosts : [];
+  const lifi = (x) => /li\.?fi/i.test(String(x?.name ?? ""));
+  const fees = all.filter((x) => x?.included !== false && lifi(x));
+  const other = all.filter((x) => x?.included !== false && !lifi(x));
+  const onTop = all.filter((x) => x?.included === false);
+  const pct = fees.reduce((t, x) => t + num(x?.percentage), 0);
+  const min = /^\d+$/.test(String(est.toAmountMin)) && Number.isInteger(to.decimals) ? Number(BigInt(est.toAmountMin)) / 10 ** to.decimals : null;
+  const vault = CHAIN_NAME[vaultChainId] ?? "the vault's chain";
+  return {
+    minimum: min, symbol: String(to.symbol ?? ""),
+    feeUsd: usd(fees), feePct: fees.length && Number.isFinite(pct) ? pct * 100 : null,
+    otherFeeUsd: usd(other), onTopUsd: usd(onTop),
+    gasUsd: usd(Array.isArray(est.gasCosts) ? est.gasCosts : []),
+    time: timeText(est.executionDuration),
+    route: payChainId === vaultChainId ? `Swap and deposit on ${vault}` : `Bridge to ${vault}, then deposit`,
+  };
+}
 const fmt = (n) => n.toLocaleString("en-US", { maximumFractionDigits: n < 1 ? 6 : 2 });
 const fmtUnits = (units, decimals) => fmt(Number(units) / 10 ** decimals);
 
@@ -103,13 +132,26 @@ const fmtUnits = (units, decimals) => fmt(Number(units) / 10 ** decimals);
 // phase: idle | quoting | approve | approving | confirm | depositing | bridging | done | failed | unknown
 // fromChain: the chain the user pays on (null = the vault's chain); payTokens: chainId →
 // the same coin on that chain | null, from LI.FI's token list (resolvePayTokens).
-const W = { list: null, picking: false, wallet: null, account: null };
+const W = { list: null, picking: false, wallet: null, account: null, chainId: null };
 const pools = new Map();
 const poolState = (id) => {
   if (!pools.has(id)) pools.set(id, { amount: "", quote: null, quoteMsg: null, phase: "idle", twoSteps: false, msg: null, hash: null, sent: null, lastTx: null, balance: null, balanceFailed: false, fromChain: null, payTokens: null });
   return pools.get(id);
 };
 let view = null; // the mounted panel: { slot, row, s, paint, refresh }
+// A wallet can announce itself after the first look (slow extension, unlocked later): add
+// it and redraw, so "No browser wallet found" never sticks. Listens once per page.
+let lateListening = false;
+function listenForLateWallets() {
+  if (lateListening) return;
+  lateListening = true;
+  addEventListener("eip6963:announceProvider", (e) => {
+    const w = e.detail;
+    if (!w?.provider || !w.info?.uuid || !w.info?.name || !W.list || W.list.some((x) => x.info.uuid === w.info.uuid)) return;
+    W.list = W.list.filter((x) => x.info.uuid !== "injected").concat(w);
+    view?.paint();
+  });
+}
 const listening = new WeakSet(); // providers we already follow for account changes
 
 // The user switched or locked the account in the wallet: follow it, never deposit from
@@ -148,7 +190,11 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
   const chainOrder = [d.chainId, ...PAY_CHAINS.filter((c) => c !== d.chainId)];
 
   slot.innerHTML = `<div class="dcard wide dep-card">
-      <div class="dhead"><span class="dk">Deposit</span><span class="dep-into">into ${esc(row.symbol)} on ${esc(row.chain)}</span></div>
+      <div class="dhead"><span class="dk">Deposit</span><span class="dep-into">${(() => {
+        const url = explorerAddress(d.chainId, d.token);
+        const v = `vault ${esc(shortAddr(d.token))}`;
+        return `Into ${esc(row.symbol)} on ${esc(row.chain)} · ${url ? `<a href="${esc(url)}" target="_blank" rel="noopener" title="Check the vault contract">${v} ↗</a>` : v}`;
+      })()}</span></div>
       <div class="dep-cols">
         <div class="dep-pay">
           <fieldset class="dep-from"><legend class="dep-lbl">Pay with ${esc(sym)} on</legend><div class="dep-chains">${chainOrder.map((c) =>
@@ -161,6 +207,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
       </div>
       <div class="dep-foot">
         <div class="dep-wallet"></div>
+        <p class="dep-note dep-disc">${DISCLAIMER}</p>
         <div class="dep-act"></div>
         <p class="dep-msg" role="status" aria-live="polite"></p>
       </div>
@@ -186,8 +233,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
     // You get
     const a = parseAmount(s.amount, P?.decimals ?? d.underlying.decimals);
     $(".dep-get").innerHTML = `<span class="dep-lbl">You get</span>` + (
-      s.quote ? `<div class="dep-big">${fmt(s.quote.read.amount)} <small>${esc(s.quote.read.symbol)}</small></div>` + (s.quote.read.usd != null ? `<p class="dep-note">worth $${s.quote.read.usd.toFixed(2)}</p>` : "")
-        + (P && P.chainId !== d.chainId ? `<p class="dep-note">${esc(timeText(s.quote.raw.estimate?.executionDuration))}, bridging from ${esc(CHAIN_NAME[P.chainId])}</p>` : "")
+      s.quote ? quoteHtml(s.quote)
       : s.quoteMsg ? `<p class="dep-note ${s.quoteMsg.warn ? "dep-warn" : ""}">${s.quoteMsg.html}</p>`
       : a.error === "empty" || !s.amount ? `<p class="dep-note">Enter an amount to see what you get</p>`
       : a.error ? `<p class="dep-note dep-warn">${esc(AMOUNT_HELP[a.error](P?.symbol ?? sym, P?.decimals ?? d.underlying.decimals))}</p>`
@@ -201,16 +247,42 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
       const icon = safeIcon(x.info.icon);
       return `<button type="button" class="btn btn-sm dep-wbtn" data-act="pick" data-i="${i}">${icon ? `<img src="${esc(icon)}" alt="" width="18" height="18">` : ""}${esc(x.info.name)}</button>`;
     }).join("")}</div>`;
-    else w.innerHTML = W.list && !W.list.length ? `<p class="dep-note">No browser wallet found. Quotes still work.</p>` : "";
+    else w.innerHTML = W.list && !W.list.length ? `<p class="dep-note">No browser wallet found. Install ${INSTALL} to deposit; quotes still work. <button type="button" class="dep-link" data-act="connect">Look again</button></p>` : "";
     // the one primary button
     const act = $(".dep-act");
     const amountLabel = !a.error && P ? ` ${fmtUnits(a.units, P.decimals)} ${P.symbol}` : "";
     if (busy()) act.innerHTML = `<button type="button" class="btn btn-primary btn-sm" disabled>${esc(BUSY[s.phase](s))}</button>`;
     else if (s.phase === "done") act.innerHTML = `<button type="button" class="btn btn-sm" data-act="again">New deposit</button>`;
     else if (!W.account) act.innerHTML = W.picking || (W.list && !W.list.length) ? "" : `<button type="button" class="btn btn-primary btn-sm" data-act="connect">Connect wallet</button>`;
+    else if (P && W.chainId && !sameChain(W.chainId, P.chainId)) act.innerHTML = `<button type="button" class="btn btn-primary btn-sm" data-act="switch">Switch to ${esc(CHAIN_NAME[P.chainId])}</button>`;
+    else if (P && !a.error && s.balanceUnits != null && s.balanceFor === `${P.chainId}|${W.account}` && a.units > s.balanceUnits) act.innerHTML = `<button type="button" class="btn btn-primary btn-sm" disabled>Not enough ${esc(P.symbol)}</button>`;
     else act.innerHTML = `<button type="button" class="btn btn-primary btn-sm" data-act="deposit" ${s.quote ? "" : "disabled"}>Deposit${esc(amountLabel)}</button>`;
     // what happened
     $(".dep-msg").innerHTML = s.msg ? `<span class="${s.msg.kind === "ok" ? "dep-ok" : s.msg.kind === "warn" ? "dep-warn" : ""}">${s.msg.html}</span>` : "";
+  }
+
+  function quoteHtml(q) {
+    const f = quoteFacts(q.raw, { payChainId: q.pay.chainId, vaultChainId: d.chainId });
+    const money = (v) => (v == null ? "unknown" : v < 0.01 && v > 0 ? "under $0.01" : `$${v.toFixed(2)}`);
+    const row = (k, v) => `<dt>${k}</dt><dd>${v}</dd>`;
+    return `<div class="dep-big">${fmt(q.read.amount)} <small>${esc(q.read.symbol)}</small> <span class="dep-shares">(vault shares)</span></div>`
+      + `<p class="dep-note">worth ${q.read.usd != null ? money(q.read.usd) : "unknown"}</p>`
+      + `<dl class="dep-facts">`
+      + row("Minimum you get", f.minimum != null ? `${fmt(f.minimum)} ${esc(f.symbol)}` : "unknown")
+      + row("LI.FI fee", f.feeUsd != null ? `${money(f.feeUsd)}${f.feePct != null ? ` (${f.feePct > 0 && f.feePct < 0.01 ? "under 0.01" : +f.feePct.toFixed(2)}%)` : ""}` : "unknown")
+      + (f.otherFeeUsd != null ? row("Bridge and swap fees", money(f.otherFeeUsd)) : "")
+      + (f.onTopUsd != null ? row("Paid on top", money(f.onTopUsd)) : "")
+      + row("Network fee", money(f.gasUsd))
+      + row("Time", esc(f.time))
+      + row("Route", esc(f.route))
+      + `</dl>`
+      + ageHtml(q);
+  }
+  function ageHtml(q) {
+    const age = Math.round((Date.now() - q.at) / 1000);
+    return age * 1000 >= QUOTE_OLD_MS
+      ? `<p class="dep-note dep-age dep-warn">This quote is over a minute old. <button type="button" class="dep-link" data-act="refresh">Refresh quote</button></p>`
+      : `<p class="dep-note dep-age">Quote by LI.FI · ${age} s ago</p>`;
   }
 
   // ── quotes ──
@@ -244,7 +316,9 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
     try { j = JSON.parse(text); } catch { /* handled below */ }
     if (!r.ok) {
       console.warn(`deposit quote: HTTP ${r.status}`, j?.message ?? text.slice(0, 200));
-      throw new Error(r.status === 429 ? "too many quotes from this connection. Wait a few minutes, then try again" : j?.message || `no route (HTTP ${r.status})`);
+      if (r.status === 429) throw plainError("LI.FI is limiting quotes from this connection right now. Wait a few minutes, then change the amount to try again. The vault itself is fine.");
+      if (r.status === 404 || /no (available )?(quotes|routes)/i.test(String(j?.message))) throw plainError("No route for this amount right now. Try another amount, or pay from another chain.");
+      throw new Error(j?.message || `no route (HTTP ${r.status})`);
     }
     return { raw: j, read: readQuote(j, d), units, pay: P, at: Date.now() };
   }
@@ -267,7 +341,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
       const timedOut = mine.signal.reason?.name === "TimeoutError";
       if (!timedOut) console.warn("deposit quote failed:", e);
       s.quote = null;
-      s.quoteMsg = { warn: true, html: timedOut ? "LI.FI took too long to answer. Change the amount to try again." : `No quote: ${esc(e.message)}` };
+      s.quoteMsg = { warn: true, html: timedOut ? "LI.FI took too long to answer. Change the amount to try again." : e.plain ? esc(e.message) : `No quote: ${esc(e.message)}` };
     } finally {
       clearTimeout(late);
     }
@@ -291,11 +365,11 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
     try {
       const raw = await readChain(P.chainId, "eth_call", [{ to: P.address, data: callBalanceOf(W.account) }, "latest"]);
       if (pay()?.chainId !== P.chainId) return; // the user picked another chain meanwhile
-      s.balance = fmtUnits(BigInt(raw), P.decimals); s.balanceFailed = false;
+      s.balanceUnits = BigInt(raw); s.balanceFor = `${P.chainId}|${W.account}`; s.balance = fmtUnits(s.balanceUnits, P.decimals); s.balanceFailed = false;
     } catch (e) {
       if (pay()?.chainId !== P.chainId) return; // a read for the chain the user just left
       console.warn("deposit: balance read failed", e);
-      s.balance = null; s.balanceFailed = true;
+      s.balance = null; s.balanceUnits = null; s.balanceFailed = true;
     }
     draw();
   }
@@ -306,7 +380,12 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
       const [account] = await w.provider.request({ method: "eth_requestAccounts" });
       if (!account) throw new Error("the wallet returned no account");
       W.wallet = w; W.account = account; s.msg = null;
-      if (!listening.has(w.provider)) { listening.add(w.provider); w.provider.on?.("accountsChanged", (acc) => onAccounts(w.provider, acc)); }
+      W.chainId = await w.provider.request({ method: "eth_chainId" }).catch(() => null);
+      if (!listening.has(w.provider)) {
+        listening.add(w.provider);
+        w.provider.on?.("accountsChanged", (acc) => onAccounts(w.provider, acc));
+        w.provider.on?.("chainChanged", (id) => { if (W.wallet?.provider === w.provider) { W.chainId = id; view?.paint(); } });
+      }
       readBalance();
       requote(); // quotes now use the real sender
     } catch (e) {
@@ -316,10 +395,25 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
   }
 
   async function onConnectClick() {
-    W.list = await discoverWallets();
+    // a fresh look, merged with the wallets already known (one that announced late may not answer again)
+    const found = await discoverWallets(), known = (W.list || []).filter((x) => !found.some((f) => f.info.uuid === x.info.uuid));
+    W.list = found.some((f) => f.info.uuid !== "injected") ? found.filter((f) => f.info.uuid !== "injected").concat(known) : found.concat(known);
     if (W.list.length === 1) return connect(W.list[0]);
     W.picking = W.list.length > 1;
     draw();
+  }
+
+  // Ask the wallet to switch to a chain; when it doesn't know the chain (4902), offer to add it.
+  async function switchChain(p, chainId) {
+    const hex = "0x" + chainId.toString(16);
+    try { await p.request({ method: "wallet_switchEthereumChain", params: [{ chainId: hex }] }); }
+    catch (e) {
+      if (!(e?.code === 4902 || e?.data?.originalError?.code === 4902)) throw e;
+      const params = addChainParams(chainId);
+      if (!params) throw e;
+      await p.request({ method: "wallet_addEthereumChain", params: [params] });
+    }
+    W.chainId = await p.request({ method: "eth_chainId" }).catch(() => W.chainId);
   }
 
   // A fresh quote for exactly this deposit, checked into the transaction to sign.
@@ -356,10 +450,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
     try {
       s.phase = "quoting"; draw();
       let { raw, spender, tx } = await freshTx(a.units, from, P); // always fresh before signing
-      if (!sameChain(await p.request({ method: "eth_chainId" }), P.chainId)) {
-        try { await p.request({ method: "wallet_switchEthereumChain", params: [{ chainId: hex }] }); }
-        catch (e) { if (e?.code === 4902 || e?.data?.originalError?.code === 4902) throw plainError(`Your wallet doesn't have ${CHAIN_NAME[P.chainId]} yet. Add it in your wallet, then try again. Nothing was sent.`); throw e; }
-      }
+      if (!sameChain(await p.request({ method: "eth_chainId" }), P.chainId)) await switchChain(p, P.chainId);
       await guard(); // some wallets accept the switch request without switching
       if (spender) {
         const allowance = await readChain(P.chainId, "eth_call", [{ to: P.address, data: callAllowance(from, spender) }, "latest"]);
@@ -462,8 +553,17 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
     const act = b.dataset.act;
     if (act === "connect") onConnectClick();
     else if (act === "pick") connect(W.list[+b.dataset.i]);
-    else if (act === "disconnect") { W.account = null; W.wallet = null; s.balance = null; requote(); }
+    else if (act === "disconnect") { W.account = null; W.wallet = null; W.chainId = null; s.balance = null; s.balanceUnits = null; requote(); }
     else if (act === "deposit") deposit();
+    else if (act === "refresh") requote();
+    else if (act === "switch") {
+      const P = pay();
+      b.disabled = true; // a second request while the wallet shows the first one would fail
+      switchChain(W.wallet.provider, P.chainId).then(() => { s.msg = null; draw(); }).catch((e) => {
+        s.msg = { kind: "warn", html: isRejection(e) ? `Your wallet stayed on its network. Switch to ${esc(CHAIN_NAME[P.chainId])} to deposit.` : `The wallet could not switch: ${esc(e.message)}` };
+        draw();
+      });
+    }
     else if (act === "again") { s.phase = "idle"; s.hash = null; s.msg = s.lastTx ? { kind: "", html: s.lastTx } : null; requote(); }
   });
   input.value = s.amount;
@@ -480,10 +580,14 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
   if (!s.payTokens || PAY_CHAINS.some((c) => !s.payTokens.has(c)))
     resolvePayTokens(d.chainId, d.underlying).then((m) => { s.payTokens = m; s.payTokensChecked = true; draw(); });
 
-  view = { slot, row, s, paint, refresh: () => { s.balance = null; readBalance(); requote(); } };
+  if (W.list == null) discoverWallets().then((list) => { if (W.list == null) W.list = list; draw(); });
+  listenForLateWallets();
+  // the age line only (so focus elsewhere is kept); never a new quote
+  const tick = setInterval(() => { const el = slot.querySelector(".dep-age"); if (s.quote && el && !busy()) el.outerHTML = ageHtml(s.quote); }, 5000);
+  view = { slot, row, s, paint, refresh: () => { s.balance = null; s.balanceUnits = null; readBalance(); requote(); } };
   if (busy() || ["done", "failed", "unknown"].includes(s.phase)) draw(); // a deposit in progress: show it, don't re-quote
   else requote();
   if (W.account && s.balance == null) readBalance();
   if (focus && !busy()) input.focus();
-  return () => { stopQuote(); if (view?.slot === slot) view = null; };
+  return () => { stopQuote(); clearInterval(tick); if (view?.slot === slot) view = null; };
 }

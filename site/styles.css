@@ -308,3 +308,13 @@
 .dep-chip.on .chic { opacity: 1; }
 .dep-chip:has(input:disabled) { opacity: 0.45; cursor: not-allowed; }
 .dep-chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* deposit panel (#44): quote facts, vault line, disclaimer */
+.dep-into a { color: var(--fg); text-underline-offset: 3px; text-decoration-color: var(--border); }
+.dep-into a:hover, .dep-into a:focus-visible { text-decoration-color: var(--accent); }
+.dep-shares { font: 12px var(--font-body); color: var(--muted); }
+.dep-facts { display: grid; grid-template-columns: auto 1fr; gap: 3px 14px; margin: 8px 0 0; font: 12px var(--font-mono); font-variant-numeric: tabular-nums; }
+.dep-facts dt { color: var(--muted); }
+.dep-facts dd { margin: 0; color: var(--fg); overflow-wrap: anywhere; }
+.dep-age { margin-top: 6px; font-size: 12px; }
+.dep-disc { font-size: 12px; max-width: 75ch; }
+.dep-disc a { color: var(--fg); text-underline-offset: 3px; }

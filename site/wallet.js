@@ -146,6 +146,16 @@ async function chainDecimals(chainId, token) {
   return Number(BigInt(await readChain(chainId, "eth_call", [{ to: token, data: "0x313ce567" }, "latest"])));
 }
 
+export const explorerAddress = (chainId, address) => (CHAINS[chainId] && IS_ADDR.test(String(address)) ? `${CHAINS[chainId].explorer}/address/${address}` : null);
+
+// What wallet_addEthereumChain needs when the wallet doesn't know a chain yet (EIP-3085).
+export function addChainParams(chainId) {
+  const c = CHAINS[chainId];
+  if (!c) return null;
+  const native = chainId === 137 ? { name: "POL", symbol: "POL", decimals: 18 } : { name: "Ether", symbol: "ETH", decimals: 18 };
+  return { chainId: "0x" + chainId.toString(16), chainName: CHAIN_NAME[chainId], nativeCurrency: native, rpcUrls: [c.rpc], blockExplorerUrls: [c.explorer] };
+}
+
 export const explorerTx = (chainId, hash) => (CHAINS[chainId] && IS_HASH.test(String(hash)) ? `${CHAINS[chainId].explorer}/tx/${hash}` : null);
 export const shortAddr = (a) => `${a.slice(0, 6)}…${a.slice(-4)}`;
 // EIP-1193 code 4001 = the user said no in the wallet. Some wallets wrap it in an RPC error
