@@ -325,7 +325,7 @@ function detailHtml(r, tier) {
   // one primary button per row: Deposit when the row can take one, else the venue link
   const depId = `dep-${esc(r.poolId)}`;
   const deposit = canDeposit(r)
-    ? `<button class="btn btn-primary btn-sm dep-toggle" type="button" aria-expanded="${state.depositOpen}" aria-controls="${depId}">Deposit</button>`
+    ? `<button class="btn ${state.depositOpen ? "" : "btn-primary"} btn-sm dep-toggle" type="button" aria-expanded="${state.depositOpen}" aria-controls="${depId}">Deposit</button>`
     : "";
 
   const composition =
@@ -465,6 +465,7 @@ function toggleRow(id) {
 function toggleDeposit(btn) {
   state.depositOpen = !state.depositOpen;
   btn.setAttribute("aria-expanded", String(state.depositOpen));
+  btn.classList.toggle("btn-primary", !state.depositOpen); // the panel's own button is the primary while it is open
   if (state.depositOpen) return mountDepositPanel({ focus: true });
   stopDeposit();
   const slot = document.querySelector(".dep-slot");

@@ -282,3 +282,19 @@
   .dep-pay { padding: 0 0 12px; }
   .dep-get { padding: 12px 0 0; border-left: 0; border-top: 1px solid var(--border); }
 }
+/* deposit panel (#42): wallet line, the one action, what happened */
+.dep-foot { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+.dep-foot:has(.dep-wallet:empty):has(.dep-act:empty):has(.dep-msg:empty) { display: none; }
+.dep-wallet:empty, .dep-act:empty, .dep-msg:empty { display: none; }
+.dep-acct { font: 12px var(--font-mono); color: var(--muted); }
+.dep-link { background: none; border: 0; padding: 0 0 0 6px; color: var(--fg); font: 12px var(--font-mono); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--border); cursor: pointer; }
+.dep-link:hover, .dep-link:focus-visible { text-decoration-color: var(--accent); }
+.dep-link[disabled] { opacity: 0.5; cursor: not-allowed; }
+.dep-pick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.dep-wbtn { display: inline-flex; align-items: center; gap: 8px; }
+.dep-wbtn img { display: block; border-radius: 4px; }
+.dep-act .btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+.dep-msg { margin: 0; font-size: 13px; color: var(--muted); }
+.dep-msg a { color: var(--fg); text-underline-offset: 3px; }
+.dep-ok { color: var(--up); }
+.dep-amt input:disabled { opacity: 0.6; }

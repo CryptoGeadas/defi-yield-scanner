@@ -3,7 +3,7 @@
 // Run: node --test build/*.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseAmount, readQuote } from "../site/deposit.js";
+import { parseAmount, readQuote, failureText } from "../site/deposit.js";
 
 test("parseAmount: plain amounts become the token's smallest unit", () => {
   assert.deepEqual(parseAmount("12.5", 6), { units: 12_500_000n });
@@ -16,6 +16,8 @@ test("parseAmount: plain amounts become the token's smallest unit", () => {
 
 test("parseAmount: a comma works as the decimal mark", () => {
   assert.deepEqual(parseAmount("1,5", 6), { units: 1_500_000n });
+  assert.deepEqual(parseAmount("1,000", 6), { error: "format" }, "a thousands mark or a decimal? never guess");
+  assert.deepEqual(parseAmount("1,0001", 6), { units: 1_000_100n });
 });
 
 test("parseAmount: each bad input says why", () => {
@@ -52,4 +54,17 @@ test("readQuote: a broken answer gives a plain message, not a TypeError", () => 
 
 test("readQuote: a missing dollar value is null, not NaN", () => {
   assert.equal(readQuote(answer({ estimate: { toAmount: "1000000000000000000" } }), DEP).usd, null);
+});
+
+test("failureText: what the user is told after an error", () => {
+  const rej = { code: 4001 };
+  assert.equal(failureText(rej), "You rejected it in your wallet. Nothing was sent.");
+  assert.match(failureText(rej, { approved: true }), /approval went through, but nothing was deposited/);
+  assert.equal(failureText(Object.assign(new Error("Already written."), { plain: true })), "Already written.");
+  assert.equal(failureText(new Error("insufficient funds")), "The deposit did not go through: insufficient funds. Nothing was deposited.");
+  assert.match(failureText(new Error("x"), { approved: true }), /approval went through/);
+  const after = failureText(new Error("RPC down"), { sent: "250 USDC" });
+  assert.match(after, /after the deposit was sent/);
+  assert.doesNotMatch(after, /[Nn]othing was (sent|deposited)/, "never 'nothing was sent' once it went out");
+  assert.equal(failureText(new Error("<b>x</b>")), "The deposit did not go through: &lt;b&gt;x&lt;/b&gt;. Nothing was deposited.", "error text is escaped");
 });
