@@ -257,3 +257,28 @@
   .grid { grid-template-columns: 26px 1fr 70px 50px; gap: 8px; }
   .grid .bar, .grid .mean, .grid .tvl, .grid .chev, .thead .th.hide-sm { display: none; }
 }
+
+/* deposit panel (#39): one card like the other detail cards; "You pay" | "You get" split by one line */
+.dep-slot { margin-top: 12px; }
+.dep-card .dhead { margin-bottom: 10px; }
+.dep-into { font: 12px var(--font-mono); color: var(--muted); text-align: right; }
+.dep-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.dep-pay { padding-right: 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dep-get { padding-left: 16px; border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dep-lbl { font: 12px var(--font-mono); color: var(--muted); }
+.dep-amt { display: flex; align-items: center; border: 1px solid var(--border); border-radius: var(--r-ctl); background: var(--bg); }
+.dep-amt:focus-within { border-color: var(--accent); }
+.dep-amt input {
+  flex: 1; min-width: 0; padding: 8px 10px; background: none; border: 0; outline: 0; color: var(--fg);
+  font: 500 22px var(--font-mono); font-variant-numeric: tabular-nums;
+}
+.dep-unit { padding: 0 10px; font: 13px var(--font-mono); color: var(--muted); }
+.dep-big { font: 500 22px var(--font-mono); color: var(--fg); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.dep-big small { font-size: 13px; color: var(--muted); }
+.dep-note { margin: 0; font-size: 13px; color: var(--muted); }
+.dep-warn { color: var(--warn); }
+@media (max-width: 640px) {
+  .dep-cols { grid-template-columns: 1fr; }
+  .dep-pay { padding: 0 0 12px; }
+  .dep-get { padding: 12px 0 0; border-left: 0; border-top: 1px solid var(--border); }
+}

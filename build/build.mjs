@@ -19,6 +19,7 @@ import { vendorLogos } from "./logos.mjs";
 import { loadLedgerForBuild } from "./flows-file.mjs";
 import { flowsCoverage } from "./flows.mjs";
 import { makeSlim } from "./slim.mjs";
+import { fetchEarnVaults, depositIndex, matchDeposit, depositLog } from "./deposits.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SITE = join(HERE, "..", "site");
@@ -159,7 +160,10 @@ async function main() {
   // FLOWS_CARD=1 shows the Money flows card for a local build only (like LEVEL_WINDOWS).
   const flowsOn = process.env.FLOWS_CARD ? process.env.FLOWS_CARD === "1" : DEFAULT_CONFIG.flowsCard;
   if (process.env.FLOWS_CARD === "1" && !DEFAULT_CONFIG.flowsCard) console.warn("  ⚠ FLOWS_CARD=1: Money flows card on — local check only, do NOT commit site/data/latest.json from this build");
-  const r = runPipeline(pools, { baseRate: rate, sticky: { state: stickyPrev, now: Date.now() }, levelWindows: levelsOn, flowsCard: flowsOn }, maps);
+  // DEPOSITS=1 shows the Deposit button for a local build only (like FLOWS_CARD).
+  const depositsOn = process.env.DEPOSITS ? process.env.DEPOSITS === "1" : DEFAULT_CONFIG.deposits;
+  if (process.env.DEPOSITS === "1" && !DEFAULT_CONFIG.deposits) console.warn("  ⚠ DEPOSITS=1: Deposit button on — local check only, do NOT commit site/data/latest.json from this build");
+  const r = runPipeline(pools, { baseRate: rate, sticky: { state: stickyPrev, now: Date.now() }, levelWindows: levelsOn, flowsCard: flowsOn, deposits: depositsOn }, maps);
 
   // Age data health over the rows we show: if an age source breaks (renamed field, API
   // change), every pool silently drops to "unknown" (Level 2). Warn loudly above 20%.
@@ -190,7 +194,18 @@ async function main() {
     throw new Error(`sanity floor: only ${r.stats.kept} pools kept (< ${MIN_KEPT}); feed likely partial — refusing to overwrite`);
 
   const ledger = await loadLedgerForBuild(FLOWS);
-  const slim = makeSlim(names, siteUrls, venues, poolUrls, ledger, Date.now());
+  const toRow = makeSlim(names, siteUrls, venues, poolUrls, ledger, Date.now());
+  // Deposit targets (#39): LI.FI's vault list, matched per published row. Always computed,
+  // so the data can be checked before the switch goes on; the site shows them only when on.
+  const earnVaults = await fetchEarnVaults({ key: process.env.LIFI_API_KEY });
+  // ~500 listed today; far fewer means an expired key or a broken API, so flag it in CI
+  const MIN_EARN = 50;
+  if (process.env.LIFI_API_KEY && earnVaults.length < MIN_EARN)
+    console.warn(`${process.env.GITHUB_ACTIONS === "true" ? "::warning::" : "  ⚠ "}deposits: LI.FI listed only ${earnVaults.length} vaults (< ${MIN_EARN}) — check the LIFI_API_KEY secret; rows lose their Deposit button`);
+  const earnIndex = depositIndex(earnVaults);
+  const slim = (x) => { const s = toRow(x); return { ...s, ...matchDeposit(s, earnIndex) }; };
+  const windows = { 1: r.windows[1].map(slim), 2: r.windows[2].map(slim), 3: r.windows[3].map(slim) };
+  console.log(`  ${depositLog([1, 2, 3].flatMap((w) => windows[w]), earnVaults.length)}`);
 
   const payload = {
     generatedAt: new Date().toISOString(),
@@ -199,11 +214,7 @@ async function main() {
     config: { ...r.config, sticky: undefined }, // the sticky state lives in levels-state.json
     stats: r.stats,
     notices, // [{ id, text }]: missing venue data, shown above the windows
-    windows: {
-      1: r.windows[1].map(slim),
-      2: r.windows[2].map(slim),
-      3: r.windows[3].map(slim),
-    },
+    windows,
     // small transparency block — what the opinion excluded, in aggregate
     rejects: Object.fromEntries(Object.entries(r.rejects).map(([k, v]) => [k, v.count])),
     missingTop: r.missingProtocols.slice(0, 10).map((m) => ({ project: m.project, tvlUsd: Math.round(m.tvl) })),

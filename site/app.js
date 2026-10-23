@@ -66,6 +66,10 @@ const fmtNet = (n) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${fmtUsd(n)}`;
 const netCls = (n) => (n > 0 ? "up" : n < 0 ? "down" : "");
 const fmtDay = (d) => new Date(`${d}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
 const flowsOn = () => state.data?.config?.flowsCard === true;
+// Deposits (#39), behind the build's deposits switch: a row the build matched to a LI.FI
+// vault gets a Deposit button; the panel's code (deposit.js) loads on the first press.
+const depositsOn = () => state.data?.config?.deposits === true;
+const canDeposit = (r) => depositsOn() && r.deposit != null && r.access !== "permissioned";
 // Coverage (flows.mjs): "collecting" shows no numbers; "partial" names its since date on
 // every number that covers it; "full" is the last 30 days. Missing days never read as $0.
 const SOURCE = "Deposits and withdrawals read from the vault contract. Flows do not change the risk level.";
@@ -158,6 +162,7 @@ const state = {
   sortKey: "base",
   sortDir: "desc",
   openId: null,
+  depositOpen: false, // the open row's Deposit panel (#39); closed whenever a row opens
   limits: { 1: PAGE, 2: PAGE, 3: PAGE },
   data: null,
 };
@@ -314,9 +319,14 @@ function detailHtml(r, tier) {
     r.url == null
       ? `<span class="dnote">🔒 Permissioned — KYC required; no public deposit link.</span>`
       : r.linkKind === "defillama"
-        ? `<a class="btn btn-primary btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Verify on DefiLlama ↗</a>`
-        : `<a class="btn btn-primary btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Open ${esc(label)} ↗</a>
+        ? `<a class="btn ${canDeposit(r) ? "" : "btn-primary"} btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Verify on DefiLlama ↗</a>`
+        : `<a class="btn ${canDeposit(r) ? "" : "btn-primary"} btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Open ${esc(label)} ↗</a>
            <a class="btn btn-sm" href="${esc(dllHref)}" target="_blank" rel="noopener">DefiLlama ↗</a>`;
+  // one primary button per row: Deposit when the row can take one, else the venue link
+  const depId = `dep-${esc(r.poolId)}`;
+  const deposit = canDeposit(r)
+    ? `<button class="btn btn-primary btn-sm dep-toggle" type="button" aria-expanded="${state.depositOpen}" aria-controls="${depId}">Deposit</button>`
+    : "";
 
   const composition =
     legs.length > 1
@@ -348,7 +358,8 @@ function detailHtml(r, tier) {
       ${byLevel() ? riskCardHtml(r) : ""}
       ${flowsCardHtml(r)}
     </div>
-    <div class="dactions">${actions}</div>
+    <div class="dactions">${deposit}${actions}</div>
+    ${deposit ? `<div class="dep-slot" id="${depId}" ${state.depositOpen ? "" : "hidden"}></div>` : ""}
   </div>`;
 }
 
@@ -399,8 +410,32 @@ function renderNotices() {
   $("#windows").insertAdjacentHTML("beforebegin", `<div id="notices" class="notices" role="status">${list.map((n) => `<p class="notice">${esc(n.text)}</p>`).join("")}</div>`);
 }
 
+// The open Deposit panel. Every render rebuilds the rows, so the panel is stopped first
+// (no quote keeps running for a panel that is gone) and mounted again if still open.
+let depositUnmount = null;
+const rowById = (id) => [1, 2, 3].flatMap((w) => state.data.windows[w] || []).find((r) => r.poolId === id);
+let depositMounts = 0; // a newer open/close/render makes an older, still-loading mount stale
+function stopDeposit() { depositMounts++; depositUnmount?.(); depositUnmount = null; }
+async function mountDepositPanel({ focus = false } = {}) {
+  const slot = document.querySelector(".dep-slot");
+  const r = slot && rowById(state.openId);
+  if (!r || !state.depositOpen) return;
+  stopDeposit();
+  const mine = depositMounts;
+  slot.hidden = false;
+  try {
+    const { mountDeposit } = await import("./deposit.js");
+    if (mine === depositMounts && slot.isConnected && state.depositOpen) depositUnmount = mountDeposit(slot, r, { focus });
+  } catch (e) {
+    console.error("deposit panel failed to load", e);
+    slot.innerHTML = `<p class="dnote">The deposit panel did not load. Reload the page, or use the venue link.</p>`;
+  }
+}
+
 function render() {
+  stopDeposit();
   $("#windows").innerHTML = [1, 2, 3].map(windowHtml).join("");
+  mountDepositPanel();
   const d = state.data;
   const when = new Date(d.generatedAt);
   const ageH = Math.round((Date.now() - when) / 3.6e6);
@@ -423,12 +458,25 @@ function render() {
 
 function toggleRow(id) {
   state.openId = state.openId === id ? null : id;
+  state.depositOpen = false;
   render();
+}
+
+function toggleDeposit(btn) {
+  state.depositOpen = !state.depositOpen;
+  btn.setAttribute("aria-expanded", String(state.depositOpen));
+  if (state.depositOpen) return mountDepositPanel({ focus: true });
+  stopDeposit();
+  const slot = document.querySelector(".dep-slot");
+  if (slot) { slot.hidden = true; slot.innerHTML = ""; }
 }
 
 // one delegated listener on the container survives re-renders
 function onWindowsClick(e) {
   if (e.target.closest("a")) return; // let outbound / footer links work
+  const dep = e.target.closest(".dep-toggle");
+  if (dep) return toggleDeposit(dep);
+  if (e.target.closest(".dep-slot")) return; // typing in the panel never re-renders the rows
   const dbar = e.target.closest(".dbar");
   if (dbar) return dbar.classList.toggle("open"); // tap shows the durability numbers (touch has no hover)
   if (e.target.closest(".clear-filters")) {

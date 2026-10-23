@@ -30,6 +30,8 @@ jobs:
 
       - name: Build data snapshot
         run: node build/build.mjs
+        env:
+          LIFI_API_KEY: ${{ secrets.LIFI_API_KEY }} # LI.FI Earn vault list (deposit targets, #39); build-time only
 
       - name: Commit snapshot if changed
         run: |

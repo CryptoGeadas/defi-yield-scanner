@@ -10,6 +10,7 @@ import { reviewSheet } from "./review-sheet.mjs";
 import { vaultInfoFrom } from "./kamino-vaults.mjs";
 import { emptyLedger, addFlows, UNTRACKED_REASONS } from "./flows.mjs";
 import { makeSlim } from "./slim.mjs";
+import { depositIndex, matchDeposit } from "./deposits.mjs";
 
 const NOW = Date.parse("2026-10-16T00:00:00Z");
 const DAY = 86_400_000;
@@ -68,6 +69,23 @@ test("intake → pipeline → snapshot rows: every row has flows; a tracked vaul
   const lv = (r) => Object.fromEntries([1, 2, 3].flatMap((w) => r.windows[w]).map((x) => [x.pool, [x.level, x.levelDriver, JSON.stringify(x.factors)]]));
   assert.deepEqual(lv(withVault), lv(noVault));
   assert.equal(withVault.config.flowsCard, true, "the card is on since go-live (#38)");
+});
+
+test("intake → pipeline → snapshot row → deposit target: a Morpho vault on Base matches LI.FI by its address (#40)", () => {
+  const V = "0xbeef0e0834849acc03f0089f01f4f1eeb06873c9", USDC = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913";
+  const morpho = new Map([[`8453|STEAKUSDC|${USDC}`, [{ address: V, assetSymbol: "USDC", assetDecimals: 6, name: "Steakhouse Prime USDC", network: "base", tvl: 500e6 }]]]);
+  const fm = { ...maps, protocolMap: { ...maps.protocolMap, "morpho-blue": { bucket: "vault", access: "permissionless", level: 1 } } };
+  const feed = [feedPool({ pool: "b", project: "morpho-blue", chain: "Base", symbol: "STEAKUSDC", underlyingTokens: [USDC] })];
+  const r = runPipeline(intakePools(feed, { morpho }, { now: NOW }).pools, { baseRate: 4 }, fm);
+  const snap = makeSlim({}, {}, { curve: new Map(), morpho: new Map() }, {}, emptyLedger(), NOW)([1, 2, 3].flatMap((w) => r.windows[w])[0]);
+  const earn = [{ address: V, chainId: 8453, isTransactional: true, underlyingTokens: [{ symbol: "USDC", address: USDC, decimals: 6 }] }];
+  assert.equal(snap.linkKind, "exact");
+  assert.deepEqual(matchDeposit(snap, depositIndex(earn)), {
+    deposit: { chainId: 8453, token: V, underlying: { address: USDC, symbol: "USDC", decimals: 6 }, match: "address" }, depositReason: null,
+  });
+  assert.equal(r.config.deposits, false, "the Deposit button stays off until go-live (#48)");
+  // the reader failed soft (empty list): the same row simply has no target, with a reason
+  assert.deepEqual(matchDeposit(snap, depositIndex([])), { deposit: null, depositReason: "noMatch" });
 });
 
 test("Stability counts a reward jump; Yield ignores it", () => {
