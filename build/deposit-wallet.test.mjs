@@ -57,10 +57,10 @@ test("ERC-20 call data: balanceOf, allowance, approve", () => {
   assert.equal(callApprove(SPENDER, 250_000_000n), "0x095ea7b3" + pad(SPENDER) + (250_000_000n).toString(16).padStart(64, "0"));
 });
 
-test("callApprove refuses an amount out of range", () => {
+test("callApprove refuses an amount out of range; 0 is allowed (the USDT reset)", () => {
   assert.throws(() => callApprove(SPENDER, -1n), /out of range/);
   assert.throws(() => callApprove(SPENDER, 2n ** 256n), /out of range/);
-  assert.throws(() => callApprove(SPENDER, 0n), /out of range/);
+  assert.match(callApprove(SPENDER, 0n), /0{64}$/);
 });
 
 test("ERC-20 call data refuses a malformed address", () => {
@@ -136,16 +136,17 @@ test("mustResetFirst: only USDT on Ethereum with a non-zero allowance", () => {
 // ── buildDepositTx: the one place that decides what gets signed ──
 const D = LIFI_DIAMOND[8453], PAY = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913", VAULT = "0xbeef0e0834849acc03f0089f01f4f1eeb06873c9";
 const ctx = { from: OWNER, chainId: 8453, units: 250_000_000n, payToken: PAY, vaultToken: VAULT };
+const DATA = "0xdeadbeef" + "0".repeat(24) + OWNER.toLowerCase().slice(2); // calldata that names the user
 const quote = (o = {}, tr = {}) => ({
   action: { fromChainId: 8453, toChainId: 8453, fromToken: { address: PAY }, toToken: { address: VAULT }, fromAmount: "250000000", fromAddress: OWNER.toLowerCase(), ...o },
   estimate: { approvalAddress: D },
-  transactionRequest: { to: "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE", data: "0xdeadbeef00", value: "0x0", gasLimit: "0x5208", chainId: 8453, ...tr },
+  transactionRequest: { to: "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE", data: DATA, value: "0x0", gasLimit: "0x5208", chainId: 8453, ...tr },
 });
 
 test("buildDepositTx: a matching quote → the transaction, with the chain id the wallet must sign on", () => {
   assert.deepEqual(buildDepositTx(quote(), ctx), {
     spender: D,
-    tx: { from: OWNER, to: "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE", data: "0xdeadbeef00", value: "0x0", gas: "0x5208", chainId: "0x2105" },
+    tx: { from: OWNER, to: "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE", data: DATA, value: "0x0", gas: "0x5208", chainId: "0x2105" },
   });
   assert.equal(buildDepositTx(quote({}, { gasLimit: 21000, value: 0 }), ctx).tx.gas, "0x5208", "numbers become hex");
 });
@@ -164,6 +165,8 @@ test("buildDepositTx: anything that is not exactly this deposit is refused, with
     "tx chain id differs": quote({}, { chainId: 1 }),
     "no call data": quote({}, { data: "0x" }),
     "another spender": { ...quote(), estimate: { approvalAddress: OTHER } },
+    "another receiver": quote({ toAddress: OTHER }),
+    "calldata never names the user": quote({}, { data: "0xdeadbeef" + "0".repeat(24) + OTHER.slice(2) }),
   };
   for (const [why, q] of Object.entries(bad)) {
     let err;
@@ -172,9 +175,9 @@ test("buildDepositTx: anything that is not exactly this deposit is refused, with
   }
 });
 
-test("buildDepositTx: a route that also needs ETH (bridge fee) is refused with its own plain message", () => {
+test("buildDepositTx: a route that would also send ETH is refused with its own plain message", () => {
   let err; try { buildDepositTx(quote({}, { value: "0x1" }), ctx); } catch (e) { err = e; }
-  assert.ok(err?.plain && err.needsGas && /needs ETH for the bridge fee/.test(err.message));
+  assert.ok(err?.plain && err.needsGas && /would also send ETH/.test(err.message), "same chain: no bridge to blame");
 });
 
 test("buildDepositTx: a pay token with other decimals than the panel used is refused", () => {

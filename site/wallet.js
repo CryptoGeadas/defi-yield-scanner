@@ -44,7 +44,7 @@ export const callAllowance = (owner, spender) => "0xdd62ed3e" + word(owner) + wo
 const MAX_UINT = 2n ** 256n - 1n;
 export function callApprove(spender, amount) {
   const n = BigInt(amount);
-  if (n <= 0n || n > MAX_UINT) throw new Error(`approval amount out of range: ${n}`);
+  if (n < 0n || n > MAX_UINT) throw new Error(`approval amount out of range: ${n}`); // 0 is the USDT reset
   return "0x095ea7b3" + word(spender) + n.toString(16).padStart(64, "0");
 }
 export const needsApproval = (allowanceHex, amount) => BigInt(allowanceHex && allowanceHex !== "0x" ? allowanceHex : "0x0") < BigInt(amount);
@@ -82,13 +82,20 @@ export function buildDepositTx(raw, { from, chainId, toChainId = chainId, units,
   if (payDecimals != null && a.fromToken?.decimals != null && Number(a.fromToken.decimals) !== payDecimals) refuse("another token precision");
   if (String(a.fromAmount) !== String(units)) refuse("another amount");
   if (!same(a.fromAddress, from)) refuse("another sender");
+  if (a.toAddress != null && !same(a.toAddress, from)) refuse("another receiver");
+  // the transaction itself must name the user (as receiver / refund address). Not a full
+  // decode of LI.FI's calldata — on a cross-chain deposit the bridge's receiver is LI.FI's
+  // own contract on the other side — but a quote that never mentions you is refused.
+  if (IS_ADDR.test(String(from)) && !String(tr.data ?? "").toLowerCase().includes("0".repeat(24) + String(from).toLowerCase().slice(2))) refuse("a transaction that doesn't name your address");
   if (!same(a.toToken?.address, vaultToken)) refuse("another destination token");
   if (!IS_ADDR.test(String(tr.to)) || !/^0x[0-9a-f]*$/i.test(String(tr.data ?? "")) || String(tr.data ?? "").length < 10) refuse("an unreadable transaction");
   if (tr.chainId != null && !sameChain(tr.chainId, chainId)) refuse("another chain");
   const diamond = LIFI_DIAMOND[chainId];
   if (!diamond || !same(tr.to, diamond)) refuse("another contract");
   if (BigInt(tr.value ?? 0) !== 0n)
-    throw Object.assign(new Error("This route also needs ETH for the bridge fee, which this panel does not send. Pick another chain to pay from."), { plain: true, needsGas: true });
+    throw Object.assign(new Error(chainId === toChainId
+      ? "This route would also send ETH, which this panel does not do. Try another amount."
+      : "This route also needs ETH for the bridge fee, which this panel does not send. Pick another chain to pay from."), { plain: true, needsGas: true });
   const spender = raw.estimate?.approvalAddress ?? null;
   if (spender != null && !same(spender, diamond)) refuse("another approval address");
   const hex = (v) => (v == null ? undefined : typeof v === "string" && v.startsWith("0x") ? v : "0x" + BigInt(v).toString(16));

@@ -73,14 +73,15 @@ export function bridgeOutcome(j, { sent, sym, fromChainId, toChainId, sourceLink
   if (st.phase === "pending") return null;
   const to = CHAIN_NAME[toChainId] ?? "the vault's chain", got = j?.receiving ?? {};
   const gotChain = CHAIN_NAME[Number(got.chainId)] ?? null;
-  const recvUrl = typeof got.txLink === "string" && /^https:\/\//.test(got.txLink) ? got.txLink : null;
+  // built from the chain's own explorer, never LI.FI's link text (a bad answer must not show a stranger's page)
+  const recvUrl = explorerTx(Number(got.chainId), got.txHash);
   const recvLink = recvUrl ? ` <a href="${esc(recvUrl)}" target="_blank" rel="noopener">View on ${esc(gotChain ?? to)} ↗</a>` : "";
   const scan = /^0x[0-9a-f]{64}$/i.test(String(hash)) ? ` <a href="https://scan.li.fi/tx/${esc(hash)}" target="_blank" rel="noopener">Track on LI.FI ↗</a>` : "";
   const check = { phase: "unknown", kind: "warn", html: `Finished, but LI.FI reports a result this page doesn't know. Check where your ${esc(sym)} is before depositing again.${sourceLink}${recvLink}${scan}` };
   if (st.phase === "done") {
-    const wrongChain = got.chainId != null && Number(got.chainId) !== Number(toChainId);
-    const wrongToken = vaultToken && got.token?.address && String(got.token.address).toLowerCase() !== String(vaultToken).toLowerCase();
-    if (wrongChain || wrongToken) return check;
+    const rightChain = got.chainId != null && Number(got.chainId) === Number(toChainId);
+    const rightToken = !vaultToken || (got.token?.address && String(got.token.address).toLowerCase() === String(vaultToken).toLowerCase());
+    if (!rightChain || !rightToken) return check;
     return { phase: "done", kind: "ok", html: `Deposited ${esc(sent)} on ${esc(to)}.${sourceLink}${recvLink}` };
   }
   if (st.phase === "partial")
@@ -307,7 +308,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
     const u = new URL(QUOTE);
     for (const [k, v] of Object.entries({
       fromChain: P.chainId, toChain: d.chainId, fromToken: P.address, toToken: d.token,
-      fromAmount: units.toString(), fromAddress: W.account || PREVIEW_ADDR, integrator: INTEGRATOR,
+      fromAmount: units.toString(), fromAddress: W.account || PREVIEW_ADDR, toAddress: W.account || PREVIEW_ADDR, integrator: INTEGRATOR,
     })) u.searchParams.set(k, v);
     for (const b of denyBridges) u.searchParams.append("denyBridges", b);
     const r = await fetch(u, { signal });
@@ -360,14 +361,15 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
 
   // ── wallet ──
   async function readBalance() {
-    const P = pay();
-    if (!W.account || !P) return;
+    const P = pay(), acct = W.account;
+    if (!acct || !P) return;
+    const stale = () => pay()?.chainId !== P.chainId || W.account !== acct; // another chain or account meanwhile
     try {
-      const raw = await readChain(P.chainId, "eth_call", [{ to: P.address, data: callBalanceOf(W.account) }, "latest"]);
-      if (pay()?.chainId !== P.chainId) return; // the user picked another chain meanwhile
-      s.balanceUnits = BigInt(raw); s.balanceFor = `${P.chainId}|${W.account}`; s.balance = fmtUnits(s.balanceUnits, P.decimals); s.balanceFailed = false;
+      const raw = await readChain(P.chainId, "eth_call", [{ to: P.address, data: callBalanceOf(acct) }, "latest"]);
+      if (stale()) return;
+      s.balanceUnits = BigInt(raw); s.balanceFor = `${P.chainId}|${acct}`; s.balance = fmtUnits(s.balanceUnits, P.decimals); s.balanceFailed = false;
     } catch (e) {
-      if (pay()?.chainId !== P.chainId) return; // a read for the chain the user just left
+      if (stale()) return; // a read for the chain or account the user just left
       console.warn("deposit: balance read failed", e);
       s.balance = null; s.balanceUnits = null; s.balanceFailed = true;
     }
@@ -463,7 +465,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
             s.phase = "approving"; draw();
             let ok;
             try { ok = await waitForReceipt(P.chainId, ah); }
-            catch (e) { if (e.name === "TimeoutError") throw plainError(`The approval is still not confirmed. It may still go through, so check it before pressing Deposit again.${txLinkHtml(ah, P.chainId)}`); throw e; }
+            catch (e) { if (e.name === "TimeoutError") throw Object.assign(plainError(`The approval is still not confirmed. It may still go through, so check it before pressing Deposit again.${txLinkHtml(ah, P.chainId)}`), { sticky: true }); throw e; }
             if (!ok) throw plainError(`The approval failed on chain. Nothing was deposited.${txLinkHtml(ah, P.chainId)}`);
           };
           if (mustResetFirst(P.chainId, P.address, allowance)) await approve(0n); // USDT: back to 0 first
@@ -487,6 +489,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
         if (e.name !== "TimeoutError") throw e;
         s.phase = "unknown";
         s.msg = { kind: "warn", html: `Not confirmed after 15 minutes. It may still go through: check the transaction before depositing again.${link}` };
+        s.lastTx = s.msg.html;
         return draw();
       }
       if (!ok) {
@@ -508,6 +511,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
     } catch (e) {
       s.phase = "failed";
       s.msg = { kind: "warn", html: failureText(e, ctx) };
+      if (e.sticky) s.lastTx = s.msg.html; // e.g. an approval that may still confirm
       if (!e.plain && !isRejection(e)) console.warn("deposit failed:", e);
       draw();
     }

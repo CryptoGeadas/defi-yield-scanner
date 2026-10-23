@@ -57,12 +57,16 @@ test("resolvePayTokens: an answer for another chain or with a bad address is ign
 const cross = (o = {}, tr = {}) => ({
   action: { fromChainId: 42161, toChainId: 8453, fromToken: { address: USDC_ARB }, toToken: { address: VAULT }, fromAmount: "250000000", fromAddress: OWNER, ...o },
   estimate: { approvalAddress: LIFI_DIAMOND[42161] },
-  transactionRequest: { to: LIFI_DIAMOND[42161], data: "0xdeadbeef00", value: "0x0", gasLimit: "0x5208", chainId: 42161, ...tr },
+  transactionRequest: { to: LIFI_DIAMOND[42161], data: "0xdeadbeef" + "0".repeat(24) + OWNER.slice(2), value: "0x0", gasLimit: "0x5208", chainId: 42161, ...tr },
 });
 const ctx = { from: OWNER, chainId: 42161, toChainId: 8453, units: 250_000_000n, payToken: USDC_ARB, vaultToken: VAULT };
 
 test("buildDepositTx cross-chain: signed on the pay chain, ending in the vault on the vault chain", () => {
   assert.equal(buildDepositTx(cross(), ctx).tx.chainId, "0xa4b1");
+});
+
+test("buildDepositTx cross-chain: a route needing ETH for the bridge fee says so", () => {
+  assert.throws(() => buildDepositTx(cross({}, { value: "0x5" }), ctx), /needs ETH for the bridge fee/);
 });
 
 test("buildDepositTx cross-chain: the wrong pay or vault chain is refused", () => {
@@ -77,8 +81,9 @@ test("bridgeOutcome: still running → null", () => {
   assert.equal(bridgeOutcome(null, C), null);
 });
 
+const HASH = "0x" + "cd".repeat(32);
 test("bridgeOutcome: completed → Deposited on the vault chain, with both links", () => {
-  const o = bridgeOutcome({ status: "DONE", substatus: "COMPLETED", receiving: { txLink: "https://basescan.org/tx/0xabc" } }, C);
+  const o = bridgeOutcome({ status: "DONE", substatus: "COMPLETED", receiving: { chainId: 8453, txHash: HASH, token: { address: "0xbeef" } } }, { ...C, vaultToken: "0xBEEF" });
   assert.equal(o.phase, "done"); assert.equal(o.kind, "ok");
   assert.match(o.html, /^Deposited 250 USDC on Base\./);
   assert.match(o.html, /src/); assert.match(o.html, /View on Base/);
@@ -106,19 +111,22 @@ test("bridgeOutcome: 'Deposited' only when the vault's token arrived on the vaul
   assert.equal(bridgeOutcome({ status: "DONE", substatus: "COMPLETED", receiving: { chainId: 8453, token: { address: "0xBEEF0E0834849ACC03F0089F01F4F1EEB06873C9" } } }, V).phase, "done");
   assert.equal(bridgeOutcome({ status: "DONE", substatus: "COMPLETED", receiving: { chainId: 8453, token: { address: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913" } } }, V).phase, "unknown");
   assert.equal(bridgeOutcome({ status: "DONE", substatus: "COMPLETED", receiving: { chainId: 1 } }, V).phase, "unknown");
+  assert.equal(bridgeOutcome({ status: "DONE", substatus: "COMPLETED" }, V).phase, "unknown", "no proof of what arrived → check, never 'Deposited'");
+  assert.equal(bridgeOutcome({ status: "DONE", substatus: "COMPLETED", receiving: { chainId: 8453 } }, V).phase, "unknown");
 });
 
 test("bridgeOutcome: links name the chain they point to; problems add LI.FI's tracker", () => {
   const H = { ...C, hash: "0x" + "ab".repeat(32) };
-  const ref = bridgeOutcome({ status: "DONE", substatus: "REFUNDED", receiving: { chainId: 42161, txLink: "https://arbiscan.io/tx/0x1" } }, H);
+  const ref = bridgeOutcome({ status: "DONE", substatus: "REFUNDED", receiving: { chainId: 42161, txHash: HASH } }, H);
+  assert.match(ref.html, /arbiscan\.io\/tx\/0xcdcd/, "the link is built from the chain's explorer");
   assert.match(ref.html, /View on Arbitrum/);
   assert.match(ref.html, /scan\.li\.fi\/tx\/0xabab/);
   assert.match(bridgeOutcome({ status: "FAILED" }, H).html, /Track on LI\.FI/);
 });
 
-test("bridgeOutcome: a receiving link that isn't https is dropped (it goes into the page)", () => {
-  const o = bridgeOutcome({ status: "DONE", substatus: "COMPLETED", receiving: { txLink: "javascript:alert(1)" } }, C);
-  assert.doesNotMatch(o.html, /javascript:/);
+test("bridgeOutcome: LI.FI's own link text is never used (a bad answer must not show a stranger's page)", () => {
+  const o = bridgeOutcome({ status: "DONE", substatus: "REFUNDED", receiving: { chainId: 42161, txLink: "https://evil.example/tx", txHash: "nothex" } }, C);
+  assert.doesNotMatch(o.html, /evil\.example/);
 });
 
 test("timeText", () => {

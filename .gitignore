@@ -6,3 +6,6 @@ node_modules/
 
 # local review sheet (build/review-sheet.mjs) — never published
 review/
+
+# browser-check stub wallet (local only, never published)
+site/__stub-wallet*
