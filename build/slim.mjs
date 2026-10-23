@@ -35,6 +35,8 @@ export const makeSlim = (names, siteUrls, sources, poolUrls, ledger, now = Date.
     divFlag: r.divFlag,
     tvlUsd: Math.round(r.tvlUsd),
     legs: r.legs, // true stablecoin legs (classification), independent of display symbol
+    // the legs' token addresses (DefiLlama): deposit matching compares coins by address (#41)
+    underlyingTokens: Array.isArray(r.underlyingTokens) ? r.underlyingTokens.map((t) => String(t).toLowerCase()) : null,
     url,
     linkKind: kind, // 'exact' | 'site' | 'defillama' | null
     // detail-panel fields (Phase 3)

@@ -2,7 +2,8 @@
 // Run: node --test build/*.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { fetchEarnVaults, depositIndex, matchDeposit, depositLog } from "./deposits.mjs";
+import { readFileSync } from "node:fs";
+import { fetchEarnVaults, depositIndex, matchDeposit, matchDeposits, checkDepositProtocols, depositLog } from "./deposits.mjs";
 
 const VAULT = "0xbeef0e0834849acc03f0089f01f4f1eeb06873c9";
 const USDC_BASE = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913";
@@ -102,8 +103,106 @@ test("empty Earn list → every row has no target, no throw", () => {
 
 test("depositLog counts targets and each reason", () => {
   const rows = [{ deposit: target, depositReason: null }, { deposit: null, depositReason: "lp" }, { deposit: null, depositReason: "lp" }, { deposit: null, depositReason: "nonEvm" }];
-  assert.equal(depositLog(rows, 514), "deposits: 1/4 rows have a target (LI.FI vaults 514) · nonEvm 1 · lp 2");
-  assert.equal(depositLog([], 0), "deposits: 0/0 rows have a target (LI.FI vaults 0)");
+  assert.equal(depositLog(rows, 514), "deposits: 1/4 rows have a target (address 1 · unique 0; LI.FI vaults 514) · nonEvm 1 · lp 2");
+  assert.equal(depositLog([], 0), "deposits: 0/0 rows have a target (address 0 · unique 0; LI.FI vaults 0)");
+  assert.match(depositLog([{ deposit: { ...target, match: "unique" } }, { deposit: target }], 9), /address 1 · unique 1;/);
+});
+
+// ── unique matches (#41): rows without a vault address, e.g. Aave ──────────────
+const ATOKEN = "0x98c23e9d8f34fefb1b7bd6a91b7ff122f4e16f5c", USDC_ETH = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
+const PROTOS = { "aave-v3": { lifi: "aave", markets: ["proto_mainnet_v3"] } };
+const aave = (o = {}) => earn({ address: ATOKEN, chainId: 1, protocol: { id: "aave" }, analytics: { tvl: { usd: 2.0e9 } }, underlyingTokens: [{ symbol: "USDC", address: USDC_ETH, decimals: 6 }], ...o });
+const aaveUrl = (market = "proto_mainnet_v3") => `https://app.aave.com/reserve-overview/?underlyingAsset=${USDC_ETH}&marketName=${market}`;
+const aaveRow = (o = {}) => row({ project: "aave-v3", chain: "Ethereum", bucket: "lend", url: aaveUrl(), linkKind: "exact", tvlUsd: 2.39e9, underlyingTokens: [USDC_ETH], ...o });
+// the build's call: every row at once
+const one = (rows, vaults, protocols = PROTOS) => matchDeposits(rows, depositIndex(vaults), { protocols });
+const first = (rows, vaults, protocols) => one(rows, vaults, protocols)[0];
+
+test("unique: one vault of the same protocol version, coin (by address) and chain, TVL within 2× → match: unique", () => {
+  assert.deepEqual(first([aaveRow()], [aave()]), {
+    deposit: { chainId: 1, token: ATOKEN, underlying: { address: USDC_ETH, symbol: "USDC", decimals: 6 }, match: "unique" }, depositReason: null,
+  });
+});
+
+test("unique: never without the other rows (matchDeposit alone only matches exact addresses)", () => {
+  assert.equal(matchDeposit(aaveRow(), depositIndex([aave()]), { protocols: PROTOS }).depositReason, "noMatch");
+});
+
+test("unique: two Scanner rows of the same protocol, chain and coin → neither matches (LI.FI may list only one market)", () => {
+  const out = one([aaveRow(), aaveRow({ url: aaveUrl("proto_lido_v3"), tvlUsd: 2.2e9 })], [aave()]);
+  assert.deepEqual(out.map((m) => m.depositReason), ["noMatch", "noMatch"]);
+});
+
+test("unique: a market that isn't on the protocol's list → noMatch", () => {
+  assert.equal(first([aaveRow({ url: aaveUrl("proto_lido_v3") })], [aave()]).depositReason, "noMatch");
+  assert.equal(first([aaveRow({ url: "https://aave.com", linkKind: "site" })], [aave()]).depositReason, "noMatch", "no market named");
+});
+
+test("unique: two candidates → noMatch", () => {
+  assert.equal(first([aaveRow()], [aave(), aave({ address: "0x2a1fbcb52ed4d9b23dad17e1e8aed4bb0e6079b8" })]).depositReason, "noMatch");
+});
+
+test("unique: TVL more than 2× away (either way), or missing → noMatch", () => {
+  assert.equal(first([aaveRow()], [aave({ analytics: { tvl: { usd: 140e6 } } })]).depositReason, "noMatch");
+  assert.equal(first([aaveRow({ tvlUsd: 100e6 })], [aave()]).depositReason, "noMatch");
+  assert.equal(first([aaveRow()], [aave({ analytics: {} })]).depositReason, "noMatch", "no TVL is no proof");
+  assert.equal(first([aaveRow({ tvlUsd: 0 })], [aave()]).depositReason, "noMatch");
+});
+
+test("unique: protocol version mismatch — an Aave V4 pool never matches LI.FI's Aave (V3) aToken", () => {
+  assert.equal(first([aaveRow({ project: "aave-v4" })], [aave()]).depositReason, "noMatch");
+  assert.equal(first([aaveRow()], [aave()], {}).depositReason, "noMatch", "a protocol not in the map gets no unique match");
+});
+
+test("unique: the coin is compared by token address, not symbol (USDC vs bridged USDC.e)", () => {
+  const bridged = aave({ underlyingTokens: [{ symbol: "USDC", address: "0x7f5c764cbc14f9669b88837ca1490cca17c31607", decimals: 6 }] });
+  assert.equal(first([aaveRow()], [bridged]).depositReason, "noMatch");
+  assert.equal(first([aaveRow({ underlyingTokens: null })], [aave()]).depositReason, "noMatch", "no token address on the row → no unique match");
+});
+
+test("unique: another coin or chain, a candidate with several coins, or a row with several legs → noMatch", () => {
+  assert.equal(first([aaveRow({ legs: ["USDT"], underlyingTokens: ["0xdac17f958d2ee523a2206206994597c13d831ec7"] })], [aave()]).depositReason, "noMatch");
+  assert.equal(first([aaveRow({ chain: "Base" })], [aave()]).depositReason, "noMatch");
+  const multi = aave({ underlyingTokens: [aave().underlyingTokens[0], { symbol: "USDT", address: "0xdac17f958d2ee523a2206206994597c13d831ec7", decimals: 6 }] });
+  assert.equal(first([aaveRow()], [multi]).depositReason, "noMatch");
+  assert.equal(first([aaveRow({ legs: ["USDC", "USDT"] })], [aave()]).depositReason, "noMatch");
+});
+
+test("exact address wins: a row that names its own contract never falls back to a unique guess", () => {
+  const OWN = "0x1111111111111111111111111111111111111111";
+  const byUrl = aaveRow({ url: `https://app.morpho.org/ethereum/vault/${OWN}` });
+  assert.equal(first([byUrl], [aave()]).depositReason, "noMatch", "own address in the link, not listed at LI.FI");
+  assert.equal(first([byUrl], [aave({ address: OWN }), aave()]).deposit?.match, "address");
+  const byField = aaveRow({ vault: { chain: "ethereum", address: OWN, decimals: 6 } });
+  assert.equal(first([byField], [aave()]).depositReason, "noMatch", "own address in the vault field");
+  const guarded = aaveRow({ url: `https://defillama.com/yields/pool/${OWN}`, linkKind: "defillama" });
+  assert.equal(first([guarded], [aave()]).depositReason, "noMatch", "an address in a non-exact link still counts as its own");
+});
+
+test("unique: a KYC or non-transactional single candidate keeps its reason", () => {
+  assert.equal(first([aaveRow()], [aave({ kyc: true })]).depositReason, "permissioned");
+  assert.equal(first([aaveRow()], [aave({ isTransactional: false })]).depositReason, "notTransactional");
+});
+
+test("exact address match also compares the coin by address when the row has it", () => {
+  const r = row({ underlyingTokens: ["0x7f5c764cbc14f9669b88837ca1490cca17c31607"] }); // the row's coin is another token named USDC
+  assert.equal(matchDeposit(r, depositIndex([earn()])).depositReason, "noMatch");
+  assert.equal(matchDeposit(row({ underlyingTokens: [USDC_BASE] }), depositIndex([earn()])).deposit?.match, "address");
+});
+
+test("checkDepositProtocols: a wrong shape fails loudly; '_' keys are notes", () => {
+  assert.deepEqual(checkDepositProtocols({ _: "note", "aave-v3": { lifi: "aave", markets: ["m"] } }), { "aave-v3": { lifi: "aave", markets: ["m"] } });
+  assert.deepEqual(checkDepositProtocols(null), {});
+  assert.throws(() => checkDepositProtocols({ "aave-v3": "aave" }), /needs a "lifi"/);
+  assert.throws(() => checkDepositProtocols({ "aave-v3": { lifi: "aave", markets: [] } }), /markets/);
+  assert.throws(() => checkDepositProtocols({ "aave-v3": { lifi: "aave", markets: [3] } }), /markets/);
+});
+
+test("the real deposit-protocols.json: valid, Aave V3 limited to Core markets, no Aave V4", () => {
+  const real = checkDepositProtocols(JSON.parse(readFileSync(new URL("./deposit-protocols.json", import.meta.url), "utf8")));
+  assert.ok(real["aave-v3"]?.markets?.includes("proto_mainnet_v3"));
+  assert.ok(!real["aave-v3"].markets.includes("proto_lido_v3"), "Prime is not Core");
+  assert.equal(real["aave-v4"], undefined);
 });
 
 // ── reader ──────────────────────────────────────────────────────────────────

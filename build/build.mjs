@@ -19,7 +19,7 @@ import { vendorLogos } from "./logos.mjs";
 import { loadLedgerForBuild } from "./flows-file.mjs";
 import { flowsCoverage } from "./flows.mjs";
 import { makeSlim } from "./slim.mjs";
-import { fetchEarnVaults, depositIndex, matchDeposit, depositLog } from "./deposits.mjs";
+import { fetchEarnVaults, depositIndex, matchDeposits, checkDepositProtocols, depositLog } from "./deposits.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SITE = join(HERE, "..", "site");
@@ -203,8 +203,13 @@ async function main() {
   if (process.env.LIFI_API_KEY && earnVaults.length < MIN_EARN)
     console.warn(`${process.env.GITHUB_ACTIONS === "true" ? "::warning::" : "  ⚠ "}deposits: LI.FI listed only ${earnVaults.length} vaults (< ${MIN_EARN}) — check the LIFI_API_KEY secret; rows lose their Deposit button`);
   const earnIndex = depositIndex(earnVaults);
-  const slim = (x) => { const s = toRow(x); return { ...s, ...matchDeposit(s, earnIndex) }; };
-  const windows = { 1: r.windows[1].map(slim), 2: r.windows[2].map(slim), 3: r.windows[3].map(slim) };
+  // unique matches (#41) need every row at once: a coin can be matched only when one row has it
+  const depositProtocols = checkDepositProtocols(await readOpinion("deposit-protocols.json")); // a bad shape throws
+  if (!Object.keys(depositProtocols).length) console.warn("  ⚠ deposits: deposit-protocols.json missing or empty — only exact-address matches");
+  const rows = { 1: r.windows[1].map(toRow), 2: r.windows[2].map(toRow), 3: r.windows[3].map(toRow) };
+  const all = [1, 2, 3].flatMap((w) => rows[w]);
+  const matched = new Map(matchDeposits(all, earnIndex, { protocols: depositProtocols }).map((m, i) => [all[i], m]));
+  const windows = Object.fromEntries([1, 2, 3].map((w) => [w, rows[w].map((s) => ({ ...s, ...matched.get(s) }))]));
   console.log(`  ${depositLog([1, 2, 3].flatMap((w) => windows[w]), earnVaults.length)}`);
 
   const payload = {
