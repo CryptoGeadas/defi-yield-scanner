@@ -1,10 +1,11 @@
 {
-  "generatedAt": "2026-10-23T16:26:42.714Z",
+  "generatedAt": "2026-10-23T17:17:36.318Z",
   "source": "https://yields.llama.fi/pools",
   "baseRate": 4.06,
   "config": {
     "levelWindows": true,
     "flowsCard": true,
+    "deposits": false,
     "riskCuts": {
       "size": {
         "level1": 50000000,
@@ -81,7 +82,7 @@
           },
           {
             "name": "size",
-            "value": 60206513.18374021,
+            "value": 60270764.9215132,
             "level": 1,
             "unknown": false
           },
@@ -99,10 +100,10 @@
           },
           {
             "name": "stability",
-            "value": -2,
+            "value": -3,
             "level": 1,
             "unknown": false,
-            "risePp": -0.14,
+            "risePp": -0.18,
             "belowMinPp": false
           },
           {
@@ -112,13 +113,13 @@
             "unknown": false
           }
         ],
-        "base": 5.54,
+        "base": 5.5,
         "reward": 0.06,
-        "total": 5.6,
-        "spot": 5.6,
+        "total": 5.56,
+        "spot": 5.56,
         "mean30d": 5.74,
         "divFlag": "●",
-        "tvlUsd": 60206513,
+        "tvlUsd": 60270765,
         "legs": [
           "USDC"
         ],
@@ -129,14 +130,16 @@
         "apyReward": 0.06,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 5.37,
+        "apyPct7D": 5.36,
         "apyPct30D": null,
         "poolId": "DWSXb18xZApz29vnQpgR2m6MynCT7PznaXt7Ut7M7KaP",
         "vault": null,
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "maple",
@@ -215,7 +218,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "maple",
@@ -294,7 +299,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -373,7 +380,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xbeef0e0834849acc03f0089f01f4f1eeb06873c9",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -452,7 +470,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x050ce30b927da55177a4914ec73480238bad56f0",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -531,7 +560,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xee8f4ec5672f09119b96ab6fb59c27e1b7e44b61",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -620,7 +660,18 @@
           "maxOut30": 26237393.31,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeef088055857739c12cd3765f20b7679def0f51",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -709,7 +760,18 @@
           "maxOut30": 7015270.43,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x8c106eedad96553e64287a5a6839c3cc78afa3d0",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -798,7 +860,18 @@
           "maxOut30": 1334697.25,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeef01735c132ada46aa9aa4c54623caa92a64cb",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -877,7 +950,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x7bfa7c4f149e7415b73bdedfe609237e29cbf34a",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -966,7 +1050,18 @@
           "maxOut30": 10014324.33,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeef003c68896c7d2c3c60d363e8d71a49ab2bf9",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "aave-v3",
@@ -1045,7 +1140,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -1134,7 +1231,18 @@
           "maxOut30": 2799037.75,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeef047a543e45807105e51a8bbefcc5950fcfba",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "spark-savings",
@@ -1213,7 +1321,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "spark-savings",
@@ -1292,7 +1402,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "invesco-ustb",
@@ -1371,7 +1483,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "kamino-lend",
@@ -1395,13 +1509,13 @@
           },
           {
             "name": "size",
-            "value": 107947663.44782887,
+            "value": 107994860.73851006,
             "level": 1,
             "unknown": false
           },
           {
             "name": "age",
-            "value": 409,
+            "value": 410,
             "level": 1,
             "unknown": false
           },
@@ -1416,7 +1530,7 @@
             "value": -8,
             "level": 1,
             "unknown": false,
-            "risePp": -0.51,
+            "risePp": -0.52,
             "belowMinPp": false
           },
           {
@@ -1426,13 +1540,13 @@
             "unknown": false
           }
         ],
-        "base": 3.58,
+        "base": 3.56,
         "reward": 2.42,
-        "total": 5.99,
-        "spot": 5.99,
+        "total": 5.98,
+        "spot": 5.98,
         "mean30d": 6.5,
         "divFlag": "●",
-        "tvlUsd": 107947663,
+        "tvlUsd": 107994861,
         "legs": [
           "PYUSD"
         ],
@@ -1450,7 +1564,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -1529,7 +1645,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xbeef010f9cb27031ad51e3333f9af9c6b1228183",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -1618,7 +1745,18 @@
           "maxOut30": 37623237.68,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x6dc58a0fdfc8d694e571dc59b9a52eeea780e6bf",
+          "underlying": {
+            "address": "0x8292bb45bf1ee4d140127049757c2e0ff06317ed",
+            "symbol": "RLUSD",
+            "decimals": 18
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "aave-v3",
@@ -1697,7 +1835,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "aave-v3",
@@ -1776,7 +1916,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -1865,7 +2007,18 @@
           "maxOut30": 20041768.07,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xb576765fb15505433af24fee2c0325895c559fb2",
+          "underlying": {
+            "address": "0x6c3ea9036406852006290770bedfcaba0e23a0e8",
+            "symbol": "PYUSD",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "aave-v3",
@@ -1944,7 +2097,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -2033,7 +2188,18 @@
           "maxOut30": 2955024.27,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x23f5e9c35820f4bab695ac1f19c203cc3f8e1e11",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "aave-v3",
@@ -2112,7 +2278,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "sparklend",
@@ -2191,7 +2359,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "blackrock-buidl",
@@ -2270,7 +2440,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "blackrock-buidl",
@@ -2349,7 +2521,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "blackrock-buidl",
@@ -2428,7 +2602,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       }
     ],
     "2": [
@@ -2509,7 +2685,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "midas-rwa",
@@ -2588,7 +2766,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "jupiter-lend",
@@ -2667,7 +2847,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "midas-rwa",
@@ -2746,7 +2928,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "midas-rwa",
@@ -2825,7 +3009,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "yearn-finance",
@@ -2909,7 +3095,18 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x0e297de4005883c757c9f09fdf7cf1363c20e626",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "midas-rwa",
@@ -2988,7 +3185,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "morpho-blue",
@@ -3077,7 +3276,9 @@
           "maxOut30": 30000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "morpho-blue",
@@ -3166,7 +3367,18 @@
           "maxOut30": 150007.12,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xd1e9242e075db4bdd3f3c721d7d5fd4180a94a7e",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -3255,7 +3467,18 @@
           "maxOut30": 9000000.2,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x093272c07700d3ca5301c3bf9b3a392624179e2f",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "yearn-finance",
@@ -3339,7 +3562,9 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "morpho-blue",
@@ -3428,7 +3653,18 @@
           "maxOut30": 608807.15,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x04422053addbc9bb2759b248b574e3fca76bc145",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -3517,7 +3753,9 @@
           "maxOut30": 2039612.03,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "morpho-blue",
@@ -3606,7 +3844,18 @@
           "maxOut30": 1650126.28,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x500ae64100d7dbdb640531085c2f5d40cdc8930d",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -3695,7 +3944,18 @@
           "maxOut30": 2306181.38,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeeff2c5bf38f90e3482a8b19f12e5a6d2fca757",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -3784,7 +4044,18 @@
           "maxOut30": 339385.96,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x8ac91877b93330f52b2979a31a4879506021475c",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -3873,7 +4144,18 @@
           "maxOut30": 2100000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xe0181090c22579b6a217f1522cbf8c9f1f0c1965",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -3962,7 +4244,18 @@
           "maxOut30": 259972,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeeff047c03714965a54b671a37c18bef6b96210",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "sky-lending",
@@ -4041,7 +4334,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -4130,7 +4425,18 @@
           "maxOut30": 4966425.68,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x9a1d6bd5b8642c41f25e0958129b85f8e1176f3e",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -4219,7 +4525,18 @@
           "maxOut30": 400000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeefff209270748ddd194831b3fa287a5386f5bc",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -4308,7 +4625,18 @@
           "maxOut30": 6046186.26,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xa2eaad0d586cf9fd73bb2c09cf6a7e3e187d68cd",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -4387,7 +4715,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xbeeff7ae5e00aae3db302e4b0d8c883810a58100",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "kamino-lend",
@@ -4411,7 +4750,7 @@
           },
           {
             "name": "size",
-            "value": 10548525.878703883,
+            "value": 10548685.901808318,
             "level": 2,
             "unknown": false
           },
@@ -4429,10 +4768,10 @@
           },
           {
             "name": "stability",
-            "value": -13,
+            "value": -14,
             "level": 1,
             "unknown": false,
-            "risePp": -0.87,
+            "risePp": -0.93,
             "belowMinPp": false
           },
           {
@@ -4442,13 +4781,13 @@
             "unknown": false
           }
         ],
-        "base": 5.3,
+        "base": 5.25,
         "reward": 0.39,
-        "total": 5.69,
-        "spot": 5.69,
+        "total": 5.64,
+        "spot": 5.64,
         "mean30d": 6.57,
         "divFlag": "●",
-        "tvlUsd": 10548526,
+        "tvlUsd": 10548686,
         "legs": [
           "USDC"
         ],
@@ -4466,7 +4805,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "compound-v3",
@@ -4545,7 +4886,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -4634,7 +4977,18 @@
           "maxOut30": 0,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xd95fe7adf5075fad9d6bf853e0f9fe53369e8d96",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -4723,7 +5077,18 @@
           "maxOut30": 11427795.91,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x55c1b6e461a6334b567baf0feb5d728715446f05",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -4812,7 +5177,9 @@
           "maxOut30": 981533.22,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "kamino-lend",
@@ -4836,7 +5203,7 @@
           },
           {
             "name": "size",
-            "value": 48640634.24970528,
+            "value": 48640960.31081569,
             "level": 2,
             "unknown": false
           },
@@ -4854,10 +5221,10 @@
           },
           {
             "name": "stability",
-            "value": -5,
+            "value": -4,
             "level": 1,
             "unknown": false,
-            "risePp": -0.36,
+            "risePp": -0.35,
             "belowMinPp": false
           },
           {
@@ -4867,13 +5234,13 @@
             "unknown": false
           }
         ],
-        "base": 4.95,
+        "base": 4.96,
         "reward": 2.5,
-        "total": 7.45,
-        "spot": 7.45,
+        "total": 7.46,
+        "spot": 7.46,
         "mean30d": 7.81,
         "divFlag": "●",
-        "tvlUsd": 48640634,
+        "tvlUsd": 48640960,
         "legs": [
           "USDG"
         ],
@@ -4891,7 +5258,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "maple",
@@ -4970,7 +5339,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "centrifuge-protocol",
@@ -5049,7 +5420,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "centrifuge-protocol",
@@ -5128,7 +5501,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "morpho-blue",
@@ -5217,7 +5592,18 @@
           "maxOut30": 2991652.95,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xa8875aaebc4f830524e35d57f9772ffacbdd6c45",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "jupiter-lend",
@@ -5296,7 +5682,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "aave-v3",
@@ -5375,7 +5763,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -5464,7 +5854,18 @@
           "maxOut30": 18.56,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x68aea7b82df6ccdf76235d46445ed83f85f845a3",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -5553,7 +5954,18 @@
           "maxOut30": 650000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x5dc53a23adc9f2bed98de6f59f7f309a7c71ff2b",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -5642,7 +6054,18 @@
           "maxOut30": 4000000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x91600e31fbedc72433d4a57f16639cfe661be7d8",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "aave-v3",
@@ -5721,7 +6144,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -5810,7 +6235,18 @@
           "maxOut30": 2000620.13,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x5b453493d2328e7f747eb2e66446efe707728be7",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -5899,7 +6335,18 @@
           "maxOut30": 30005829.65,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x56a76b428244a50513ec81e225a293d128fd581d",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -5978,7 +6425,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xbeefe94c8ad530842bfe7d8b397938ffc1cb83b2",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -6067,7 +6525,18 @@
           "maxOut30": 14346608.5,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x8381a156958711e230f325428b5eb4b6555c75d9",
+          "underlying": {
+            "address": "0x6c3ea9036406852006290770bedfcaba0e23a0e8",
+            "symbol": "PYUSD",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -6156,7 +6625,99 @@
           "maxOut30": 1246454.61,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xa0804346780b4c2e3be118ac957d1db82f9d7484",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
+      },
+      {
+        "project": "kamino-lend",
+        "name": "Kamino Lend",
+        "symbol": "Plume x Re7 USDC",
+        "chain": "Solana",
+        "bucket": "lend",
+        "access": "permissionless",
+        "type": "fiat",
+        "tier": 1,
+        "tierDriver": "USDC",
+        "level": 2,
+        "levelComputed": 2,
+        "levelDriver": "size",
+        "factors": [
+          {
+            "name": "coin",
+            "value": "USDC",
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "size",
+            "value": 7443865.039423435,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "age",
+            "value": 73,
+            "level": 2,
+            "unknown": false
+          },
+          {
+            "name": "yield",
+            "value": 0.99,
+            "level": 1,
+            "unknown": false
+          },
+          {
+            "name": "stability",
+            "value": 4,
+            "level": 1,
+            "unknown": false,
+            "risePp": 0.32,
+            "belowMinPp": false
+          },
+          {
+            "name": "protocol",
+            "value": "kamino-lend",
+            "level": 1,
+            "unknown": false
+          }
+        ],
+        "base": 4.34,
+        "reward": 4.55,
+        "total": 8.9,
+        "spot": 8.9,
+        "mean30d": 8.57,
+        "divFlag": "●",
+        "tvlUsd": 7443865,
+        "legs": [
+          "USDC"
+        ],
+        "url": "https://app.kamino.finance/lend/HJFEPRRRLBfJBfSJaC69r3nMYskViL9Yy1QLLAqjvnW",
+        "linkKind": "exact",
+        "exposure": "single",
+        "ilRisk": "no",
+        "apyReward": 4.55,
+        "volumeUsd1d": null,
+        "volumeUsd7d": null,
+        "apyPct7D": 8.24,
+        "apyPct30D": null,
+        "poolId": "HJFEPRRRLBfJBfSJaC69r3nMYskViL9Yy1QLLAqjvnW",
+        "vault": null,
+        "flows": {
+          "status": "untracked",
+          "reason": "protocol"
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -6245,7 +6806,18 @@
           "maxOut30": 278975.5,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xdd0f28e19c1780eb6396170735d45153d261490d",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -6334,7 +6906,18 @@
           "maxOut30": 549569.24,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeefb9f61cc44895d8aec381373555a64191a9c4",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -6413,7 +6996,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x1401d1271c47648ac70cbcdfa3776d4a87ce006b",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -6502,7 +7096,18 @@
           "maxOut30": 10000000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x71ffb6a81786ec285d429d531cf655107b9d878d",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -6591,7 +7196,18 @@
           "maxOut30": 1000000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x56bfa6f53669b836d1e0dfa5e99706b12c373ecf",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -6670,7 +7286,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x91c056b6d4311a743614fbc03ac32d4e6a2d3a3c",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -6759,7 +7386,18 @@
           "maxOut30": 2001476.21,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xb8274efadb953fe9ae052d481a3fc5b6a3ced703",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "kamino-lend",
@@ -6783,7 +7421,7 @@
           },
           {
             "name": "size",
-            "value": 19334323.53784894,
+            "value": 19334467.41838247,
             "level": 2,
             "unknown": false
           },
@@ -6804,7 +7442,7 @@
             "value": -23,
             "level": 1,
             "unknown": false,
-            "risePp": -1.21,
+            "risePp": -1.22,
             "belowMinPp": false
           },
           {
@@ -6820,7 +7458,7 @@
         "spot": 4.07,
         "mean30d": 5.28,
         "divFlag": "▼",
-        "tvlUsd": 19334324,
+        "tvlUsd": 19334467,
         "legs": [
           "USDC"
         ],
@@ -6831,14 +7469,16 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 4.69,
+        "apyPct7D": 4.68,
         "apyPct30D": null,
         "poolId": "HDsayqAsDWy3QvANGqh2yNraqcD8Fnjgh73Mhb3WRS5E",
         "vault": null,
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -6927,7 +7567,9 @@
           "maxOut30": 200000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "aave-v3",
@@ -7006,86 +7648,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
-      },
-      {
-        "project": "kamino-lend",
-        "name": "Kamino Lend",
-        "symbol": "Plume x Re7 USDC",
-        "chain": "Solana",
-        "bucket": "lend",
-        "access": "permissionless",
-        "type": "fiat",
-        "tier": 1,
-        "tierDriver": "USDC",
-        "level": 2,
-        "levelComputed": 2,
-        "levelDriver": "size",
-        "factors": [
-          {
-            "name": "coin",
-            "value": "USDC",
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "size",
-            "value": 7613917.542183661,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "age",
-            "value": 73,
-            "level": 2,
-            "unknown": false
-          },
-          {
-            "name": "yield",
-            "value": 1.02,
-            "level": 1,
-            "unknown": false
-          },
-          {
-            "name": "stability",
-            "value": -2,
-            "level": 1,
-            "unknown": false,
-            "risePp": -0.14,
-            "belowMinPp": false
-          },
-          {
-            "name": "protocol",
-            "value": "kamino-lend",
-            "level": 1,
-            "unknown": false
-          }
-        ],
-        "base": 3.98,
-        "reward": 4.45,
-        "total": 8.44,
-        "spot": 8.44,
-        "mean30d": 8.58,
-        "divFlag": "●",
-        "tvlUsd": 7613918,
-        "legs": [
-          "USDC"
-        ],
-        "url": "https://app.kamino.finance/lend/HJFEPRRRLBfJBfSJaC69r3nMYskViL9Yy1QLLAqjvnW",
-        "linkKind": "exact",
-        "exposure": "single",
-        "ilRisk": "no",
-        "apyReward": 4.45,
-        "volumeUsd1d": null,
-        "volumeUsd7d": null,
-        "apyPct7D": 8.24,
-        "apyPct30D": null,
-        "poolId": "HJFEPRRRLBfJBfSJaC69r3nMYskViL9Yy1QLLAqjvnW",
-        "vault": null,
-        "flows": {
-          "status": "untracked",
-          "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "midas-rwa",
@@ -7164,7 +7729,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "yearn-finance",
@@ -7248,7 +7815,9 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "morpho-blue",
@@ -7337,7 +7906,18 @@
           "maxOut30": 520854.87,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x79fd640000f8563a866322483524a4b48f1ed702",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -7426,7 +8006,18 @@
           "maxOut30": 660291.42,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x974c8fbf4fd795f66b85b73ebc988a51f1a040a9",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "sky-lending",
@@ -7505,7 +8096,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "sky-lending",
@@ -7584,7 +8177,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "spark-savings",
@@ -7663,7 +8258,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "spark-savings",
@@ -7742,7 +8339,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "centrifuge-protocol",
@@ -7821,7 +8420,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "morpho-blue",
@@ -7910,7 +8511,18 @@
           "maxOut30": 5815023.31,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xc21b08c16458202593d4d9b26b9984ee67b38bbd",
+          "underlying": {
+            "address": "0x6c3ea9036406852006290770bedfcaba0e23a0e8",
+            "symbol": "PYUSD",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "aave-v3",
@@ -7989,7 +8601,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -8078,7 +8692,18 @@
           "maxOut30": 29716999.91,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xb0c424116172b55cbb6dd3136f5989f7959e5b91",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "midas-rwa",
@@ -8157,7 +8782,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "yearn-finance",
@@ -8241,7 +8868,9 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "morpho-blue",
@@ -8330,7 +8959,18 @@
           "maxOut30": 425356.72,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xa71d08a159258553a5ac190d60fa919425ff02ea",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "yearn-finance",
@@ -8414,7 +9054,9 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "aave-v3",
@@ -8493,7 +9135,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "aave-v3",
@@ -8572,7 +9216,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "kamino-lend",
@@ -8596,13 +9242,13 @@
           },
           {
             "name": "size",
-            "value": 39113554.251971,
+            "value": 39114068.46069036,
             "level": 2,
             "unknown": false
           },
           {
             "name": "age",
-            "value": 147,
+            "value": 148,
             "level": 2,
             "unknown": false
           },
@@ -8633,7 +9279,7 @@
         "spot": 3.32,
         "mean30d": 3.52,
         "divFlag": "●",
-        "tvlUsd": 39113554,
+        "tvlUsd": 39114068,
         "legs": [
           "PYUSD"
         ],
@@ -8644,14 +9290,16 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 3.5,
+        "apyPct7D": 3.49,
         "apyPct30D": null,
         "poolId": "4TwKA9JXEGeLEpAPLoarhSQoQwoiu12dkDCjSuVvHQUf",
         "vault": null,
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "aave-v3",
@@ -8730,7 +9378,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -8819,7 +9469,9 @@
           "maxOut30": 2337881.16,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "yearn-finance",
@@ -8903,7 +9555,9 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "morpho-blue",
@@ -8982,7 +9636,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xbeeff2490feffa212fac2f6553682c219e6a8845",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "compound-v3",
@@ -9061,7 +9726,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "aave-v3",
@@ -9140,7 +9807,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "compound-v3",
@@ -9219,7 +9888,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "aave-v4",
@@ -9298,7 +9969,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "jupiter-lend",
@@ -9377,7 +10050,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "midas-rwa",
@@ -9456,7 +10131,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "morpho-blue",
@@ -9545,7 +10222,18 @@
           "maxOut30": 5901611.32,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x7cbcfc4f64be199ede6db1d916ddcdb69f666b57",
+          "underlying": {
+            "address": "0x6c3ea9036406852006290770bedfcaba0e23a0e8",
+            "symbol": "PYUSD",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "aave-v3",
@@ -9624,7 +10312,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -9713,7 +10403,18 @@
           "maxOut30": 8000054.16,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xe15fcc81118895b67b6647bbd393182df44e11e0",
+          "underlying": {
+            "address": "0xdc035d45d973e3ec169d2276ddab16f1e407384f",
+            "symbol": "USDS",
+            "decimals": 18
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "orca-dex",
@@ -9793,7 +10494,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -9882,7 +10585,18 @@
           "maxOut30": 2432.29,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xfc8c624b6080a0a780583799f2a862de936f6e22",
+          "underlying": {
+            "address": "0x8292bb45bf1ee4d140127049757c2e0ff06317ed",
+            "symbol": "RLUSD",
+            "decimals": 18
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "uniswap-v4",
@@ -9962,7 +10676,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "uniswap-v4",
@@ -10042,7 +10758,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "orca-dex",
@@ -10122,7 +10840,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "uniswap-v4",
@@ -10202,7 +10922,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "blackrock-buidl",
@@ -10281,7 +11003,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "blackrock-buidl",
@@ -10360,7 +11084,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       }
     ],
     "3": [
@@ -10442,7 +11168,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "uniswap-v4",
@@ -10522,7 +11250,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "centrifuge-protocol",
@@ -10601,7 +11331,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "morpho-blue",
@@ -10690,7 +11422,18 @@
           "maxOut30": 218091.78,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xc30c60de46dec551b96326cbd05592c9245773ef",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "beefy",
@@ -10770,7 +11513,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "beefy",
@@ -10850,7 +11595,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "kamino-lend",
@@ -10874,7 +11621,7 @@
           },
           {
             "name": "size",
-            "value": 4632285.531034297,
+            "value": 4631978.937021963,
             "level": 3,
             "unknown": false
           },
@@ -10895,7 +11642,7 @@
             "value": 12,
             "level": 1,
             "unknown": false,
-            "risePp": 0.93,
+            "risePp": 0.91,
             "belowMinPp": false
           },
           {
@@ -10905,13 +11652,13 @@
             "unknown": false
           }
         ],
-        "base": 7.55,
-        "reward": 1.15,
-        "total": 8.7,
-        "spot": 8.7,
+        "base": 7.54,
+        "reward": 1.14,
+        "total": 8.68,
+        "spot": 8.68,
         "mean30d": 7.77,
         "divFlag": "●",
-        "tvlUsd": 4632286,
+        "tvlUsd": 4631979,
         "legs": [
           "USDC"
         ],
@@ -10919,7 +11666,7 @@
         "linkKind": "exact",
         "exposure": "single",
         "ilRisk": "no",
-        "apyReward": 1.15,
+        "apyReward": 1.14,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
         "apyPct7D": 7.04,
@@ -10929,7 +11676,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -11018,7 +11767,18 @@
           "maxOut30": 217368.25,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeeff75262b2ec16a3c62a807f02ee7627654931",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "midas-rwa",
@@ -11097,7 +11857,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "midas-rwa",
@@ -11176,7 +11938,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "yearn-finance",
@@ -11260,7 +12024,9 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "kamino-lend",
@@ -11284,7 +12050,7 @@
           },
           {
             "name": "size",
-            "value": 1113186.9685064815,
+            "value": 1113196.6902466593,
             "level": 3,
             "unknown": false
           },
@@ -11305,7 +12071,7 @@
             "value": -4,
             "level": 1,
             "unknown": false,
-            "risePp": -0.32,
+            "risePp": -0.29,
             "belowMinPp": false
           },
           {
@@ -11315,13 +12081,13 @@
             "unknown": false
           }
         ],
-        "base": 6.94,
+        "base": 6.96,
         "reward": 0,
-        "total": 6.94,
-        "spot": 6.94,
+        "total": 6.96,
+        "spot": 6.96,
         "mean30d": 7.25,
         "divFlag": "●",
-        "tvlUsd": 1113187,
+        "tvlUsd": 1113197,
         "legs": [
           "USDG"
         ],
@@ -11339,7 +12105,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -11428,7 +12196,18 @@
           "maxOut30": 99046.09,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x54210d3f1a066413891af9e17210e787d5c6e3f4",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -11517,7 +12296,18 @@
           "maxOut30": 65331.45,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x777791c4d6dc2ce140d00d2828a7c93503c67777",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -11606,7 +12396,18 @@
           "maxOut30": 500000.01,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x500331c9ff24d9d11aee6b07734aa72343ea74a5",
+          "underlying": {
+            "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+            "symbol": "DAI",
+            "decimals": 18
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "yearn-finance",
@@ -11686,7 +12487,9 @@
         "flows": {
           "status": "untracked",
           "reason": "coin"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -11775,7 +12578,18 @@
           "maxOut30": 3997180.13,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xcf609f8327e68b42af54f9d529b9f65d68038435",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -11859,7 +12673,18 @@
           "status": "collecting",
           "since": "2026-10-23",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x18e862e34938db06c9244966a93939e7892f5119",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "uniswap-v3",
@@ -11939,7 +12764,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "kamino-lend",
@@ -11963,7 +12790,7 @@
           },
           {
             "name": "size",
-            "value": 1303903.9409767764,
+            "value": 1307503.9440802948,
             "level": 3,
             "unknown": false
           },
@@ -12000,7 +12827,7 @@
         "spot": 5.91,
         "mean30d": 6.13,
         "divFlag": "●",
-        "tvlUsd": 1303904,
+        "tvlUsd": 1307504,
         "legs": [
           "USDC"
         ],
@@ -12018,7 +12845,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -12107,7 +12936,18 @@
           "maxOut30": 33098.94,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xd63070114470f685b75b74d60eec7c1113d33a3d",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "kamino-lend",
@@ -12131,7 +12971,7 @@
           },
           {
             "name": "size",
-            "value": 1055697.6203110684,
+            "value": 1055706.9448900966,
             "level": 3,
             "unknown": false
           },
@@ -12168,7 +13008,7 @@
         "spot": 5.8,
         "mean30d": 6.17,
         "divFlag": "●",
-        "tvlUsd": 1055698,
+        "tvlUsd": 1055707,
         "legs": [
           "USDC"
         ],
@@ -12179,14 +13019,16 @@
         "apyReward": 0.13,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 5.6,
+        "apyPct7D": 5.61,
         "apyPct30D": null,
         "poolId": "EPC2N3AAv84P9TKsnDt2x41p6T7c5vTewBhQbh4RVx4r",
         "vault": null,
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "yearn-finance",
@@ -12266,7 +13108,9 @@
         "flows": {
           "status": "untracked",
           "reason": "coin"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -12345,7 +13189,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x0548a36028ffdc7d5aaa7a182f0d1fe0264f5a5c",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -12424,7 +13279,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x1deefabee758aabdc29a542b24ca3b75afd56765",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -12513,7 +13379,18 @@
           "maxOut30": 33164.84,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x62fe596d59fb077c2df736df212e0affb522dc78",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "kamino-lend",
@@ -12537,7 +13414,7 @@
           },
           {
             "name": "size",
-            "value": 1488779.9387747284,
+            "value": 1488792.6740108978,
             "level": 3,
             "unknown": false
           },
@@ -12574,7 +13451,7 @@
         "spot": 5.45,
         "mean30d": 6.34,
         "divFlag": "●",
-        "tvlUsd": 1488780,
+        "tvlUsd": 1488793,
         "legs": [
           "USDC"
         ],
@@ -12592,7 +13469,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "beefy",
@@ -12672,7 +13551,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "uniswap-v4",
@@ -12752,7 +13633,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "compound-v3",
@@ -12831,7 +13714,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "ethena-usde",
@@ -12910,7 +13795,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "beefy",
@@ -12989,7 +13876,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -13078,7 +13967,18 @@
           "maxOut30": 513998.58,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeeff07d991c04cd640de9f15c08ba59c4fedeb7",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -13167,7 +14067,18 @@
           "maxOut30": 204993.6,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xe571b648569619566cf6ce1060c97b621cb635d3",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "beefy",
@@ -13246,7 +14157,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "yearn-finance",
@@ -13325,7 +14238,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xf115c134c23c7a05fbd489a8be3116ebf54b0d9f",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -13414,7 +14338,18 @@
           "maxOut30": 0,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x68a65f315bcd3c3456d1368ff88bc661856548e1",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "aave-v4",
@@ -13493,7 +14428,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "jupiter-lend",
@@ -13572,7 +14509,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "jupiter-lend",
@@ -13651,7 +14590,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -13730,7 +14671,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x1e9e47583f15d45a10df48c0b1846e0492c795d7",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -13809,7 +14761,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xb88a0269c0b7e665f15de46f634e02ce81e361c9",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "uniswap-v4",
@@ -13889,7 +14852,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "morpho-blue",
@@ -13978,7 +14943,18 @@
           "maxOut30": 429549.36,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x69a238ae7ebeb3c53ff3b544e48b96a2142fc284",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "kamino-lend",
@@ -14002,7 +14978,7 @@
           },
           {
             "name": "size",
-            "value": 2064292.6543010755,
+            "value": 2064308.8768808572,
             "level": 3,
             "unknown": false
           },
@@ -14023,7 +14999,7 @@
             "value": -14,
             "level": 1,
             "unknown": false,
-            "risePp": -0.75,
+            "risePp": -0.76,
             "belowMinPp": false
           },
           {
@@ -14033,13 +15009,13 @@
             "unknown": false
           }
         ],
-        "base": 4.52,
+        "base": 4.51,
         "reward": 0.03,
-        "total": 4.55,
-        "spot": 4.55,
+        "total": 4.54,
+        "spot": 4.54,
         "mean30d": 5.3,
         "divFlag": "●",
-        "tvlUsd": 2064293,
+        "tvlUsd": 2064309,
         "legs": [
           "USDC"
         ],
@@ -14050,14 +15026,16 @@
         "apyReward": 0.03,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 4.86,
+        "apyPct7D": 4.85,
         "apyPct30D": null,
         "poolId": "ADcgKvst9u9qRXgSCxg2eZtqKNYPuMbfqjntaLepxwE5",
         "vault": null,
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -14146,7 +15124,18 @@
           "maxOut30": 7788.7,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbeef96b330ef1fe7ebe41ece0bd4a41a94bc03dc",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "beefy",
@@ -14226,7 +15215,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -14315,7 +15306,18 @@
           "maxOut30": 600065.12,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x802148d518a6de2af866f9a61ffb5e5c39156db2",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -14394,7 +15396,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x39e18c066187c83e860801befe45ae8ecd021575",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -14473,7 +15486,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x8effa741061aaa2d8a5012a9b09a2d31d8b628d7",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -14552,7 +15576,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x618495ccc4e751178c4914b1e939c0fe0fb07b9b",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "jupiter-lend",
@@ -14631,7 +15666,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -14720,7 +15757,18 @@
           "maxOut30": 98037.7,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x8eb67a509616cd6a7c1b3c8c21d48ff57df3d458",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "kamino-lend",
@@ -14744,7 +15792,7 @@
           },
           {
             "name": "size",
-            "value": 2316015.5708158193,
+            "value": 2316033.2888222225,
             "level": 3,
             "unknown": false
           },
@@ -14765,7 +15813,7 @@
             "value": -12,
             "level": 1,
             "unknown": false,
-            "risePp": -0.56,
+            "risePp": -0.57,
             "belowMinPp": false
           },
           {
@@ -14781,7 +15829,7 @@
         "spot": 4.33,
         "mean30d": 4.89,
         "divFlag": "●",
-        "tvlUsd": 2316016,
+        "tvlUsd": 2316033,
         "legs": [
           "USDC"
         ],
@@ -14792,14 +15840,16 @@
         "apyReward": 0.03,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 4.67,
+        "apyPct7D": 4.65,
         "apyPct30D": null,
         "poolId": "BEEfo7xwgK2ZP13Pxo7qqTPzAteKJmXjVWtMWcXSvbn2",
         "vault": null,
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "kamino-lend",
@@ -14823,7 +15873,7 @@
           },
           {
             "name": "size",
-            "value": 1300592.8066768225,
+            "value": 1300610.0857146392,
             "level": 3,
             "unknown": false
           },
@@ -14860,7 +15910,7 @@
         "spot": 4.29,
         "mean30d": 5.09,
         "divFlag": "●",
-        "tvlUsd": 1300593,
+        "tvlUsd": 1300610,
         "legs": [
           "USDC"
         ],
@@ -14871,14 +15921,16 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 4.61,
+        "apyPct7D": 4.59,
         "apyPct30D": null,
         "poolId": "9E69U4GzWhryRaPe8DYpco6Z9vTZY6gg8w6W2QsBACEj",
         "vault": null,
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "yearn-finance",
@@ -14962,7 +16014,18 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x074134a2784f4f66b6ced6f68849382990ff3215",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -15041,7 +16104,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xc0c5689e6f4d256e861f65465b691aeecc0deb12",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -15120,7 +16194,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0xc1256ae5ff1cf2719d4937adb3bbccab2e00a2ca",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -15209,7 +16294,18 @@
           "maxOut30": 20651.08,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xbf29043164660c60a2a72cd15ffe2304e87b6838",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -15298,7 +16394,18 @@
           "maxOut30": 2000000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x069662d2588fcac24b5c209456db965d151556f0",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "save",
@@ -15377,7 +16484,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -15456,7 +16565,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 8453,
+          "token": "0x8b12106a70fe2f8bb255f691f1cf9a9ccfb278af",
+          "underlying": {
+            "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "kamino-lend",
@@ -15480,7 +16600,7 @@
           },
           {
             "name": "size",
-            "value": 1389069.7905042311,
+            "value": 1389111.5892401193,
             "level": 3,
             "unknown": false
           },
@@ -15515,9 +16635,9 @@
         "reward": 0,
         "total": 4.02,
         "spot": 4.02,
-        "mean30d": 4.68,
+        "mean30d": 4.67,
         "divFlag": "●",
-        "tvlUsd": 1389070,
+        "tvlUsd": 1389112,
         "legs": [
           "USDC"
         ],
@@ -15528,14 +16648,16 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 4.17,
+        "apyPct7D": 4.16,
         "apyPct30D": null,
         "poolId": "3SMNuqK7m13KorY9gX8DzjQAVXGbhgRVni65Pk6LTBgC",
         "vault": null,
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "kamino-lend",
@@ -15559,7 +16681,7 @@
           },
           {
             "name": "size",
-            "value": 2580542.5143998256,
+            "value": 2580543.3423320483,
             "level": 3,
             "unknown": false
           },
@@ -15580,7 +16702,7 @@
             "value": -1,
             "level": 1,
             "unknown": false,
-            "risePp": -0.04,
+            "risePp": -0.03,
             "belowMinPp": false
           },
           {
@@ -15590,10 +16712,10 @@
             "unknown": false
           }
         ],
-        "base": 4,
+        "base": 4.01,
         "reward": 0,
-        "total": 4,
-        "spot": 4,
+        "total": 4.01,
+        "spot": 4.01,
         "mean30d": 4.04,
         "divFlag": "●",
         "tvlUsd": 2580543,
@@ -15607,14 +16729,16 @@
         "apyReward": null,
         "volumeUsd1d": null,
         "volumeUsd7d": null,
-        "apyPct7D": 4.34,
+        "apyPct7D": 4.33,
         "apyPct30D": null,
         "poolId": "FPQNECVaw9qCHTJ7JRQXQUV94YffmhX3he5khUgx4m3j",
         "vault": null,
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "aave-v3",
@@ -15693,7 +16817,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -15782,7 +16908,18 @@
           "maxOut30": 669922.78,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x8cb3649114051ca5119141a34c200d65dc0faa73",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "morpho-blue",
@@ -15871,7 +17008,18 @@
           "maxOut30": 300000,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0xc54b4e08c1dcc199fdd35c6b5ab589ffd3428a8d",
+          "underlying": {
+            "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "symbol": "USDT",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "yearn-finance",
@@ -15950,7 +17098,9 @@
         "flows": {
           "status": "untracked",
           "reason": "unverified"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "centrifuge-protocol",
@@ -16029,7 +17179,9 @@
         "flows": {
           "status": "untracked",
           "reason": "protocol"
-        }
+        },
+        "deposit": null,
+        "depositReason": "permissioned"
       },
       {
         "project": "jupiter-lend",
@@ -16108,7 +17260,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "yearn-finance",
@@ -16192,7 +17346,9 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "notTransactional"
       },
       {
         "project": "morpho-blue",
@@ -16271,7 +17427,9 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "uniswap-v3",
@@ -16351,7 +17509,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "morpho-blue",
@@ -16430,7 +17590,9 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "save",
@@ -16509,7 +17671,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "morpho-blue",
@@ -16593,7 +17757,18 @@
           "status": "collecting",
           "since": "2026-10-23",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x195b3a57dd0480534c84a5607a52a92304fa81f2",
+          "underlying": {
+            "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "aave-v4",
@@ -16672,7 +17847,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "uniswap-v3",
@@ -16752,7 +17929,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "aave-v4",
@@ -16831,7 +18010,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "raydium-amm",
@@ -16911,7 +18092,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "aave-v4",
@@ -16990,7 +18173,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "sparklend",
@@ -17069,7 +18254,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -17148,7 +18335,18 @@
         "flows": {
           "status": "untracked",
           "reason": "chain"
-        }
+        },
+        "deposit": {
+          "chainId": 42161,
+          "token": "0x5c0c306aaa9f877de636f4d5822ca9f2e81563ba",
+          "underlying": {
+            "address": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+            "symbol": "USDC",
+            "decimals": 6
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "uniswap-v4",
@@ -17228,7 +18426,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "uniswap-v4",
@@ -17308,7 +18508,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "orca-dex",
@@ -17388,7 +18590,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "uniswap-v4",
@@ -17468,7 +18672,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "uniswap-v3",
@@ -17548,7 +18754,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "orca-dex",
@@ -17628,7 +18836,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "uniswap-v3",
@@ -17708,7 +18918,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "uniswap-v3",
@@ -17788,7 +19000,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "uniswap-v3",
@@ -17868,7 +19082,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "euler-v2",
@@ -17952,7 +19168,9 @@
           "status": "collecting",
           "since": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "uniswap-v3",
@@ -18032,7 +19250,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "aave-v3",
@@ -18111,7 +19331,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "aave-v3",
@@ -18190,7 +19412,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "uniswap-v4",
@@ -18270,7 +19494,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "morpho-blue",
@@ -18359,7 +19585,18 @@
           "maxOut30": 1271.14,
           "asOf": "2026-10-22",
           "updatedAt": "2026-10-23T09:34:09.594Z"
-        }
+        },
+        "deposit": {
+          "chainId": 1,
+          "token": "0x6859b34a9379122d25a9fa46f0882d434fee36c3",
+          "underlying": {
+            "address": "0xab5eb14c09d416f0ac63661e57edb7aecdb9befa",
+            "symbol": "msUSD",
+            "decimals": 18
+          },
+          "match": "address"
+        },
+        "depositReason": null
       },
       {
         "project": "orca-dex",
@@ -18439,7 +19676,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "nonEvm"
       },
       {
         "project": "uniswap-v3",
@@ -18519,7 +19758,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "uniswap-v3",
@@ -18599,7 +19840,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "uniswap-v3",
@@ -18679,7 +19922,9 @@
         "flows": {
           "status": "untracked",
           "reason": "dex"
-        }
+        },
+        "deposit": null,
+        "depositReason": "lp"
       },
       {
         "project": "aave-v4",
@@ -18758,7 +20003,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       },
       {
         "project": "morpho-blue",
@@ -18837,7 +20084,9 @@
         "flows": {
           "status": "untracked",
           "reason": "lending"
-        }
+        },
+        "deposit": null,
+        "depositReason": "noMatch"
       }
     ]
   },
