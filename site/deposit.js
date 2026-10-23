@@ -588,6 +588,10 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
   if (busy() || ["done", "failed", "unknown"].includes(s.phase)) draw(); // a deposit in progress: show it, don't re-quote
   else requote();
   if (W.account && s.balance == null) readBalance();
-  if (focus && !busy()) input.focus();
+  if (focus) {
+    // the whole panel in view on open (on a phone the button would sit below the fold), then the amount
+    slot.scrollIntoView({ block: "nearest" });
+    if (!busy()) input.focus({ preventScroll: true });
+  }
   return () => { stopQuote(); clearInterval(tick); if (view?.slot === slot) view = null; };
 }
