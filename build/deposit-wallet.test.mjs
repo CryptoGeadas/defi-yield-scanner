@@ -82,7 +82,7 @@ test("readStatus: LI.FI's status → what the panel shows", () => {
   assert.deepEqual(readStatus({ status: "DONE", substatus: "PARTIAL" }), { phase: "partial" });
   assert.deepEqual(readStatus({ status: "DONE", substatus: "REFUNDED" }), { phase: "refunded" });
   assert.deepEqual(readStatus({ status: "DONE", substatus: "SOMETHING_NEW" }), { phase: "check" }, "never claim success on a status we don't know");
-  assert.deepEqual(readStatus({ status: "INVALID" }), { phase: "pending", message: null });
+  assert.deepEqual(readStatus({ status: "INVALID" }), { phase: "check" }, "LI.FI can't read the transfer: send the user to it");
   assert.deepEqual(readStatus({ status: "FAILED" }), { phase: "failed" });
   assert.deepEqual(readStatus({ status: "PENDING", substatusMessage: "Waiting for confirmations" }), { phase: "pending", message: "Waiting for confirmations" });
   assert.deepEqual(readStatus({ status: "NOT_FOUND" }), { phase: "pending", message: null });
@@ -161,7 +161,6 @@ test("buildDepositTx: anything that is not exactly this deposit is refused, with
     "another sender": quote({ fromAddress: OTHER }),
     "another destination": quote({ toToken: { address: OTHER } }),
     "another contract": quote({}, { to: OTHER }),
-    "sends ETH too": quote({}, { value: "0x1" }),
     "tx chain id differs": quote({}, { chainId: 1 }),
     "no call data": quote({}, { data: "0x" }),
     "another spender": { ...quote(), estimate: { approvalAddress: OTHER } },
@@ -171,6 +170,16 @@ test("buildDepositTx: anything that is not exactly this deposit is refused, with
     try { buildDepositTx(q, ctx); } catch (e) { err = e; }
     assert.ok(err?.plain && /nothing was signed/.test(err.message), why);
   }
+});
+
+test("buildDepositTx: a route that also needs ETH (bridge fee) is refused with its own plain message", () => {
+  let err; try { buildDepositTx(quote({}, { value: "0x1" }), ctx); } catch (e) { err = e; }
+  assert.ok(err?.plain && err.needsGas && /needs ETH for the bridge fee/.test(err.message));
+});
+
+test("buildDepositTx: a pay token with other decimals than the panel used is refused", () => {
+  assert.throws(() => buildDepositTx(quote({ fromToken: { address: PAY, decimals: 18 } }), { ...ctx, payDecimals: 6 }), /precision/);
+  assert.doesNotThrow(() => buildDepositTx(quote({ fromToken: { address: PAY, decimals: 6 } }), { ...ctx, payDecimals: 6 }));
 });
 
 test("buildDepositTx: no approval address (nothing to approve) is fine", () => {

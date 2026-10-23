@@ -9,7 +9,7 @@ const CHAINS = {
   8453: { rpc: "https://mainnet.base.org", explorer: "https://basescan.org" },
   42161: { rpc: "https://arb1.arbitrum.io/rpc", explorer: "https://arbiscan.io" },
   10: { rpc: "https://mainnet.optimism.io", explorer: "https://optimistic.etherscan.io" },
-  137: { rpc: "https://polygon-rpc.com", explorer: "https://polygonscan.com" },
+  137: { rpc: "https://polygon-bor-rpc.publicnode.com", explorer: "https://polygonscan.com" }, // polygon-rpc.com answers 401 (2026-10-23)
 };
 const IS_ADDR = /^0x[0-9a-f]{40}$/i;
 const IS_HASH = /^0x[0-9a-f]{64}$/i;
@@ -69,14 +69,17 @@ export const mustResetFirst = (chainId, token, allowanceHex) => RESET_APPROVAL.h
 // exactly this deposit: same chain, the pay token, the amount the user typed, the
 // connected account as sender, ending in the vault's token. Anything else throws a plain
 // message and nothing is signed.
+// chainId: where the user pays and signs; toChainId: the vault's chain (the same for a
+// same-chain deposit; another one when LI.FI bridges first, #43).
 // → { spender | null, tx } with tx ready for eth_sendTransaction (chainId included, so the
 // wallet itself refuses to sign on another network).
-export function buildDepositTx(raw, { from, chainId, units, payToken, vaultToken }) {
+export function buildDepositTx(raw, { from, chainId, toChainId = chainId, units, payToken, payDecimals = null, vaultToken }) {
   const a = raw?.action, tr = raw?.transactionRequest, same = (x, y) => String(x ?? "").toLowerCase() === String(y ?? "").toLowerCase();
   const refuse = (why) => { throw Object.assign(new Error(`The quote does not match this deposit (${why}), so nothing was signed. Try again.`), { plain: true }); };
   if (!a || !tr) refuse("no transaction in it");
-  if (Number(a.fromChainId) !== chainId || Number(a.toChainId) !== chainId) refuse("another chain");
+  if (Number(a.fromChainId) !== chainId || Number(a.toChainId) !== toChainId) refuse("another chain");
   if (!same(a.fromToken?.address, payToken)) refuse("another pay token");
+  if (payDecimals != null && a.fromToken?.decimals != null && Number(a.fromToken.decimals) !== payDecimals) refuse("another token precision");
   if (String(a.fromAmount) !== String(units)) refuse("another amount");
   if (!same(a.fromAddress, from)) refuse("another sender");
   if (!same(a.toToken?.address, vaultToken)) refuse("another destination token");
@@ -84,7 +87,8 @@ export function buildDepositTx(raw, { from, chainId, units, payToken, vaultToken
   if (tr.chainId != null && !sameChain(tr.chainId, chainId)) refuse("another chain");
   const diamond = LIFI_DIAMOND[chainId];
   if (!diamond || !same(tr.to, diamond)) refuse("another contract");
-  if (BigInt(tr.value ?? 0) !== 0n) refuse("it would also send ETH");
+  if (BigInt(tr.value ?? 0) !== 0n)
+    throw Object.assign(new Error("This route also needs ETH for the bridge fee, which this panel does not send. Pick another chain to pay from."), { plain: true, needsGas: true });
   const spender = raw.estimate?.approvalAddress ?? null;
   if (spender != null && !same(spender, diamond)) refuse("another approval address");
   const hex = (v) => (v == null ? undefined : typeof v === "string" && v.startsWith("0x") ? v : "0x" + BigInt(v).toString(16));
@@ -100,7 +104,46 @@ export function readStatus(j) {
     return { phase: p ?? "check" };
   }
   if (j?.status === "FAILED") return { phase: "failed" };
+  if (j?.status === "INVALID") return { phase: "check" }; // LI.FI can't read this transfer: send the user to it
   return { phase: "pending", message: typeof j?.substatusMessage === "string" ? j.substatusMessage : null };
+}
+
+export const CHAIN_NAME = { 1: "Ethereum", 8453: "Base", 42161: "Arbitrum", 10: "Optimism", 137: "Polygon" };
+export const PAY_CHAINS = [1, 8453, 42161, 10, 137]; // the Scanner's EVM chains (deposit-protocols' order is not used)
+
+// The same coin as the vault's underlying token on each pay chain, from LI.FI's token list:
+// chainId → { address, symbol, decimals } | null (that coin isn't on that chain). Same coin
+// = same coinKey as the vault chain's token, so a look-alike symbol never counts.
+// The vault chain's own token is always the row's (never looked up).
+// A chain whose lookup failed (HTTP error, network, rate limit) is left OUT of the map, so
+// the panel says "couldn't check" and asks again next time; null means LI.FI really has
+// no such coin there. Decimals are read from the token contract itself: a wrong value
+// would turn "250" into the wrong amount, and the quote would agree with it.
+// decimalsOf(chainId, address) → number; injectable for tests.
+export async function resolvePayTokens(vaultChainId, underlying, { chainIds = PAY_CHAINS, fetchImpl = fetch, decimalsOf = chainDecimals } = {}) {
+  const get = async (chain, token) => {
+    const r = await fetchImpl(`https://li.quest/v1/token?chain=${chain}&token=${encodeURIComponent(token)}`);
+    if (r.status === 404 || r.status === 400) return null; // not listed
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const j = await r.json();
+    return IS_ADDR.test(String(j?.address)) && Number.isInteger(j?.decimals) && Number(j.chainId) === Number(chain) ? j : null;
+  };
+  const out = new Map([[vaultChainId, { address: underlying.address, symbol: underlying.symbol, decimals: underlying.decimals }]]);
+  let key;
+  try { key = (await get(vaultChainId, underlying.address))?.coinKey ?? null; }
+  catch (e) { console.warn("pay tokens: vault token lookup failed", e); return out; } // nothing else can be checked yet
+  await Promise.all(chainIds.filter((c) => c !== vaultChainId).map(async (c) => {
+    try {
+      const t = key ? await get(c, underlying.symbol) : null;
+      if (!t || t.coinKey !== key) return out.set(c, null);
+      if ((await decimalsOf(c, t.address)) !== t.decimals) { console.warn(`pay tokens: ${t.symbol} on chain ${c}: decimals differ from LI.FI's, not offered`); return out.set(c, null); }
+      out.set(c, { address: t.address.toLowerCase(), symbol: t.symbol, decimals: t.decimals });
+    } catch (e) { console.warn(`pay tokens: lookup on chain ${c} failed`, e); } // left out: "couldn't check"
+  }));
+  return out;
+}
+async function chainDecimals(chainId, token) {
+  return Number(BigInt(await readChain(chainId, "eth_call", [{ to: token, data: "0x313ce567" }, "latest"])));
 }
 
 export const explorerTx = (chainId, hash) => (CHAINS[chainId] && IS_HASH.test(String(hash)) ? `${CHAINS[chainId].explorer}/tx/${hash}` : null);
