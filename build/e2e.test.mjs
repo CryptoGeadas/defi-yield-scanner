@@ -83,7 +83,7 @@ test("intake → pipeline → snapshot row → deposit target: a Morpho vault on
   assert.deepEqual(matchDeposit(snap, depositIndex(earn)), {
     deposit: { chainId: 8453, token: V, underlying: { address: USDC, symbol: "USDC", decimals: 6 }, match: "address" }, depositReason: null,
   });
-  assert.equal(r.config.deposits, false, "the Deposit button stays off until go-live (#48)");
+  assert.equal(r.config.deposits, true, "the Deposit button is on since go-live (#48)");
   // the reader failed soft (empty list): the same row simply has no target, with a reason
   assert.deepEqual(matchDeposit(snap, depositIndex([])), { deposit: null, depositReason: "noMatch" });
 });
