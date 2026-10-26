@@ -178,6 +178,13 @@ const BUSY = {
 // Mounts the panel for one row into `slot`. Returns unmount(), which stops any pending quote
 // (a deposit already sent keeps going and shows again when the panel is mounted again).
 // focus: true only when the user pressed Deposit, never when a re-render mounts it again.
+// A refused cross-chain quote the panel can route around (#43, #49): the bridge to leave
+// out of the next quote, or null (same chain, no bridge named, or another refusal).
+export function bridgeToAvoid(e, raw, payChainId, vaultChainId) {
+  if (!(e?.needsGas || e?.otherRoute) || payChainId === vaultChainId) return null;
+  return typeof raw?.tool === "string" && raw.tool ? raw.tool : null;
+}
+
 export function mountDeposit(slot, row, { focus = false } = {}) {
   const d = row.deposit, sym = d.underlying.symbol, id = `dep-amt-${row.poolId}`, s = poolState(row.poolId);
   let timer = null, ctl = null;
@@ -291,14 +298,16 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
 
   // A quote the panel can sign: fetched, then run through the signing checks. Bridges pick
   // different routes from one quote to the next; when the route also needs ETH for its fee
-  // (which the panel doesn't send), ask once more without that bridge.
+  // (which the panel doesn't send), or pays a receiver the page can't check (#49), ask once
+  // more without that bridge.
   async function signableQuote(units, signal, P, from) {
     const check = (q) => buildDepositTx(q.raw, { from, chainId: P.chainId, toChainId: d.chainId, units, payToken: P.address, payDecimals: P.decimals, vaultToken: d.token });
     let q = await fetchQuote(units, signal, P);
     try { return { q, built: check(q) }; }
     catch (e) {
-      if (!e.needsGas || P.chainId === d.chainId || !q.raw?.tool) throw e;
-      q = await fetchQuote(units, signal, P, [q.raw.tool]);
+      const avoid = bridgeToAvoid(e, q.raw, P.chainId, d.chainId);
+      if (!avoid) throw e;
+      q = await fetchQuote(units, signal, P, [avoid]);
       return { q, built: check(q) };
     }
   }

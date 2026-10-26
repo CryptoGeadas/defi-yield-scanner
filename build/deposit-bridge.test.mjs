@@ -3,6 +3,7 @@
 // Run: node --test build/*.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { resolvePayTokens, buildDepositTx, LIFI_DIAMOND } from "../site/wallet.js";
 import { bridgeOutcome, timeText } from "../site/deposit.js";
 
@@ -54,10 +55,12 @@ test("resolvePayTokens: an answer for another chain or with a bad address is ign
   assert.equal(m.get(1), null);
 });
 
+// real Arbitrum → Base calldata (Across) from a LI.FI quote (#49), made out to the user
+const ACROSS = JSON.parse(readFileSync(new URL("./lifi-calldata.json", import.meta.url), "utf8")).across.data.replaceAll("7777777777777777777777777777777777777777", OWNER.slice(2));
 const cross = (o = {}, tr = {}) => ({
   action: { fromChainId: 42161, toChainId: 8453, fromToken: { address: USDC_ARB }, toToken: { address: VAULT }, fromAmount: "250000000", fromAddress: OWNER, ...o },
   estimate: { approvalAddress: LIFI_DIAMOND[42161] },
-  transactionRequest: { to: LIFI_DIAMOND[42161], data: "0xdeadbeef" + "0".repeat(24) + OWNER.slice(2), value: "0x0", gasLimit: "0x5208", chainId: 42161, ...tr },
+  transactionRequest: { to: LIFI_DIAMOND[42161], data: ACROSS, value: "0x0", gasLimit: "0x5208", chainId: 42161, ...tr },
 });
 const ctx = { from: OWNER, chainId: 42161, toChainId: 8453, units: 250_000_000n, payToken: USDC_ARB, vaultToken: VAULT };
 

@@ -4,6 +4,7 @@
 // Run: node --test build/*.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { discoverWallets, safeIcon, callBalanceOf, callAllowance, callApprove, needsApproval, readStatus, explorerTx, shortAddr, isRejection, sameChain, buildDepositTx, mustResetFirst, LIFI_DIAMOND } from "../site/wallet.js";
 
 const OWNER = "0x1234567890abcdef1234567890ABCDEF12345678";
@@ -136,7 +137,8 @@ test("mustResetFirst: only USDT on Ethereum with a non-zero allowance", () => {
 // ── buildDepositTx: the one place that decides what gets signed ──
 const D = LIFI_DIAMOND[8453], PAY = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913", VAULT = "0xbeef0e0834849acc03f0089f01f4f1eeb06873c9";
 const ctx = { from: OWNER, chainId: 8453, units: 250_000_000n, payToken: PAY, vaultToken: VAULT };
-const DATA = "0xdeadbeef" + "0".repeat(24) + OWNER.toLowerCase().slice(2); // calldata that names the user
+// real same-chain calldata from a LI.FI quote (#49), made out to the user
+const DATA = JSON.parse(readFileSync(new URL("./lifi-calldata.json", import.meta.url), "utf8")).okx.data.replaceAll("7777777777777777777777777777777777777777", OWNER.toLowerCase().slice(2));
 const quote = (o = {}, tr = {}) => ({
   action: { fromChainId: 8453, toChainId: 8453, fromToken: { address: PAY }, toToken: { address: VAULT }, fromAmount: "250000000", fromAddress: OWNER.toLowerCase(), ...o },
   estimate: { approvalAddress: D },
@@ -166,7 +168,8 @@ test("buildDepositTx: anything that is not exactly this deposit is refused, with
     "no call data": quote({}, { data: "0x" }),
     "another spender": { ...quote(), estimate: { approvalAddress: OTHER } },
     "another receiver": quote({ toAddress: OTHER }),
-    "calldata never names the user": quote({}, { data: "0xdeadbeef" + "0".repeat(24) + OTHER.slice(2) }),
+    "calldata pays someone else": quote({}, { data: DATA.replaceAll(OWNER.toLowerCase().slice(2), OTHER.slice(2)) }),
+    "unknown LI.FI function": quote({}, { data: "0xdeadbeef" + DATA.slice(10) }),
   };
   for (const [why, q] of Object.entries(bad)) {
     let err;

@@ -65,6 +65,32 @@ export const LIFI_DIAMOND = Object.fromEntries([1, 8453, 42161, 10, 137].map((id
 export const RESET_APPROVAL = new Set(["1|0xdac17f958d2ee523a2206206994597c13d831ec7"]);
 export const mustResetFirst = (chainId, token, allowanceHex) => RESET_APPROVAL.has(`${chainId}|${String(token).toLowerCase()}`) && !needsApproval(allowanceHex, 1n);
 
+// The LI.FI Diamond functions these deposits use (#49, selectors from real quotes,
+// 2026-10-26), and where each names who gets the tokens. "swap" (same chain): the 4th
+// argument, _receiver. "bridge": BridgeData, the first argument — its 6th field is the
+// receiver, its 8th the destination chain. Mayan and Polymer routes are left out on
+// purpose: they pay a new LI.FI deposit address each time, which this page can't check.
+export const RECEIVER_AT = {
+  "0x5fd9ae2e": "swap", // swapTokensMultipleV3ERC20ToERC20 (OKX, KyberSwap…)
+  "0x1794958f": "bridge", // swapAndStartBridgeTokensViaAcrossV4
+  "0xa6010a66": "bridge", // swapAndStartBridgeTokensViaStargate
+  "0xa3443faa": "bridge", // swapAndStartBridgeTokensViaRelayDepository
+};
+// → { receiver, toChainId? } read from the calldata, or null when the function is unknown
+// or the calldata doesn't hold together (cut off, an offset past the end, a dirty address).
+export function readReceiver(data) {
+  const d = String(data ?? "").toLowerCase(), kind = RECEIVER_AT[d.slice(0, 10)];
+  if (!kind || !/^0x[0-9a-f]*$/.test(d) || (d.length - 10) % 64) return null;
+  const words = (d.length - 10) / 64, at = (i) => (i >= 0 && i < words ? d.slice(10 + i * 64, 74 + i * 64) : null);
+  const addr = (w) => (w && /^0{24}/.test(w) ? "0x" + w.slice(24) : null);
+  const uint = (w) => (w ? BigInt("0x" + w) : null);
+  if (kind === "swap") { const receiver = addr(at(3)); return receiver && { receiver }; }
+  const off = uint(at(0));
+  if (off == null || off % 32n || off / 32n + 10n > BigInt(words)) return null;
+  const t = Number(off / 32n), receiver = addr(at(t + 5)), chain = uint(at(t + 7));
+  return receiver && chain <= BigInt(Number.MAX_SAFE_INTEGER) ? { receiver, toChainId: Number(chain) } : null;
+}
+
 // The one place that decides what the wallet is asked to sign. LI.FI's quote must be for
 // exactly this deposit: same chain, the pay token, the amount the user typed, the
 // connected account as sender, ending in the vault's token. Anything else throws a plain
@@ -75,7 +101,7 @@ export const mustResetFirst = (chainId, token, allowanceHex) => RESET_APPROVAL.h
 // wallet itself refuses to sign on another network).
 export function buildDepositTx(raw, { from, chainId, toChainId = chainId, units, payToken, payDecimals = null, vaultToken }) {
   const a = raw?.action, tr = raw?.transactionRequest, same = (x, y) => String(x ?? "").toLowerCase() === String(y ?? "").toLowerCase();
-  const refuse = (why) => { throw Object.assign(new Error(`The quote does not match this deposit (${why}), so nothing was signed. Try again.`), { plain: true }); };
+  const refuse = (why, flags) => { throw Object.assign(new Error(`The quote does not match this deposit (${why}), so nothing was signed. Try again.`), { plain: true, ...flags }); };
   if (!a || !tr) refuse("no transaction in it");
   if (Number(a.fromChainId) !== chainId || Number(a.toChainId) !== toChainId) refuse("another chain");
   if (!same(a.fromToken?.address, payToken)) refuse("another pay token");
@@ -83,12 +109,18 @@ export function buildDepositTx(raw, { from, chainId, toChainId = chainId, units,
   if (String(a.fromAmount) !== String(units)) refuse("another amount");
   if (!same(a.fromAddress, from)) refuse("another sender");
   if (a.toAddress != null && !same(a.toAddress, from)) refuse("another receiver");
-  // the transaction itself must name the user (as receiver / refund address). Not a full
-  // decode of LI.FI's calldata — on a cross-chain deposit the bridge's receiver is LI.FI's
-  // own contract on the other side — but a quote that never mentions you is refused.
-  if (IS_ADDR.test(String(from)) && !String(tr.data ?? "").toLowerCase().includes("0".repeat(24) + String(from).toLowerCase().slice(2))) refuse("a transaction that doesn't name your address");
   if (!same(a.toToken?.address, vaultToken)) refuse("another destination token");
   if (!IS_ADDR.test(String(tr.to)) || !/^0x[0-9a-f]*$/i.test(String(tr.data ?? "")) || String(tr.data ?? "").length < 10) refuse("an unreadable transaction");
+  // the transaction itself must pay the user: the receiver decoded from LI.FI's calldata
+  // (#49). An unknown function or an unchecked receiver is refused; on a cross-chain
+  // deposit it is flagged so the panel asks again without that bridge.
+  // Limit: on Across and Stargate the vault shares are then sent by LI.FI's call on the
+  // vault chain, whose own receiver sits in the bridge message and isn't decoded here.
+  const got = readReceiver(tr.data), bridging = chainId !== toChainId;
+  const unchecked = (why) => refuse(why, { otherRoute: bridging });
+  if (!got || "toChainId" in got !== bridging) unchecked("a receiver this page can't check");
+  if (!same(got.receiver, from)) unchecked("another receiver");
+  if (bridging && got.toChainId !== toChainId) unchecked("another chain");
   if (tr.chainId != null && !sameChain(tr.chainId, chainId)) refuse("another chain");
   const diamond = LIFI_DIAMOND[chainId];
   if (!diamond || !same(tr.to, diamond)) refuse("another contract");
