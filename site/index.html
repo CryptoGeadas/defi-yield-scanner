@@ -41,52 +41,73 @@
   </header>
 
   <main id="main" class="tool-main">
-    <div class="tool-head">
-      <div class="tool-head-copy">
+    <div class="tool-hero">
+      <div class="tool-hero-copy">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">HOME</a><span aria-hidden="true">/</span><a href="/tools/">BUILD LOG</a><span aria-hidden="true">/</span><span aria-current="page">DEFI YIELD SCANNER</span></nav>
-        <div class="tool-title"><h1>DeFi Yield Scanner</h1><span class="badge badge-live">● Live</span></div>
-        <p class="tool-question">"Where can I park my stables right now, and is that yield real?"</p>
+        <div class="tool-kicker"><span>T / 01</span><span class="badge badge-live">Live</span></div>
+        <h1>DeFi Yield Scanner</h1>
+        <p class="tool-question">“Where can I park my stables right now, and is that yield real?”</p>
+        <p class="tool-sub sub">
+          A trust filter, not a yield hunter. Ranked by <strong>organic</strong> base APY;
+          rewards shown, never counted. High total APY reads as caution as often as opportunity.
+        </p>
+        <div class="tool-links">
+          <a class="btn btn-sm" href="./methodology.html">Methodology</a>
+          <a class="btn btn-sm" href="https://github.com/CryptoGeadas/defi-yield-scanner" rel="noopener" target="_blank">Source ↗</a>
+        </div>
       </div>
-      <div class="tool-links">
-        <a class="btn btn-sm" href="./methodology.html">Methodology</a>
-        <a class="btn btn-sm" href="https://github.com/CryptoGeadas/defi-yield-scanner" rel="noopener" target="_blank">Source ↗</a>
-      </div>
+      <!-- Filled by app.js from data/latest.json; the dashes show until it loads. -->
+      <aside class="sum-panel" id="scan-panel" aria-label="This scan">
+        <div class="sum-h"><span>This scan</span><span class="age" data-age>—</span></div>
+        <div class="sum-b">
+          <div class="sum-k">Base rate</div>
+          <div class="sum-big" data-base-rate>—</div>
+          <p class="sum-note">The 30-day average of Aave USDC and USDT on Ethereum. A pool paying far above it ranks lower.</p>
+        </div>
+        <div class="sum-grid">
+          <div><b data-kept>—</b><span data-kept-of>pools kept</span></div>
+          <div><b data-protocols>—</b><span>protocols in this scan</span></div>
+        </div>
+      </aside>
     </div>
 
     <div class="tool-app" id="app">
-      <p class="sub">
-        A trust filter, not a yield hunter. Ranked by <strong>organic</strong> base APY;
-        rewards shown, never counted. High total APY reads as caution as often as opportunity.
-      </p>
+      <nav class="lv-strip" id="level-strip" aria-label="Pools by risk level"></nav>
+      <div class="level-key" id="level-key" aria-label="Colour key" hidden><span><i class="k1"></i>Level 1</span><span><i class="k2"></i>Level 2</span><span><i class="k3"></i>Level 3</span><span><i class="kx"></i>no data</span><span class="k-sep">· risk strip: Coin · Size · Age · Yield · Stability · Protocol</span></div>
+
+      <section class="proto-wall" id="protocols" aria-labelledby="protocols-title" hidden>
+        <h2 class="label" id="protocols-title">Protocols in today's scan</h2>
+        <ul class="proto-list" id="proto-list"></ul>
+      </section>
 
       <section class="controls" aria-label="Filters">
         <div class="ctl">
           <span class="label">Bucket</span>
           <div class="seg" id="bucket">
-            <button data-v="all" class="on">All</button>
-            <button data-v="lend">Lend</button>
-            <button data-v="LP">LP</button>
-            <button data-v="vault">Vault</button>
+            <button type="button" data-v="all" class="on" aria-pressed="true">All</button>
+            <button type="button" data-v="lend" aria-pressed="false">Lend</button>
+            <button type="button" data-v="LP" aria-pressed="false">LP</button>
+            <button type="button" data-v="vault" aria-pressed="false">Vault</button>
           </div>
         </div>
         <div class="ctl">
           <span class="label">Type</span>
           <div class="seg" id="type">
-            <button data-v="all" class="on">All</button>
-            <button data-v="fiat">Fiat</button>
-            <button data-v="crypto">Crypto</button>
-            <button data-v="yield">Yield</button>
-            <button data-v="rwa">RWA</button>
-            <button data-v="synthetic">Synthetic</button>
+            <button type="button" data-v="all" class="on" aria-pressed="true">All</button>
+            <button type="button" data-v="fiat" aria-pressed="false">Fiat</button>
+            <button type="button" data-v="crypto" aria-pressed="false">Crypto</button>
+            <button type="button" data-v="yield" aria-pressed="false">Yield</button>
+            <button type="button" data-v="rwa" aria-pressed="false">RWA</button>
+            <button type="button" data-v="synthetic" aria-pressed="false">Synthetic</button>
           </div>
         </div>
         <div class="ctl">
           <span class="label">Chain</span>
           <div class="chain-chips" id="chain"></div>
         </div>
-        <label class="chk">
-          <input type="checkbox" id="kyc" />
-          show permissioned <span class="badge badge-down">🔒 KYC</span>
+        <label class="switch">
+          <input type="checkbox" id="kyc" role="switch" />
+          Show permissioned <span class="kyc-tag">KYC</span>
         </label>
       </section>
 

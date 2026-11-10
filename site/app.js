@@ -145,6 +145,7 @@ function emptyLevelHtml(level) {
 
 const COLS = [
   { key: "name", label: "Pool", cls: "" },
+  { key: null, label: "Risk factors", cls: "hide-sm", levelsOnly: true },
   { key: null, label: "Base · reward", cls: "hide-sm" },
   { key: "base", label: "Base APY", cls: "num" },
   { key: "mean30d", label: "30d mean", cls: "num hide-sm" },
@@ -200,7 +201,7 @@ async function load() {
   }
   renderNotices(); // first: a render error below must not hide a data notice
   render();
-  renderRiskIntro(); // once per data load, not on every re-render
+  renderSummary(); // once per data load, not on every re-render
 }
 
 function sortVal(r, key) {
@@ -227,13 +228,13 @@ function rowsFor(tier) {
 }
 
 function headerHtml() {
-  const cells = COLS.map((c) => {
-    if (!c.key) return `<span class="th ${c.cls}">${byLevel() ? "Risk factors" : c.label}</span>`;
+  const cells = COLS.filter((c) => !c.levelsOnly || byLevel()).map((c) => {
+    if (!c.key) return `<span class="th ${c.cls}">${c.label}</span>`;
     const active = state.sortKey === c.key;
     const caret = active ? (state.sortDir === "asc" ? "▲" : "▼") : "";
     return `<span class="th sortable ${c.cls} ${active ? "active" : ""}" data-sort="${c.key}">${c.label}<span class="caret">${caret}</span></span>`;
   }).join("");
-  return `<div class="thead grid"><span></span>${cells}<span class="chev"></span></div>`;
+  return `<div class="thead grid${byLevel() ? " lv" : ""}"><span></span>${cells}<span class="chev"></span></div>`;
 }
 
 function rowHtml(r, max, tier) {
@@ -247,21 +248,22 @@ function rowHtml(r, max, tier) {
       : `Spot ${fmtPct(spotOf(r))} is ${fmtSigned(ratio)} vs 30d mean ${fmtPct(r.mean30d)} → ${fm.word}`;
   const label = r.name || r.project;
   const initial = (String(label)[0] || "?").toUpperCase();
-  const logo = `<span class="logo"><span class="mono">${esc(initial)}</span><img class="ic" src="${esc(protoLogo(r.project))}" alt="" loading="lazy" onerror="this.remove()"></span>`;
-  const chainIc = `<img class="chic" src="${esc(chainLogo(r.chain))}" alt="" title="${esc(r.chain)}" loading="lazy" onerror="this.remove()">`;
-  const lock = r.access === "permissioned" ? `<span class="lock" title="Permissioned — KYC required">🔒</span>` : "";
+  const logo = `<span class="logo logo-grade"><span class="mono">${esc(initial)}</span><img class="ic" src="${esc(protoLogo(r.project))}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+  const chainIc = `<span class="chic-w logo-grade"><img class="chic" src="${esc(chainLogo(r.chain))}" alt="" title="${esc(r.chain)}" loading="lazy" onerror="this.remove()"></span>`;
+  const lock = r.access === "permissioned" ? `<span class="kyc-tag lock" title="Permissioned — KYC required">KYC</span>` : "";
+  const rate = state.data?.baseRate;
+  const tick = Number.isFinite(rate) && max > 0 && rate <= max ? `<span class="bt" style="left:${(rate / max) * 100}%" title="Base rate ${fmtPct(rate)}"></span>` : "";
   const safe = safeUrl(r.url);
   const extTitle = r.linkKind === "defillama" ? "View on DefiLlama" : "Open " + label;
   const ext = safe
     ? `<a class="ext ${esc(r.linkKind)}" href="${esc(safe)}" target="_blank" rel="noopener" title="${esc(extTitle)}">↗</a>`
     : "";
   const open = state.openId === r.poolId;
-  return `<div class="row grid ${open ? "open" : ""}" data-id="${esc(r.poolId)}" role="button" tabindex="0" aria-expanded="${open}">
+  return `<div class="row grid${byLevel() ? " lv" : ""} ${open ? "open" : ""}" data-id="${esc(r.poolId)}" role="button" tabindex="0" aria-expanded="${open}">
     ${logo}
     <span class="name"><span class="line"><span class="proj">${esc(label)}</span><span class="sym">${esc(r.symbol)}</span>${chainIc}<span class="chain">${esc(r.chain)}</span>${lock}${ext}</span>${byLevel() ? stripHtml(r, "strip-m") : ""}</span>
-    ${byLevel()
-      ? `<span class="bar risk-col hide-sm">${stripHtml(r)}</span>`
-      : `<span class="bar hide-sm" title="base ${fmtPct(r.base)} · reward ${fmtPct(r.reward)}"><span class="b" style="width:${basePct}%"></span><span class="r" style="width:${rewPct}%"></span></span>`}
+    ${byLevel() ? `<span class="bar risk-col hide-sm">${stripHtml(r)}</span>` : ""}
+    <span class="bar yield-bar hide-sm" title="base ${fmtPct(r.base)} · reward ${fmtPct(r.reward)}"><span class="b" style="width:${basePct}%"></span><span class="r" style="width:${rewPct}%"></span>${tick}</span>
     <span class="num base">${fmtPct(r.base)}</span>
     <span class="num mean hide-sm">${fmtPct(r.mean30d)}</span>
     <span class="flag ${fm.cls}" data-tip="${esc(tip)}"><span class="g">${r.divFlag}</span></span>
@@ -317,7 +319,7 @@ function detailHtml(r, tier) {
   const dllHref = `https://defillama.com/yields/pool/${encodeURIComponent(r.poolId ?? "")}`;
   const actions =
     r.url == null
-      ? `<span class="dnote">🔒 Permissioned — KYC required; no public deposit link.</span>`
+      ? `<span class="dnote"><span class="kyc-tag">KYC</span> Permissioned — KYC required; no public deposit link.</span>`
       : r.linkKind === "defillama"
         ? `<a class="btn ${canDeposit(r) ? "" : "btn-primary"} btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Verify on DefiLlama ↗</a>`
         : `<a class="btn ${canDeposit(r) ? "" : "btn-primary"} btn-sm" href="${esc(safe || dllHref)}" target="_blank" rel="noopener">Open ${esc(label)} ↗</a>
@@ -382,23 +384,67 @@ function windowHtml(tier) {
     body = `${headerHtml()}<div class="rows">${shown.map((r) => rowHtml(r, max, tier)).join("")}</div>${loadMore}`;
   }
   const countLabel = rows.length > shown.length ? `${shown.length} of ${rows.length}` : `${rows.length}`;
-  return `<section class="window ${t.cls}">
+  return `<section class="window ${t.cls}" id="${byLevel() ? "level" : "tier"}-${tier}">
     <div class="wtitle ${t.cls}"><span class="dot"></span><h2>${t.name}</h2><span class="count">${countLabel} pools</span></div>
     ${body}
   </section>`;
 }
 
-// Risk levels: the base-rate line and the colour key, directly below the intro sentence
-// (above the filters). Only when the build groups windows by level.
-function renderRiskIntro() {
-  document.querySelector("#risk-intro")?.remove();
-  const rate = state.data?.baseRate;
-  if (!byLevel() || !Number.isFinite(rate)) return;
-  const html = `<div id="risk-intro" class="risk-intro">
-    <p class="base-rate">Base rate <b>${rate.toFixed(2)}%</b>: the 30-day average of Aave USDC and USDT on Ethereum. A pool paying far above it ranks <span class="lower">lower</span>.</p>
-    <div class="level-key" aria-label="Colour key"><span><i class="k1"></i>Level 1</span><span><i class="k2"></i>Level 2</span><span><i class="k3"></i>Level 3</span><span><i class="kx"></i>no data</span></div>
-  </div>`;
-  document.querySelector(".tool-app > .sub")?.insertAdjacentHTML("afterend", html);
+// The hero's summary panel, the level strip, the colour key and the protocol logo wall.
+// Once per data load (they do not change with the filters).
+const LV_WORD = { 1: "Lower risk", 2: "Medium risk", 3: "Higher risk" };
+function renderSummary() {
+  const d = state.data;
+  if (!d) return;
+  const panel = $("#scan-panel");
+  if (panel) {
+    const rate = d.baseRate;
+    panel.querySelector("[data-base-rate]").textContent = Number.isFinite(rate) ? `${rate.toFixed(2)}%` : "—";
+    if (d.stats) {
+      panel.querySelector("[data-kept]").textContent = d.stats.kept.toLocaleString("en-US");
+      panel.querySelector("[data-kept-of]").textContent = `kept of ${d.stats.totalPools.toLocaleString("en-US")} pools`;
+    }
+    const when = new Date(d.generatedAt);
+    const ageH = Math.round((Date.now() - when) / 3.6e6);
+    const age = panel.querySelector("[data-age]");
+    age.innerHTML = `<span class="dot-live${ageH > 36 ? " warn" : ""}" aria-hidden="true"></span>${Number.isFinite(ageH) ? `${ageH}h old` : "—"}`;
+    age.classList.toggle("stale", ageH > 36);
+    age.title = Number.isFinite(when.getTime()) ? `${when.toISOString().slice(0, 16).replace("T", " ")} UTC` : "";
+  }
+
+  const all = [1, 2, 3].flatMap((w) => d.windows?.[w] || []);
+  // level strip: what the page shows by default (no KYC), with the permissioned total underneath
+  const strip = $("#level-strip");
+  if (strip) {
+    const names = byLevel() ? LEVEL : TIER;
+    strip.innerHTML = [1, 2, 3].map((w) => {
+      const rows = d.windows?.[w] || [];
+      const open = rows.filter((r) => r.access !== "permissioned").length;
+      const word = byLevel() ? LV_WORD[w] : names[w].name.split(" · ")[1] || "";
+      return `<a href="#${byLevel() ? "level" : "tier"}-${w}"><span class="t"><span class="lv-dot l${w}" aria-hidden="true"></span>${byLevel() ? "Level" : "Tier"} ${w}</span><span class="n">${open}<small>pools</small></span><span class="d">${esc(word)}</span><span class="s">${rows.length} incl. permissioned</span></a>`;
+    }).join("");
+  }
+  const key = $("#level-key");
+  if (key) key.hidden = !byLevel();
+
+  // protocol logo wall: every protocol with a pool in today's scan, most pools first
+  const byProto = new Map();
+  for (const r of all) {
+    const p = byProto.get(r.project) || { slug: r.project, name: r.name || r.project, n: 0 };
+    p.n++;
+    byProto.set(r.project, p);
+  }
+  const protos = [...byProto.values()].sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
+  const count = panel?.querySelector("[data-protocols]");
+  if (count) count.textContent = String(protos.length);
+  const list = $("#proto-list");
+  if (list && protos.length) {
+    list.innerHTML = protos.map((p) => {
+      const initial = (String(p.name)[0] || "?").toUpperCase();
+      return `<li title="${esc(p.name)} · ${p.n} pool${p.n === 1 ? "" : "s"}"><span class="logo logo-grade"><span class="mono">${esc(initial)}</span><img class="ic" src="${esc(protoLogo(p.slug))}" alt="" loading="lazy" onerror="this.remove()"></span><span class="pn">${esc(p.name)}</span><span class="pc">${p.n}</span></li>`;
+    }).join("");
+    $("#protocols").hidden = false;
+  }
 }
 
 // Notices from the build (e.g. a venue's data missing at this refresh), one line each,
@@ -482,7 +528,7 @@ function onWindowsClick(e) {
   if (dbar) return dbar.classList.toggle("open"); // tap shows the durability numbers (touch has no hover)
   if (e.target.closest(".clear-filters")) {
     state.bucket = "all"; state.type = "all"; state.chains = new Set(CHAINS); // KYC choice is kept
-    document.querySelectorAll("#bucket button, #type button").forEach((x) => x.classList.toggle("on", x.dataset.v === "all"));
+    document.querySelectorAll("#bucket button, #type button").forEach((x) => { x.classList.toggle("on", x.dataset.v === "all"); x.setAttribute("aria-pressed", String(x.dataset.v === "all")); });
     resetLimits(); renderChips(); render();
     return $("#bucket button.on")?.focus(); // the clicked button is gone after render
   }
@@ -515,8 +561,8 @@ $("#windows").addEventListener("keydown", (e) => {
 function renderChips() {
   $("#chain").innerHTML = CHAINS.map(
     (c) =>
-      `<button class="cchip ${state.chains.has(c) ? "on" : ""}" data-chain="${c}">
-        <img class="chic" src="${chainLogo(c)}" alt="" onerror="this.remove()"><span>${c}</span>
+      `<button class="cchip ${state.chains.has(c) ? "on" : ""}" data-chain="${c}" aria-pressed="${state.chains.has(c)}">
+        <span class="chic-w logo-grade"><img class="chic" src="${chainLogo(c)}" alt="" onerror="this.remove()"></span><span>${c}</span>
       </button>`
   ).join("");
 }
@@ -538,7 +584,7 @@ function wireSeg(id, key) {
     const b = e.target.closest("button");
     if (!b) return;
     state[key] = b.dataset.v;
-    $(id).querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b));
+    $(id).querySelectorAll("button").forEach((x) => { x.classList.toggle("on", x === b); x.setAttribute("aria-pressed", String(x === b)); });
     resetLimits();
     render();
   });
