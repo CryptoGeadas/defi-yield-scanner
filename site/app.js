@@ -392,7 +392,6 @@ function windowHtml(tier) {
 
 // The hero's summary panel, the level strip, the colour key and the protocol logo wall.
 // Once per data load (they do not change with the filters).
-const LV_WORD = { 1: "Lower risk", 2: "Medium risk", 3: "Higher risk" };
 function renderSummary() {
   const d = state.data;
   if (!d) return;
@@ -413,21 +412,20 @@ function renderSummary() {
   }
 
   const all = [1, 2, 3].flatMap((w) => d.windows?.[w] || []);
-  // level strip: what the page shows by default (no KYC), with the permissioned total underneath
+  // level bar: one segment per level, width proportional to the pools the page shows by
+  // default (no KYC); the title adds the permissioned total
   const strip = $("#level-strip");
   if (strip) {
-    const names = byLevel() ? LEVEL : TIER;
+    const word = byLevel() ? "Level" : "Tier";
     strip.innerHTML = [1, 2, 3].map((w) => {
       const rows = d.windows?.[w] || [];
       const open = rows.filter((r) => r.access !== "permissioned").length;
-      const word = byLevel() ? LV_WORD[w] : names[w].name.split(" · ")[1] || "";
-      return `<a href="#${byLevel() ? "level" : "tier"}-${w}"><span class="t"><span class="lv-dot l${w}" aria-hidden="true"></span>${byLevel() ? "Level" : "Tier"} ${w}</span><span class="n">${open}<small>pools</small></span><span class="d">${esc(word)}</span><span class="s">${rows.length} incl. permissioned</span></a>`;
+      const title = `${word} ${w} · ${open} pool${open === 1 ? "" : "s"} (${rows.length} including permissioned)`;
+      return `<a class="lv-seg l${w}" href="#${byLevel() ? "level" : "tier"}-${w}" style="flex-grow:${open}" title="${esc(title)}" aria-label="${esc(title)}"><span class="lv-name">${word} ${w}</span><span class="lv-n">${open}</span></a>`;
     }).join("");
   }
-  const key = $("#level-key");
-  if (key) key.hidden = !byLevel();
 
-  // protocol logo wall: every protocol with a pool in today's scan, most pools first
+  // protocols in today's scan, most pools first: count + a stack of the first 8 logos
   const byProto = new Map();
   for (const r of all) {
     const p = byProto.get(r.project) || { slug: r.project, name: r.name || r.project, n: 0 };
@@ -437,13 +435,17 @@ function renderSummary() {
   const protos = [...byProto.values()].sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
   const count = panel?.querySelector("[data-protocols]");
   if (count) count.textContent = String(protos.length);
-  const list = $("#proto-list");
-  if (list && protos.length) {
-    list.innerHTML = protos.map((p) => {
+  const stack = panel?.querySelector("[data-proto-stack]");
+  if (stack && protos.length) {
+    const shown = protos.slice(0, 8);
+    const rest = protos.length - shown.length;
+    stack.innerHTML = `<span class="proto-stack">${shown.map((p) => {
       const initial = (String(p.name)[0] || "?").toUpperCase();
-      return `<li title="${esc(p.name)} · ${p.n} pool${p.n === 1 ? "" : "s"}"><span class="logo logo-grade"><span class="mono">${esc(initial)}</span><img class="ic" src="${esc(protoLogo(p.slug))}" alt="" loading="lazy" onerror="this.remove()"></span><span class="pn">${esc(p.name)}</span><span class="pc">${p.n}</span></li>`;
-    }).join("");
-    $("#protocols").hidden = false;
+      return `<span class="logo logo-grade" title="${esc(p.name)} · ${p.n} pool${p.n === 1 ? "" : "s"}"><span class="mono">${esc(initial)}</span><img class="ic" src="${esc(protoLogo(p.slug))}" alt="" loading="lazy" onerror="this.remove()"></span>`;
+    }).join("")}</span>${rest > 0 ? `<span class="proto-more" title="${esc(protos.slice(8).map((p) => p.name).join(", "))}">+${rest}</span>` : ""}`;
+    stack.setAttribute("aria-label", `Protocols with most pools: ${shown.map((p) => p.name).join(", ")}${rest > 0 ? ` and ${rest} more` : ""}`);
+    stack.setAttribute("role", "img");
+    stack.hidden = false;
   }
 }
 
@@ -561,9 +563,7 @@ $("#windows").addEventListener("keydown", (e) => {
 function renderChips() {
   $("#chain").innerHTML = CHAINS.map(
     (c) =>
-      `<button class="cchip ${state.chains.has(c) ? "on" : ""}" data-chain="${c}" aria-pressed="${state.chains.has(c)}">
-        <span class="chic-w logo-grade"><img class="chic" src="${chainLogo(c)}" alt="" onerror="this.remove()"></span><span>${c}</span>
-      </button>`
+      `<button type="button" class="chain-btn ${state.chains.has(c) ? "on" : ""}" data-chain="${c}" aria-pressed="${state.chains.has(c)}">${c}</button>`
   ).join("");
 }
 $("#chain").addEventListener("click", (e) => {

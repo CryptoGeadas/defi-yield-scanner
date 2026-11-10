@@ -68,21 +68,14 @@
           <div><b data-kept>—</b><span data-kept-of>pools kept</span></div>
           <div><b data-protocols>—</b><span>protocols in this scan</span></div>
         </div>
+        <div class="sum-logos" data-proto-stack hidden></div>
       </aside>
     </div>
 
     <div class="tool-app" id="app">
-      <nav class="lv-strip" id="level-strip" aria-label="Pools by risk level"></nav>
-      <div class="level-key" id="level-key" aria-label="Colour key" hidden><span><i class="k1"></i>Level 1</span><span><i class="k2"></i>Level 2</span><span><i class="k3"></i>Level 3</span><span><i class="kx"></i>no data</span><span class="k-sep">· risk strip: Coin · Size · Age · Yield · Stability · Protocol</span></div>
-
-      <section class="proto-wall" id="protocols" aria-labelledby="protocols-title" hidden>
-        <h2 class="label" id="protocols-title">Protocols in today's scan</h2>
-        <ul class="proto-list" id="proto-list"></ul>
-      </section>
-
+      <nav class="lv-bar" id="level-strip" aria-label="Pools by risk level"></nav>
       <section class="controls" aria-label="Filters">
         <div class="ctl">
-          <span class="label">Bucket</span>
           <div class="seg" id="bucket">
             <button type="button" data-v="all" class="on" aria-pressed="true">All</button>
             <button type="button" data-v="lend" aria-pressed="false">Lend</button>
@@ -91,7 +84,6 @@
           </div>
         </div>
         <div class="ctl">
-          <span class="label">Type</span>
           <div class="seg" id="type">
             <button type="button" data-v="all" class="on" aria-pressed="true">All</button>
             <button type="button" data-v="fiat" aria-pressed="false">Fiat</button>
@@ -102,12 +94,11 @@
           </div>
         </div>
         <div class="ctl">
-          <span class="label">Chain</span>
           <div class="chain-chips" id="chain"></div>
         </div>
         <label class="switch">
           <input type="checkbox" id="kyc" role="switch" />
-          Show permissioned <span class="kyc-tag">KYC</span>
+          Show KYC pools
         </label>
       </section>
 
