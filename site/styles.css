@@ -38,6 +38,41 @@
 .cchip.on { border-color: color-mix(in srgb, var(--accent) 50%, transparent); color: var(--fg); background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .cchip.on .chic-w { opacity: 1; }
 
+/* chain filter: plain text buttons, active in mint */
+.chain-btn {
+  min-height: 36px; padding: 8px 8px; cursor: pointer;
+  background: none; border: 0; border-radius: var(--r-ctl); color: var(--muted);
+  font: 500 13px var(--font-mono);
+  transition: color 150ms ease;
+}
+.chain-btn:hover { color: var(--fg); }
+.chain-btn.on { color: var(--accent); }
+.chain-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chain-chips { gap: 2px 4px; }
+
+/* level bar: one segment per level, width proportional to its pool count */
+.lv-bar { display: flex; gap: 3px; margin: 28px 0 0; }
+.lv-seg {
+  --c: var(--accent);
+  position: relative; flex: 1 1 0; min-width: 96px;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  padding: 14px 14px 4px 2px; min-height: 44px;
+  font: 500 12px var(--font-mono); color: var(--fg-2); text-decoration: none;
+}
+.lv-seg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; border-radius: 1px; background: var(--c); }
+.lv-seg.l2::before { background: var(--fg-2); opacity: 0.75; }
+.lv-seg.l3 { --c: var(--warn); }
+.lv-seg .lv-n { color: var(--fg); }
+.lv-seg:hover .lv-name, .lv-seg:hover .lv-n { color: var(--accent); }
+.lv-seg:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* protocol logo stack in the summary panel */
+.sum-logos { display: flex; align-items: center; gap: 10px; padding: 12px 16px 14px; border-top: 1px solid var(--border); }
+.proto-stack { display: flex; align-items: center; }
+.proto-stack .logo { width: 26px; height: 26px; border-radius: 50%; border: 0; box-shadow: 0 0 0 2px var(--panel); }
+.proto-stack .logo + .logo { margin-left: -7px; }
+.proto-more { font: 12px var(--font-mono); color: var(--muted); }
+
 /* windows */
 .window { margin: 28px 0; }
 .window { scroll-margin-top: 80px; }
@@ -55,13 +90,6 @@
 .base-rate { font: 13px/1.5 var(--font-body); color: var(--muted); max-width: 70ch; margin: 0; }
 .base-rate b { color: var(--fg); font-family: var(--font-mono); font-weight: 500; }
 .base-rate .lower { color: var(--down); }
-.level-key { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; font: 11px var(--font-mono); color: var(--muted); }
-.level-key .k-sep { color: var(--faint); }
-.level-key i { display: inline-block; width: 14px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
-.level-key .k1 { background: var(--accent); }
-.level-key .k2 { background: var(--fg-2); }
-.level-key .k3 { background: var(--warn); }
-.level-key .kx { background: repeating-linear-gradient(135deg, var(--muted) 0 2px, transparent 2px 4px); }
 
 /* risk factor strip: six segments, colour + height = level, hatched = unknown */
 .bar.risk-col { background: none; overflow: visible; height: auto; align-items: center; }
@@ -263,13 +291,6 @@
 .legend .up { color: var(--warn); } .legend .steady { color: var(--up); } .legend .down { color: var(--down); }
 
 /* protocol logo wall (every protocol with a pool in today's scan) */
-.proto-wall { margin: 28px 0 8px; }
-.proto-wall .label { margin: 0 0 12px; font-size: 11px; }
-.proto-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.proto-list li { display: inline-flex; align-items: center; gap: 9px; min-height: 40px; padding: 5px 12px 5px 6px; border: 1px solid var(--border); border-radius: 99px; font-size: 13px; color: var(--fg-2); }
-.proto-list li:hover { border-color: var(--border-strong); color: var(--fg); }
-.proto-list .logo { width: 26px; height: 26px; border-radius: 50%; }
-.proto-list .pc { font: 11px var(--font-mono); color: var(--faint); }
 
 @media (max-width: 760px) {
   .grid, .grid.lv { grid-template-columns: 28px 1fr 70px 50px; gap: 8px; }
@@ -336,8 +357,3 @@
 .dep-age { margin-top: 6px; font-size: 12px; }
 .dep-disc { font-size: 12px; max-width: 75ch; }
 .dep-disc a { color: var(--fg); text-underline-offset: 3px; }
-@media (max-width: 760px) {
-  .proto-list { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; margin-inline: calc(-1 * var(--pad-x-chrome)); padding-inline: var(--pad-x-chrome); }
-  .proto-list::-webkit-scrollbar { display: none; }
-  .proto-list li { flex: none; }
-}
