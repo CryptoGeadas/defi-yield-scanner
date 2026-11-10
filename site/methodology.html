@@ -14,22 +14,18 @@
     <link rel="stylesheet" href="/site.css" />
     <link rel="stylesheet" href="./styles.css" />
     <style>
-      .doc { max-width: 760px; padding-bottom: 32px; }
-      .doc .lead { font-size: 17px; line-height: 1.65; color: var(--muted); margin: 0; }
-      .doc h2 { margin: 44px 0 12px; font-size: clamp(22px, 3vw, 26px); }
-      .doc h3 { margin: 22px 0 6px; font-size: 17px; }
-      .doc p, .doc li { color: var(--muted); line-height: 1.65; }
+      .doc { padding-bottom: 32px; }
+      .doc .lead { margin: 0; }
       .doc p { margin: 10px 0; }
-      .doc strong, .doc b, .doc em { color: var(--fg); }
+      .doc em { color: var(--fg); }
       .doc li { margin: 4px 0; }
-      .doc a { color: var(--accent); }
       .flagline { display: flex; gap: 8px; align-items: baseline; margin: 8px 0; }
       .flagline .g { font-weight: 700; font-size: 15px; width: 18px; }
       .doc .up { color: var(--warn); } .doc .steady { color: var(--up); } .doc .down { color: var(--down); }
       .keyrow { display: grid; grid-template-columns: 120px 1fr; gap: 10px 16px; margin: 6px 0; }
       .keyrow .k { font-family: var(--font-mono); font-size: 13px; color: var(--fg); }
       @media (max-width: 520px) { .keyrow { grid-template-columns: 1fr; gap: 2px; } }
-      .callout { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r-panel); padding: 12px 16px; margin: 16px 0; color: var(--muted); }
+      .callout { background: var(--panel); border: 1px solid var(--border-strong); border-radius: var(--r-ctl); padding: 14px 18px; margin: 16px 0; color: var(--fg-2); }
       code.inline { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-ctl); padding: 1px 6px; font: 13px var(--font-mono); color: var(--fg); }
     </style>
   </head>
@@ -54,22 +50,25 @@
         <a href="/tools/" class="is-active">Tools</a>
         <a href="/#contact">Contact</a>
       </nav>
-      <span class="site-tagline">PRODUCT × PARTNERSHIPS × COMPLIANCE</span>
+      <a class="btn btn-sm site-cta" href="mailto:bernardofgeadasj@gmail.com">Email me</a>
     </div>
   </header>
 
   <div class="tool-main">
-    <div class="tool-head">
-      <div class="tool-head-copy">
+    <div class="tool-hero tool-hero-doc">
+      <div class="tool-hero-copy">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">HOME</a><span aria-hidden="true">/</span><a href="/tools/">BUILD LOG</a><span aria-hidden="true">/</span><a href="./">DEFI YIELD SCANNER</a><span aria-hidden="true">/</span><span aria-current="page">METHODOLOGY</span></nav>
-        <div class="tool-title"><h1>How this works</h1></div>
-      </div>
-      <div class="tool-links">
+        <div class="tool-kicker"><span>T / 01 · Methodology</span></div>
+        <h1>How this works</h1>
+        <div class="tool-links">
         <a class="btn btn-primary btn-sm" href="./">← Back to rankings</a>
         <a class="btn btn-sm" href="https://github.com/CryptoGeadas/defi-yield-scanner" rel="noopener" target="_blank">Source ↗</a>
       </div>
+      </div>
     </div>
 
+    <div class="doc-layout">
+    <nav class="doc-toc" data-doc-toc aria-label="On this page" hidden></nav>
     <main class="doc" id="main">
       <p class="lead">
         A trust filter for stablecoin yield. It answers one question — <em>“where can I park my
@@ -214,7 +213,7 @@
       <div class="keyrow"><span class="k">Protocol app</span><span>The protocol’s own app, when an exact per-pool URL isn’t reliably derivable — you pick the market there.</span></div>
       <div class="keyrow"><span class="k">None</span><span>Permissioned pools (see below) aren’t linked.</span></div>
 
-      <h2>Permissioned / 🔒 KYC</h2>
+      <h2>Permissioned / KYC</h2>
       <p>
         Some of the largest stablecoin yield is permissioned RWA (tokenized T-bills and credit) that
         requires KYC. Those pools are hidden by default and revealed with the <strong>“show permissioned”</strong>
@@ -279,6 +278,7 @@
         Not investment advice. The rankings encode one person’s opinion about trust, deliberately.
       </p>
     </main>
+    </div>
 
     <nav class="tool-nav" aria-label="Other tools">
       <a href="/tools/">← All tools</a>
