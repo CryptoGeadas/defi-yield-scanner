@@ -136,7 +136,7 @@
 .dline { font-size: 14px; color: var(--fg); }
 .dline b { font-weight: 600; }
 .dsub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-.dsub .rew { color: var(--accent); }
+.dsub .rew { color: var(--violet); }
 
 /* durability bar: three zones, a marker, the numbers in a tooltip */
 .dur { position: relative; }
@@ -217,7 +217,7 @@
 
 .bar { position: relative; height: 8px; background: var(--hover); border-radius: 1px; display: flex; }
 .bar .b { background: var(--accent); height: 100%; opacity: 0.85; }
-.bar .r { background: color-mix(in oklch, var(--accent) 30%, transparent); height: 100%; }
+.bar .r { background: var(--violet); height: 100%; opacity: 0.85; }
 /* base-rate tick on the yield bar */
 .bar .bt { position: absolute; top: -4px; bottom: -4px; width: 1px; margin-left: -0.5px; background: var(--fg-2); }
 
