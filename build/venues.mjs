@@ -12,6 +12,7 @@
 import { buildSources, MORPHO_CHAINID } from "./deeplink-sources.mjs";
 import { fetchKaminoVaults } from "./kamino-vaults.mjs";
 import { fetchEulerVaults } from "./euler-vaults.mjs";
+import { netFetch } from "./net.mjs";
 
 // One ydaemon vault → registry entry: { name, decimals (of the underlying token, not the
 // share), v3 (version 3.x = ERC-4626, the only kind money flows can read) }.
@@ -29,7 +30,7 @@ async function fetchYearnRegistry(chains) {
   const ids = chains.map((c) => MORPHO_CHAINID[c]).filter(Boolean).sort((a, b) => a - b);
   const map = new Map();
   try {
-    const r = await fetch(`https://ydaemon.yearn.fi/vaults/all?chainIDs=${ids.join(",")}&limit=5000`, { signal: AbortSignal.timeout(60_000) });
+    const r = await netFetch(`https://ydaemon.yearn.fi/vaults/all?chainIDs=${ids.join(",")}&limit=5000`);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     for (const v of (await r.json()) || []) {
       if (v?.address && v?.name)
@@ -47,7 +48,7 @@ async function fetchYearnRegistry(chains) {
 async function fetchLendBorrow() {
   const map = new Map();
   try {
-    const r = await fetch("https://yields.llama.fi/lendBorrow", { signal: AbortSignal.timeout(60_000) });
+    const r = await netFetch("https://yields.llama.fi/lendBorrow");
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     for (const p of (await r.json()) || []) {
       if (p?.pool && Number.isFinite(p.totalSupplyUsd)) map.set(p.pool, p.totalSupplyUsd);

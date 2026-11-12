@@ -20,6 +20,7 @@ import { loadLedgerForBuild } from "./flows-file.mjs";
 import { flowsCoverage } from "./flows.mjs";
 import { makeSlim } from "./slim.mjs";
 import { fetchEarnVaults, depositIndex, matchDeposits, checkDepositProtocols, depositLog } from "./deposits.mjs";
+import { netFetch } from "./net.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SITE = join(HERE, "..", "site");
@@ -87,7 +88,7 @@ async function loadDenylist() {
 // (slug derived from the logo path). Used as the primary deposit link.
 async function loadSiteUrls() {
   try {
-    const cfg = await (await fetch("https://api.llama.fi/config")).json();
+    const cfg = await (await netFetch("https://api.llama.fi/config")).json();
     const arr = Array.isArray(cfg.protocols) ? cfg.protocols : Object.values(cfg.protocols || cfg);
     const map = {};
     for (const p of arr) {
@@ -105,7 +106,7 @@ async function main() {
   const maps = await loadMaps();
   const [names, siteUrls, denylist, poolUrls, since] = await Promise.all([loadNames(), loadSiteUrls(), loadDenylist(), loadPoolUrls(), loadSince()]);
   console.log("fetching", FEED, "…");
-  const res = await fetch(FEED);
+  const res = await netFetch(FEED, {}, { timeoutMs: 120_000 }); // the main feed: a timeout and retries (#63)
   if (!res.ok) throw new Error(`feed ${res.status}`);
   const { data: feed } = await res.json();
 

@@ -7,6 +7,7 @@
 
 import { mkdir, writeFile, access } from "node:fs/promises";
 import { join } from "node:path";
+import { netFetch } from "./net.mjs";
 
 // Some protocols get another's icon on purpose (e.g. v3 sharing the v4 mark).
 const LOGO_ALIAS = { "uniswap-v3": "uniswap-v4" };
@@ -19,7 +20,7 @@ const exists = (p) => access(p).then(() => true).catch(() => false);
 async function fetchInto(url, dest, force = false) {
   if (!force && (await exists(dest))) return "skip";
   try {
-    const res = await fetch(url);
+    const res = await netFetch(url, {}, { timeoutMs: 30_000, tries: 2 });
     if (!res.ok) return `miss(${res.status})`;
     const buf = Buffer.from(await res.arrayBuffer());
     if (buf.length < 64) return "miss(empty)"; // guard against 1x1 placeholders

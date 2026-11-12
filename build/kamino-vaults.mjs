@@ -12,6 +12,7 @@ import crypto from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { netFetch } from "./net.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const KVAULT = "KvauGMspG5k6rtzrqqn7WNn3oZdyKqLKwK2XWQ8FLjd";
@@ -43,7 +44,7 @@ async function rpcCall(method, params) {
   const body = JSON.stringify({ jsonrpc: "2.0", id: 1, method, params });
   for (const rpc of RPCS) {
     try {
-      const r = await fetch(rpc, { method: "POST", headers: { "content-type": "application/json", ...UA }, body, signal: AbortSignal.timeout(30_000) });
+      const r = await netFetch(rpc, { method: "POST", headers: { "content-type": "application/json", ...UA }, body }, { timeoutMs: 30_000, tries: 1 }); // the next RPC is the retry
       if (!r.ok) continue;                       // 4xx/5xx (rate-limit, blocked) → next RPC
       const j = await r.json();
       if (j.result != null) return j.result;     // JSON-RPC error (result absent) → next RPC
@@ -87,7 +88,7 @@ async function resolveSymbols(mints) {
     const chunk = mints.slice(i, i + 40).map((m) => "solana:" + m);
     chunks++;
     try {
-      const r = await fetch("https://coins.llama.fi/prices/current/" + chunk.join(","), { headers: UA, signal: AbortSignal.timeout(30_000) });
+      const r = await netFetch("https://coins.llama.fi/prices/current/" + chunk.join(","), { headers: UA }, { timeoutMs: 30_000 });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const p = await r.json();
       for (const [k, v] of Object.entries(p.coins || {})) map[k.split(":")[1]] = (v.symbol || "").toUpperCase();
@@ -138,7 +139,7 @@ export function withdrawableUsd({ idleUsd, investedUsd, allocations, reserveFree
 
 // GET JSON, or throw with the HTTP status (so a rate limit reads as one in the log).
 async function getJson(url) {
-  const r = await fetch(url, { headers: UA, signal: AbortSignal.timeout(60_000) });
+  const r = await netFetch(url, { headers: UA });
   if (!r.ok) throw new Error(`HTTP ${r.status} ${url}`);
   return r.json();
 }

@@ -10,6 +10,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { MORPHO_CHAINID as CHAIN_ID } from "./deeplink-sources.mjs"; // Scanner chain name → EVM chain id
+import { netFetch } from "./net.mjs";
 
 const EARN = "https://earn.li.fi/v1/vaults";
 const ADDR = /(?<![0-9a-f])0x[0-9a-f]{40}(?![0-9a-f])/gi; // whole addresses only (a 64-hex market id is not one)
@@ -21,7 +22,7 @@ export const EARN_CHAIN_IDS = Object.values(CHAIN_ID);
 
 // Every page of /vaults for each chain. One chain failing keeps the chains that worked.
 // The key goes in a header only; warnings name the chain, never the URL or the key.
-export async function fetchEarnVaults({ key, chainIds = EARN_CHAIN_IDS, fetchImpl = fetch, log = console } = {}) {
+export async function fetchEarnVaults({ key, chainIds = EARN_CHAIN_IDS, fetchImpl = netFetch, log = console } = {}) {
   if (!key) {
     log.warn("  ⚠ deposits: LIFI_API_KEY not set — no Deposit buttons this refresh");
     return [];
@@ -36,7 +37,7 @@ export async function fetchEarnVaults({ key, chainIds = EARN_CHAIN_IDS, fetchImp
         u.searchParams.set("chainId", chainId);
         u.searchParams.set("limit", "100");
         if (cursor) u.searchParams.set("cursor", cursor);
-        const r = await fetchImpl(u.toString(), { headers: { "x-lifi-api-key": key }, signal: AbortSignal.timeout(30_000) });
+        const r = await fetchImpl(u.toString(), { headers: { "x-lifi-api-key": key } }, { timeoutMs: 30_000 });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         const j = await r.json();
         if (!Array.isArray(j?.data)) throw new Error("unexpected response shape (no data list)");

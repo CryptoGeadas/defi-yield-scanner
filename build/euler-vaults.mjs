@@ -13,6 +13,7 @@
 // chain's Euler rows (fail closed: an unverifiable permissionless vault is not shown).
 // ─────────────────────────────────────────────────────────────────────────────
 import { MORPHO_CHAINID as CHAIN_ID } from "./deeplink-sources.mjs";
+import { netFetch } from "./net.mjs";
 
 const LABELS = "https://raw.githubusercontent.com/euler-xyz/euler-labels/master";
 const RPCS = {
@@ -68,7 +69,7 @@ export function decodeAddress(hex) {
 }
 
 async function getJson(url, init) {
-  const r = await fetch(url, { ...init, signal: AbortSignal.timeout(30_000) });
+  const r = await netFetch(url, init, { timeoutMs: 30_000 });
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   return r.json();
 }

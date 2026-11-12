@@ -1,3 +1,4 @@
+import { netFetch } from "./net.mjs";
 // ─────────────────────────────────────────────────────────────────────────────
 // Per-protocol deep-link SOURCES. Some protocols key their URL off an internal
 // pool/vault address DefiLlama doesn't give us — so at build time we fetch the
@@ -23,7 +24,7 @@ async function curveSource(chains) {
     const slug = CURVE_CHAIN[chain];
     if (!slug) continue;
     try {
-      const j = await (await fetch(`https://api.curve.finance/api/getPools/all/${slug}`)).json();
+      const j = await (await netFetch(`https://api.curve.finance/api/getPools/all/${slug}`)).json();
       for (const p of j?.data?.poolData || []) {
         const addrs = (p.coins || []).map((c) => c.address).filter(Boolean);
         if (!addrs.length || !p.address) continue;
@@ -49,7 +50,7 @@ export const MORPHO_NET = { 1: "ethereum", 8453: "base", 42161: "arbitrum", 10: 
 export const MORPHO_CHAINID = { Ethereum: 1, Base: 8453, Arbitrum: 42161, Optimism: 10, Polygon: 137 };
 
 async function morphoGql(query) {
-  const r = await fetch("https://blue-api.morpho.org/graphql", {
+  const r = await netFetch("https://blue-api.morpho.org/graphql", {
     method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ query }),
   });
   return r.json();
