@@ -1,3 +1,4 @@
+import { flowsStale } from "./flows-fresh.js";
 // Static site: read the Action-committed JSON and render the trust-filtered windows.
 // No backend. Sort / filter happen client-side over the pre-filtered data.
 
@@ -73,18 +74,9 @@ const canDeposit = (r) => depositsOn() && r.deposit != null && r.access !== "per
 // Coverage (flows.mjs): "collecting" shows no numbers; "partial" names its since date on
 // every number that covers it; "full" is the last 30 days. Missing days never read as $0.
 const SOURCE = "Deposits and withdrawals read from the vault contract. Flows do not change the risk level.";
-// Freshness: the same rule as the build (flows.mjs freshness), run again with the viewer's
-// clock, so numbers never look current just because the snapshot stopped publishing: stale
-// when the build said so, or the last update is over 36 h old, or the data's own day ended
-// over 48 h ago. A stale row names its "As of" day in the header and dims its numbers.
-// A ledger that could not be read is "unavailable".
-const HOUR = 3_600_000;
-function flowsStale(f) {
-  if (f.stale === true) return true;
-  const at = typeof f.updatedAt === "string" ? Date.parse(f.updatedAt) : NaN;
-  const dataEnd = typeof f.asOf === "string" ? Date.parse(`${f.asOf}T00:00:00Z`) + 24 * HOUR : NaN;
-  return (Number.isFinite(at) && Date.now() - at > 36 * HOUR) || (Number.isFinite(dataEnd) && Date.now() - dataEnd > 48 * HOUR);
-}
+// Freshness: flows-fresh.js (the build's rule, run again with the viewer's clock). A stale row
+// names its "As of" day in the header and dims its numbers. A ledger that could not be read is
+// "unavailable".
 // Why a pool has no flows (flows.mjs untrackedReason), in plain words.
 const NOT_TRACKED = {
   dex: "this is a DEX pool",

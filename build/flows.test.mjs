@@ -2,7 +2,7 @@
 // Run: npm test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { emptyLedger, addFlows, flowsSummary, rowFlows as rowFlowsAt, ledgerVaults, shiftDay, untrackedReason, UNTRACKED_REASONS, flowsCoverage } from "./flows.mjs";
+import { emptyLedger, addFlows, flowsSummary, rowFlows as rowFlowsAt, ledgerVaults, shiftDay, untrackedReason, UNTRACKED_REASONS, flowsCoverage, freshness } from "./flows.mjs";
 // a fixed clock: these tests must pass on any day (freshness compares dates with "now")
 const TEST_NOW = Date.parse("2026-10-22T12:00:00Z");
 const rowFlows = (row, ledger, now = TEST_NOW) => rowFlowsAt(row, ledger, now);
@@ -303,4 +303,20 @@ test("damaged records never show $0 or crash: null day values, a null day, missi
     damage(l);
     assert.deepEqual(rowFlows(row(A), l), { status: "unavailable" }, "case " + i);
   }
+});
+
+// #58: the page's own stale check follows the build's rule, including a damaged update stamp.
+test("the page's stale check: damaged stamp, 36 h since the update, 48 h since the data's day", async () => {
+  const { flowsStale } = await import("../site/flows-fresh.js");
+  const now = Date.parse("2026-11-12T12:00:00Z");
+  const fresh = { updatedAt: "2026-11-12T05:00:00Z", asOf: "2026-11-11" };
+  assert.equal(flowsStale(fresh, now), false);
+  for (const bad of ["not a date", 123, {}]) assert.equal(flowsStale({ ...fresh, updatedAt: bad }, now), true, String(bad));
+  assert.equal(flowsStale({ asOf: "2026-11-11" }, now), false, "no stamp at all is not damaged");
+  assert.equal(flowsStale({ ...fresh, stale: true }, now), true);
+  assert.equal(flowsStale({ ...fresh, updatedAt: "2026-11-10T23:59:00Z" }, now), true, "36 h");
+  assert.equal(flowsStale({ ...fresh, updatedAt: "2026-11-11T00:01:00Z" }, now), false);
+  assert.equal(flowsStale({ ...fresh, asOf: "2026-11-09" }, now), true, "48 h after the data's day ended");
+  for (const f of [fresh, { ...fresh, updatedAt: "x" }, { ...fresh, asOf: "2026-11-09" }])
+    assert.equal(flowsStale(f, now), freshness({ updatedAt: f.updatedAt, asOf: f.asOf }, null, now).stale, "same answer as the build");
 });
