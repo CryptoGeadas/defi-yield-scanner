@@ -21,8 +21,11 @@ test("a slow source times out instead of hanging, is tried again, then reported"
   const log = quiet(), w = waits();
   let calls = 0;
   const hang = (_u, i) => new Promise((_res, rej) => { calls++; i.signal.addEventListener("abort", () => rej(i.signal.reason)); });
-  await assert.rejects(netFetch("https://slow.example/feed?key=secret", {}, { timeoutMs: 20, tries: 3, fetchImpl: hang, sleep: w.sleep, log }),
-    /slow\.example unreachable after 3 tries \(no answer in 0s\)/);
+  const alive = setInterval(() => {}, 10); // a timeout signal's own timer does not keep Node running
+  try {
+    await assert.rejects(netFetch("https://slow.example/feed?key=secret", {}, { timeoutMs: 20, tries: 3, fetchImpl: hang, sleep: w.sleep, log }),
+      /slow\.example unreachable after 3 tries \(no answer in 0s\)/);
+  } finally { clearInterval(alive); }
   assert.equal(calls, 3);
   assert.deepEqual(w.ms, [5_000, 10_000]);
   assert.equal(log.lines.length, 2);
