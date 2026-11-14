@@ -101,7 +101,9 @@ export function readReceiver(data) {
 // wallet itself refuses to sign on another network).
 export function buildDepositTx(raw, { from, chainId, toChainId = chainId, units, payToken, payDecimals = null, vaultToken }) {
   const a = raw?.action, tr = raw?.transactionRequest, same = (x, y) => String(x ?? "").toLowerCase() === String(y ?? "").toLowerCase();
-  const refuse = (why, flags) => { throw Object.assign(new Error(`The quote does not match this deposit (${why}), so nothing was signed. Try again.`), { plain: true, ...flags }); };
+  // quoteText: the same refusal as a quote line (nothing is being signed there), so the panel
+  // never has to edit this wording (#64)
+  const refuse = (why, flags) => { throw Object.assign(new Error(`The quote does not match this deposit (${why}), so nothing was signed. Try again.`), { plain: true, code: "quote-mismatch", quoteText: `The quote does not match this deposit (${why}).`, ...flags }); };
   if (!a || !tr) refuse("no transaction in it");
   if (Number(a.fromChainId) !== chainId || Number(a.toChainId) !== toChainId) refuse("another chain");
   if (!same(a.fromToken?.address, payToken)) refuse("another pay token");

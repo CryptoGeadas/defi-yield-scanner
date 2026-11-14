@@ -6,127 +6,19 @@
 // filter, and a deposit that is running must survive that.
 
 import { discoverWallets, safeIcon, callBalanceOf, callAllowance, callApprove, needsApproval, mustResetFirst, sameChain, buildDepositTx, explorerTx, shortAddr, isRejection, readChain, waitForReceipt, readStatus, resolvePayTokens, CHAIN_NAME, PAY_CHAINS, explorerAddress, addChainParams } from "./wallet.js";
+import { esc, parseAmount, AMOUNT_HELP, readQuote, plainError, failureText, timeText, quoteFacts, fmt, fmtUnits } from "./deposit-text.js";
+import { runDeposit } from "./deposit-flow.js";
+export { parseAmount, readQuote, failureText, bridgeOutcome, timeText, quoteFacts } from "./deposit-text.js";
 
 const QUOTE = "https://li.quest/v1/quote";
 const INTEGRATOR = "defi-yield-scanner"; // shows up in LI.FI's analytics; no fee is charged
 const PREVIEW_ADDR = "0x000000000000000000000000000000000000dEaD"; // a quote needs a sender
 const DEBOUNCE_MS = 600;
-const STATUS = "https://li.quest/v1/status";
-const STATUS_EVERY_MS = 10_000, STATUS_MAX_MS = 30 * 60_000; // bridges take seconds to tens of minutes
 const TIMEOUT_MS = 20_000; // LI.FI can take 15 s+ on a cold route; past this, say so instead of waiting forever
 const QUOTE_OLD_MS = 60_000; // past this the quote is marked old; it is never refreshed by itself
 const INSTALL = '<a href="https://metamask.io/download/" target="_blank" rel="noopener">MetaMask</a> or <a href="https://rabby.io/" target="_blank" rel="noopener">Rabby</a>';
 const DISCLAIMER = 'Not financial advice. You sign in your own wallet. Funds go straight to the vault through LI.FI; this site never holds them. <a href="./methodology.html#deposits">How deposits work</a>';
 
-const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-
-// What the user typed → { units } (a BigInt in the token's smallest unit) or { error }:
-// "empty" | "format" | "decimals" (more digits than the token has) | "zero".
-// A comma works as the decimal mark ("1,5"), as people type it in much of Europe.
-export function parseAmount(text, decimals) {
-  let t = String(text ?? "").trim();
-  if (/^\d{1,3},\d{3}$/.test(t)) return { error: "format" }; // "1,000": a thousands mark or a decimal? don't guess
-  t = t.replace(",", ".");
-  if (!t) return { error: "empty" };
-  const m = t.match(/^(\d*)(?:\.(\d*))?$/);
-  if (!m || (!m[1] && !m[2])) return { error: "format" };
-  const frac = m[2] || "";
-  if (frac.length > decimals) return { error: "decimals" };
-  const units = BigInt((m[1] || "0") + frac.padEnd(decimals, "0"));
-  return units > 0n ? { units } : { error: "zero" };
-}
-const AMOUNT_HELP = {
-  format: () => "Use digits and one decimal mark, e.g. 250.5 (no thousands separators)",
-  decimals: (sym, dec) => `${sym} has at most ${dec} decimals`,
-  zero: () => "Enter an amount above 0",
-};
-
-// LI.FI's /quote answer → { amount, symbol, usd } for this deposit, or throws an Error
-// with a plain message. The route must end in this vault's own token, whatever tool
-// built it (same-chain routes often run through a DEX aggregator, not Composer).
-export function readQuote(j, deposit) {
-  const to = j?.action?.toToken, est = j?.estimate;
-  if (!to || !est) throw new Error("LI.FI sent an answer this page can't read");
-  if (String(to.address).toLowerCase() !== deposit.token) throw new Error("the route does not end in this vault's token, so it is blocked");
-  if (!/^\d+$/.test(String(est.toAmount)) || !Number.isInteger(to.decimals)) throw new Error("LI.FI sent an answer this page can't read");
-  const usd = Number(est.toAmountUSD);
-  return { amount: Number(BigInt(est.toAmount)) / 10 ** to.decimals, symbol: String(to.symbol ?? ""), usd: Number.isFinite(usd) ? usd : null };
-}
-const plainError = (html) => Object.assign(new Error(html), { plain: true }); // a message already written for the user (may hold a link)
-
-// What the user reads when a deposit stops with an error. Never says "nothing was sent"
-// once a transaction went out. ctx: { approved, sent } — sent is set once the deposit is sent.
-export function failureText(e, { approved = false, sent = null } = {}) {
-  if (isRejection(e))
-    return approved ? "You rejected the deposit in your wallet. The approval went through, but nothing was deposited." : "You rejected it in your wallet. Nothing was sent.";
-  if (e?.plain) return e.message;
-  const what = esc(String(e?.message ?? e ?? "unknown error").replace(/\.$/, ""));
-  return sent ? `Something went wrong after the deposit was sent: ${what}. Check the transaction before trying again.`
-    : `The deposit did not go through: ${what}.${approved ? " The approval went through, but nothing was deposited." : " Nothing was deposited."}`;
-}
-// LI.FI's /status answer for a cross-chain deposit → { phase, kind, html } (null while it
-// is still running). ctx: { sent ("250 USDC"), sym, fromChainId, toChainId, sourceLink }.
-// ctx.vaultToken: "Deposited" only when LI.FI says the vault's own token arrived on the
-// vault's chain. ctx.hash: for LI.FI's explorer, which follows both chains.
-export function bridgeOutcome(j, { sent, sym, fromChainId, toChainId, sourceLink = "", vaultToken = null, hash = null }) {
-  const st = readStatus(j);
-  if (st.phase === "pending") return null;
-  const to = CHAIN_NAME[toChainId] ?? "the vault's chain", got = j?.receiving ?? {};
-  const gotChain = CHAIN_NAME[Number(got.chainId)] ?? null;
-  // built from the chain's own explorer, never LI.FI's link text (a bad answer must not show a stranger's page)
-  const recvUrl = explorerTx(Number(got.chainId), got.txHash);
-  const recvLink = recvUrl ? ` <a href="${esc(recvUrl)}" target="_blank" rel="noopener">View on ${esc(gotChain ?? to)} ↗</a>` : "";
-  const scan = /^0x[0-9a-f]{64}$/i.test(String(hash)) ? ` <a href="https://scan.li.fi/tx/${esc(hash)}" target="_blank" rel="noopener">Track on LI.FI ↗</a>` : "";
-  const check = { phase: "unknown", kind: "warn", html: `Finished, but LI.FI reports a result this page doesn't know. Check where your ${esc(sym)} is before depositing again.${sourceLink}${recvLink}${scan}` };
-  if (st.phase === "done") {
-    const rightChain = got.chainId != null && Number(got.chainId) === Number(toChainId);
-    const rightToken = !vaultToken || (got.token?.address && String(got.token.address).toLowerCase() === String(vaultToken).toLowerCase());
-    if (!rightChain || !rightToken) return check;
-    return { phase: "done", kind: "ok", html: `Deposited ${esc(sent)} on ${esc(to)}.${sourceLink}${recvLink}` };
-  }
-  if (st.phase === "partial")
-    return { phase: "done", kind: "warn", html: `The bridge worked, but the deposit did not: you have ${esc(got.token?.symbol || "tokens")} in your wallet on ${esc(gotChain ?? to)}, not vault shares. You can deposit them from there.${sourceLink}${recvLink}${scan}` };
-  if (st.phase === "refunded") {
-    const where = gotChain ?? CHAIN_NAME[fromChainId] ?? "the chain you paid from";
-    return { phase: "done", kind: "warn", html: `The transfer was refunded: your ${esc(sym)} is back in your wallet on ${esc(where)}. Nothing was deposited.${sourceLink}${recvLink}${scan}` };
-  }
-  if (st.phase === "failed") return { phase: "failed", kind: "warn", html: `The transfer failed. Check the transaction to see where your ${esc(sym)} is.${sourceLink}${scan}` };
-  return check;
-}
-// LI.FI's estimate in seconds → "under a minute" | "about 4 min" | "time unknown"
-export function timeText(secs) {
-  const n = Number(secs);
-  if (secs == null || !Number.isFinite(n) || n < 0) return "time unknown";
-  return n < 60 ? "under a minute" : `about ${Math.round(n / 60)} min`;
-}
-// LI.FI's quote → the facts the panel shows, in plain words. Tool names (OKX, Across,
-// Composer) are not shown: the route is described by what happens.
-// → { minimum, symbol, feeUsd, feePct (LI.FI's own fee), otherFeeUsd (bridge/DEX fees in the
-// route), onTopUsd (fees paid on top of the amount), gasUsd, time, route }; a number is null
-// when LI.FI gave none (shown as unknown, never $0).
-export function quoteFacts(raw, { payChainId, vaultChainId }) {
-  const est = raw?.estimate ?? {}, to = raw?.action?.toToken ?? {};
-  const num = (v) => (v == null || v === "" ? NaN : Number(v)); // "" is no value, not 0
-  const usd = (xs) => (xs.length ? (((v) => (Number.isFinite(v) ? v : null))(xs.reduce((t, x) => t + num(x?.amountUSD), 0))) : null);
-  const all = Array.isArray(est.feeCosts) ? est.feeCosts : [];
-  const lifi = (x) => /li\.?fi/i.test(String(x?.name ?? ""));
-  const fees = all.filter((x) => x?.included !== false && lifi(x));
-  const other = all.filter((x) => x?.included !== false && !lifi(x));
-  const onTop = all.filter((x) => x?.included === false);
-  const pct = fees.reduce((t, x) => t + num(x?.percentage), 0);
-  const min = /^\d+$/.test(String(est.toAmountMin)) && Number.isInteger(to.decimals) ? Number(BigInt(est.toAmountMin)) / 10 ** to.decimals : null;
-  const vault = CHAIN_NAME[vaultChainId] ?? "the vault's chain";
-  return {
-    minimum: min, symbol: String(to.symbol ?? ""),
-    feeUsd: usd(fees), feePct: fees.length && Number.isFinite(pct) ? pct * 100 : null,
-    otherFeeUsd: usd(other), onTopUsd: usd(onTop),
-    gasUsd: usd(Array.isArray(est.gasCosts) ? est.gasCosts : []),
-    time: timeText(est.executionDuration),
-    route: payChainId === vaultChainId ? `Swap and deposit on ${vault}` : `Bridge to ${vault}, then deposit`,
-  };
-}
-const fmt = (n) => n.toLocaleString("en-US", { maximumFractionDigits: n < 1 ? 6 : 2 });
-const fmtUnits = (units, decimals) => fmt(Number(units) / 10 ** decimals);
 
 // ── state ────────────────────────────────────────────────────────────────────
 // wallet: the connected wallet, shared by every panel. pools: poolId → panel state.
@@ -346,7 +238,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
       if (stale()) return;
       s.quote = q; s.quoteMsg = null;
     } catch (e) {
-      if (!stale() && e.plain) { s.quote = null; s.quoteMsg = { warn: true, html: esc(e.message.replace(", so nothing was signed. Try again.", ".")) }; clearTimeout(late); return draw(); }
+      if (!stale() && e.plain) { s.quote = null; s.quoteMsg = { warn: true, html: esc(e.quoteText ?? e.message) }; clearTimeout(late); return draw(); }
       if (stale()) return; // the user typed again or closed the panel
       const timedOut = mine.signal.reason?.name === "TimeoutError";
       if (!timedOut) console.warn("deposit quote failed:", e);
@@ -432,133 +324,37 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
     const c = new AbortController(), late = setTimeout(() => c.abort(new DOMException("timeout", "TimeoutError")), TIMEOUT_MS);
     try {
       const { q, built } = await signableQuote(units, c.signal, P, from);
-      s.quote = q; s.quoteMsg = null;
-      return { raw: q.raw, ...built };
+      s.quoteMsg = null;
+      return { raw: q.raw, ...built, quote: q };
     } catch (e) {
       if (c.signal.reason?.name === "TimeoutError") throw plainError("LI.FI took too long to answer, so nothing was signed. Try again.");
       throw e;
     } finally { clearTimeout(late); }
   }
 
-  // ── deposit: fresh quote → wallet on the pay chain → approve if needed → (re-quote after
-  // a slow approval) → send → its receipt. Same chain: one atomic transaction, so its
-  // receipt is the answer. Another chain: then LI.FI's /status until the bridge and the
-  // deposit on the vault's chain are done.
+  // ── deposit: the steps live in deposit-flow.js (#64); the panel hands it the wallet, the
+  // chain reads and the quote source, and draws each step the flow reports.
   async function deposit() {
     const P = pay();
     if (!P) return;
     const a = parseAmount(s.amount, P.decimals);
-    if (!P || a.error || !W.account) return;
+    if (a.error || !W.account) return;
     stopQuote();
-    const p = W.wallet.provider, from = W.account, hex = "0x" + P.chainId.toString(16), cross = P.chainId !== d.chainId;
-    const ctx = { approved: false, sent: null };
-    s.msg = null; s.twoSteps = false; s.hash = null; s.lastTx = null;
-    // before every signature: still the same account, still on the vault's chain
-    const guard = async () => {
-      if (W.account !== from) throw plainError(`The account changed in your wallet, so nothing more was sent.${ctx.approved ? " The approval went through." : ""}`);
-      if (!sameChain(await p.request({ method: "eth_chainId" }), P.chainId)) throw plainError(`Your wallet is not on ${CHAIN_NAME[P.chainId]}. Switch it to ${CHAIN_NAME[P.chainId]}, then try again. Nothing more was sent.`);
-    };
-    try {
-      s.phase = "quoting"; draw();
-      let { raw, spender, tx } = await freshTx(a.units, from, P); // always fresh before signing
-      if (!sameChain(await p.request({ method: "eth_chainId" }), P.chainId)) await switchChain(p, P.chainId);
-      await guard(); // some wallets accept the switch request without switching
-      if (spender) {
-        const allowance = await readChain(P.chainId, "eth_call", [{ to: P.address, data: callAllowance(from, spender) }, "latest"]);
-        if (needsApproval(allowance, a.units)) {
-          s.twoSteps = true;
-          const approve = async (amount) => {
-            s.phase = "approve"; draw();
-            await guard();
-            const ah = await p.request({ method: "eth_sendTransaction", params: [{ from, to: P.address, data: callApprove(spender, amount), chainId: hex }] });
-            s.phase = "approving"; draw();
-            let ok;
-            try { ok = await waitForReceipt(P.chainId, ah); }
-            catch (e) { if (e.name === "TimeoutError") throw Object.assign(plainError(`The approval is still not confirmed. It may still go through, so check it before pressing Deposit again.${txLinkHtml(ah, P.chainId)}`), { sticky: true }); throw e; }
-            if (!ok) throw plainError(`The approval failed on chain. Nothing was deposited.${txLinkHtml(ah, P.chainId)}`);
-          };
-          if (mustResetFirst(P.chainId, P.address, allowance)) await approve(0n); // USDT: back to 0 first
-          await approve(a.units);
-          ctx.approved = true;
-          s.phase = "quoting"; draw();
-          ({ raw, tx } = await freshTx(a.units, from, P)); // the approval took a while: sign today's price
-        }
-      }
-      s.phase = "confirm"; draw();
-      await guard();
-      const hash = await p.request({ method: "eth_sendTransaction", params: [tx] });
-      const link = txLinkHtml(hash, P.chainId);
-      s.hash = hash; ctx.sent = s.sent = `${fmtUnits(a.units, P.decimals)} ${P.symbol}`; s.phase = "depositing";
-      s.lastTx = `Your last deposit:${link}`;
-      s.msg = { kind: "", html: `Sent.${link}` };
-      draw();
-      let ok;
-      try { ok = await waitForReceipt(P.chainId, hash, { maxMs: 15 * 60_000 }); }
-      catch (e) {
-        if (e.name !== "TimeoutError") throw e;
-        s.phase = "unknown";
-        s.msg = { kind: "warn", html: `Not confirmed after 15 minutes. It may still go through: check the transaction before depositing again.${link}` };
-        s.lastTx = s.msg.html;
-        return draw();
-      }
-      if (!ok) {
-        s.phase = "failed";
-        s.msg = { kind: "warn", html: `The deposit failed on chain. Your ${esc(P.symbol)} stayed in your wallet; only the network fee was spent.${link}` };
-      } else if (!cross) {
-        s.phase = "done";
-        s.msg = { kind: "ok", html: `Deposited ${esc(ctx.sent)}.${link}` };
-      } else {
-        s.phase = "bridging";
-        const eta = timeText(raw.estimate?.executionDuration);
-        s.msg = { kind: "", html: `Sent from ${esc(CHAIN_NAME[P.chainId])}. ${eta === "time unknown" ? "Bridging can take a few minutes" : `LI.FI expects ${esc(eta)}`}; you can leave this panel open or closed.${link}` };
-        draw();
-        await followBridge(hash, raw, { sent: ctx.sent, sym: P.symbol, fromChainId: P.chainId, toChainId: d.chainId, sourceLink: link, vaultToken: d.token, hash });
-        if (s.msg?.kind === "warn") s.lastTx = s.msg.html; // where the money is stays visible after typing a new amount
-      }
-      readBalance();
-      draw();
-    } catch (e) {
-      s.phase = "failed";
-      s.msg = { kind: "warn", html: failureText(e, ctx) };
-      if (e.sticky) s.lastTx = s.msg.html; // e.g. an approval that may still confirm
-      if (!e.plain && !isRejection(e)) console.warn("deposit failed:", e);
-      draw();
-    }
+    const provider = W.wallet.provider;
+    await runDeposit({
+      wallet: { request: (r) => provider.request(r), account: () => W.account },
+      chain: {
+        read: readChain,
+        receipt: (chainId, hash, opts) => waitForReceipt(chainId, hash, opts),
+        switchTo: (chainId) => switchChain(provider, chainId),
+      },
+      quotes: { fresh: (units, from, pay) => freshTx(units, from, pay) },
+      status: async (url) => { const r = await fetch(url); return r.ok || r.status === 404 ? r.json() : null; },
+      pay: P, vaultChainId: d.chainId, vaultToken: d.token, units: a.units, from: W.account,
+      set: (patch) => { Object.assign(s, patch); draw(); },
+    });
+    if (["done", "failed"].includes(s.phase) && s.hash) readBalance(); // the money moved (or the fee was spent)
   }
-  // LI.FI's /status until the bridge and the deposit are done (or 30 minutes). A failed
-  // read is retried and logged once; the source transaction already succeeded.
-  async function followBridge(hash, raw, ctx) {
-    const u = new URL(STATUS);
-    for (const [k, v] of Object.entries({ txHash: hash, fromChain: ctx.fromChainId, toChain: ctx.toChainId, bridge: raw.tool }))
-      if (v != null && v !== "") u.searchParams.set(k, v); // an empty bridge would make LI.FI answer 400 every time
-    const scan = ` <a href="https://scan.li.fi/tx/${esc(hash)}" target="_blank" rel="noopener">Track on LI.FI ↗</a>`;
-    let logged = false, failedReads = 0;
-    for (let t = 0; t < STATUS_MAX_MS; t += STATUS_EVERY_MS) {
-      await new Promise((r) => setTimeout(r, STATUS_EVERY_MS));
-      let j = null;
-      try {
-        const r = await fetch(u);
-        j = r.ok || r.status === 404 ? await r.json() : null;
-        if (!j && !logged) { logged = true; console.warn(`bridge status: HTTP ${r.status} (retrying)`); }
-      } catch (e) { if (!logged) { logged = true; console.warn("bridge status read failed (retrying)", e); } }
-      failedReads = j ? 0 : failedReads + 1;
-      if (failedReads === 3) { s.msg = { kind: "warn", html: `The bridge status can't be read right now; still trying. You can follow it on LI.FI.${ctx.sourceLink}${scan}` }; draw(); }
-      const out = bridgeOutcome(j, ctx);
-      if (!out) {
-        const step = readStatus(j).message;
-        if (step) { s.msg = { kind: "", html: `${esc(step)}.${ctx.sourceLink}` }; draw(); }
-        continue;
-      }
-      s.phase = out.phase; s.msg = { kind: out.kind, html: out.html };
-      return;
-    }
-    s.phase = "unknown";
-    s.msg = { kind: "warn", html: `The bridge is still not finished after 30 minutes. It may still arrive: check it before depositing again.${ctx.sourceLink}${scan}` };
-  }
-  const txLinkHtml = (hash, chainId = d.chainId) => {
-    const link = explorerTx(chainId, hash);
-    return link ? ` <a href="${esc(link)}" target="_blank" rel="noopener">View transaction ↗</a>` : "";
-  };
 
   slot.addEventListener("click", (e) => {
     const b = e.target.closest("button[data-act]");
