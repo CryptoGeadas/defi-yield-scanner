@@ -21,6 +21,7 @@ import { flowsCoverage } from "./flows.mjs";
 import { makeSlim } from "./slim.mjs";
 import { fetchEarnVaults, depositIndex, matchDeposits, checkDepositProtocols, depositLog } from "./deposits.mjs";
 import { netFetch } from "./net.mjs";
+import { lendBorrowGuard, keptGuard, unknownGuard, stickyGuard, earnGuard, featureSwitch } from "./guards.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SITE = join(HERE, "..", "site");
@@ -102,6 +103,15 @@ async function loadSiteUrls() {
   }
 }
 
+// Carries out a release guard's answer (guards.mjs): refuse throws (the last snapshot stays),
+// warn and log are printed. ci: a warning also shows on the GitHub Actions run page.
+function act(g, { ci = false } = {}) {
+  if (g.refuse) throw new Error(g.refuse);
+  if (g.warn) console.warn(`${ci && process.env.GITHUB_ACTIONS === "true" ? "::warning::" : "  ⚠ "}${g.warn}`);
+  if (g.log) console.log(`  ${g.log}`);
+  return g;
+}
+
 async function main() {
   const maps = await loadMaps();
   const [names, siteUrls, denylist, poolUrls, since] = await Promise.all([loadNames(), loadSiteUrls(), loadDenylist(), loadPoolUrls(), loadSince()]);
@@ -119,10 +129,7 @@ async function main() {
   // would quietly fall back to net-of-loans TVL (and drop under the floor), so keep the
   // last good snapshot instead, like the sanity floor below.
   // A short map (degraded upstream, renamed field) is as bad as an empty one. ~2,370 today.
-  const MIN_LENDBORROW = 1000;
-  const lb = venues.lendBorrow?.size ?? 0;
-  if (lb < MIN_LENDBORROW)
-    throw new Error(`lendBorrow feed has ${lb} pools (< ${MIN_LENDBORROW}) — lending TVL would be net of loans; refusing to overwrite`);
+  act(lendBorrowGuard(venues.lendBorrow?.size));
   // Venue data that failed completely is shown on the page, not only in this log.
   const notices = venueNotices(venues);
   for (const line of noticeLog(notices, process.env)) console.log(line);
@@ -149,50 +156,33 @@ async function main() {
 
   // LEVEL_WINDOWS=1 turns the risk-level switch on for a local build only; the
   // committed default lives in DEFAULT_CONFIG.levelWindows.
-  const levelsOn = process.env.LEVEL_WINDOWS ? process.env.LEVEL_WINDOWS === "1" : DEFAULT_CONFIG.levelWindows;
-  if (process.env.LEVEL_WINDOWS && !["0", "1"].includes(process.env.LEVEL_WINDOWS))
-    console.warn(`  LEVEL_WINDOWS=${process.env.LEVEL_WINDOWS} not recognised (use 1 or 0) — switch stays off`);
-  if (process.env.LEVEL_WINDOWS === "1" && !DEFAULT_CONFIG.levelWindows) console.warn("  ⚠ LEVEL_WINDOWS=1: windows grouped by level — local check only, do NOT commit site/data/latest.json from this build");
+  const levelsOn = act(featureSwitch("LEVEL_WINDOWS", process.env.LEVEL_WINDOWS, DEFAULT_CONFIG.levelWindows, "windows grouped by level")).on;
   // Base rate for the Yield factor: Aave V3 USDC + USDT, 30-day mean (throws if missing).
   const rate = baseRate(feed);
   const noLevel = checkProtocolLevels(maps.protocolMap); // throws on a bad level
   if (noLevel.length) console.warn(`  ⚠ trusted-protocols.json: no level for ${noLevel.join(", ")} — Protocol factor unknown (Level 2) for their pools`);
   const stickyPrev = await loadStickyState();
   // FLOWS_CARD=1 shows the Money flows card for a local build only (like LEVEL_WINDOWS).
-  const flowsOn = process.env.FLOWS_CARD ? process.env.FLOWS_CARD === "1" : DEFAULT_CONFIG.flowsCard;
-  if (process.env.FLOWS_CARD === "1" && !DEFAULT_CONFIG.flowsCard) console.warn("  ⚠ FLOWS_CARD=1: Money flows card on — local check only, do NOT commit site/data/latest.json from this build");
+  const flowsOn = act(featureSwitch("FLOWS_CARD", process.env.FLOWS_CARD, DEFAULT_CONFIG.flowsCard, "Money flows card")).on;
   // DEPOSITS=1 shows the Deposit button for a local build only (like FLOWS_CARD).
-  const depositsOn = process.env.DEPOSITS ? process.env.DEPOSITS === "1" : DEFAULT_CONFIG.deposits;
-  if (process.env.DEPOSITS === "1" && !DEFAULT_CONFIG.deposits) console.warn("  ⚠ DEPOSITS=1: Deposit button on — local check only, do NOT commit site/data/latest.json from this build");
+  const depositsOn = act(featureSwitch("DEPOSITS", process.env.DEPOSITS, DEFAULT_CONFIG.deposits, "Deposit button")).on;
   const r = runPipeline(pools, { baseRate: rate, sticky: { state: stickyPrev, now: Date.now() }, levelWindows: levelsOn, flowsCard: flowsOn, deposits: depositsOn }, maps);
 
   // Age data health over the rows we show: if an age source breaks (renamed field, API
   // change), every pool silently drops to "unknown" (Level 2). Warn loudly above 20%.
   const shown = [1, 2, 3].flatMap((w) => r.windows[w]);
-  const ageUnknown = shown.filter((x) => x.factors.find((f) => f.name === "age")?.unknown).length;
-  const ageMsg = `age unknown for ${ageUnknown}/${shown.length} shown pools`;
-  if (ageUnknown > shown.length * 0.2) console.warn(`  ⚠ ${ageMsg} — check DefiLlama count / Kamino creationTimestamp`);
-  else console.log(`  ${ageMsg}`);
-  if (r.stickyInvalid) {
-    const share = r.stickyInvalid / Math.max(1, shown.length);
-    if (share > 0.1) throw new Error(`levels-state.json: ${r.stickyInvalid} entries invalid (${Math.round(share * 100)}%) — refusing to reset that many pools`);
-    console.warn(`  ⚠ levels-state.json: ${r.stickyInvalid} invalid entries started fresh`);
-  }
+  act(unknownGuard("age", shown));
+  act(stickyGuard(r.stickyInvalid, shown.length));
   // Money flows coverage: vaults tracked per protocol. A venue whose decimals, version or
   // address check broke drops to 0 without failing anything, so say it loudly.
   const cov = flowsCoverage(shown);
   console.log(`  ${cov.line}`);
   for (const w of cov.warnings) console.warn(`  ⚠ ${w}`);
-  const yieldUnknown = shown.filter((x) => x.factors.find((f) => f.name === "yield")?.unknown).length;
-  const yieldMsg = `yield unknown for ${yieldUnknown}/${shown.length} shown pools`;
-  if (yieldUnknown > shown.length * 0.2) console.warn(`  ⚠ ${yieldMsg} — check DefiLlama apyMean30d / Kamino apy30d`);
-  else console.log(`  ${yieldMsg}`);
+  act(unknownGuard("yield", shown));
 
   // Sanity floor: never overwrite good data with a thin/partial feed. A healthy build
   // keeps 250+ pools; if the feed came back truncated, fail so the last snapshot stays.
-  const MIN_KEPT = 100;
-  if (r.stats.kept < MIN_KEPT)
-    throw new Error(`sanity floor: only ${r.stats.kept} pools kept (< ${MIN_KEPT}); feed likely partial — refusing to overwrite`);
+  act(keptGuard(r.stats.kept));
 
   const ledger = await loadLedgerForBuild(FLOWS);
   const toRow = makeSlim(names, siteUrls, venues, poolUrls, ledger, Date.now());
@@ -200,9 +190,7 @@ async function main() {
   // so the data can be checked before the switch goes on; the site shows them only when on.
   const earnVaults = await fetchEarnVaults({ key: process.env.LIFI_API_KEY });
   // ~500 listed today; far fewer means an expired key or a broken API, so flag it in CI
-  const MIN_EARN = 50;
-  if (process.env.LIFI_API_KEY && earnVaults.length < MIN_EARN)
-    console.warn(`${process.env.GITHUB_ACTIONS === "true" ? "::warning::" : "  ⚠ "}deposits: LI.FI listed only ${earnVaults.length} vaults (< ${MIN_EARN}) — check the LIFI_API_KEY secret; rows lose their Deposit button`);
+  act(earnGuard(earnVaults.length, Boolean(process.env.LIFI_API_KEY)), { ci: true });
   const earnIndex = depositIndex(earnVaults);
   // unique matches (#41) need every row at once: a coin can be matched only when one row has it
   const depositProtocols = checkDepositProtocols(await readOpinion("deposit-protocols.json")); // a bad shape throws
