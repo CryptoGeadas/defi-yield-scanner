@@ -246,3 +246,32 @@ test("every helper the panel uses from deposit-text.js is imported", async () =>
   const missing = defined.filter((n) => new RegExp(`\\b${n}\\b`).test(body) && !imported.has(n) && !own.has(n));
   assert.deepEqual(missing, []);
 });
+
+// #67
+test("a bridge status read that fails logs its HTTP status once; a 404 is an answer", async () => {
+  const { statusReader } = await import("../site/deposit-flow.js");
+  const lines = [];
+  const seq = [{ ok: false, status: 500 }, { ok: false, status: 502 }, { ok: false, status: 404, json: async () => ({ status: "NOT_FOUND" }) }, { ok: true, status: 200, json: async () => ({ status: "DONE" }) }];
+  const read = statusReader({ fetchImpl: async () => seq.shift(), log: { warn: (l) => lines.push(l) } });
+  assert.equal(await read("u"), null);
+  assert.equal(await read("u"), null);
+  assert.deepEqual(await read("u"), { status: "NOT_FOUND" });
+  assert.deepEqual(await read("u"), { status: "DONE" });
+  assert.deepEqual(lines, ["bridge status: HTTP 500 (retrying)"]);
+});
+
+test("one HTML escape on the page, and the deposit panel imports nothing it does not use", async () => {
+  const { readdir } = await import("node:fs/promises");
+  const dir = new URL("../site/", import.meta.url);
+  const owners = [];
+  for (const f of await readdir(dir)) {
+    if (!f.endsWith(".js")) continue;
+    if ((await readFile(new URL(f, dir), "utf8")).includes('"&amp;"')) owners.push(f);
+  }
+  assert.deepEqual(owners, ["esc.js"]);
+  const panel = await readFile(new URL("deposit.js", dir), "utf8");
+  const imports = [...panel.matchAll(/^import \{([^}]+)\} from/gm)].flatMap((m) => m[1].split(",").map((x) => x.trim()).filter(Boolean));
+  const body = panel.split("\n").filter((l) => !l.startsWith("import ")).join("\n");
+  const unused = imports.filter((name) => !new RegExp("[^A-Za-z0-9_$.]" + name.replace("$", "[$]") + "[^A-Za-z0-9_$]").test(body));
+  assert.deepEqual(unused, []);
+});

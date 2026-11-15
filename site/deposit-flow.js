@@ -30,6 +30,19 @@ const txLinkHtml = (hash, chainId) => {
   return link ? ` <a href="${esc(link)}" target="_blank" rel="noopener">View transaction ↗</a>` : "";
 };
 
+// One read of LI.FI's /status for the flow: the JSON, or null when it cannot be read. A 404 is an
+// answer (LI.FI does not know the transfer yet). The first failed read logs its HTTP status, so a
+// user's report can be traced; later ones stay quiet.
+export function statusReader({ fetchImpl = (u) => fetch(u), log = console } = {}) {
+  let logged = false;
+  return async (url) => {
+    const r = await fetchImpl(url);
+    if (r.ok || r.status === 404) return r.json();
+    if (!logged) { logged = true; log.warn(`bridge status: HTTP ${r.status} (retrying)`); }
+    return null;
+  };
+}
+
 export async function runDeposit({ wallet, chain, quotes, status, pay: P, vaultChainId, vaultToken, units, from, set, sleep = realSleep, log = console }) {
   const hex = "0x" + P.chainId.toString(16), cross = P.chainId !== vaultChainId;
   const ctx = { approved: false, sent: null };

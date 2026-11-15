@@ -1,8 +1,9 @@
 // Deposit text and pure readers (#64): what the user types, what LI.FI answers, and the words the
 // panel shows. Shared by the panel (deposit.js) and the deposit flow (deposit-flow.js); no page code.
 import { explorerTx, isRejection, readStatus, CHAIN_NAME } from "./wallet.js";
+import { esc } from "./esc.js";
+export { esc };
 
-export const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 // What the user typed → { units } (a BigInt in the token's smallest unit) or { error }:
 // "empty" | "format" | "decimals" (more digits than the token has) | "zero".

@@ -320,3 +320,14 @@ test("the page's stale check: damaged stamp, 36 h since the update, 48 h since t
   for (const f of [fresh, { ...fresh, updatedAt: "x" }, { ...fresh, asOf: "2026-11-09" }])
     assert.equal(flowsStale(f, now), freshness({ updatedAt: f.updatedAt, asOf: f.asOf }, null, now).stale, "same answer as the build");
 });
+
+// #67: a damaged or missing update stamp never becomes "Not updated since Invalid Date".
+test("the stale note's day: a valid stamp gives its day, a damaged or missing one gives none", async () => {
+  const { updatedDay } = await import("../site/flows-fresh.js");
+  assert.equal(updatedDay({ updatedAt: "2026-11-10T05:00:00Z" }), "2026-11-10");
+  for (const bad of ["garbage", "", 123, null, undefined, {}]) assert.equal(updatedDay({ updatedAt: bad }), null, String(bad));
+  const { readFile } = await import("node:fs/promises");
+  const app = await readFile(new URL("../site/app.js", import.meta.url), "utf8");
+  assert.ok(app.includes("const day = updatedDay(f);"), "the card uses it");
+  assert.ok(!app.includes("f.updatedAt.slice("), "and never slices the raw stamp");
+});

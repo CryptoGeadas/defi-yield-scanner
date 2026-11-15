@@ -5,9 +5,9 @@
 // Per-pool state lives here, not in the DOM: app.js re-renders the rows on every sort or
 // filter, and a deposit that is running must survive that.
 
-import { discoverWallets, safeIcon, callBalanceOf, callAllowance, callApprove, needsApproval, mustResetFirst, sameChain, buildDepositTx, explorerTx, shortAddr, isRejection, readChain, waitForReceipt, readStatus, resolvePayTokens, CHAIN_NAME, PAY_CHAINS, explorerAddress, addChainParams } from "./wallet.js";
+import { discoverWallets, safeIcon, callBalanceOf, sameChain, buildDepositTx, shortAddr, isRejection, readChain, waitForReceipt, resolvePayTokens, CHAIN_NAME, PAY_CHAINS, explorerAddress, addChainParams } from "./wallet.js";
 import { esc, parseAmount, AMOUNT_HELP, readQuote, plainError, failureText, timeText, quoteFacts, fmt, fmtUnits } from "./deposit-text.js";
-import { runDeposit } from "./deposit-flow.js";
+import { runDeposit, statusReader } from "./deposit-flow.js";
 export { parseAmount, readQuote, failureText, bridgeOutcome, timeText, quoteFacts } from "./deposit-text.js";
 
 const QUOTE = "https://li.quest/v1/quote";
@@ -349,7 +349,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
         switchTo: (chainId) => switchChain(provider, chainId),
       },
       quotes: { fresh: (units, from, pay) => freshTx(units, from, pay) },
-      status: async (url) => { const r = await fetch(url); return r.ok || r.status === 404 ? r.json() : null; },
+      status: statusReader(),
       pay: P, vaultChainId: d.chainId, vaultToken: d.token, units: a.units, from: W.account,
       set: (patch) => { Object.assign(s, patch); draw(); },
     });

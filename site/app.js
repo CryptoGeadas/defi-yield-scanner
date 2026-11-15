@@ -1,4 +1,5 @@
-import { flowsStale } from "./flows-fresh.js";
+import { flowsStale, updatedDay } from "./flows-fresh.js";
+import { esc } from "./esc.js";
 // Static site: read the Action-committed JSON and render the trust-filtered windows.
 // No backend. Sort / filter happen client-side over the pre-filtered data.
 
@@ -113,7 +114,8 @@ function flowsCardHtml(r) {
   const showsData = !unavailable && (f.status !== "collecting" || !!f.since);
   const card = (body) => `<div class="dcard wide flows-card${stale ? " is-stale" : ""}">${head}${body}${flowsFootHtml(r, showsData)}</div>`;
   if (unavailable) return card(`<div class="dline">Flows unavailable right now.</div>`);
-  const notRun = !stale ? "" : typeof f.updatedAt === "string" ? ` Not updated since ${esc(fmtDay(f.updatedAt.slice(0, 10)))}.` : " The daily update is late.";
+  const day = updatedDay(f); // null for a missing or damaged stamp: never "since Invalid Date"
+  const notRun = !stale ? "" : day ? ` Not updated since ${esc(fmtDay(day))}.` : " The daily update is late.";
   if (f.status === "collecting")
     return card(`<div class="dline">${f.since ? `Collecting since ${esc(fmtDay(f.since))}.` : "Collecting from the next daily update."} Numbers show after 7 days.${notRun}</div>`);
   const period = f.status === "partial" ? `since ${esc(fmtDay(f.since))}` : "30 days";
@@ -163,8 +165,6 @@ const resetLimits = () => { state.limits = { 1: PAGE, 2: PAGE, 3: PAGE }; };
 
 const $ = (s) => document.querySelector(s);
 // HTML-escape any externally-sourced string before it goes into innerHTML/attrs.
-const ESC = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
-const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ESC[c]);
 // Only allow http(s) links; anything else (javascript:, data:, malformed) → null.
 const safeUrl = (u) => (typeof u === "string" && /^https?:\/\//i.test(u) ? u : null);
 const fmtPct = (n) => (n == null ? "—" : `${n.toFixed(2)}%`);

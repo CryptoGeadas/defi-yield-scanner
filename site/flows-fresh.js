@@ -10,3 +10,9 @@ export function flowsStale(f, now = Date.now()) {
   const damaged = f.updatedAt != null && !Number.isFinite(at);
   return damaged || (Number.isFinite(at) && now - at > 36 * HOUR) || (Number.isFinite(dataEnd) && now - dataEnd > 48 * HOUR);
 }
+
+// The day of the last update, for "Not updated since …": null when the stamp is missing or
+// damaged, so the card never prints "Invalid Date" (#67).
+export function updatedDay(f) {
+  return typeof f.updatedAt === "string" && Number.isFinite(Date.parse(f.updatedAt)) ? f.updatedAt.slice(0, 10) : null;
+}

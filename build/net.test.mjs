@@ -21,15 +21,44 @@ test("a slow source times out instead of hanging, is tried again, then reported"
   const log = quiet(), w = waits();
   let calls = 0;
   const hang = (_u, i) => new Promise((_res, rej) => { calls++; i.signal.addEventListener("abort", () => rej(i.signal.reason)); });
-  const alive = setInterval(() => {}, 10); // a timeout signal's own timer does not keep Node running
-  try {
-    await assert.rejects(netFetch("https://slow.example/feed?key=secret", {}, { timeoutMs: 20, tries: 3, fetchImpl: hang, sleep: w.sleep, log }),
-      /slow\.example unreachable after 3 tries \(no answer in 0s\)/);
-  } finally { clearInterval(alive); }
+  // no keep-alive needed: the helper's own timer keeps Node running while it waits
+  await assert.rejects(netFetch("https://slow.example/feed?key=secret", {}, { timeoutMs: 20, tries: 3, fetchImpl: hang, sleep: w.sleep, log }),
+    /slow\.example unreachable after 3 tries \(no answer in 0s\)/);
   assert.equal(calls, 3);
   assert.deepEqual(w.ms, [5_000, 10_000]);
   assert.equal(log.lines.length, 2);
   assert.ok(log.lines.every((l) => !l.includes("secret")), "the log names the host, never the full URL");
+});
+
+test("the timeout is for the answer to start: a slow download after a fast first answer is not cut off", async () => {
+  let signal;
+  const slowBody = async (_u, i) => {
+    signal = i.signal;
+    return { ok: true, status: 200, json: () => new Promise((r) => setTimeout(() => r({ rows: 3 }), 60)) }; // the body takes 3× the timeout
+  };
+  const res = await netFetch("https://big.example/feed", {}, { timeoutMs: 20, fetchImpl: slowBody, log: quiet() });
+  assert.deepEqual(await res.json(), { rows: 3 });
+  assert.equal(signal.aborted, false, "the short limit ended when the answer started");
+});
+
+test("the download has its own, longer limit", async () => {
+  let signal;
+  const res = await netFetch("https://big.example/feed", {}, { timeoutMs: 20, bodyTimeoutMs: 30, fetchImpl: async (_u, i) => { signal = i.signal; return answer(200); }, log: quiet() });
+  assert.equal(res.status, 200);
+  await new Promise((r) => setTimeout(r, 60));
+  assert.equal(signal.aborted, true);
+  assert.equal(signal.reason.name, "TimeoutError");
+});
+
+test("an answer that is retried is released first; waits can be set per caller", async () => {
+  const w = waits();
+  let cancelled = 0;
+  const busy = () => ({ ok: false, status: 503, body: { cancel: async () => { cancelled++; } } });
+  const seq = [busy(), busy(), answer(200)];
+  const res = await netFetch("https://busy.example/x", {}, { retryWaitMs: 30_000, fetchImpl: async () => seq.shift(), sleep: w.sleep, log: quiet() });
+  assert.equal(res.status, 200);
+  assert.equal(cancelled, 2);
+  assert.deepEqual(w.ms, [30_000, 60_000]);
 });
 
 test("a rate-limited source waits longer and is tried again; the good answer is returned", async () => {
