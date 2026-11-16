@@ -24,6 +24,7 @@
 
 // The day helpers, the 30-day trim and the freshness rule are the shared flows core (#61).
 import { KEEP_DAYS, DAY_MS, shiftDay, cents, dropOldDays, markChain, freshness, STALE_MS, DATA_STALE_MS, LATE_MS } from "./flows-core.mjs";
+import { withFlows } from "./protocols.mjs";
 export { KEEP_DAYS, shiftDay, freshness, STALE_MS, DATA_STALE_MS, LATE_MS };
 const keyOf = (chain, address) => `${chain}:${String(address).toLowerCase()}`;
 
@@ -113,8 +114,10 @@ const daysFrom = (first, last) => Math.round((Date.parse(`${last}T00:00:00Z`) - 
 //   • any other row: a DEX pool, a plain lending market (only a $1 coin, never a savings
 //     token like sGHO or Aave's Umbrella staking), or else "not read for this protocol".
 // lending markets (pools you lend into), as opposed to the vaults and fund tokens that share
-// the "lend" bucket in trusted-protocols.json; a test checks every protocol there is classified
-export const LENDING_MARKETS = new Set(["aave-v3", "aave-v4", "compound-v3", "compound-v2", "sparklend", "marginfi", "jupiter-lend", "save"]);
+// the "lend" bucket: a record in trusted-protocols.json says so with flows: "lending" (#66)
+export const LENDING_MARKETS = withFlows("lending");
+// the vault venues the flows job reads (flows: "vault"); their reasons come from intake
+export const VAULT_VENUES = withFlows("vault");
 // stable types whose token amount reads as dollars; pipeline.mjs uses this same set to decide
 // which vaults are tracked, so the two can never disagree
 export const DOLLAR_TYPES = new Set(["fiat", "crypto", "synthetic"]);
@@ -153,7 +156,7 @@ export function flowsCoverage(rows) {
   for (const x of rows) if (x.vault) tracked[x.project] = (tracked[x.project] || 0) + 1;
   const total = Object.values(tracked).reduce((a, b) => a + b, 0);
   const line = `flows: tracking ${total} vaults (${Object.entries(tracked).map(([p, n]) => `${p} ${n}`).join(" · ") || "none"})`;
-  const warnings = ["morpho-blue", "yearn-finance", "euler-v2"]
+  const warnings = [...VAULT_VENUES]
     .filter((p) => rows.some((x) => x.project === p && x.chain === "Ethereum") && !tracked[p])
     .map((p) => `flows: no ${p} vault tracked on Ethereum — check its addresses / decimals / version data`);
   return { line, warnings };

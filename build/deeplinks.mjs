@@ -10,6 +10,7 @@
 
 import { addrKey, CURVE_CHAIN } from "./deeplink-sources.mjs";
 import pkg from "js-sha3";
+import { siteOf } from "./protocols.mjs";
 const { keccak256 } = pkg;
 
 const firstToken = (row) => (row.underlyingTokens && row.underlyingTokens[0]) || null;
@@ -102,14 +103,9 @@ export function isHomepage(url) {
 
 const dllPool = (row) => (row.pool ? `https://defillama.com/yields/pool/${row.pool}` : null);
 
-// Official site fallbacks for the few protocols DefiLlama's config has no `url` for.
-const SITE_FALLBACK = {
-  "curve-dex": "https://curve.finance",
-  "compound-v2": "https://app.compound.finance",
-  "aerodrome-v1": "https://aerodrome.finance",
-  "aerodrome-slipstream": "https://aerodrome.finance",
-  "raydium-amm": "https://raydium.io",
-};
+// Official site fallbacks for the few protocols DefiLlama's config has no `url` for: the
+// record's `site` in trusted-protocols.json (#66).
+export { BUILDERS };
 
 // Link priority: exact deep link → protocol's own site → DefiLlama pool page (last
 // resort). ctx = { siteUrl, sources }. siteUrl = protocol's official URL (config).
@@ -136,7 +132,7 @@ export function buildLink(row, ctx = {}) {
     if (exact) return { url: exact, kind: "exact" };
   }
 
-  const site = ctx.siteUrl || SITE_FALLBACK[row.project];
+  const site = ctx.siteUrl || siteOf(row.project);
   if (site) return { url: site, kind: "site" };
 
   const dll = dllPool(row);

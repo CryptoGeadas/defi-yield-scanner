@@ -257,13 +257,14 @@ test("an untracked row says why: intake's reason for vault venues; DEX pool, pla
 test("every protocol in trusted-protocols.json gets an intended reason when it has no vault", async () => {
   const { readFile } = await import("node:fs/promises");
   const protocols = JSON.parse(await readFile(new URL("./trusted-protocols.json", import.meta.url), "utf8"));
-  const lending = ["aave-v3", "aave-v4", "compound-v3", "compound-v2", "sparklend", "marginfi", "jupiter-lend", "save"];
-  const vaultVenues = ["morpho-blue", "yearn-finance", "euler-v2"]; // reasons come from intake (flowsBlock)
+  // the records say which are lending markets and vault venues (#66); reasons for venues come from intake
+  const lending = Object.keys(protocols).filter((s) => protocols[s].flows === "lending");
+  const vaultVenues = Object.keys(protocols).filter((s) => protocols[s].flows === "vault");
   for (const [slug, p] of Object.entries(protocols)) {
     if (slug.startsWith("_")) continue;
     const got = untrackedReason({ project: slug, bucket: p.bucket, chain: "Ethereum", legs: ["USDC"], stableType: "fiat", flowsBlock: vaultVenues.includes(slug) ? "unverified" : null });
     const want = p.bucket === "LP" ? "dex" : lending.includes(slug) ? "lending" : vaultVenues.includes(slug) ? "unverified" : "protocol";
-    assert.equal(got, want, slug + " — add it to the right list in flows.mjs on purpose");
+    assert.equal(got, want, slug + " — set its flows field in trusted-protocols.json on purpose");
   }
 });
 
