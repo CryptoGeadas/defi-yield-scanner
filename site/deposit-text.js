@@ -1,7 +1,7 @@
 // Deposit text and pure readers (#64): what the user types, what LI.FI answers, and the words the
 // panel shows. Shared by the panel (deposit.js) and the deposit flow (deposit-flow.js); no page code.
 import { explorerTx, isRejection, readStatus, CHAIN_NAME } from "./wallet.js";
-import { esc } from "./esc.js";
+import { esc } from "./format.js";
 export { esc };
 
 

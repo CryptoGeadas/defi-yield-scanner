@@ -268,7 +268,7 @@ test("one HTML escape on the page, and the deposit panel imports nothing it does
     if (!f.endsWith(".js")) continue;
     if ((await readFile(new URL(f, dir), "utf8")).includes('"&amp;"')) owners.push(f);
   }
-  assert.deepEqual(owners, ["esc.js"]);
+  assert.deepEqual(owners, ["format.js"]);
   const panel = await readFile(new URL("deposit.js", dir), "utf8");
   const imports = [...panel.matchAll(/^import \{([^}]+)\} from/gm)].flatMap((m) => m[1].split(",").map((x) => x.trim()).filter(Boolean));
   const body = panel.split("\n").filter((l) => !l.startsWith("import ")).join("\n");

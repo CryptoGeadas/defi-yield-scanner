@@ -1,5 +1,5 @@
 import { flowsStale, updatedDay } from "./flows-fresh.js";
-import { esc } from "./esc.js";
+import { esc, fmtTvl, fmtUsd, fmtNet, fmtPct, fmtDay } from "./format.js";
 // Static site: read the Action-committed JSON and render the trust-filtered windows.
 // No backend. Sort / filter happen client-side over the pre-filtered data.
 
@@ -63,10 +63,7 @@ function riskCardHtml(r) {
 }
 // ── money flows (#30) ─────────────────────────────────────────────────────────
 // Shown only (never part of the Level), behind the build's flowsCard switch.
-const fmtUsd = (n) => (Math.abs(n) < 1e3 ? `$${Math.round(Math.abs(n))}` : fmtTvl(Math.abs(n)));
-const fmtNet = (n) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${fmtUsd(n)}`;
 const netCls = (n) => (n > 0 ? "up" : n < 0 ? "down" : "");
-const fmtDay = (d) => new Date(`${d}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
 const flowsOn = () => state.data?.config?.flowsCard === true;
 // Deposits (#39), behind the build's deposits switch: a row the build matched to a LI.FI
 // vault gets a Deposit button; the panel's code (deposit.js) loads on the first press.
@@ -167,10 +164,7 @@ const $ = (s) => document.querySelector(s);
 // HTML-escape any externally-sourced string before it goes into innerHTML/attrs.
 // Only allow http(s) links; anything else (javascript:, data:, malformed) → null.
 const safeUrl = (u) => (typeof u === "string" && /^https?:\/\//i.test(u) ? u : null);
-const fmtPct = (n) => (n == null ? "—" : `${n.toFixed(2)}%`);
 const fmtSigned = (n) => `${n >= 0 ? "+" : ""}${(n * 100).toFixed(0)}%`;
-const fmtTvl = (n) =>
-  n >= 1e9 ? `$${(n / 1e9).toFixed(2)}b` : n >= 1e6 ? `$${(n / 1e6).toFixed(1)}m` : `$${Math.round(n / 1e3)}k`;
 // divergence compares the current spot APY to the 30-day mean, both total APY
 // (r.total is base + reward, and LP base is the lower organic figure, so use r.spot).
 const spotOf = (r) => (r.spot != null ? r.spot : r.total);

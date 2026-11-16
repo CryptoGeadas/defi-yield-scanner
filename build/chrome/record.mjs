@@ -4,7 +4,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 
-export const SHARED = ["chrome.mjs", "header.html", "footer.html", "tools.mjs"];
+export const SHARED = ["chrome.mjs", "header.html", "footer.html", "tools.mjs", "../../site/format.js"];
 // line endings are not content: a Windows checkout must hash the same
 export const hashOf = async (name) => createHash("sha256").update((await readFile(new URL(name, import.meta.url), "utf8")).replace(/\r\n/g, "\n")).digest("hex");
 
