@@ -22,10 +22,9 @@
 //           vaults: { "ethereum:0x…": { decimals, firstDay, days: { "YYYY-MM-DD": { in, out, maxOut } } } } }
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const KEEP_DAYS = 30;
-const DAY_MS = 86_400_000;
-export const shiftDay = (day, n) => new Date(Date.parse(`${day}T00:00:00Z`) + n * DAY_MS).toISOString().slice(0, 10);
-const cents = (n) => Math.round(n * 100) / 100;
+// The day helpers, the 30-day trim and the freshness rule are the shared flows core (#61).
+import { KEEP_DAYS, DAY_MS, shiftDay, cents, dropOldDays, markChain, freshness, STALE_MS, DATA_STALE_MS, LATE_MS } from "./flows-core.mjs";
+export { KEEP_DAYS, shiftDay, freshness, STALE_MS, DATA_STALE_MS, LATE_MS };
 const keyOf = (chain, address) => `${chain}:${String(address).toLowerCase()}`;
 
 export const emptyLedger = () => ({ asOf: null, chains: {}, vaults: {} });
@@ -60,12 +59,8 @@ export function addFlows(ledger, { chain, events, lastBlock, today, tracked = []
   }
   // round once per day, after summing, so many small events don't lose cents
   for (const d of touched) for (const k of ["in", "out", "maxOut"]) d[k] = cents(d[k]);
-  const oldest = shiftDay(today, -(KEEP_DAYS - 1));
-  for (const [k, v] of Object.entries(next.vaults))
-    if (k.startsWith(`${chain}:`)) for (const day of Object.keys(v.days)) if (day < oldest) delete v.days[day];
-  // updatedAt: when this chain last read new data (the job passes the run time)
-  next.chains[chain] = { ...next.chains[chain], lastBlock, asOf: today, ...(updatedAt ? { updatedAt } : {}) };
-  next.asOf = today; // latest run of any chain; each chain's own day is chains[chain].asOf
+  dropOldDays(next.vaults, chain, today);
+  markChain(next, chain, { lastBlock, today, updatedAt }); // each chain's own day is chains[chain].asOf
   return next;
 }
 
@@ -110,21 +105,7 @@ const daysFrom = (first, last) => Math.round((Date.parse(`${last}T00:00:00Z`) - 
 //   • or updatedAt is there but damaged (it cannot prove the numbers are current).
 // The page runs the same rule with the viewer's clock (a snapshot that stops publishing).
 // LATE: the flows job fails (red, so GitHub emails) once a chain has not updated for 72 h.
-export const STALE_MS = 36 * 3_600_000;
-export const DATA_STALE_MS = 48 * 3_600_000;
-export const LATE_MS = 72 * 3_600_000;
-const endOfDay = (day) => Date.parse(`${day}T00:00:00Z`) + DAY_MS;
-
-// → { stale, updatedAt (valid ISO or null), ageMs (since the last good update, or the end of
-//     the data's last day when updatedAt is unknown; NaN if neither is usable) }
-export function freshness(chainInfo, fallbackAsOf, now) {
-  const raw = chainInfo?.updatedAt, asOf = chainInfo?.asOf ?? fallbackAsOf;
-  const at = typeof raw === "string" ? Date.parse(raw) : NaN;
-  const dataEnd = typeof asOf === "string" && DAY.test(asOf) ? endOfDay(asOf) : NaN;
-  const damaged = raw != null && !Number.isFinite(at);
-  const stale = damaged || (Number.isFinite(at) && now - at > STALE_MS) || (Number.isFinite(dataEnd) && now - dataEnd > DATA_STALE_MS);
-  return { stale, updatedAt: Number.isFinite(at) ? raw : null, ageMs: Number.isFinite(at) ? now - at : now - dataEnd };
-}
+// (STALE_MS, DATA_STALE_MS, LATE_MS and freshness() come from the flows core.)
 
 // Why a row has no flows, in the reader's terms (the page turns the code into words).
 // Every sentence must be TRUE for its row, so nothing is guessed:
