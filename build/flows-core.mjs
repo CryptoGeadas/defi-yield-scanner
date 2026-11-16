@@ -14,8 +14,8 @@
 //   • a failure part-way through throws with error.partial = what was read before it.
 //
 //   finalizedHead(dataset) → block number;  blockAt(dataset, unixSeconds) → block number
-//   streamLogs({ dataset, logs, fromBlock, toBlock, decode, fetchImpl?, sleep?, maxRetries? = 30, onBatch?, deadline? })
-//     logs: the Portal log filters. decode(log, { number, timestamp, day }) → an event, or null
+//   streamLogs({ dataset, logs, logFields?, fromBlock, toBlock, decode, fetchImpl?, sleep?, maxRetries? = 30, onBatch?, deadline? })
+//     logs: the Portal log filters; logFields: extra log fields to ask for (e.g. transactionHash). decode(log, { number, timestamp, day }) → an event, or null
 //     to skip it; it throws a PortalError for malformed data. deadline (ms): stop before the next
 //     batch once past it and return what was read.
 //     → { events, lastBlock, lastTimestamp, bytes }. An empty 200 or a block number out of
@@ -76,7 +76,7 @@ export async function blockAt(dataset, unixSeconds, o = {}) {
   return n;
 }
 
-export async function streamLogs({ dataset, logs, fromBlock, toBlock, decode, ...rest }) {
+export async function streamLogs({ dataset, logs, logFields = {}, fromBlock, toBlock, decode, ...rest }) {
   const o = opts(rest);
   const events = [];
   let bytes = 0, lastBlock = fromBlock - 1, lastTimestamp = null, from = fromBlock;
@@ -88,7 +88,7 @@ export async function streamLogs({ dataset, logs, fromBlock, toBlock, decode, ..
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           type: "evm", fromBlock: from, toBlock,
-          fields: { block: { number: true, timestamp: true }, log: { address: true, topics: true, data: true } },
+          fields: { block: { number: true, timestamp: true }, log: { address: true, topics: true, data: true, ...logFields } },
           logs,
         }),
       }, o);
@@ -186,14 +186,14 @@ export function freshness(chainInfo, fallbackAsOf, now) {
 //   prepare({ ledger, chain, now, log }) → { ledger, items, known, add? } — items to read
 //     (empty: the chain is skipped with a warning); known = how many the ledger already holds
 //   read({ portal, dataset, items, fromBlock, toBlock, onBatch, deadline }) → streamLogs result
-//   add(ledger, { chain, events, lastBlock, today, items, backfill, newFrom, updatedAt }) → new ledger
+//   add(ledger, { chain, events, lastBlock, today, items, backfill, newFrom, updatedAt }) → new ledger (may be async)
 //
-//   → { ledger, failed: [chain], ownErrors: [chain], reasons, bytes }
+//   → { ledger, failed: [chain], ownErrors: [chain], reasons, errors, bytes }  (errors: chain → the error itself)
 //     failed = every chain that did not finish; ownErrors = those whose error was not the Portal's.
 export async function runChains({ ledger, datasets, adapter, portal, now = Date.now(), log = console, onChainDone = async () => {}, readLimitMs = 300 * 60_000 }) {
   const jobStart = Date.now();
   const startOfToday = Date.parse(utcDay(now) + "T00:00:00Z");
-  const failed = [], ownErrors = [], reasons = {};
+  const failed = [], ownErrors = [], reasons = {}, errors = {};
   let bytes = 0;
   // an error from a Portal call is the Portal's (busy, down): the run stays green with a
   // warning. Any other error is ours (a broken ledger state, a bug) and fails the run.
@@ -223,13 +223,13 @@ export async function runChains({ ledger, datasets, adapter, portal, now = Date.
       const newFrom = !backfill && prevAsOf ? shiftDay(prevAsOf, 2) : null;
       // `complete`: the read reached the head. Only then is it the chain's last successful update;
       // a part-way read keeps its blocks but leaves updatedAt, so repeated failures turn stale.
-      const merge = (r, complete) => {
+      const merge = async (r, complete) => {
         if (r.lastBlock < fromBlock || r.lastTimestamp == null) return false;
         const today = shiftDay(utcDay(r.lastTimestamp * 1000), -1);
         // a backfill marks its items from the day it started, so one that stops short shows
         // only the days it read ("partial since …"), never 30 days padded with $0
         const from = backfill ? utcDay(startOfToday - KEEP_DAYS * DAY_MS) : false;
-        ledger = adapter.add(ledger, { chain, events: r.events, lastBlock: r.lastBlock, today, items, backfill: from, newFrom, updatedAt: complete ? new Date(now).toISOString() : null });
+        ledger = await adapter.add(ledger, { chain, events: r.events, lastBlock: r.lastBlock, today, items, backfill: from, newFrom, updatedAt: complete ? new Date(now).toISOString() : null });
         return true;
       };
       // a progress line every 25 batches, so a long first backfill shows where it is
@@ -246,13 +246,13 @@ export async function runChains({ ledger, datasets, adapter, portal, now = Date.
       try { r = await fromPortal(() => adapter.read({ portal, dataset, items, fromBlock, toBlock: head, onBatch, deadline: jobStart + readLimitMs })); }
       catch (e) {
         // keep what was read before the failure, so the next run continues from there
-        if (e.partial && merge(e.partial, false)) {
+        if (e.partial && await merge(e.partial, false)) {
           bytes += e.partial.bytes;
           log.error(`  ${chain}: failed at block ${e.partial.lastBlock + 1}; kept blocks ${fromBlock}–${e.partial.lastBlock} (${e.partial.events.length} events)`);
         }
         throw e;
       }
-      if (!merge(r, r.lastBlock >= head)) log.warn(`  ⚠ ${chain}: the Portal returned no blocks from ${fromBlock} (head ${head}) — nothing read this run`);
+      if (!(await merge(r, r.lastBlock >= head))) log.warn(`  ⚠ ${chain}: the Portal returned no blocks from ${fromBlock} (head ${head}) — nothing read this run`);
       bytes += r.bytes;
       if (r.lastBlock < head) log.warn(`  ⚠ ${chain}: Portal stopped at block ${r.lastBlock}, before the finalized head ${head}`);
       log.log(`  ${chain}: ${items.length} ${adapter.noun} · blocks ${fromBlock}–${r.lastBlock}${backfill ? " (first run: 30-day backfill)" : ""} · ${r.events.length} events · ${(r.bytes / 1e6).toFixed(2)} MB · ${Math.round((Date.now() - t0) / 1000)}s`);
@@ -260,6 +260,7 @@ export async function runChains({ ledger, datasets, adapter, portal, now = Date.
       failed.push(chain);
       if (!e.fromPortal) ownErrors.push(chain);
       reasons[chain] = e.message;
+      errors[chain] = e;
       log.error(`  ${chain}: FAILED — ${e.message}`);
       // a chain that has never read anything has no date to age from: record when it was
       // first tried, so the 72 h "late" rule can still turn the run red
@@ -267,5 +268,5 @@ export async function runChains({ ledger, datasets, adapter, portal, now = Date.
     }
     await onChainDone(ledger);
   }
-  return { ledger, failed, ownErrors, reasons, bytes };
+  return { ledger, failed, ownErrors, reasons, errors, bytes };
 }
