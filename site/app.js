@@ -1,5 +1,6 @@
 import { flowsStale, updatedDay } from "./flows-fresh.js";
 import { esc, fmtTvl, fmtUsd, fmtNet, fmtPct, fmtDay } from "./format.js";
+import { keptLine } from "./kept-line.js";
 // Static site: read the Action-committed JSON and render the trust-filtered windows.
 // No backend. Sort / filter happen client-side over the pre-filtered data.
 
@@ -376,6 +377,14 @@ function windowHtml(tier) {
   </section>`;
 }
 
+// The line under the kept count: how many kept pools need KYC, and whether the toggle shows them (#70).
+function paintKeptLine() {
+  const d = state.data, el = $("#scan-panel [data-kept-of]");
+  if (!d?.stats || !el) return;
+  const kyc = [1, 2, 3].flatMap((w) => d.windows?.[w] || []).filter((r) => r.access === "permissioned").length;
+  el.textContent = keptLine(d.stats, kyc, state.showKyc);
+}
+
 // The hero's summary panel, the level strip, the colour key and the protocol logo wall.
 // Once per data load (they do not change with the filters).
 function renderSummary() {
@@ -387,7 +396,7 @@ function renderSummary() {
     panel.querySelector("[data-base-rate]").textContent = Number.isFinite(rate) ? `${rate.toFixed(2)}%` : "—";
     if (d.stats) {
       panel.querySelector("[data-kept]").textContent = d.stats.kept.toLocaleString("en-US");
-      panel.querySelector("[data-kept-of]").textContent = `kept of ${d.stats.totalPools.toLocaleString("en-US")} pools`;
+      paintKeptLine();
     }
     const when = new Date(d.generatedAt);
     const ageH = Math.round((Date.now() - when) / 3.6e6);
@@ -577,7 +586,7 @@ function wireSeg(id, key) {
 }
 wireSeg("#bucket", "bucket");
 wireSeg("#type", "type");
-$("#kyc").addEventListener("change", (e) => { state.showKyc = e.target.checked; resetLimits(); render(); });
+$("#kyc").addEventListener("change", (e) => { state.showKyc = e.target.checked; resetLimits(); render(); paintKeptLine(); });
 
 renderChips();
 load();
