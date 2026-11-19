@@ -8,6 +8,7 @@
 import { discoverWallets, safeIcon, callBalanceOf, sameChain, buildDepositTx, shortAddr, isRejection, readChain, waitForReceipt, resolvePayTokens, CHAIN_NAME, PAY_CHAINS, explorerAddress, addChainParams } from "./wallet.js";
 import { esc, parseAmount, AMOUNT_HELP, readQuote, plainError, failureText, timeText, quoteFacts, fmt, fmtUnits } from "./deposit-text.js";
 import { runDeposit, statusReader } from "./deposit-flow.js";
+import { PositionReader, positionKind, positionText } from "./position.js";
 export { parseAmount, readQuote, failureText, bridgeOutcome, timeText, quoteFacts } from "./deposit-text.js";
 
 const QUOTE = "https://li.quest/v1/quote";
@@ -81,6 +82,8 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
   const d = row.deposit, sym = d.underlying.symbol, id = `dep-amt-${row.poolId}`, s = poolState(row.poolId);
   let timer = null, ctl = null;
   s.toChainId = d.chainId;
+  // the connected wallet's shares in this vault (#68), read from the vault on its own chain
+  s.pos ??= new PositionReader({ read: readChain, chainId: d.chainId, vault: d.token, kind: positionKind(row.project), assetDecimals: d.underlying.decimals });
   // the token the user pays with now: the vault's own coin, on the chosen chain
   const pay = () => {
     const c = s.fromChain ?? d.chainId;
@@ -107,6 +110,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
       </div>
       <div class="dep-foot">
         <div class="dep-wallet"></div>
+        <p class="dep-note dep-pos"></p>
         <p class="dep-note dep-disc">${DISCLAIMER}</p>
         <div class="dep-act"></div>
         <p class="dep-msg" role="status" aria-live="polite"></p>
@@ -140,6 +144,14 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
       : `<p class="dep-note">Getting a quote…</p>`);
     // balance under the amount
     $(".dep-bal").textContent = !W.account ? "" : s.balanceFailed ? "Your balance could not be read right now" : s.balance != null ? `Balance ${s.balance} ${P?.symbol ?? sym} on ${CHAIN_NAME[P?.chainId ?? d.chainId]}` : "Reading your balance…";
+    // position line: only with a wallet; unknown links to the vault so the user can check
+    const pos = $(".dep-pos");
+    if (!W.account) pos.innerHTML = "";
+    else if (!s.pos.position || s.pos.account !== W.account) pos.textContent = "Reading your position…";
+    else {
+      const url = s.pos.position.status === "unknown" ? explorerAddress(d.chainId, d.token) : null;
+      pos.innerHTML = esc(positionText(s.pos.position, sym)) + (url ? ` <a href="${esc(url)}" target="_blank" rel="noopener">Check the vault ↗</a>` : "");
+    }
     // wallet line: connected address, or the picker when several wallets are installed
     const w = $(".dep-wallet");
     if (W.account) w.innerHTML = `<span class="dep-acct">${esc(W.wallet.info.name)} · ${esc(shortAddr(W.account))}</span> <button type="button" class="dep-link" data-act="disconnect" ${busy() ? "disabled" : ""}>Disconnect</button>`;
@@ -261,7 +273,13 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
   }
 
   // ── wallet ──
+  function readPosition() {
+    s.pos.load(W.account).then(draw, (e) => console.warn("deposit: position read failed", e));
+    draw();
+  }
+
   async function readBalance() {
+    readPosition();
     const P = pay(), acct = W.account;
     if (!acct || !P) return;
     const stale = () => pay()?.chainId !== P.chainId || W.account !== acct; // another chain or account meanwhile
@@ -353,6 +371,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
       pay: P, vaultChainId: d.chainId, vaultToken: d.token, units: a.units, from: W.account,
       set: (patch) => { Object.assign(s, patch); draw(); },
     });
+    if (s.phase === "done") s.pos.invalidate(); // new shares: read the position again
     if (["done", "failed"].includes(s.phase) && s.hash) readBalance(); // the money moved (or the fee was spent)
   }
 
@@ -362,7 +381,7 @@ export function mountDeposit(slot, row, { focus = false } = {}) {
     const act = b.dataset.act;
     if (act === "connect") onConnectClick();
     else if (act === "pick") connect(W.list[+b.dataset.i]);
-    else if (act === "disconnect") { W.account = null; W.wallet = null; W.chainId = null; s.balance = null; s.balanceUnits = null; requote(); }
+    else if (act === "disconnect") { W.account = null; W.wallet = null; W.chainId = null; s.balance = null; s.balanceUnits = null; s.pos.load(null); requote(); }
     else if (act === "deposit") deposit();
     else if (act === "refresh") requote();
     else if (act === "switch") {
