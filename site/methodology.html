@@ -100,8 +100,8 @@
 
       <h2>Tiers</h2>
       <p>Each stablecoin has a tier, by how it is backed:</p>
-      <div class="keyrow"><span class="k">Tier 1</span><span>Blue-chip, fiat-backed — USDC, USDT, DAI, and peers.</span></div>
-      <div class="keyrow"><span class="k">Tier 2</span><span>Crypto-backed — crvUSD, GHO, LUSD, sUSDS, and similar.</span></div>
+      <div class="keyrow"><span class="k">Tier 1</span><span>Blue-chip, fiat-backed — USDC, USDT, and peers.</span></div>
+      <div class="keyrow"><span class="k">Tier 2</span><span>Crypto-backed — DAI, USDS, crvUSD, GHO, LUSD, sUSDS, and similar.</span></div>
       <div class="keyrow"><span class="k">Tier 3</span><span>Synthetic — USDe, USR, and newer designs.</span></div>
       <p class="muted">A multi-asset pool takes the tier of its <strong>riskiest</strong> leg — a USDC/USDe pool is Tier 3. The tier is the <strong>Coin</strong> factor of a pool’s level; the windows on the page are grouped by level (see <a href="#levels">Levels</a>).</p>
 
@@ -150,7 +150,7 @@
         An off-chain party (borrowers, a fund issuer) is not by itself a reason for a lower level.
       </p>
       <div class="keyrow"><span class="k">Level 1</span><span>Aave V3, Compound V2 / V3, SparkLend, Spark Savings, Sky, Morpho, Kamino Lend, Uniswap V3, Maple, BlackRock BUIDL, Invesco USTB, Ondo.</span></div>
-      <div class="keyrow"><span class="k">Level 2</span><span>Aave V4, Uniswap V4, Euler V2 (2023 exploit, recoverable funds returned), Jupiter Lend, Yearn, Beefy, Aerodrome, Velodrome, Orca, Raydium, marginfi, Centrifuge, Midas, Balancer V3, Ethena.</span></div>
+      <div class="keyrow"><span class="k">Level 2</span><span>Aave V4, Uniswap V4, Euler V2 (the 2023 exploit hit Euler V1; its funds were returned), Jupiter Lend, Yearn, Beefy, Aerodrome, Velodrome, Orca, Raydium, marginfi, Centrifuge, Midas, Balancer V3, Ethena.</span></div>
       <div class="keyrow"><span class="k">Level 3</span><span>Save (ex-Solend; 2022 oracle exploit), Balancer V2 (exploited November 2025), Usual (USD0++ depeg, January 2025).</span></div>
       <p class="muted">
         Maple is Level 1 here but trust tier 2 in the <a href="/tokenized-rwa-tracker/">Tokenized RWA Tracker</a>. They answer
@@ -164,8 +164,8 @@
         value</em>. Every pool is tagged with one <strong>type</strong>, and you can filter the
         rankings by it:
       </p>
-      <div class="keyrow"><span class="k">Fiat-backed</span><span>Each token is backed by real dollars / T-bills held in reserve (USDC, USDT, DAI). The simplest kind.</span></div>
-      <div class="keyrow"><span class="k">Crypto-backed</span><span>Backed by a surplus of crypto locked as collateral (crvUSD, GHO, LUSD). Peg held by over-collateralisation.</span></div>
+      <div class="keyrow"><span class="k">Fiat-backed</span><span>Each token is backed by real dollars / T-bills held in reserve (USDC, USDT, PYUSD). The simplest kind.</span></div>
+      <div class="keyrow"><span class="k">Crypto-backed</span><span>Backed by a surplus of crypto locked as collateral, sometimes with other stablecoins and real-world assets in the mix (DAI, USDS, crvUSD, GHO, LUSD). Peg held by over-collateralisation.</span></div>
       <div class="keyrow"><span class="k">Yield-bearing</span><span>A wrapped/staked stable that grows on its own (sUSDS, sUSDe, Maple SyrupUSDC). You hold a token that keeps earning even before you deposit it anywhere.</span></div>
       <div class="keyrow"><span class="k">RWA</span><span>Tokenised real-world assets — mostly short-term US Treasuries (BUIDL, USTB, USDY). Usually permissioned (🔒 KYC).</span></div>
       <div class="keyrow"><span class="k">Synthetic</span><span>Holds its peg with a strategy rather than simple reserves — e.g. a delta-neutral hedge (USDe, USDX). Higher, more novel risk.</span></div>
